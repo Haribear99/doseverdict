@@ -19,7 +19,7 @@ import argparse
 import json
 import re
 import time
-from datetime import datetime, timezone
+from datetime import datetime, timedelta, timezone
 from pathlib import Path
 from typing import Any
 
@@ -154,18 +154,42 @@ def evaluate(config: str, cases: list[dict], gc=None, resume: bool = False) -> d
             else:
                 _, _, st = run_until_gate(c["synopsis"], run_id=f"eval-{config}-{c['case_id']}", ablate=ablate, holdout_chunk_ids=c.get("holdout_chunk_ids"))
                 spath.write_text(st.model_dump_json(indent=1), encoding="utf-8")
+            elapsed_audit = elapsed_from_audit(f"eval-{config}-{c['case_id']}")
             fs = st.findings
             texts = [f"{f.protocol_span.text} {f.protocol_fact or ''} {f.evidence_fact or ''}" for f in fs]
             docs = [{title2id.get(st.evidence[e].document_title or "", "") for e in f.evidence_ids if e in st.evidence} for f in fs]
             tokens = st.budget.used_tokens
             verified_rate = round(sum(1 for f in fs if f.verifier_status == "verified") / max(1, len(fs)), 3)
         elapsed = round(time.perf_counter() - t0, 1)
+        if config not in ("checklist", "single_rag") and elapsed_audit is not None:
+            elapsed = elapsed_audit                   # 그래프 설정은 감사로그 기준(첫 호출 시작~마지막 호출 응답)으로 통일 — --resume 재채점 케이스도 같은 정의
         row = {"case_id": c["case_id"], "config": config, "tokens": tokens, "elapsed_s": elapsed, "verified_rate": verified_rate} | score_case(c, texts, len(fs), docs or None)
         rows.append(row)
         print(json.dumps(row, ensure_ascii=False))
     agg = {k: round(sum(r[k] for r in rows) / len(rows), 3) for k in ("recall", "weighted_recall", "grounded_recall", "grounded_weighted_recall", "precision_proxy", "tokens", "elapsed_s")}
     agg["verified_rate"] = round(sum(r["verified_rate"] or 0 for r in rows) / len(rows), 3)
     return {"config": config, "n_cases": len(rows), "aggregate": agg, "rows": rows, "at": datetime.now(timezone.utc).isoformat()}
+
+
+def elapsed_from_audit(run_id: str) -> float | None:
+    """감사로그(logs/*.jsonl)에서 run_id의 마지막 실행(마지막 :compile 호출부터) 소요시간을 계산한다. 기록이 없으면 None."""
+    recs = []
+    for lp in sorted(Path("logs").glob("*.jsonl")):
+        for line in lp.read_text(encoding="utf-8").splitlines():
+            if f'"purpose": "{run_id}:' not in line:
+                continue
+            try:
+                r = json.loads(line)
+            except json.JSONDecodeError:
+                continue
+            recs.append((datetime.fromisoformat(r["ts"]), float(r.get("latency_s") or 0), r["purpose"]))
+    if not recs:
+        return None
+    recs.sort()
+    starts = [i for i, r in enumerate(recs) if r[2].endswith(":compile")]
+    recs = recs[starts[-1]:] if starts else recs
+    end = max(t + timedelta(seconds=l) for t, l, _ in recs)
+    return round((end - recs[0][0]).total_seconds(), 1)
 
 
 def main() -> None:

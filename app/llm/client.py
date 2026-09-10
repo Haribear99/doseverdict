@@ -140,6 +140,10 @@ class GatewayClient:
                 self._log(self._err_rec(role, model, purpose, prompt_hash, e.status_code, t0, str(e)))
                 if e.status_code == 403:
                     raise QuotaExhausted("팀 토큰 한도 소진(403). 운영진 문의 필요.") from e
+                if e.status_code >= 500 and attempt < self.max_retries:  # 게이트웨이/모델 일시 오류(500 model_error 등) — 같은 본문으로 재시도
+                    time.sleep(delay)
+                    delay *= 2
+                    continue
                 raise
 
     # ------------------------------------------------------------------ util
