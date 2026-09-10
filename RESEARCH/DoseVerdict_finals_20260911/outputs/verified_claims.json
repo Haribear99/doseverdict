@@ -49,7 +49,7 @@
     "claim_id": "clm_003",
     "text": "데이콘 게이트웨이는 Responses API(/responses)만 안내하며 api-key 헤더로 인증하고, 허용 모델은 gpt-5.6-sol/terra/luna 3종, 팀 누적 3,000만 토큰·50만 TPM·300 RPM이며 gpt-6.0(Astra) 지원은 미정이다.",
     "risk": "high",
-    "claim_type": "descriptive",
+    "claim_type": "executable",
     "source_ids": [
       "src_X01",
       "src_A09",
@@ -65,8 +65,14 @@
     "counter_refuted": false,
     "conflicting": false,
     "valid_at": "2026-09-07",
+    "execution_proof": {
+      "script": "app/llm/smoke_test.py ①② + client.models.list()",
+      "output": "gpt-5.6-luna/terra/sol 모두 200, usage 14 = x-team-tokens-consumed 14, quota 29,999,986→29,999,958. gpt-6-astra/gpt-6.0/gpt-6/gpt-6.0-astra/gpt-6-astra-2026-09-03 → 404 DeploymentNotFound. /models 카탈로그(417개)에 gpt-6-astra는 존재하나 배포 없음.",
+      "env": "Windows 11, Python 3.13, openai SDK 3.11, 2026-09-11 01:21 KST, logs/smoke_test.jsonl",
+      "verdict": "confirmed"
+    },
     "status": "verified",
-    "status_reason": "ok",
+    "status_reason": "실행 검증 통과 (execution_proof.verdict=confirmed)",
     "primary_source": true
   },
   {
@@ -454,7 +460,7 @@
     "claim_id": "clm_027",
     "text": "reasoning 토큰은 usage.output_tokens에 포함되어 output 요율로 과금되며, 게이트웨이 토큰 쿼터도 usage 필드 기준이므로 reasoning effort를 높이면 팀 쿼터 소모가 직접 증가한다. 캐시된 입력 토큰이 게이트웨이 쿼터에서 제외되는지는 확인되지 않았다.",
     "risk": "high",
-    "claim_type": "descriptive",
+    "claim_type": "executable",
     "source_ids": [
       "src_A11",
       "src_A07",
@@ -470,8 +476,14 @@
     "counter_refuted": false,
     "conflicting": false,
     "valid_at": "2026-08-01",
+    "execution_proof": {
+      "script": "smoke_test ⑥ Luna effort none/low/medium",
+      "output": "reasoning 0/50/49 토큰이 output_tokens(7/60/59)에 포함되고 consumed 헤더 44/97/96 = total. effort 상승이 팀 쿼터를 직접 소모함을 실측.",
+      "env": "Windows 11, Python 3.13, openai SDK 3.11, 2026-09-11 01:21 KST, logs/smoke_test.jsonl",
+      "verdict": "confirmed"
+    },
     "status": "verified",
-    "status_reason": "ok",
+    "status_reason": "실행 검증 통과 (execution_proof.verdict=confirmed)",
     "primary_source": true
   }
 ]

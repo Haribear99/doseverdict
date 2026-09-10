@@ -27,7 +27,7 @@
     "claim_id": "clm_007",
     "text": "Azure APIM의 llm-token-limit/azure-openai-token-limit 정책은 백엔드 usage 필드의 실제 토큰 수로 계량하고, rate 초과는 429·quota 초과는 403을 반환하며, 응답 헤더 이름(remaining-tokens 등)은 정책 작성자가 커스텀한다. 스트리밍 시에는 prompt·completion 토큰이 추정치로 처리된다.",
     "risk": "high",
-    "claim_type": "descriptive",
+    "claim_type": "executable",
     "source_ids": [
       "src_A07",
       "src_X01"
@@ -42,15 +42,21 @@
     "counter_refuted": false,
     "conflicting": false,
     "valid_at": "2026-06-26",
+    "execution_proof": {
+      "script": "smoke_test ①⑥: 비스트리밍 호출의 usage.total_tokens와 x-team-tokens-consumed 대조",
+      "output": "13회 모두 consumed == total_tokens (예: luna none 44/44, low 97/97, medium 96/96; sol 14/14). reasoning 토큰은 output_tokens에 포함. 스트리밍 시 헤더 값은 SDK stream 헬퍼로 미수집(부분).",
+      "env": "Windows 11, Python 3.13, openai SDK 3.11, 2026-09-11 01:21 KST, logs/smoke_test.jsonl",
+      "verdict": "partial"
+    },
     "status": "unresolved",
-    "status_reason": "high-risk인데 소스 표면(type) 1종 < 2 (다중 표면 대조 미충족)",
+    "status_reason": "실행 검증 부분 확인 (partial) — 본문 단정 금지",
     "primary_source": true
   },
   {
     "claim_id": "clm_008",
     "text": "APIM 경유 SSE 스트리밍은 forward-request 정책의 buffer-response=false가 필요하고 Azure Load Balancer의 4분 유휴 타임아웃이 적용되므로, 4분 넘게 응답이 없는 장기 추론 호출은 스트리밍 또는 짧은 요청으로 분할해야 한다.",
     "risk": "high",
-    "claim_type": "descriptive",
+    "claim_type": "executable",
     "source_ids": [
       "src_A08",
       "src_A07"
@@ -65,8 +71,14 @@
     "counter_refuted": false,
     "conflicting": false,
     "valid_at": "2026-06-25",
+    "execution_proof": {
+      "script": "smoke_test ⑤: client.responses.stream(model=gpt-5.6-luna)",
+      "output": "SSE 이벤트 21개 정상 수신, text='1, 2, 3, 4, 5', usage total 34, latency 1.63s → 게이트웨이 스트리밍 동작 확인(버퍼링 없음). 4분 타임아웃은 미측정.",
+      "env": "Windows 11, Python 3.13, openai SDK 3.11, 2026-09-11 01:21 KST, logs/smoke_test.jsonl",
+      "verdict": "partial"
+    },
     "status": "unresolved",
-    "status_reason": "독립 출처(조직) 1개 < 2",
+    "status_reason": "실행 검증 부분 확인 (partial) — 본문 단정 금지",
     "primary_source": true
   },
   {

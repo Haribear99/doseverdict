@@ -22,7 +22,7 @@ from app.llm.client import GatewayClient, QuotaExhausted
 ROOT = Path(__file__).resolve().parents[2]
 OUT = ROOT / "docs" / "gateway_probe.md"
 MODELS = ["gpt-5.6-luna", "gpt-5.6-terra", "gpt-5.6-sol"]
-ASTRA_PROBES = ["gpt-6-astra", "gpt-6.0", "gpt-6", "gpt-6.0-astra"]
+ASTRA_PROBES = ["gpt-6-astra", "gpt-6.0", "gpt-6", "gpt-6.0-astra", "gpt-6-astra-2026-09-03"]
 
 
 def row(*cells) -> str:
@@ -76,8 +76,9 @@ def main() -> int:
                    "required": ["drug", "dose_mg", "verdict"]},
     }
     try:
+        # 기본 reasoning(medium)이 출력 상한을 먼저 소진하면 output_text가 비어 파싱이 실패한다 → 추출 호출은 effort none + 넉넉한 상한
         resp, rec = gc.respond("extract", "Sotorasib 960 mg once daily. Return the fields. If evidence is insufficient, verdict must be 'abstain'.",
-                               text_format=schema, purpose="smoke_structured", max_output_tokens=64)
+                               text_format=schema, purpose="smoke_structured", reasoning_effort="none", max_output_tokens=300)
         parsed = json.loads(resp.output_text)
         lines.append(f"- status {rec.status}, parsed={parsed}, usage={rec.usage}")
     except Exception as e:  # noqa: BLE001
