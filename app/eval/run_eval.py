@@ -127,7 +127,7 @@ def score_case(case: dict, finding_texts: list[str], n_findings: int, finding_do
             "n_findings": n_findings, "precision_proxy": round(sum(hit) / n_findings, 3) if n_findings else 0.0}
 
 
-def evaluate(config: str, cases: list[dict], gc=None) -> dict[str, Any]:
+def evaluate(config: str, cases: list[dict], gc=None, resume: bool = False) -> dict[str, Any]:
     from app.agents.graph import run_until_gate
     rows = []
     for c in cases:
@@ -143,13 +143,18 @@ def evaluate(config: str, cases: list[dict], gc=None) -> dict[str, Any]:
             docs = [{f.get("cited_doc_id", "")} for f in fs]
         else:
             from app.corpus.manifest import DOCS
+            from app.schema.trial_schema import ReviewState
             title2id = {d.title: d.doc_id for d in DOCS}
             ablate = {"full": [], "no_calc": ["no_calc"], "no_arena": ["no_arena"], "no_verifier": ["no_verifier"]}[config]
-            _, _, st = run_until_gate(c["synopsis"], run_id=f"eval-{config}-{c['case_id']}", ablate=ablate, holdout_chunk_ids=c.get("holdout_chunk_ids"))
-            fs = st.findings
             sdir = OUT / "states" / config
             sdir.mkdir(parents=True, exist_ok=True)   # 상태 전량 보존 → LLM 재실행 없이 재채점·실패 사례 갤러리 생성
-            (sdir / f"{c['case_id']}.json").write_text(st.model_dump_json(indent=1), encoding="utf-8")
+            spath = sdir / f"{c['case_id']}.json"
+            if resume and spath.exists():             # --resume: 완료된 케이스는 상태 파일로 재채점(LLM 재호출 없음)
+                st = ReviewState.model_validate_json(spath.read_text(encoding="utf-8"))
+            else:
+                _, _, st = run_until_gate(c["synopsis"], run_id=f"eval-{config}-{c['case_id']}", ablate=ablate, holdout_chunk_ids=c.get("holdout_chunk_ids"))
+                spath.write_text(st.model_dump_json(indent=1), encoding="utf-8")
+            fs = st.findings
             texts = [f"{f.protocol_span.text} {f.protocol_fact or ''} {f.evidence_fact or ''}" for f in fs]
             docs = [{title2id.get(st.evidence[e].document_title or "", "") for e in f.evidence_ids if e in st.evidence} for f in fs]
             tokens = st.budget.used_tokens
@@ -169,6 +174,7 @@ def main() -> None:
     ap.add_argument("--limit", type=int, default=5)
     ap.add_argument("--gold", default=str(DATA / "gold_axis1.jsonl"))
     ap.add_argument("--tag", default="", help="summary 파일 접미사(병렬 실행 시 충돌 방지)")
+    ap.add_argument("--resume", action="store_true", help="상태 파일이 있는 케이스는 재실행하지 않고 재채점")
     a = ap.parse_args()
     cases = [json.loads(l) for l in Path(a.gold).read_text(encoding="utf-8").splitlines() if l.strip()][: a.limit]
     OUT.mkdir(parents=True, exist_ok=True)
@@ -178,7 +184,7 @@ def main() -> None:
         gc = GatewayClient(audit_path="logs/eval_runs.jsonl")
     summary = []
     for cfg in a.configs.split(","):
-        res = evaluate(cfg.strip(), cases, gc)
+        res = evaluate(cfg.strip(), cases, gc, resume=a.resume)
         (OUT / f"{cfg.strip()}.json").write_text(json.dumps(res, ensure_ascii=False, indent=2), encoding="utf-8")
         summary.append({"config": cfg.strip(), **res["aggregate"], "n": res["n_cases"]})
     print("\n| config | n | recall | weighted_recall | precision_proxy | verified | tokens/case | s/case |")
