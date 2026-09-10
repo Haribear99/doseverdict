@@ -61,6 +61,9 @@ _CHECKLIST = [
     (r"no washout|without (a )?washout|washout (is )?not required", "eligibility", "medium"),
     (r"sparse PK|pre-dose (and|only)|single PK sample", "dose_optimization", "medium"),
     (r"expansion cohort.*(without|no) (rationale|justification|endpoint)", "endpoint_ctq", "medium"),
+    # 일반 결측·생략 술어 — 규범 유도 결함의 흔한 표면형(정밀도는 낮다)
+    (r"\b(will not|no|without|not (be )?(required|performed|collected|assessed|evaluated|planned)|only after|regardless of|irrespective of|even if)\b", "unspecified", "low"),
+    (r"\b(highest dose|maximum (dose|tolerated)|single (fixed )?dose|one dose level)\b", "dose_optimization", "medium"),
 ]
 
 
@@ -91,13 +94,34 @@ def run_single_rag(gc, text: str) -> tuple[list[dict[str, Any]], int]:
 
 
 # ----------------------------------------------------------------- 평가
-def score_case(case: dict, finding_texts: list[str], n_findings: int) -> dict[str, Any]:
+def _grounded(defect: dict, finding_docs: list[set[str]], finding_texts: list[str]) -> bool:
+    """span 적중 finding 중 하나라도 정답 규범 문서(source_doc)를 인용했거나 근거 사실이 원 규범 문장과 겹치면 '근거까지 맞춤'."""
+    if not defect.get("source_sentence"):
+        return False
+    for ft, docs in zip(finding_texts, finding_docs):
+        if not matches(defect["protocol_sentence"], [ft]):
+            continue
+        if defect.get("source_doc") in docs:
+            return True
+        g1, g2 = _grams(defect["source_sentence"]), _grams(ft)
+        if len(g1 & g2) / max(1, len(g1 | g2)) >= 0.15:
+            return True
+    return False
+
+
+def score_case(case: dict, finding_texts: list[str], n_findings: int, finding_docs: list[set[str]] | None = None) -> dict[str, Any]:
+    """span_recall: 주입 문장을 finding span이 가리켰는가(어휘 수준). grounded_recall: 게다가 정답 규범 문서를 근거로 댔는가(근거 수준).
+    정규식 체크리스트는 부정어 표면형으로 span은 맞출 수 있어도 근거를 댈 수 없으므로 grounded_recall이 0에 가깝다."""
     defs = case["defects"]
     hit = [matches(d["protocol_sentence"], finding_texts) for d in defs]
+    docs = finding_docs or [set() for _ in finding_texts]
+    ghit = [_grounded(d, docs, finding_texts) for d in defs]
     wsum = sum(W.get(d["severity"], 1) for d in defs) or 1
     wrec = sum(W.get(d["severity"], 1) for d, h in zip(defs, hit) if h) / wsum
+    gwrec = sum(W.get(d["severity"], 1) for d, h in zip(defs, ghit) if h) / wsum
     rec = sum(hit) / max(1, len(defs))
-    return {"n_defects": len(defs), "n_hit": sum(hit), "recall": round(rec, 3), "weighted_recall": round(wrec, 3),
+    return {"n_defects": len(defs), "n_hit": sum(hit), "n_grounded": sum(ghit), "recall": round(rec, 3), "weighted_recall": round(wrec, 3),
+            "grounded_recall": round(sum(ghit) / max(1, len(defs)), 3), "grounded_weighted_recall": round(gwrec, 3),
             "n_findings": n_findings, "precision_proxy": round(sum(hit) / n_findings, 3) if n_findings else 0.0}
 
 
@@ -107,6 +131,7 @@ def evaluate(config: str, cases: list[dict], gc=None) -> dict[str, Any]:
     for c in cases:
         t0 = time.perf_counter()
         tokens, first_gap, verified_rate = 0, None, None
+        docs: list[set[str]] = []
         if config == "checklist":
             fs = run_checklist(c["synopsis"])
             texts = [f["span"] for f in fs]
@@ -114,17 +139,20 @@ def evaluate(config: str, cases: list[dict], gc=None) -> dict[str, Any]:
             fs, tokens = run_single_rag(gc, c["synopsis"])
             texts = [f"{f.get('span', '')} {f.get('claim', '')}" for f in fs]
         else:
+            from app.corpus.manifest import DOCS
+            title2id = {d.title: d.doc_id for d in DOCS}
             ablate = {"full": [], "no_calc": ["no_calc"], "no_arena": ["no_arena"], "no_verifier": ["no_verifier"]}[config]
             _, _, st = run_until_gate(c["synopsis"], run_id=f"eval-{config}-{c['case_id']}", ablate=ablate, holdout_chunk_ids=c.get("holdout_chunk_ids"))
             fs = st.findings
-            texts = [f"{f.protocol_span.text} {f.protocol_fact or ''}" for f in fs]
+            texts = [f"{f.protocol_span.text} {f.protocol_fact or ''} {f.evidence_fact or ''}" for f in fs]
+            docs = [{title2id.get(st.evidence[e].document_title or "", "") for e in f.evidence_ids if e in st.evidence} for f in fs]
             tokens = st.budget.used_tokens
             verified_rate = round(sum(1 for f in fs if f.verifier_status == "verified") / max(1, len(fs)), 3)
         elapsed = round(time.perf_counter() - t0, 1)
-        row = {"case_id": c["case_id"], "config": config, "tokens": tokens, "elapsed_s": elapsed, "verified_rate": verified_rate} | score_case(c, texts, len(fs))
+        row = {"case_id": c["case_id"], "config": config, "tokens": tokens, "elapsed_s": elapsed, "verified_rate": verified_rate} | score_case(c, texts, len(fs), docs or None)
         rows.append(row)
         print(json.dumps(row, ensure_ascii=False))
-    agg = {k: round(sum(r[k] for r in rows) / len(rows), 3) for k in ("recall", "weighted_recall", "precision_proxy", "tokens", "elapsed_s")}
+    agg = {k: round(sum(r[k] for r in rows) / len(rows), 3) for k in ("recall", "weighted_recall", "grounded_recall", "grounded_weighted_recall", "precision_proxy", "tokens", "elapsed_s")}
     agg["verified_rate"] = round(sum(r["verified_rate"] or 0 for r in rows) / len(rows), 3)
     return {"config": config, "n_cases": len(rows), "aggregate": agg, "rows": rows, "at": datetime.now(timezone.utc).isoformat()}
 
