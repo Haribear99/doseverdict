@@ -69,7 +69,7 @@ DOCS: list[CorpusDoc] = [
               url="https://database.ich.org/sites/default/files/E4_Guideline.pdf", verified_url=True, local_file="ich_e4.pdf",
               tags=["dose_response"]),
     CorpusDoc("MFDS-1443-01-2025", "MFDS", "항암제 임상시험 중 용량 최적화 전략 가이드라인 (민원인 안내서)",
-              "안내서-1443-01, 2025년 8월 발행(웹 등록 2025-11-17)", "2025-08-01", Applicability.KR, NormStrength.civil_guide, "ko",
+              "안내서-1443-01, 2025-08-29 제정(웹 등록 2025-11-17)", "2025-08-29", Applicability.KR, NormStrength.civil_guide, "ko",
               url="https://www.mfds.go.kr/brd/m_1060/view.do?seq=15759", verified_url=True, local_file="mfds_1443-01_dosing_guide_2025.pdf",
               docket_or_number="안내서-1443-01",
               tags=["dose_optimization", "oncology"], notes="민원인 안내서 = 법적 구속력 없음. '의무화' 술어 금지. PDF 14쪽, 종양항생약품과. 표지 발행월 2025.8 확인(2026-09-11)."),

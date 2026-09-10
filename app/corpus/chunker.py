@@ -19,7 +19,29 @@ _HEADING_PATTERNS = [
     re.compile(r"^\s*(?P<num>제\s?\d+\s?[장절조])\s*(?P<title>[^\n]{0,60})\s*$"),                    # 제3장 ...
     re.compile(r"^\s*(?P<num>Annex\s+\d+|ANNEX\s+\d+)\s*(?P<title>[^\n]{0,80})\s*$"),
 ]
-_SHOULD = re.compile(r"\b(should|must|shall|recommend(?:s|ed)?|is required|are required|필요하다|권고한다|하여야 한다|해야 한다)\b", re.I)
+_SHOULD = re.compile(
+    r"(\b(should|must|shall|recommend(?:s|ed)?|is required|are required|is expected|are expected)\b"
+    r"|필요하다|필요가 있다|권고한다|권고된다|권장한다|권장된다|바람직하다|하여야 한다|해야 한다|고려하여야|고려해야|요구된다|제출하여야|확보하여야)",
+    re.I,
+)
+_MONTHS = re.compile(r"\b(January|February|March|April|May|June|July|August|September|October|November|December)\b", re.I)
+_TRAILING_LINENO = re.compile(r"\s+\d{1,4}\s*$")  # FDA 초안 PDF의 행번호가 제목 끝에 붙는 경우
+
+
+def _clean_heading(num: str, title: str) -> tuple[str, str] | None:
+    """행번호·날짜·목차·각주를 제목으로 오인한 경우를 걸러낸다. None이면 제목이 아니다."""
+    title = _TRAILING_LINENO.sub("", title).strip()
+    if "····" in title or "……" in title:            # 목차 점선
+        return None
+    if _MONTHS.search(f"{num} {title}") or re.fullmatch(r"\d{4}", title):
+        return None                                   # "27 April 1995"
+    if title.lower().startswith("ibid") or title.endswith("."):
+        return None                                   # 각주·본문 문장
+    if num.isdigit() and not (title.isupper() or len(title.split()) <= 8):
+        return None                                   # 행번호 + 본문 문장
+    if len(title) < 3:
+        return None
+    return num, title
 
 
 @dataclass
@@ -58,7 +80,7 @@ def _is_heading(line: str):
     for pat in _HEADING_PATTERNS:
         m = pat.match(line)
         if m:
-            return m.group("num").strip(), (m.group("title") or "").strip()
+            return _clean_heading(m.group("num").strip(), (m.group("title") or "").strip())
     return None
 
 

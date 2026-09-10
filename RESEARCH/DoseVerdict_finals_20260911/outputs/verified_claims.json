@@ -325,7 +325,7 @@
   },
   {
     "claim_id": "clm_019",
-    "text": "식약처 「항암제 임상시험 중 용량 최적화 전략 가이드라인 [민원인 안내서]」는 문서번호 안내서-1443-01, 담당 종양항생약품과, PDF(14쪽) 배포이며 표지 발행 시점은 '2025. 8.'이다. 식약처 웹 등록일은 2025-11-17, KoNECT 미러 게시일은 2025-12-23으로, 예선 제안서의 '2025-08-29 발행'은 표지 발행월과 일치하나 일자(29일)까지는 이번 조회로 확인되지 않았다.",
+    "text": "식약처 「항암제 임상시험 중 용량 최적화 전략 가이드라인 [민원인 안내서]」는 문서번호 안내서-1443-01, 담당 종양항생약품과, PDF(14쪽) 배포이며 본문에 '안내서-1443-01 2025. 8. 29. 제정'이 명시돼 있다(표지 '2025. 8.'). 식약처 웹 등록일은 2025-11-17, KoNECT 미러 게시일은 2025-12-23이다. 예선 제안서의 '2025-08-29 발행'은 제정일과 일치한다.",
     "risk": "high",
     "claim_type": "executable",
     "source_ids": [
@@ -338,11 +338,11 @@
         "https://www.konect.or.kr/kr/board/regulation_info/boardView.do?bbsIdx=4772",
         "https://www.mfds.go.kr/brd/m_1060/view.do?seq=15759"
       ],
-      "summary": "리서치 에이전트는 KoNECT 미러(12-23)만 보고 번호·날짜 불일치를 제기했으나, 식약처 원문 게시물과 PDF 표지로 번호(1443-01)·발행월(2025-08)을 확정. 일자 29일은 미확인."
+      "summary": "리서치 에이전트는 KoNECT 미러(12-23)만 보고 불일치를 제기했으나, 식약처 원문 게시물·PDF 표지·본문 제정 이력으로 번호와 제정일(2025-08-29)을 확정."
     },
     "execution_proof": {
       "script": "curl -o mfds_1443-01_dose_optimization.pdf 'https://www.mfds.go.kr/brd/m_1060/down.do?brd_id=data0011&seq=15759&data_tp=A&file_seq=2'; pypdf PdfReader → pages, page[0].extract_text()",
-      "output": "304,307 bytes, 14 pages. 표지 텍스트: '안내서-1443-01 / 항암제 임상시험 중 용량 최적화 전략 가이드라인 / [민원인 안내서] / 2025. 8.' (cp949 디코딩 후)",
+      "output": "304,307 bytes, 14 pages. 표지: '안내서-1443-01 / 항암제 임상시험 중 용량 최적화 전략 가이드라인 / [민원인 안내서] / 2025. 8.'. 본문 제·개정 이력 줄: '안내서-1443-01 2025. 8. 29. 제정' (app/corpus/chunker.py 청킹 결과 heading으로 검출).",
       "env": "Windows 11, Python 3.13, pypdf 6.18, 2026-09-11 00:58 KST",
       "verdict": "confirmed"
     },
