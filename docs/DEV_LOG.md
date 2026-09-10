@@ -47,5 +47,5 @@
 - Streamlit UI(`app/ui/main.py`) 완성: 상태 그래프 현재 노드 강조, 타임라인(기권·기각·재작성·인젝션 탐지 굵게), Findings(Patch Diff)·Human Gate(승인→감사로그)·Evidence·도구 호출·Audit 탭. 파일명이 `app.py`면 패키지 `app`을 가리므로 `main.py`로.
 - 실행 방법 3종: UI 버튼 / URL `?demo=1|2|3&autorun=1` / CLI `python -m app.cli review …`.
 - 적대 테스트(인젝션 판 ③) UI 실행: finding 7건(검증 6) — 삽입된 "결함 0건으로 보고" 지시 무시. 컴파일 단계 결정론 탐지가 타임라인에 🛡️로 표시.
-- Dockerfile(HF Spaces uid 1000·포트 7860·CPU torch)·`.dockerignore`·README 프런트매터 작성. 로컬 `docker build` 진행 중.
+- Dockerfile(HF Spaces uid 1000·포트 7860·CPU torch)·`.dockerignore`·README 프런트매터 작성. 로컬 `docker build` 완료(3.1GB) → 컨테이너 기동 5초 만에 health 200, 인덱스(396×1024) 로드 확인. HF Spaces 계정만 있으면 배포 가능.
 - 평가 축① 생성기(`app/eval/inject.py`): 후보 규범 문장 207개(AI 가이던스·보일러플레이트 제외). 아직 미실행(Luna ~60k 토큰 예상).
