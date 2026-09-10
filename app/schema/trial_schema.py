@@ -172,6 +172,9 @@ class Finding(BaseModel):
     severity: Severity
     protocol_span: ProtocolSpan
     claim: str
+    protocol_fact: Optional[str] = Field(None, description="프로토콜이 무엇을 적었거나 빠뜨렸는가 — 원문 span과 대조")
+    evidence_fact: Optional[str] = Field(None, description="인용 근거가 무엇을 말하는가 — 근거 quote와 NLI 대조")
+    span_verified: Optional[bool] = Field(None, description="protocol_span.text가 프로토콜 원문에 실제로 존재하는가(결정론)")
     evidence_ids: list[str] = Field(default_factory=list)
     reviewer_positions: list[ReviewerPosition] = Field(default_factory=list)
     conflict_unresolved: bool = Field(False, description="Reviewer 간 상충이 남아 있으면 True — 합의를 강제하지 않는다")
@@ -241,4 +244,7 @@ class ReviewState(BaseModel):
     replan_events: list[dict[str, Any]] = Field(default_factory=list)
     budget: Budget = Field(default_factory=Budget)
     audit: Optional[AuditMeta] = None
+    scratch: dict[str, Any] = Field(default_factory=dict, description="노드 간 전달용 중간 결과(라벨 PK, 구조 프로파일 등). 감사로그에는 evidence로만 남긴다")
+    review_questions: list[dict[str, Any]] = Field(default_factory=list)
+    unavailable_axes: list[str] = Field(default_factory=list, description="도구를 호출하지 않은 축과 이유('근거 미확보')")
     terminal_status: Literal["running", "awaiting_human", "completed", "no_conclusion"] = "running"

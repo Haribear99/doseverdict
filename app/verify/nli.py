@@ -35,7 +35,7 @@ class Verdict:
 
 _ATTRIBUTION = re.compile(
     r"^\s*(?:(?:the\s+)?(?:FDA|EMA|MFDS|ICH|식약처|가이던스|guidance|guideline|label|labeling|document|regulator|agency)[^,:]{0,40}?"
-    r"\b(?:states?|says?|notes?|indicates?|requires?|recommends?|provides?)\s+(?:that\s+)?)", re.I)
+    r"\b(?:states?|says?|notes?|indicates?|requires?|recommends?|provides?|instructs?|directs?|advises?|specifies|calls for|explains?)\s+(?:that\s+)?)", re.I)
 
 
 def strip_attribution(claim: str) -> str:
@@ -59,7 +59,7 @@ def nli(premise: str, hypothesis: str, multilingual: bool = False) -> NLIResult:
     """premise(근거 원문) → hypothesis(주장) 함의 판정. 라벨 순서는 모델 카드 기준 entailment/neutral/contradiction."""
     model_name = NLI_MODEL_MULTI if multilingual else NLI_MODEL_EN
     pipe = _pipeline(model_name)
-    out = pipe({"text": premise[:2000], "text_pair": hypothesis[:600]})
+    out = pipe({"text": premise[:1500], "text_pair": hypothesis[:500]}, truncation=True, max_length=512)
     rows = out[0] if isinstance(out[0], list) else out
     scores = {r["label"].lower(): float(r["score"]) for r in rows}
     label = max(scores, key=scores.get)
