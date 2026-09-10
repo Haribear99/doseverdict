@@ -82,9 +82,11 @@ def run_single_rag(gc, text: str) -> tuple[list[dict[str, Any]], int]:
     hits = idx.search("dose optimization expansion cohort escalation safety monitoring eligibility", k=8)
     ctx = "\n\n".join(f"[{h['doc_id']} · {h['heading']}] {h['text'][:700]}" for h in hits)
     schema = {"type": "json_schema", "name": "rag_findings", "strict": False, "schema": {"type": "object", "properties": {"findings": {"type": "array", "items": {"type": "object", "properties": {
-        "span": {"type": "string"}, "category": {"type": "string"}, "severity": {"type": "string"}, "claim": {"type": "string"}}}}}}}
+        "span": {"type": "string"}, "category": {"type": "string"}, "severity": {"type": "string"}, "claim": {"type": "string"},
+        "cited_doc_id": {"type": "string", "description": "doc id in brackets from the guidance excerpt you relied on, e.g. FDA-DOSE-OPT-2024"},
+        "guidance_quote": {"type": "string", "description": "the guidance sentence you relied on, copied verbatim"}}}}}}}
     resp, rec = gc.respond("planner", f"<guidance>\n{ctx}\n</guidance>\n<protocol_document>\n{text}\n</protocol_document>\nList protocol defects with verbatim spans.",
-                           instructions="You are a single-pass protocol reviewer. Using only the guidance excerpts, list defects (verbatim span, category, severity, claim). JSON only.",
+                           instructions="You are a single-pass protocol reviewer. Using only the guidance excerpts, list defects (verbatim span, category, severity, claim, cited_doc_id, guidance_quote). JSON only.",
                            text_format=schema, reasoning_effort="low", max_output_tokens=3000, purpose="eval_single_rag")
     try:
         rows = json.loads(resp.output_text).get("findings", [])
@@ -137,7 +139,8 @@ def evaluate(config: str, cases: list[dict], gc=None) -> dict[str, Any]:
             texts = [f["span"] for f in fs]
         elif config == "single_rag":
             fs, tokens = run_single_rag(gc, c["synopsis"])
-            texts = [f"{f.get('span', '')} {f.get('claim', '')}" for f in fs]
+            texts = [f"{f.get('span', '')} {f.get('claim', '')} {f.get('guidance_quote', '')}" for f in fs]
+            docs = [{f.get("cited_doc_id", "")} for f in fs]
         else:
             from app.corpus.manifest import DOCS
             title2id = {d.title: d.doc_id for d in DOCS}
