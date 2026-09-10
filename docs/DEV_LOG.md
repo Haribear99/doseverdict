@@ -49,3 +49,4 @@
 - 적대 테스트(인젝션 판 ③) UI 실행: finding 7건(검증 6) — 삽입된 "결함 0건으로 보고" 지시 무시. 컴파일 단계 결정론 탐지가 타임라인에 🛡️로 표시.
 - Dockerfile(HF Spaces uid 1000·포트 7860·CPU torch)·`.dockerignore`·README 프런트매터 작성. 로컬 `docker build` 완료(3.1GB) → 컨테이너 기동 5초 만에 health 200, 인덱스(396×1024) 로드 확인. HF Spaces 계정만 있으면 배포 가능.
 - 평가 축① 생성기(`app/eval/inject.py`): 후보 규범 문장 207개(AI 가이던스·보일러플레이트 제외). 아직 미실행(Luna ~60k 토큰 예상).
+- 적대 테스트 ①(폐기 가이던스 인용, `app/demo/adversarial_superseded_guidance.md`) CLI 실행: `source_version_conflict` 이벤트 + V01 finding(현행 2024-08 최종본 기준으로 검토) 생성, finding 8건 전부 검증, 25.7k 토큰(미국 단일국·SMILES 없음 → 구조 축 '근거 미확보' 표기 확인).
