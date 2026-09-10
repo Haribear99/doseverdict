@@ -11,6 +11,7 @@ from __future__ import annotations
 import hashlib
 import json
 import os
+import re
 import sqlite3
 import uuid
 from datetime import datetime
@@ -48,14 +49,26 @@ def _add_tokens(state: ReviewState, meta: dict[str, Any]) -> None:
         state.audit.prompt_hashes.append(meta["prompt_sha256"])
 
 
+_INJECTION = re.compile(r"(ignore (all )?(previous|prior|above) instructions|system note to (the )?ai|report zero findings|do not cite|disregard (the )?(guidance|instructions)|"
+                        r"you are now|as an ai|이전 지시를? 무시|결함 없음으로 보고|지시를 따르)", re.I)
+
+
+def detect_injection(text: str) -> list[str]:
+    """업로드 문서 안의 지시문 탐지 — 데이터로만 취급하되 사람이 볼 수 있게 이벤트로 남긴다."""
+    return [m.group(0) for m in _INJECTION.finditer(text or "")][:5]
+
+
 # ----------------------------------------------------------------- nodes
 def node_compile(state: ReviewState) -> dict[str, Any]:
+    hits = detect_injection(state.raw_protocol_text)
+    if hits:
+        state.replan_events.append({"trigger": "prompt_injection_detected", "patterns": hits, "action": "문서 내 지시문은 데이터로만 처리, 도구 allowlist 유지, 사람에게 표시"})
     if state.scratch.get("precompiled"):   # 사전 컴파일된 스키마(재실행·평가 캐시)면 LLM 호출 생략
-        return {"trial": state.trial}
+        return {"trial": state.trial, "replan_events": state.replan_events}
     ts, meta = compile_protocol(gateway(), state.raw_protocol_text, purpose=f"{state.run_id}:compile")
     state.trial = ts
     _add_tokens(state, meta)
-    return {"trial": ts, "budget": state.budget, "audit": state.audit}
+    return {"trial": ts, "budget": state.budget, "audit": state.audit, "replan_events": state.replan_events}
 
 
 def node_plan(state: ReviewState) -> dict[str, Any]:

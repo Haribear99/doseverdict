@@ -124,6 +124,10 @@ if run:
         nxt = NODES[NODES.index(node) + 1] if node in NODES and NODES.index(node) + 1 < len(NODES) else None
         st.session_state.current = nxt
         msg = f"{t:5.1f}s  **{node}** 완료"
+        if node == "compile":
+            inj = [e for e in upd.get("replan_events", []) if e.get("trigger") == "prompt_injection_detected"]
+            if inj:
+                msg += f" — **🛡️ 프롬프트 인젝션 탐지 {inj[0]['patterns']} → 데이터로만 처리**"
         if node == "plan":
             msg += f" — 과제 {len(upd.get('tasks', []))}개, 근거 미확보 축 {len(upd.get('unavailable_axes', []))}개"
         if node == "tools":
