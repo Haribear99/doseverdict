@@ -165,6 +165,7 @@ def main() -> None:
     ap.add_argument("--configs", default="checklist,full")
     ap.add_argument("--limit", type=int, default=5)
     ap.add_argument("--gold", default=str(DATA / "gold_axis1.jsonl"))
+    ap.add_argument("--tag", default="", help="summary 파일 접미사(병렬 실행 시 충돌 방지)")
     a = ap.parse_args()
     cases = [json.loads(l) for l in Path(a.gold).read_text(encoding="utf-8").splitlines() if l.strip()][: a.limit]
     OUT.mkdir(parents=True, exist_ok=True)
@@ -181,7 +182,7 @@ def main() -> None:
     print("|---|---|---|---|---|---|---|---|")
     for s in summary:
         print(f"| {s['config']} | {s['n']} | {s['recall']} | {s['weighted_recall']} | {s['precision_proxy']} | {s['verified_rate']} | {s['tokens']:,.0f} | {s['elapsed_s']} |")
-    (OUT / "summary.json").write_text(json.dumps(summary, ensure_ascii=False, indent=2), encoding="utf-8")
+    (OUT / f"summary{('_' + a.tag) if a.tag else ''}.json").write_text(json.dumps(summary, ensure_ascii=False, indent=2), encoding="utf-8")
 
 
 if __name__ == "__main__":
