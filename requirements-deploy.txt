@@ -1,4 +1,4 @@
-accelerate==1.15.0
+# 배포본(HF Spaces CPU) — GPU 전용 torch 대신 CPU torch를 Dockerfile에서 --index-url https://download.pytorch.org/whl/cpu 로 설치한다
 faiss-cpu==1.15.0
 fastapi==0.141.1
 flagembedding==1.4.2
@@ -18,6 +18,5 @@ rdkit==2026.3.6
 scipy==1.18.1
 sentence-transformers==6.0.1
 streamlit==1.63.0
-torch==2.11.0+cu128
 transformers==5.17.0
 uvicorn==0.52.4

@@ -94,3 +94,12 @@ def test_ctgov_kras_live():
     r = analog_trial.search_analog_trials("KRAS G12C", page_size=5)
     assert r.ok, r.error
     assert r.data["total_count"] and r.data["total_count"] >= 100 and r.data["studies"][0]["nct_id"].startswith("NCT")
+
+
+@pytest.mark.network
+def test_open_targets_kras_live():
+    from app.tools import open_targets
+    r = open_targets.target_evidence("KRAS")
+    assert r.ok, r.error
+    assert r.data["ensembl_id"] == "ENSG00000133703"
+    assert any((x["drug"] or "").upper() == "SOTORASIB" for x in r.data["known_drugs"])

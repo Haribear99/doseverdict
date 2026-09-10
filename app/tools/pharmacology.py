@@ -98,9 +98,20 @@ _ER_UNKNOWN = r"exposure-response relationships?[^.]*unknown[^.]*\."
 _MONITOR = r"(monitor[^.]*(liver|hepatic|ALT|AST)[^.]*\.)"
 
 
+def _openfda_label_raw(brand: str) -> dict[str, Any]:
+    """openFDA 라벨 조회. OPENFDA_API_KEY가 있으면 일 한도 1,000 → 120,000으로 상향(open.fda.gov/apis/authentication)."""
+    import os
+    import urllib.parse
+
+    key = os.getenv("OPENFDA_API_KEY")
+    q = urllib.parse.quote(f'openfda.brand_name:"{brand}"')
+    url = f"https://api.fda.gov/drug/label.json?search={q}&limit=1" + (f"&api_key={key}" if key else "")
+    return pe.fetch_json(url)["results"][0]
+
+
 def openfda_label(brand: str) -> ToolResult:
     def _run(brand: str) -> dict[str, Any]:
-        label = pe.openfda_label(brand)
+        label = _openfda_label_raw(brand)
         text = " ".join(label.get("clinical_pharmacology", []) + label.get("description", []))
         pk: dict[str, Any] = {}
         quotes: dict[str, str] = {}
