@@ -14,7 +14,7 @@ __pycache__/
 .ruff_cache/
 
 # data / models / caches
-app/corpus/index/*.npy
+# dense.npy(811KB, fp16)·bm25.pkl은 배포본이 그대로 쓰므로 추적한다
 app/corpus/index/*.faiss
 models/
 *.log

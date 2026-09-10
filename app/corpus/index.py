@@ -55,9 +55,10 @@ def build_clauses() -> list[Clause]:
 def _embed(texts: list[str], device: str | None = None, batch_size: int = 16) -> np.ndarray:
     from sentence_transformers import SentenceTransformer  # 지연 import (배포본 CPU에서도 동작)
     model = SentenceTransformer(EMBED_MODEL, device=device)
+    model.max_seq_length = 1024  # 절 청크(≤1,800자)는 1,024 토큰이면 충분. encode()는 max_length kwarg를 받지 않는다
     if device and device.startswith("cuda"):
         model.half()
-    vecs = model.encode(texts, batch_size=batch_size, normalize_embeddings=True, show_progress_bar=True, max_length=1024)
+    vecs = model.encode(texts, batch_size=batch_size, normalize_embeddings=True, show_progress_bar=False)
     return np.asarray(vecs, dtype=np.float16)
 
 

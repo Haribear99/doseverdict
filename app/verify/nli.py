@@ -33,6 +33,16 @@ class Verdict:
     nli: NLIResult | None = None
 
 
+_ATTRIBUTION = re.compile(
+    r"^\s*(?:(?:the\s+)?(?:FDA|EMA|MFDS|ICH|식약처|가이던스|guidance|guideline|label|labeling|document|regulator|agency)[^,:]{0,40}?"
+    r"\b(?:states?|says?|notes?|indicates?|requires?|recommends?|provides?)\s+(?:that\s+)?)", re.I)
+
+
+def strip_attribution(claim: str) -> str:
+    """'FDA guidance states that X' → 'X'. NLI는 귀속 프레임을 근거에서 찾지 못해 중립으로 판정하므로 명제만 남긴다(실측: 0.002 → 0.996)."""
+    return _ATTRIBUTION.sub("", claim, count=1).strip() or claim
+
+
 def _is_korean(text: str) -> bool:
     return sum("가" <= ch <= "힣" for ch in text) > max(5, 0.2 * len(text))
 
@@ -83,7 +93,7 @@ def verify_claim(claim: str, evidence_quote: str, norm_strength: str | None = No
         if res.label == "entailment":
             return Verdict("verified", f"문자열 대조 overlap={res.scores['overlap']}", res)
         return Verdict("held", f"한국어 근거 문자열 대조 미달(overlap={res.scores['overlap']}) — 원문 발췌 재확인 또는 기계번역 후 NLI", res)
-    res = nli(evidence_quote, claim, multilingual=_is_korean(evidence_quote) != _is_korean(claim))
+    res = nli(evidence_quote, strip_attribution(claim), multilingual=_is_korean(evidence_quote) != _is_korean(claim))
     if res.label == "entailment" and res.scores["entailment"] >= entail_threshold:
         return Verdict("verified", f"NLI entailment={res.scores['entailment']:.2f}", res)
     if res.label == "contradiction":

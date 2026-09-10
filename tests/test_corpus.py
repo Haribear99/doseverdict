@@ -51,3 +51,10 @@ def test_verifier_norm_strength_rule():
 def test_string_support_overlap():
     r = string_support("두 개 이상의 용량을 무작위 배정하여 비교", "두 개 이상의 용량을 무작위 배정하여 비교한다")
     assert r.label == "entailment" and r.scores["overlap"] >= 0.6
+
+
+def test_strip_attribution():
+    from app.verify.nli import strip_attribution
+    assert strip_attribution("FDA guidance states that the trial does not need to be powered.") == "the trial does not need to be powered."
+    assert strip_attribution("The label indicates exposure is similar across doses.") == "exposure is similar across doses."
+    assert strip_attribution("Exposure is similar across doses.") == "Exposure is similar across doses."
