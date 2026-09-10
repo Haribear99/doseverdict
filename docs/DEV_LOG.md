@@ -58,3 +58,10 @@
 - 축③ 정답(PMR 부과 여부) 31개 성분을 웹 조사 에이전트 2개에 위임(승인서한·PMR DB 기준, unknown 허용).
 - 축③ 정답 확보: 조사 에이전트 2개가 31개 성분(+소토라십·아다그라십)의 FDA 승인서한 원문을 대조 → 용량 최적화 PMR 양성 7건(ceritinib·futibatinib·idelalisib·inavolisib·lenvatinib·sotorasib·adagrasib), unknown 1(gefitinib 2003), 비종양 제외 2. `app/eval/data/pmr_ground_truth.jsonl`.
 - 축③ 평가(`app/eval/axis3.py`, LLM 없음): 라벨 PK 진술(E-R 미상·비선형 PK·단백결합·반감기)만으로 위험 순위 → n=30, AUROC 0.658, PR-AUC 0.477(무작위 0.233), 상위 8 중 양성 2. 점수 규칙은 정답 확인 전 고정(사후 조정 없음). 계산 모듈 제거 시 0.5.
+
+### 2026-09-11 (계속) — 본평가 중간 결과(full 20케이스)
+- 병렬 2프로세스가 메모리 부족으로 죽어 단일 프로세스·`--resume`으로 재실행(full 완료, ablation 진행 중).
+- single_rag 베이스라인은 인용 문서·인용문 필드가 없어 grounded가 구조적으로 0이었다 → 스키마에 `cited_doc_id`·`guidance_quote`를 넣고 재실행(span 0.467, grounded 0.100, 3.3k 토큰/케이스).
+- full: span 0.925 [0.88, 0.97], grounded 0.358 [0.27, 0.45], precision proxy 0.511, 검증 통과율 0.880, 57.4k 토큰/케이스, 167초. checklist는 span 0.791이지만 grounded 0 → full − checklist = +0.358(15%p 기준 충족).
+- 갤러리(`gallery_full.md`): 결함 120건 중 놓침 9, finding 218건 중 주입 결함과 무관 82(정상판에 대한 지적이라 '잘못 경고 후보'로 사람 검토 필요 — precision proxy는 하한).
+- grounded 실패 원인(`app/eval/diagnose.py`): span 적중 111건 중 정답 문서 미인용 67건은 **전부 다른 규제 문서를 인용한 경우**(근거 없음 0, 비규제만 0). 가장 흔한 쌍은 ICH E4 → FDA 용량최적화 2024(15건), FDA 확장코호트 → ICH E6(R3)(10건). 출처 절은 hold-out으로 검색에서 빠지므로 같은 규범을 말하는 자매 문서를 찾은 경우가 많다. 지표는 사전 정의대로 엄격하게 유지하고, 이 분류를 보고서에 그대로 싣는다(지표 완화 없음).
