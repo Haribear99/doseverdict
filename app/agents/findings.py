@@ -91,9 +91,9 @@ def draft_findings(gc: GatewayClient, state: ReviewState, purpose: str = "findin
         "review_questions": state.review_questions,
         "reviewer_positions": state.scratch.get("positions", {}),
         "evidence": [{"id": e.evidence_id, "kind": e.kind, "authority": e.authority, "section": e.section, "applicability": e.applicability,
-                      "norm_strength": e.norm_strength, "quote": e.quote} for e in state.evidence.values()],
+                      "norm_strength": e.norm_strength, "quote": (e.quote or "")[:450]} for e in state.evidence.values()],
         "unavailable_axes": state.unavailable_axes,
-        "protocol_text": (state.raw_protocol_text or "")[:6000],
+        "protocol_text": (state.raw_protocol_text or "")[:4500],
     }
     resp, rec = gc.respond("planner", json.dumps(ctx, ensure_ascii=False), instructions=_INSTR, text_format=_SCHEMA, reasoning_effort="low",
                            max_output_tokens=5000, purpose=purpose)

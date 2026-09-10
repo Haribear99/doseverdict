@@ -191,7 +191,7 @@ def run_regulatory_search(state: ReviewState, task: Task) -> None:
     t0 = time.perf_counter()
     n = 0
     for q, _doc_hint in queries:
-        hits = idx.search(q, k=2, jurisdiction=juris)
+        hits = idx.search(q, k=3 if _doc_hint is None else 2, jurisdiction=juris)   # 플래너 생성 질의는 3건
         for h in hits:
             if h["chunk_id"] in seen or "....." in h["text"] or h["chunk_id"] in state.scratch.get("holdout_chunk_ids", []):   # 중복·목차·hold-out 제외
                 continue

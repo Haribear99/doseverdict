@@ -60,9 +60,9 @@ def _ctx(state: ReviewState, role: str, evs: list[Evidence]) -> str:
     if role == "site":
         base["eligibility"] = state.trial.design.eligibility.model_dump(exclude_none=True)
     base["evidence"] = [{"id": e.evidence_id, "kind": e.kind, "authority": e.authority, "section": e.section, "applicability": e.applicability,
-                         "norm_strength": e.norm_strength, "quote": e.quote} for e in evs]
+                         "norm_strength": e.norm_strength, "quote": (e.quote or "")[:450]} for e in evs]   # 판단용 요약 인용(검증기는 전문 사용)
     base["unavailable_axes"] = state.unavailable_axes
-    base["protocol_text"] = (state.raw_protocol_text or "")[:6000]
+    base["protocol_text"] = (state.raw_protocol_text or "")[:4500]
     return json.dumps(base, ensure_ascii=False)
 
 
