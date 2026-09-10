@@ -93,7 +93,7 @@ def node_compile(state: ReviewState) -> dict[str, Any]:
 
 def node_plan(state: ReviewState) -> dict[str, Any]:
     tasks, unavailable = build_task_dag(state.trial)
-    qs, meta = plan_questions(gateway(), state.trial, tasks, purpose=f"{state.run_id}:plan")
+    qs, meta = plan_questions(gateway(), state.trial, tasks, purpose=f"{state.run_id}:plan", protocol_text=state.raw_protocol_text)
     _add_tokens(state, meta)
     state.replan_events.append({"event": "plan", "n_tasks": len(tasks), "unavailable": unavailable, "at": datetime.now().isoformat()})
     return {"tasks": tasks, "unavailable_axes": unavailable, "review_questions": qs, "trial": state.trial, "budget": state.budget, "replan_events": state.replan_events}

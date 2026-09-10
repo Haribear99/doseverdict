@@ -33,7 +33,7 @@ _SCHEMA = {"type": "json_schema", "name": "findings_draft", "strict": False,
                "required_additional_data": {"type": "array", "items": {"type": "string"}}}}}}}}
 
 _INSTR = """You assemble review findings for an oncology Phase 1/2 protocol from three reviewers' positions and an evidence registry.
-Output at most 8 findings, most severe first. For each finding write TWO separate sentences:
+Output at most 10 findings, most severe first. Cover every review question whose hypothesis the protocol_text confirms; one finding per distinct protocol sentence. For each finding write TWO separate sentences:
 - protocol_fact: what the protocol states or omits (checkable against protocol_span_text alone; no evidence content here).
 - evidence_fact: a bare proposition that ONE cited evidence quote literally supports (copy its key words). No attribution framing ('the guidance states').
 Norm strength: FDA final guidance / ICH Step 4 → 'should/recommends'; MFDS civil guide (민원인 안내서) → '안내한다/권고한다' — NEVER 'mandates/requires/의무화'.
@@ -93,11 +93,12 @@ def draft_findings(gc: GatewayClient, state: ReviewState, purpose: str = "findin
         "evidence": [{"id": e.evidence_id, "kind": e.kind, "authority": e.authority, "section": e.section, "applicability": e.applicability,
                       "norm_strength": e.norm_strength, "quote": e.quote} for e in state.evidence.values()],
         "unavailable_axes": state.unavailable_axes,
+        "protocol_text": (state.raw_protocol_text or "")[:6000],
     }
     resp, rec = gc.respond("planner", json.dumps(ctx, ensure_ascii=False), instructions=_INSTR, text_format=_SCHEMA, reasoning_effort="low",
-                           max_output_tokens=4000, purpose=purpose)
+                           max_output_tokens=5000, purpose=purpose)
     try:
-        rows = json.loads(resp.output_text).get("findings", [])[:8]
+        rows = json.loads(resp.output_text).get("findings", [])[:10]
     except json.JSONDecodeError:
         rows = []
     findings: list[Finding] = []

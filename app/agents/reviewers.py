@@ -62,6 +62,7 @@ def _ctx(state: ReviewState, role: str, evs: list[Evidence]) -> str:
     base["evidence"] = [{"id": e.evidence_id, "kind": e.kind, "authority": e.authority, "section": e.section, "applicability": e.applicability,
                          "norm_strength": e.norm_strength, "quote": e.quote} for e in evs]
     base["unavailable_axes"] = state.unavailable_axes
+    base["protocol_text"] = (state.raw_protocol_text or "")[:6000]
     return json.dumps(base, ensure_ascii=False)
 
 

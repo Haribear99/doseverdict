@@ -182,6 +182,12 @@ def run_regulatory_search(state: ReviewState, task: Task) -> None:
     seen = state.scratch.setdefault("clause_ids_seen", [])
     queries = _REG_QUERIES.get(country, []) + (_REG_QUERIES["common"] if not state.scratch.get("common_done") else [])
     state.scratch["common_done"] = True
+    # 플래너가 가설별로 만든 검색 질의(국가 일치 또는 common)를 덧붙인다 — 고정 질의가 못 덮는 결함의 근거 조항 확보
+    for q in state.review_questions:
+        sq, qj = (q.get("search_query") or "").strip(), (q.get("jurisdiction") or "common")
+        if sq and (qj == country or qj == "common" and not state.scratch.get("common_done_planner")):
+            queries.append((sq, None))
+    state.scratch["common_done_planner"] = True
     t0 = time.perf_counter()
     n = 0
     for q, _doc_hint in queries:

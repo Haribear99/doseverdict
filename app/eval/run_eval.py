@@ -144,6 +144,9 @@ def evaluate(config: str, cases: list[dict], gc=None) -> dict[str, Any]:
             ablate = {"full": [], "no_calc": ["no_calc"], "no_arena": ["no_arena"], "no_verifier": ["no_verifier"]}[config]
             _, _, st = run_until_gate(c["synopsis"], run_id=f"eval-{config}-{c['case_id']}", ablate=ablate, holdout_chunk_ids=c.get("holdout_chunk_ids"))
             fs = st.findings
+            sdir = OUT / "states" / config
+            sdir.mkdir(parents=True, exist_ok=True)   # 상태 전량 보존 → LLM 재실행 없이 재채점·실패 사례 갤러리 생성
+            (sdir / f"{c['case_id']}.json").write_text(st.model_dump_json(indent=1), encoding="utf-8")
             texts = [f"{f.protocol_span.text} {f.protocol_fact or ''} {f.evidence_fact or ''}" for f in fs]
             docs = [{title2id.get(st.evidence[e].document_title or "", "") for e in f.evidence_ids if e in st.evidence} for f in fs]
             tokens = st.budget.used_tokens
