@@ -88,6 +88,9 @@ def node_tools(state: ReviewState) -> dict[str, Any]:
 
 
 def node_arena(state: ReviewState) -> dict[str, Any]:
+    if "no_arena" in state.scratch.get("ablate", []):
+        state.scratch["positions"] = {}
+        return {"scratch": state.scratch}
     if state.budget.exhausted():
         state.terminal_status = "no_conclusion"
         return {"terminal_status": "no_conclusion"}
@@ -104,6 +107,10 @@ def node_findings(state: ReviewState) -> dict[str, Any]:
 
 
 def node_verify(state: ReviewState) -> dict[str, Any]:
+    if "no_verifier" in state.scratch.get("ablate", []):
+        for f in state.findings:
+            f.verifier_status, f.verifier_note = "verified", "ablation: verifier off"
+        return {"findings": state.findings}
     events = verify_findings(state)
     for ev in events:
         state.replan_events.append(ev | {"at": datetime.now().isoformat()})
@@ -188,13 +195,19 @@ def sqlite_checkpointer(path: str | None = None) -> SqliteSaver:
     return SqliteSaver(sqlite3.connect(p, check_same_thread=False))
 
 
-def run_until_gate(protocol_text: str, *, run_id: str | None = None, checkpointer=None, on_step=None, precompiled=None) -> tuple[Any, dict[str, Any], ReviewState]:
-    """그래프를 Human Gate까지 실행. 반환: (graph, config, 현재 상태). on_step(node_name, state_dict)로 UI 갱신. precompiled=TrialSchema면 compile 생략."""
+def run_until_gate(protocol_text: str, *, run_id: str | None = None, checkpointer=None, on_step=None, precompiled=None,
+                   ablate: list[str] | None = None, holdout_chunk_ids: list[str] | None = None) -> tuple[Any, dict[str, Any], ReviewState]:
+    """그래프를 Human Gate까지 실행. 반환: (graph, config, 현재 상태). on_step(node_name, state_dict)로 UI 갱신.
+    precompiled=TrialSchema면 compile 생략. ablate=['no_calc','no_arena','no_verifier'] 평가용. holdout_chunk_ids는 검색에서 제외(누수 차단)."""
     graph = build_graph(checkpointer)
     state = new_state(protocol_text, run_id)
     if precompiled is not None:
         state.trial = precompiled
         state.scratch["precompiled"] = True
+    if ablate:
+        state.scratch["ablate"] = list(ablate)
+    if holdout_chunk_ids:
+        state.scratch["holdout_chunk_ids"] = list(holdout_chunk_ids)
     config = {"configurable": {"thread_id": state.run_id}}
     for chunk in graph.stream(state, config, stream_mode="updates"):
         for node, upd in chunk.items():

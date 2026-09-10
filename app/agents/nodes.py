@@ -187,7 +187,7 @@ def run_regulatory_search(state: ReviewState, task: Task) -> None:
     for q, _doc_hint in queries:
         hits = idx.search(q, k=2, jurisdiction=juris)
         for h in hits:
-            if h["chunk_id"] in seen or "....." in h["text"]:   # 중복·목차 청크 제외
+            if h["chunk_id"] in seen or "....." in h["text"] or h["chunk_id"] in state.scratch.get("holdout_chunk_ids", []):   # 중복·목차·hold-out 제외
                 continue
             seen.append(h["chunk_id"])
             doc = by_id(h["doc_id"])
@@ -220,8 +220,15 @@ RUNNERS = {
 }
 
 
+_CALC_KINDS = {"structure_class", "exposure_dose_relationship", "design_oc"}
+
+
 def execute_tasks(state: ReviewState) -> ReviewState:
-    """의존 순서대로 실행. 예산 초과 시 남은 과제는 skipped."""
+    """의존 순서대로 실행. 예산 초과 시 남은 과제는 skipped. ablation 'no_calc'면 계산 과제는 건너뛴다."""
+    if "no_calc" in state.scratch.get("ablate", []):
+        for t in state.tasks:
+            if t.kind in _CALC_KINDS:
+                t.status = "skipped"
     done: set[str] = set()
     pending = [t for t in state.tasks if t.status == "planned"]
     for _ in range(len(pending) + 1):
