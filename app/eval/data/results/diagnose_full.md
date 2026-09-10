@@ -27,3 +27,10 @@ span 적중 결함 111건 중 grounded 44건 / 규제 근거 인용 없음 0건 
 | ICH-E4-1994 → FDA-EXPANSION-COHORTS-2022 | 2 |
 | FDA-EXPANSION-COHORTS-2022 → FDA-DOSE-OPT-2024 | 1 |
 | ICH-E4-1994 → MFDS-1443-01-2025 | 1 |
+
+## Verifier 판정별 주입 결함 적중률 (F00·V 제외)
+
+| 판정 | finding 수 | 결함 적중 | 적중률 |
+|---|---|---|---|
+| held | 26 | 10 | 0.38 |
+| verified | 172 | 106 | 0.62 |

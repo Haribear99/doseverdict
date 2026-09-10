@@ -57,11 +57,26 @@ def main() -> None:
                 cited_instead.update(reg)
                 for x in reg:
                     pairs[(d["source_doc"], x)] += 1
+    # Verifier 변별력: 판정(verified/held/rejected)별로 finding이 주입 결함을 가리킨 비율 — 검증기는 recall이 아니라 이 차이로 평가한다
+    hit_by: Counter = Counter(); tot_by: Counter = Counter()
+    for p in sorted((OUT / "states" / a.config).glob("*.json")):
+        case = gold.get(p.stem)
+        if not case:
+            continue
+        st = json.loads(p.read_text(encoding="utf-8"))
+        for f in st["findings"]:
+            if f["finding_id"].startswith(("F00", "V")):
+                continue
+            t = f"{f['protocol_span']['text']} {f.get('protocol_fact') or ''} {f.get('evidence_fact') or ''}"
+            tot_by[f["verifier_status"]] += 1
+            if any(matches(d["protocol_sentence"], [t]) for d in case["defects"]):
+                hit_by[f["verifier_status"]] += 1
     lines = [f"# grounded recall 실패 원인 — {a.config}", "",
              f"span 적중 결함 {total}건 중 grounded {reasons['grounded']}건 / 규제 근거 인용 없음 {reasons['no_evidence']}건 / 비규제 근거만 {reasons['non_regulatory_only']}건 / **다른 규제 문서 인용 {reasons['other_regulatory_doc']}건**.", "",
              "출처 절(hold-out)은 검색에서 제외되므로 정답 문서 인용은 같은 문서의 다른 절을 찾은 경우다.", "",
              "| 정답 문서 | 놓친 수 |", "|---|---|"] + [f"| {k} | {v} |" for k, v in missed_src.most_common()] + \
             ["", "| 정답 문서 → 대신 인용한 문서 | 건수 |", "|---|---|"] + [f"| {k[0]} → {k[1]} | {v} |" for k, v in pairs.most_common()]
+    lines += ["", "## Verifier 판정별 주입 결함 적중률 (F00·V 제외)", "", "| 판정 | finding 수 | 결함 적중 | 적중률 |", "|---|---|---|---|"] +              [f"| {k} | {tot_by[k]} | {hit_by[k]} | {hit_by[k] / tot_by[k]:.2f} |" for k in sorted(tot_by)]
     out = OUT / f"diagnose_{a.config}.md"
     out.write_text("\n".join(lines) + "\n", encoding="utf-8")
     print("\n".join(lines))
