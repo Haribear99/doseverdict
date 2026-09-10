@@ -56,3 +56,5 @@
 - 파일럿(3케이스): 원문을 플래너·Reviewer·Findings에 전달하고 플래너 생성 검색 질의를 추가하기 전 span 0.33 → 후 0.89. grounded(정답 규범 문서 인용) 0.39. 정규식 체크리스트는 결측 술어 표면형으로 span 0.78을 내지만 grounded 0 — 그래서 grounded recall을 주 지표로 둔다.
 - 토큰: run당 64k(원문 전달로 41k→64k) → 인용 450자·원문 4,500자로 축소 후 본평가 진행. 본평가 20케이스 × (checklist·single_rag·full·no_calc·no_arena·no_verifier) 병렬 2프로세스 실행 중(`app/eval/data/results/`, 상태 전량 보존).
 - 축③ 정답(PMR 부과 여부) 31개 성분을 웹 조사 에이전트 2개에 위임(승인서한·PMR DB 기준, unknown 허용).
+- 축③ 정답 확보: 조사 에이전트 2개가 31개 성분(+소토라십·아다그라십)의 FDA 승인서한 원문을 대조 → 용량 최적화 PMR 양성 7건(ceritinib·futibatinib·idelalisib·inavolisib·lenvatinib·sotorasib·adagrasib), unknown 1(gefitinib 2003), 비종양 제외 2. `app/eval/data/pmr_ground_truth.jsonl`.
+- 축③ 평가(`app/eval/axis3.py`, LLM 없음): 라벨 PK 진술(E-R 미상·비선형 PK·단백결합·반감기)만으로 위험 순위 → n=30, AUROC 0.658, PR-AUC 0.477(무작위 0.233), 상위 8 중 양성 2. 점수 규칙은 정답 확인 전 고정(사후 조정 없음). 계산 모듈 제거 시 0.5.
