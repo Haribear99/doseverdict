@@ -53,6 +53,23 @@ _INJECTION = re.compile(r"(ignore (all )?(previous|prior|above) instructions|sys
                         r"you are now|as an ai|이전 지시를? 무시|결함 없음으로 보고|지시를 따르)", re.I)
 
 
+_GUIDANCE_CITE = re.compile(r"(draft guidance|final guidance|guidance for industry)[^.\n]{0,160}?\(?(January|February|March|April|May|June|July|August|September|October|November|December)?\s?(20\d\d)\)?", re.I)
+
+
+def detect_superseded_citations(text: str) -> list[dict[str, Any]]:
+    """프로토콜이 인용한 가이던스의 발행 연도가 매니페스트의 폐기 버전과 맞으면 버전 충돌로 표시(결정론, 적대 테스트 ①)."""
+    from app.corpus.manifest import DOCS, by_id
+    out = []
+    for m in _GUIDANCE_CITE.finditer(text or ""):
+        span, year = m.group(0), m.group(3)
+        low = span.lower()
+        for d in DOCS:
+            if d.superseded_by and d.effective_date.startswith(year) and any(w in low for w in ("optimizing the dosage", "oncologic", "draft guidance")):
+                cur = by_id(d.superseded_by)
+                out.append({"cited": span.strip()[:200], "superseded_doc": d.doc_id, "current_doc": cur.doc_id, "current_version": cur.version_label, "current_date": cur.effective_date})
+    return out
+
+
 def detect_injection(text: str) -> list[str]:
     """업로드 문서 안의 지시문 탐지 — 데이터로만 취급하되 사람이 볼 수 있게 이벤트로 남긴다."""
     return [m.group(0) for m in _INJECTION.finditer(text or "")][:5]
@@ -63,12 +80,15 @@ def node_compile(state: ReviewState) -> dict[str, Any]:
     hits = detect_injection(state.raw_protocol_text)
     if hits:
         state.replan_events.append({"trigger": "prompt_injection_detected", "patterns": hits, "action": "문서 내 지시문은 데이터로만 처리, 도구 allowlist 유지, 사람에게 표시"})
+    for sc in detect_superseded_citations(state.raw_protocol_text):
+        state.replan_events.append({"trigger": "source_version_conflict", **sc, "action": "폐기된 초안 인용 → 최신 최종본 기준으로 검토, source_version finding 생성"})
+        state.scratch.setdefault("superseded_citations", []).append(sc)
     if state.scratch.get("precompiled"):   # 사전 컴파일된 스키마(재실행·평가 캐시)면 LLM 호출 생략
         return {"trial": state.trial, "replan_events": state.replan_events}
     ts, meta = compile_protocol(gateway(), state.raw_protocol_text, purpose=f"{state.run_id}:compile")
     state.trial = ts
     _add_tokens(state, meta)
-    return {"trial": ts, "budget": state.budget, "audit": state.audit, "replan_events": state.replan_events}
+    return {"trial": ts, "budget": state.budget, "audit": state.audit, "replan_events": state.replan_events, "scratch": state.scratch}
 
 
 def node_plan(state: ReviewState) -> dict[str, Any]:

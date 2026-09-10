@@ -70,6 +70,19 @@ def deterministic_tcr_finding(state: ReviewState) -> Finding | None:
                    verifier_note="결정론적 계산 finding(도구 산출값 인용)")
 
 
+def deterministic_version_findings(state: ReviewState) -> list[Finding]:
+    """프로토콜이 폐기된 가이던스 버전을 인용한 경우 — 매니페스트 대조로 만드는 결정론 finding."""
+    out = []
+    for i, sc in enumerate(state.scratch.get("superseded_citations", []), 1):
+        ev_ids = [e.evidence_id for e in state.evidence.values() if e.kind == "regulatory_clause" and (e.document_title or "").lower().startswith("optimizing the dosage")][:2]
+        out.append(Finding(finding_id=f"V{i:02d}", category="source_version", severity=Severity.high, protocol_span=ProtocolSpan(section="cited guidance", text=sc["cited"]),
+                           claim=f"프로토콜이 인용한 문서는 폐기된 버전({sc['superseded_doc']})이다. 현행 버전은 {sc['current_doc']} ({sc['current_version']}, {sc['current_date']})이며 검토는 현행 버전을 기준으로 수행했다.",
+                           protocol_fact=f"프로토콜이 '{sc['cited'][:80]}'을(를) 현행 가이던스로 인용한다.", evidence_fact=f"현행 버전은 {sc['current_version']} ({sc['current_date']})이다.",
+                           evidence_ids=ev_ids, verdict="defect", verifier_status="verified", verifier_note="결정론 버전 대조(매니페스트 superseded_by)", span_verified=True,
+                           suggested_patch=f"Replace the cited draft guidance with the current final guidance ({sc['current_version']}, {sc['current_date']}) and reassess dose-selection rationale accordingly."))
+    return out
+
+
 def draft_findings(gc: GatewayClient, state: ReviewState, purpose: str = "findings") -> dict[str, Any]:
     ctx = {
         "dose_strategy": state.trial.design.dose_strategy.model_dump(exclude_none=True),
@@ -91,6 +104,7 @@ def draft_findings(gc: GatewayClient, state: ReviewState, purpose: str = "findin
     tcr = deterministic_tcr_finding(state)
     if tcr:
         findings.append(tcr)
+    findings.extend(deterministic_version_findings(state))
     for i, r in enumerate(rows, 1):
         pos = _reviewer_positions(state, r.get("task_id", ""))
         pf, ef = (r.get("protocol_fact") or "").strip(), (r.get("evidence_fact") or "").strip()
@@ -124,7 +138,7 @@ def verify_findings(state: ReviewState) -> list[dict[str, Any]]:
     events = []
     raw_norm = _norm(state.raw_protocol_text)
     for f in state.findings:
-        if f.finding_id == "F00":
+        if f.finding_id == "F00" or f.finding_id.startswith("V"):
             continue
         pf = f.protocol_fact or f.claim
         ef = f.evidence_fact or ""
