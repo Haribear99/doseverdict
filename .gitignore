@@ -1,0 +1,27 @@
+# secrets
+.env
+.env.*
+!.env.example
+secrets/
+keys/
+
+# python
+.venv/
+__pycache__/
+*.pyc
+*.egg-info/
+.pytest_cache/
+.ruff_cache/
+
+# data / models / caches
+app/corpus/index/*.npy
+app/corpus/index/*.faiss
+models/
+*.log
+RESEARCH/*/sources/raw/
+.impeccable/
+figures/.impeccable/
+
+# editors
+.vscode/
+.idea/
