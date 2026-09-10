@@ -2,34 +2,133 @@
   "session_id": "DoseVerdict_finals_20260911",
   "topic": "DoseVerdict 본선(4th JUMP AI) 개발 착수 리서치 — 데이콘 OpenAI 게이트웨이(gpt-5.6/Astra) 활용, 스택·배포·모델 티어링·규제 코퍼스·로컬 모델",
   "created_at": "2026-09-11T00:35:00+09:00",
-  "updated_at": "2026-09-11T00:35:00+09:00",
-  "status": "PHASE_3_QUERYING",
-  "current_phase": 3,
+  "updated_at": "2026-09-11T01:30:00+09:00",
+  "status": "COMPLETED",
+  "current_phase": 7,
   "exec_mode": "batch",
   "requirements": {
-    "focus": ["기술 심층 분석", "구현 의사결정 근거"],
+    "focus": [
+      "기술 심층 분석",
+      "구현 의사결정 근거"
+    ],
     "output_format": "modular_decision_report",
-    "scope": {"timeframe": "2025-2026", "geography": "Global + KR"},
-    "sources": {"required_types": ["official_docs", "standards_document", "government", "expert_blog"], "min_quality": "B"},
+    "scope": {
+      "timeframe": "2025-2026",
+      "geography": "Global + KR"
+    },
+    "sources": {
+      "required_types": [
+        "official_docs",
+        "standards_document",
+        "government",
+        "expert_blog"
+      ],
+      "min_quality": "B"
+    },
     "audience": "technical",
-    "special_requirements": ["4개 결정(스택/배포/모델 티어링/토큰 예산)에 근거 첨부", "executable claim은 실행 증적으로 판정", "한국어 보고서"]
+    "special_requirements": [
+      "4개 결정(스택/배포/모델 티어링/토큰 예산)에 근거 첨부",
+      "executable claim은 실행 증적으로 판정",
+      "한국어 보고서"
+    ]
   },
   "plan": {
     "subtopics": [
-      {"id": "A", "name": "OpenAI Responses API 2026 상태와 Azure APIM 프록시 제약", "priority": 1},
-      {"id": "B", "name": "LangGraph + langchain-openai Responses API·커스텀 헤더 호환, HITL interrupt, SQLite checkpointer", "priority": 1},
-      {"id": "C", "name": "무료 배포 비교: HF Spaces Docker / Render / Streamlit Cloud / Fly.io (RDKit·Streamlit)", "priority": 2},
-      {"id": "D", "name": "규제 코퍼스 원문 확보 경로와 공개 API 레이트리밋 (FDA/ICH/MFDS, openFDA/ChEMBL/CT.gov/OpenTargets)", "priority": 1},
-      {"id": "E", "name": "로컬 모델(bge-m3, bge-reranker-v2-m3, DeBERTa NLI) 8GB VRAM/CPU 조건과 한국어 NLI 대안", "priority": 2}
+      {
+        "id": "A",
+        "name": "OpenAI Responses API 2026 상태와 Azure APIM 프록시 제약",
+        "priority": 1
+      },
+      {
+        "id": "B",
+        "name": "LangGraph + langchain-openai Responses API·커스텀 헤더 호환, HITL interrupt, SQLite checkpointer",
+        "priority": 1
+      },
+      {
+        "id": "C",
+        "name": "무료 배포 비교: HF Spaces Docker / Render / Streamlit Cloud / Fly.io (RDKit·Streamlit)",
+        "priority": 2
+      },
+      {
+        "id": "D",
+        "name": "규제 코퍼스 원문 확보 경로와 공개 API 레이트리밋 (FDA/ICH/MFDS, openFDA/ChEMBL/CT.gov/OpenTargets)",
+        "priority": 1
+      },
+      {
+        "id": "E",
+        "name": "로컬 모델(bge-m3, bge-reranker-v2-m3, DeBERTa NLI) 8GB VRAM/CPU 조건과 한국어 NLI 대안",
+        "priority": 2
+      }
     ],
     "agent_assignments": [
-      {"agent": "web-searcher", "subtopic": "A"}, {"agent": "web-searcher", "subtopic": "B"}, {"agent": "web-searcher", "subtopic": "C"},
-      {"agent": "web-searcher", "subtopic": "D"}, {"agent": "web-searcher", "subtopic": "E"}
+      {
+        "agent": "web-searcher",
+        "subtopic": "A"
+      },
+      {
+        "agent": "web-searcher",
+        "subtopic": "B"
+      },
+      {
+        "agent": "web-searcher",
+        "subtopic": "C"
+      },
+      {
+        "agent": "web-searcher",
+        "subtopic": "D"
+      },
+      {
+        "agent": "web-searcher",
+        "subtopic": "E"
+      }
     ]
   },
-  "progress": {"phase_1": "completed", "phase_2": "completed", "phase_3": "in_progress", "phase_4": "pending", "phase_5": "pending", "phase_6": "pending", "phase_7": "pending"},
+  "progress": {
+    "phase_1": "completed",
+    "phase_2": "completed",
+    "phase_3": "completed",
+    "phase_4": "completed",
+    "phase_5": "completed",
+    "phase_6": "completed",
+    "phase_7": "completed"
+  },
   "phase_1_note": "스코핑은 플랜 모드에서 AskUserQuestion 2회로 완료(Astra=GPT-6, 본선 공지 확보, 배포 미정→추천, 스택 리서치 후 결정, 1인 개발, RTX4060+GitHub).",
-  "sources_count": 0,
-  "artifacts": {},
-  "errors": []
+  "sources_count": 77,
+  "artifacts": {
+    "claim_ledger": "artifacts/claim_ledger.jsonl",
+    "sources": "sources/sources.jsonl",
+    "bibliography": "sources/bibliography.md",
+    "report": "outputs/00_executive_summary.md",
+    "agent_results_note": "에이전트 A~E 원문 보고는 세션 트랜스크립트에 있으며 핵심 발견은 ledger·sources로 이관"
+  },
+  "errors": [],
+  "verification": {
+    "passed": true,
+    "signature": "59cd8d8f31e6a9cb34c60ab872ae9beb5188a19b0f3a6392a21fd06042ebfef0",
+    "verified_count": 19,
+    "unresolved_count": 8,
+    "refuted_count": 0,
+    "unresolved_ratio": 0.2963,
+    "blocked": null,
+    "checked_at": "2026-09-10T16:05:31.639900+00:00",
+    "checker": "validate_ledger.py"
+  },
+  "report_verification": {
+    "passed": true,
+    "citation_coverage": 1.0,
+    "violation_count": 0,
+    "checked_at": "2026-09-10T16:12:32.232527+00:00",
+    "checker": "verify_report.py"
+  },
+  "report_skeleton": [
+    "결론 4개 결정",
+    "본선 요건",
+    "게이트웨이·모델",
+    "규제 코퍼스",
+    "로컬 모델",
+    "다음 행동",
+    "미확정",
+    "반박",
+    "Confidence"
+  ]
 }

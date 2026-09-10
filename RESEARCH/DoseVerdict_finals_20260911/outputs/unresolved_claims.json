@@ -1,0 +1,196 @@
+[
+  {
+    "claim_id": "clm_006",
+    "text": "GPT-5.6 공개 가격(2026-08 기준)은 Sol $4/$20, Terra $2/$12, Luna $0.20/$1.20 (입력/출력 100만 토큰당)이다. 단 데이콘 게이트웨이는 달러가 아니라 토큰 수로 쿼터를 관리한다.",
+    "risk": "high",
+    "claim_type": "numeric",
+    "source_ids": [
+      "src_A12",
+      "src_A13",
+      "src_A21"
+    ],
+    "counter_search": {
+      "query": "gpt-5.6 luna price $1 per million OR price cut July 30 2026",
+      "urls": [
+        "https://simonwillison.net/2026/Jul/9/gpt-5-6/"
+      ],
+      "summary": "출시가(Luna $1/$6, Terra $2.5/$15, Sol $5/$30)와 2026-07-30 인하 후 가격이 다르다. 2차 집계 사이트 2곳이 인하 후 가격에 일치하나 OpenAI 공식 가격 페이지는 자동 조회 403이라 1차 미확인."
+    },
+    "counter_refuted": false,
+    "conflicting": true,
+    "valid_at": "2026-08-21",
+    "status": "unresolved",
+    "status_reason": "출처 간 충돌 미해소",
+    "primary_source": false
+  },
+  {
+    "claim_id": "clm_007",
+    "text": "Azure APIM의 llm-token-limit/azure-openai-token-limit 정책은 백엔드 usage 필드의 실제 토큰 수로 계량하고, rate 초과는 429·quota 초과는 403을 반환하며, 응답 헤더 이름(remaining-tokens 등)은 정책 작성자가 커스텀한다. 스트리밍 시에는 prompt·completion 토큰이 추정치로 처리된다.",
+    "risk": "high",
+    "claim_type": "descriptive",
+    "source_ids": [
+      "src_A07",
+      "src_X01"
+    ],
+    "counter_search": {
+      "query": "azure-openai-token-limit policy streaming exact token count 2026",
+      "urls": [
+        "https://learn.microsoft.com/en-us/azure/api-management/llm-token-limit-policy"
+      ],
+      "summary": "Microsoft Learn 원문과 데이콘 공지의 헤더명(x-team-*)·403/429 동작이 일치. 반증 없음."
+    },
+    "counter_refuted": false,
+    "conflicting": false,
+    "valid_at": "2026-06-26",
+    "status": "unresolved",
+    "status_reason": "high-risk인데 소스 표면(type) 1종 < 2 (다중 표면 대조 미충족)",
+    "primary_source": true
+  },
+  {
+    "claim_id": "clm_008",
+    "text": "APIM 경유 SSE 스트리밍은 forward-request 정책의 buffer-response=false가 필요하고 Azure Load Balancer의 4분 유휴 타임아웃이 적용되므로, 4분 넘게 응답이 없는 장기 추론 호출은 스트리밍 또는 짧은 요청으로 분할해야 한다.",
+    "risk": "high",
+    "claim_type": "descriptive",
+    "source_ids": [
+      "src_A08",
+      "src_A07"
+    ],
+    "counter_search": {
+      "query": "azure api management sse streaming works without buffer-response false",
+      "urls": [
+        "https://learn.microsoft.com/en-us/azure/api-management/how-to-server-sent-events"
+      ],
+      "summary": "Microsoft 공식 문서 단일 조직이지만 정책 레퍼런스(별 문서)와 SSE 가이드 2개 표면 일치. 게이트웨이 실측은 스모크 테스트에서 확인 예정."
+    },
+    "counter_refuted": false,
+    "conflicting": false,
+    "valid_at": "2026-06-25",
+    "status": "unresolved",
+    "status_reason": "독립 출처(조직) 1개 < 2",
+    "primary_source": true
+  },
+  {
+    "claim_id": "clm_014",
+    "text": "Hugging Face Spaces 무료 CPU Basic은 2 vCPU·16GB RAM·50GB 디스크이며 48시간 비활성 시 sleep 후 방문 시 자동 재시작된다. 2026-07-08 Docker/Gradio Space가 유료로 표시되는 정책 변동이 있었고 공식 문서에는 '유료 플랜 필요' 경고문이 남아 있어, 심사 기간 중 재변동 리스크가 있다.",
+    "risk": "high",
+    "claim_type": "descriptive",
+    "source_ids": [
+      "src_C01",
+      "src_C02",
+      "src_C05",
+      "src_C07"
+    ],
+    "counter_search": {
+      "query": "hugging face spaces free docker cpu basic restored 2026 september",
+      "urls": [
+        "https://discuss.huggingface.co/t/official-community-complaint-revert-free-cpu-basic-spaces-and-remove-anti-developer-sdk-restrictions/177703"
+      ],
+      "summary": "공식 문서(경고문 존재)와 포럼(롤백 정황)이 상충한다. 실제 무료 계정으로 Docker Space 생성이 되는지는 배포 시점에 실측해야 한다."
+    },
+    "counter_refuted": false,
+    "conflicting": true,
+    "valid_at": "2026-09-01",
+    "status": "unresolved",
+    "status_reason": "출처 간 충돌 미해소",
+    "primary_source": true
+  },
+  {
+    "claim_id": "clm_017",
+    "text": "FDA 최종 가이던스 'Optimizing the Dosage…Oncologic Diseases'(2024-08, Docket FDA-2022-D-2827)의 PDF 경로는 fda.gov/media/164555/download이다. 브라우저형 클라이언트(리서치 에이전트 WebFetch)에는 PDF가 정상 반환되지만 로컬 curl/httpx에는 HTTP 404 'Not found'가 반환되고, Wayback Machine에도 200 스냅샷이 없어 자동화 다운로드는 실패했다.",
+    "risk": "high",
+    "claim_type": "executable",
+    "source_ids": [
+      "src_D01",
+      "src_D02",
+      "src_D03"
+    ],
+    "counter_search": {
+      "query": "fda.gov media download 404 bot block automated curl 2026",
+      "urls": [
+        "https://www.fda.gov/media/164555/download"
+      ],
+      "summary": "에이전트 WebFetch 성공 vs 로컬 curl/httpx 404 — 클라이언트 종류에 따라 결과가 다르다."
+    },
+    "execution_proof": {
+      "script": "curl -sL -A 'Mozilla/5.0' https://www.fda.gov/media/164555/download ; httpx.get(...) with Chrome UA; web.archive.org/web/2026id_/… ; CDX API 조회",
+      "output": "curl/httpx: HTTP 404, body 'Not found'(10 bytes). Wayback 2026id_: 'Not found'. 리서치 에이전트 WebFetch: 'PDF 1.6, 311.3KB, 정상 응답'.",
+      "env": "Windows 11, curl 8.x, Python 3.13 httpx 0.28, 2026-09-11",
+      "verdict": "partial"
+    },
+    "counter_refuted": false,
+    "conflicting": true,
+    "valid_at": "2026-09-11",
+    "status": "unresolved",
+    "status_reason": "실행 검증 부분 확인 (partial) — 본문 단정 금지",
+    "primary_source": true
+  },
+  {
+    "claim_id": "clm_021",
+    "text": "CTTI AACT는 2026년에도 월간 정적 스냅샷(예: 20260619_export_ctgov.zip, 2.3GB)을 계속 발행하므로 시간 분할 후향 검증의 '원 목표 등록 인원' 복원 경로로 쓸 수 있다.",
+    "risk": "normal",
+    "claim_type": "descriptive",
+    "source_ids": [
+      "src_D31"
+    ],
+    "counter_search": {
+      "query": "AACT monthly snapshot discontinued 2026",
+      "urls": [
+        "https://aact.ctti-clinicaltrials.org/downloads/snapshots?type=flatfiles&year=2026"
+      ],
+      "summary": "CTTI 공식 페이지 단일 조직. normal 위험."
+    },
+    "counter_refuted": false,
+    "conflicting": false,
+    "valid_at": "2026-06-19",
+    "status": "unresolved",
+    "status_reason": "독립 출처(조직) 1개 < 2",
+    "primary_source": true
+  },
+  {
+    "claim_id": "clm_022",
+    "text": "예선 제안서에 적은 NLI 모델 ID 'MoritzLaurer/DeBERTa-v3-large-mnli-fever-anli'는 Hugging Face에서 404이며, 실사용 가능한 모델은 접미사 '-ling-wanli'가 붙은 버전(0.4B, MIT, 라벨 entailment/neutral/contradiction)이다.",
+    "risk": "high",
+    "claim_type": "descriptive",
+    "source_ids": [
+      "src_E17",
+      "src_E17b"
+    ],
+    "counter_search": {
+      "query": "MoritzLaurer DeBERTa-v3-large-mnli-fever-anli renamed OR deleted",
+      "urls": [
+        "https://huggingface.co/MoritzLaurer/DeBERTa-v3-large-mnli-fever-anli"
+      ],
+      "summary": "동일 조직(HF 모델 카드) 2개 표면이라 조직 독립성은 1개. Phase 1에서 실제 모델 다운로드로 실행 검증 예정."
+    },
+    "counter_refuted": false,
+    "conflicting": false,
+    "valid_at": "2026-09-11",
+    "status": "unresolved",
+    "status_reason": "독립 출처(조직) 1개 < 2",
+    "primary_source": true
+  },
+  {
+    "claim_id": "clm_024",
+    "text": "법률·규제 조항 검색에서 cross-encoder 리랭킹의 효과는 문헌상 엇갈린다(영국 제정법 조항 단위 연구는 효과 확인, 계약·판례 검색은 역효과 보고). 따라서 bge-reranker-v2-m3 사용 여부는 자체 Gold Set ablation으로 정한다.",
+    "risk": "normal",
+    "claim_type": "descriptive",
+    "source_ids": [
+      "src_E15",
+      "src_E16",
+      "src_E11"
+    ],
+    "counter_search": {
+      "query": "reranker always improves legal retrieval benchmark 2026",
+      "urls": [
+        "https://zeroentropy.dev/articles/best-reranker-legal/"
+      ],
+      "summary": "피어리뷰(효과 있음)와 업체 블로그(역효과) 상충 → 자체 ablation으로 결정."
+    },
+    "counter_refuted": false,
+    "conflicting": true,
+    "valid_at": "2026-02-01",
+    "status": "unresolved",
+    "status_reason": "출처 간 충돌 미해소",
+    "primary_source": true
+  }
+]
