@@ -50,3 +50,9 @@
 - Dockerfile(HF Spaces uid 1000·포트 7860·CPU torch)·`.dockerignore`·README 프런트매터 작성. 로컬 `docker build` 완료(3.1GB) → 컨테이너 기동 5초 만에 health 200, 인덱스(396×1024) 로드 확인. HF Spaces 계정만 있으면 배포 가능.
 - 평가 축① 생성기(`app/eval/inject.py`): 후보 규범 문장 207개(AI 가이던스·보일러플레이트 제외). 아직 미실행(Luna ~60k 토큰 예상).
 - 적대 테스트 ①(폐기 가이던스 인용, `app/demo/adversarial_superseded_guidance.md`) CLI 실행: `source_version_conflict` 이벤트 + V01 finding(현행 2024-08 최종본 기준으로 검토) 생성, finding 8건 전부 검증, 25.7k 토큰(미국 단일국·SMILES 없음 → 구조 축 '근거 미확보' 표기 확인).
+
+### 2026-09-11 (계속) — 평가 착수
+- 축① gold set: 규범 문장 140개 → Luna 합성 결함 140건(64.8k 토큰) → 범위 내 문서(FDA 용량최적화·확장코호트·식약처·ICH E4·E6R3 설계/품질)로 100건 선별 → 20케이스 × 6결함.
+- 파일럿(3케이스): 원문을 플래너·Reviewer·Findings에 전달하고 플래너 생성 검색 질의를 추가하기 전 span 0.33 → 후 0.89. grounded(정답 규범 문서 인용) 0.39. 정규식 체크리스트는 결측 술어 표면형으로 span 0.78을 내지만 grounded 0 — 그래서 grounded recall을 주 지표로 둔다.
+- 토큰: run당 64k(원문 전달로 41k→64k) → 인용 450자·원문 4,500자로 축소 후 본평가 진행. 본평가 20케이스 × (checklist·single_rag·full·no_calc·no_arena·no_verifier) 병렬 2프로세스 실행 중(`app/eval/data/results/`, 상태 전량 보존).
+- 축③ 정답(PMR 부과 여부) 31개 성분을 웹 조사 에이전트 2개에 위임(승인서한·PMR DB 기준, unknown 허용).

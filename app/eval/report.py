@@ -20,7 +20,7 @@ def boot_ci(values: list[float], n: int = 2000, seed: int = 3) -> tuple[float, f
         return (0.0, 0.0)
     rng = random.Random(seed)
     means = sorted(sum(rng.choice(values) for _ in values) / len(values) for _ in range(n))
-    return (round(means[int(0.025 * n)], 3), round(means[int(0.975 * n)] - 0.0005, 3))
+    return (round(means[int(0.025 * n)], 3), round(max(0.0, means[min(n - 1, int(0.975 * n))]), 3))
 
 
 def main() -> None:
