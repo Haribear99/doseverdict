@@ -210,6 +210,12 @@ with tabs[0]:
                 e = rs.evidence.get(eid)
                 if e:
                     st.markdown(f"- `{eid}` [{e.authority} · {e.applicability.value if e.applicability else '-'} · {e.norm_strength.value if e.norm_strength else '-'}] {e.quote[:220]}…")
+            if getattr(f, "related_evidence_ids", None):
+                st.caption("관련 조항 후보(로컬 NLI 자동 검색 · 인용 아님 · 사람 확인 필요):")
+                for eid in f.related_evidence_ids:
+                    e = rs.evidence.get(eid)
+                    if e:
+                        st.caption(f"· `{eid}` [{e.authority}] {e.quote[:160]}…")
             if f.suggested_patch:
                 st.markdown("**Patch Diff**")
                 st.markdown(diff_html(f.protocol_span.text, f.suggested_patch), unsafe_allow_html=True)

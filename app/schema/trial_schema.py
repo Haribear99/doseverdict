@@ -176,6 +176,7 @@ class Finding(BaseModel):
     evidence_fact: Optional[str] = Field(None, description="인용 근거가 무엇을 말하는가 — 근거 quote와 NLI 대조")
     span_verified: Optional[bool] = Field(None, description="protocol_span.text가 프로토콜 원문에 실제로 존재하는가(결정론)")
     evidence_ids: list[str] = Field(default_factory=list)
+    related_evidence_ids: list[str] = Field(default_factory=list, description="자동 검색(로컬 NLI)이 같은 규범으로 제안한 다른 문서의 조항 — 인용이 아니라 사람 검토용 후보")
     reviewer_positions: list[ReviewerPosition] = Field(default_factory=list)
     conflict_unresolved: bool = Field(False, description="Reviewer 간 상충이 남아 있으면 True — 합의를 강제하지 않는다")
     suggested_patch: Optional[str] = None

@@ -125,16 +125,38 @@ def _norm(t: str) -> str:
     return re.sub(r"[^0-9a-z가-힣%]", "", (t or "").lower())
 
 
+_STOP = set("the a an of to in for and or on by with that this is are be as at from should must may can will not its their which were was".split())
+
+
+def _content_terms(t: str) -> set[str]:
+    return {w for w in re.findall(r"[a-z가-힣][a-z0-9가-힣-]{2,}", (t or "").lower()) if w not in _STOP}
+
+
+def _lexical_overlap(fact: str, quote: str) -> float:
+    """사실의 내용어 중 인용문에 실제로 등장하는 비율 — NLI 거짓 양성(일반 서술 조항이 구체 규범을 '함의'한다고 나오는 경우) 차단용."""
+    ft = _content_terms(fact)
+    return (len(ft & _content_terms(quote)) / len(ft)) if ft else 0.0
+
+
+def _same_lang(a: str, b: str) -> bool:
+    ka = sum("가" <= ch <= "힣" for ch in a) > 0.2 * max(1, len(a))
+    kb = sum("가" <= ch <= "힣" for ch in b) > 0.2 * max(1, len(b))
+    return ka == kb
+
+
 def _support_score(v) -> float:
     if v.nli is not None:
         return float(v.nli.scores.get("entailment", v.nli.scores.get("overlap", 0.0)))
     return 1.0 if v.status == "verified" else 0.0
 
 
-def reselect_evidence(state: ReviewState, k_per_doc: int = 3, min_support: float = 0.9, max_cocite: int = 3) -> int:
+def reselect_evidence(state: ReviewState, k_per_doc: int = 3, min_support: float = 0.9, max_cocite: int = 3, min_overlap: float = 0.5) -> int:
     """근거 재선택·공동 인용(LLM 호출 없음). 각 finding의 evidence_fact로 코퍼스를 다시 검색해
     (1) 이미 인용한 근거보다 더 강하게 함의하는 현행 조항이 있으면 첫 근거로 두고,
-    (2) 같은 규범을 말하는 **다른 문서**의 조항을 검증기가 통과시키면(entail ≥ 0.7) 최대 max_cocite건을 공동 인용으로 덧붙인다(같은 규범의 KR/US/ICH 병기).
+    (2) 같은 규범을 말하는 **다른 문서**의 조항을 최대 max_cocite건 `related_evidence_ids`(사람 검토용 후보)에 넣는다 — 인용(evidence_ids)에는 넣지 않는다.
+        두 규칙 모두 조건: NLI 함의 ≥ min_support(0.9) **그리고** 사실의 내용어 ≥ min_overlap(50%)이 인용문에 실재 **그리고** 같은 언어.
+        2026-09-11 실험: 검증기 임계값(0.7)로 자동 공동 인용하면 grounded recall이 0.36→0.61로 오르지만 표본 검사에서 오인용이 다수(일반 서술 조항이 구체 규범을
+        '함의'한다는 NLI 거짓 양성, 영↔한 교차) → 자동 인용은 채택하지 않고 후보 제안으로만 둔다.
     후보는 현행 문서마다 상위 k_per_doc건씩 뽑는다(전체 상위 k만 보면 큰 문서가 후보를 독식한다 — 진단: 실패 67건 중 약 40건은 정답 문서에 함의 조항이 있었다).
     본평가에서 grounded 실패 67건이 전부 '자매 문서 인용'이었던 데 대한 대응. hold-out·폐기 문서·목차 제외. 반환: 추가 건수."""
     from app.agents.nodes import _ev
@@ -173,7 +195,10 @@ def reselect_evidence(state: ReviewState, k_per_doc: int = 3, min_support: float
             s = _support_score(v)
             if v.status != "verified":
                 continue
-            if s > best and best < min_support:              # (1) 더 강한 근거로 교체
+            guarded = _same_lang(ef, h["text"]) and _lexical_overlap(ef, h["text"]) >= min_overlap and not h["text"].lstrip().startswith("등록번호")
+            if not guarded:
+                continue
+            if s > best and best < min_support and s >= min_support:   # (1) 더 강한 근거로 교체(가드 통과 + 0.9 이상만)
                 eid = _register(h, doc)
                 if eid in f.evidence_ids:
                     f.evidence_ids.remove(eid)
@@ -181,13 +206,12 @@ def reselect_evidence(state: ReviewState, k_per_doc: int = 3, min_support: float
                 cited_titles.add(doc.title)
                 best = s
                 n_added += 1
-            elif doc.title not in cited_titles and n_co < max_cocite:   # (2) 다른 문서의 동일 규범 공동 인용 — 검증기가 통과시키는 조항(entail ≥ 0.7)이면 인용
+            elif doc.title not in cited_titles and n_co < max_cocite and s >= min_support:   # (2) 다른 문서의 동일 규범 — 후보 제안만
                 eid = _register(h, doc)
-                if eid not in f.evidence_ids:
-                    f.evidence_ids.append(eid)
+                if eid not in f.related_evidence_ids and eid not in f.evidence_ids:
+                    f.related_evidence_ids.append(eid)
                 cited_titles.add(doc.title)
                 n_co += 1
-                n_added += 1
     return n_added
 
 
