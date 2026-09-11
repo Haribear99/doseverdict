@@ -10,6 +10,19 @@
 | no_calc | 20 | 0.875 [0.82, 0.93] | 0.879 | 0.425 [0.33, 0.52] | 0.421 | 0.554 | 0.808 | 53,545 | 195 |
 | no_arena | 20 | 0.958 [0.93, 0.98] | 0.962 | 0.383 [0.30, 0.47] | 0.386 | 0.550 | 0.883 | 29,799 | 144 |
 | no_verifier | 20 | 0.958 [0.92, 0.99] | 0.962 | 0.400 [0.33, 0.48] | 0.402 | 0.525 | 1.000 | 57,791 | 206 |
+| lean | 20 | 0.950 [0.91, 0.98] | 0.956 | 0.408 [0.33, 0.47] | 0.414 | 0.577 | 0.925 | 44,291 | 157 |
+
+## 사후 재채점 실험 (저장 상태 + 로컬 NLI 근거 재선택, LLM 재호출 없음 — 채택안은 `_final`; 나머지는 기각·참고)
+
+| 설정 | grounded recall [CI] | 검증 통과율 | 근거 추가 | 비고 |
+|---|---|---|---|---|
+| full_cocite | 0.383 [0.28, 0.48] | 0.930 | 38 | 사후 재채점: 저장 상태 + reselect_evidence + verify_findings(재작성 없음) |
+| full_cocite2 | 0.608 [0.53, 0.70] | 0.963 | 285 | 사후 재채점: 저장 상태 + reselect_evidence + verify_findings(재작성 없음) |
+| full_cocite3 | 0.408 [0.32, 0.50] | 0.948 | 50 | 사후 재채점: 저장 상태 + reselect_evidence + verify_findings(재작성 없음) |
+| full_final | 0.367 [0.27, 0.47] | 0.898 | 8 | 사후 재채점: 저장 상태 + reselect_evidence + verify_findings(재작성 없음) |
+| full_rerank | 0.367 [0.27, 0.47] | 0.930 | 20 | 사후 재채점: 저장 상태 + reselect_evidence + verify_findings(재작성 없음) |
+| no_arena_cocite | 0.425 [0.33, 0.52] | 0.928 | 43 | 사후 재채점: 저장 상태 + reselect_evidence + verify_findings(재작성 없음) |
+| no_arena_rerank | 0.400 [0.32, 0.48] | 0.928 | 20 | 사후 재채점: 저장 상태 + reselect_evidence + verify_findings(재작성 없음) |
 
 ## Ablation 기여도 (full 대비 grounded weighted recall 차이)
 

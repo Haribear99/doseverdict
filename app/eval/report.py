@@ -11,7 +11,7 @@ from pathlib import Path
 
 from app.eval.run_eval import OUT
 
-CONFIGS = ["checklist", "single_rag", "full", "no_calc", "no_arena", "no_verifier"]
+CONFIGS = ["checklist", "single_rag", "full", "no_calc", "no_arena", "no_verifier", "lean"]
 METRICS = ["recall", "weighted_recall", "grounded_recall", "grounded_weighted_recall", "precision_proxy", "verified_rate", "tokens", "elapsed_s"]
 
 
@@ -34,13 +34,21 @@ def main() -> None:
              "지표 정의: span recall = 주입 문장을 finding이 가리킴(어휘). grounded recall = 그 finding이 정답 규범 문서를 인용했거나 근거 사실이 원문과 겹침. "
              "가중 = critical 4·high 3·medium 2·low 1. precision proxy = 적중 finding / 전체 finding(정상판에 대한 지적은 '무관'으로 세므로 하한). 95% CI는 케이스 단위 부트스트랩(2,000회).", "",
              "| 설정 | n | span recall [CI] | 가중 span | grounded recall [CI] | 가중 grounded | precision | 검증 통과율 | 토큰/케이스 | 초/케이스 |", "|---|---|---|---|---|---|---|---|---|---|"]
-    for c, r in res.items():
+    main_rows = {c: r for c, r in res.items() if "note" not in r}
+    exp_rows = {c: r for c, r in res.items() if "note" in r}
+    for c, r in main_rows.items():
         rows = r["rows"]
         rec = [x["recall"] for x in rows]; grec = [x.get("grounded_recall", 0) for x in rows]
         ci1, ci2 = boot_ci(rec), boot_ci(grec)
         a = r["aggregate"]
         lines.append(f"| {c} | {len(rows)} | {a['recall']:.3f} [{ci1[0]:.2f}, {ci1[1]:.2f}] | {a['weighted_recall']:.3f} | {a.get('grounded_recall', 0):.3f} [{ci2[0]:.2f}, {ci2[1]:.2f}] | "
                      f"{a.get('grounded_weighted_recall', 0):.3f} | {a['precision_proxy']:.3f} | {a.get('verified_rate', 0):.3f} | {a['tokens']:,.0f} | {a['elapsed_s']:.0f} |")
+    if exp_rows:
+        lines += ["", "## 사후 재채점 실험 (저장 상태 + 로컬 NLI 근거 재선택, LLM 재호출 없음 — 채택안은 `_final`; 나머지는 기각·참고)", "",
+                  "| 설정 | grounded recall [CI] | 검증 통과율 | 근거 추가 | 비고 |", "|---|---|---|---|---|"]
+        for c, r in exp_rows.items():
+            a = r["aggregate"]; ci = boot_ci([x.get("grounded_recall", 0) for x in r["rows"]])
+            lines.append(f"| {c} | {a.get('grounded_recall', 0):.3f} [{ci[0]:.2f}, {ci[1]:.2f}] | {a.get('verified_rate', 0):.3f} | {a.get('n_reselected', 0)} | {r.get('note', '')[:60]} |")
     if "full" in res:
         lines += ["", "## Ablation 기여도 (full 대비 grounded weighted recall 차이)", "", "| 제거한 구성요소 | 설정 | Δ grounded w-recall | Δ 검증 통과율 | Δ 토큰 |", "|---|---|---|---|---|"]
         f = res["full"]["aggregate"]
