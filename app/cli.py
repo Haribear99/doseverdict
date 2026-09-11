@@ -45,6 +45,8 @@ def main(argv: list[str] | None = None) -> int:
     print(f"\nrun {st.run_id} · status {st.terminal_status} · tokens {st.budget.used_tokens:,} · tools {st.budget.used_tool_calls} · findings {len(st.findings)}")
     for f in st.findings:
         print(f"  {f.finding_id} [{f.severity.value}] {f.verdict}/{f.verifier_status} — {f.claim[:120]}")
+    slow = sorted(st.tool_log, key=lambda c: -(c.latency_s or 0))[:6]
+    print("  tool latency: " + ", ".join(f"{c.tool} {c.latency_s:.1f}s" for c in slow), file=sys.stderr)
     return 0
 
 

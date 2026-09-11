@@ -240,9 +240,10 @@ def verify_findings(state: ReviewState) -> list[dict[str, Any]]:
             f.span_verified = bool(pieces) and all(_norm(x) in raw_norm for x in pieces)
         # 1) 프로토콜 사실 — 생략/결측 주장은 NLI가 못 잡으므로 문자열 대조 + NLI + 결측 술어 중 하나면 인정(단 span은 실재해야 함)
         prem = _protocol_premise(state, f)
-        v_p = verify_claim(pf, prem, norm_strength=None)
-        p_ok = (f.span_verified is not False) and (v_p.status == "verified" or string_support(prem, pf, min_overlap=0.4).label == "entailment" or any(
-            w in pf.lower() for w in ("does not", "do not", "no ", "lacks", "omits", "not specif", "without", "only", "solely", "없다", "않는다", "미기재")))
+        # 값싼 검사(결측 술어·문자열 대조)를 먼저, NLI는 그것들이 실패할 때만 — CPU 배포본에서 NLI 1쌍 ≈ 2~3초
+        cheap_ok = string_support(prem, pf, min_overlap=0.4).label == "entailment" or any(
+            w in pf.lower() for w in ("does not", "do not", "no ", "lacks", "omits", "not specif", "without", "only", "solely", "없다", "않는다", "미기재"))
+        p_ok = (f.span_verified is not False) and (cheap_ok or verify_claim(pf, prem, norm_strength=None).status == "verified")
         # 2) 근거 사실 — 인용 근거 중 하나라도 함의하면 통과, 규범 강도 위반이면 즉시 기각
         e_status, e_note = "held", "근거 사실 미검증"
         if not ef:
