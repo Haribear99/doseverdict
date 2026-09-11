@@ -28,7 +28,15 @@ def main(argv: list[str] | None = None) -> int:
     from app.agents.graph import resume_with_decision, run_until_gate
     text = Path(a.path).read_text(encoding="utf-8")
     os.environ["DV_RUN_TOKEN_BUDGET"] = str(a.budget)
-    graph, config, st = run_until_gate(text, on_step=lambda n, u: print(f"  · {n}", file=sys.stderr))
+    import time
+    t_start = time.perf_counter(); t_last = [t_start]
+
+    def _step(n, u):   # 노드별 소요시간(누적) — 배포 환경(CPU) 병목 진단용
+        now = time.perf_counter()
+        print(f"  · {n}  +{now - t_last[0]:.1f}s  (총 {now - t_start:.1f}s)", file=sys.stderr)
+        t_last[0] = now
+
+    graph, config, st = run_until_gate(text, on_step=_step)
     if a.approve_all:
         st = resume_with_decision(graph, config, {f.finding_id: "approved" for f in st.findings if f.verifier_status == "verified"}, a.approver)
     out = st.model_dump(mode="json")
