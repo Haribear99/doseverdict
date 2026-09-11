@@ -120,10 +120,24 @@ def node_arena(state: ReviewState) -> dict[str, Any]:
     return {"scratch": state.scratch, "budget": state.budget}
 
 
+def _rerank_enabled() -> bool:
+    """근거 재선택은 NLI 수십~수백 쌍을 돌린다. GPU면 수 초, CPU(배포본)면 수 분이라 기본값 'auto'는 CUDA가 있을 때만 켠다. '1'은 강제, '0'은 끔."""
+    v = os.getenv("DV_EVIDENCE_RERANK", "auto").lower()
+    if v in ("0", "off", "false"):
+        return False
+    if v in ("1", "on", "true", "force"):
+        return True
+    try:
+        import torch
+        return bool(torch.cuda.is_available())
+    except Exception:  # noqa: BLE001
+        return False
+
+
 def node_findings(state: ReviewState) -> dict[str, Any]:
     meta = draft_findings(gateway(), state, purpose=f"{state.run_id}:findings")
     _add_tokens(state, meta)
-    if os.getenv("DV_EVIDENCE_RERANK", "1") == "1" and "no_rerank" not in state.scratch.get("ablate", []):
+    if _rerank_enabled() and "no_rerank" not in state.scratch.get("ablate", []):
         n = reselect_evidence(state)   # 로컬 NLI 재검색 — 토큰 0
         if n:
             state.replan_events.append({"trigger": "evidence_reselected", "n": n, "action": "evidence_fact를 더 강하게 함의하는 현행 조항을 근거로 추가"})

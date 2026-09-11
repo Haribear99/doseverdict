@@ -102,6 +102,12 @@ with st.sidebar:
     three = st.checkbox("Reviewer 3인(규제·시험기관·환자) — 토큰 약 2배", value=False,
                         help="기본은 규제 Reviewer 1인. 본평가에서 3인은 토큰 48%를 쓰고 규범 결함 탐지 기여가 측정되지 않았다.")
     run = st.button("🔍 검토 실행", type="primary", disabled=not text.strip(), use_container_width=True)
+    cached_path = (ROOT / "app/demo/results" / f"demo{demo_idx + 1}.json") if src == "예시 프로토콜" else None
+    show_cached = st.button("⚡ 저장된 결과 즉시 보기 (LLM 호출 없음)", disabled=not (cached_path and cached_path.exists()), use_container_width=True,
+                            help="같은 예시를 기본 설정으로 실행해 둔 결과(app/demo/results). 배포본(CPU)에서 3분을 기다리지 않아도 된다. 실행 방법 ③.")
+    if qp.get("cached") == "1" and cached_path and cached_path.exists() and st.session_state.get("review") is None and not st.session_state.get("cached_done"):
+        st.session_state["cached_done"] = True
+        show_cached = True
     if qp.get("autorun") == "1" and text.strip() and st.session_state.get("review") is None and not st.session_state.get("autorun_done"):
         st.session_state["autorun_done"] = True
         run = True
@@ -112,6 +118,12 @@ with st.sidebar:
 
 # ----------------------------------------------------------------- run
 top = st.container()
+if show_cached and cached_path:
+    rs0 = ReviewState.model_validate_json(cached_path.read_text(encoding="utf-8"))
+    st.session_state.update({"events": [f"저장된 실행 결과 로드 — run_id `{rs0.run_id}`, {rs0.budget.used_tokens:,} 토큰, 도구 {rs0.budget.used_tool_calls}회 (LLM 재호출 없음)"]
+                             + [f"재계획 이벤트: {e}" for e in rs0.replan_events[:6]],
+                             "done": set(NODES[:NODES.index("gate")]), "current": "gate", "review": rs0, "graph": None, "config": None, "run_started": time.perf_counter()})
+    run = False
 graph_box = top.empty()
 timeline = st.container()
 
@@ -214,7 +226,9 @@ with tabs[1]:
         for f in rs.findings:
             default = 0 if f.verifier_status == "verified" else 2
             decisions[f.finding_id] = st.radio(f"{f.finding_id} · {f.claim[:90]}", ["approved", "rejected", "on_hold"], index=default, horizontal=True, key=f"dec_{f.finding_id}")
-        if st.button("승인 확정 → 감사로그 기록", type="primary"):
+        if st.session_state.get("graph") is None:
+            st.info("저장된 결과 보기 모드 — 승인은 라이브 실행에서만 감사로그에 기록됩니다.")
+        if st.button("승인 확정 → 감사로그 기록", type="primary", disabled=st.session_state.get("graph") is None):
             rs2 = resume_with_decision(st.session_state.graph, st.session_state.config, decisions, approver)
             st.session_state.review = rs2
             st.session_state.done.update({"gate", "finalize"}); st.session_state.current = None

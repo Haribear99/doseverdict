@@ -131,14 +131,15 @@ def _support_score(v) -> float:
     return 1.0 if v.status == "verified" else 0.0
 
 
-def reselect_evidence(state: ReviewState, k: int = 6, min_support: float = 0.9, max_cocite: int = 2) -> int:
+def reselect_evidence(state: ReviewState, k_per_doc: int = 3, min_support: float = 0.9, max_cocite: int = 3) -> int:
     """근거 재선택·공동 인용(LLM 호출 없음). 각 finding의 evidence_fact로 코퍼스를 다시 검색해
     (1) 이미 인용한 근거보다 더 강하게 함의하는 현행 조항이 있으면 첫 근거로 두고,
-    (2) 같은 규범을 말하는 **다른 문서**의 조항이 함의 ≥ min_support면 최대 max_cocite건을 공동 인용으로 덧붙인다(같은 규범의 KR/US/ICH 병기).
+    (2) 같은 규범을 말하는 **다른 문서**의 조항을 검증기가 통과시키면(entail ≥ 0.7) 최대 max_cocite건을 공동 인용으로 덧붙인다(같은 규범의 KR/US/ICH 병기).
+    후보는 현행 문서마다 상위 k_per_doc건씩 뽑는다(전체 상위 k만 보면 큰 문서가 후보를 독식한다 — 진단: 실패 67건 중 약 40건은 정답 문서에 함의 조항이 있었다).
     본평가에서 grounded 실패 67건이 전부 '자매 문서 인용'이었던 데 대한 대응. hold-out·폐기 문서·목차 제외. 반환: 추가 건수."""
     from app.agents.nodes import _ev
     from app.corpus.index import CorpusIndex
-    from app.corpus.manifest import by_id
+    from app.corpus.manifest import DOCS, by_id
     idx = CorpusIndex.get()
     holdout = set(state.scratch.get("holdout_chunk_ids", []))
     by_key = {_norm((e.quote or "")[:200]): e.evidence_id for e in state.evidence.values() if e.kind == "regulatory_clause"}
@@ -161,12 +162,13 @@ def reselect_evidence(state: ReviewState, k: int = 6, min_support: float = 0.9, 
             best = max(best, _support_score(verify_claim(ef, e.quote or "", norm_strength=e.norm_strength.value if e.norm_strength else None)))
         cited_titles = {state.evidence[eid].document_title for eid in f.evidence_ids}
         n_co = 0
-        for h in idx.search(ef, k=k):
-            if h["chunk_id"] in holdout or "....." in h["text"]:
+        candidates = []
+        for d in DOCS:
+            if d.superseded_by:
                 continue
+            candidates += [h for h in idx.search(ef, k=k_per_doc, doc_ids=[d.doc_id]) if h["chunk_id"] not in holdout and "....." not in h["text"]]
+        for h in candidates:
             doc = by_id(h["doc_id"])
-            if doc.superseded_by:
-                continue
             v = verify_claim(ef, h["text"], norm_strength=h["norm_strength"])
             s = _support_score(v)
             if v.status != "verified":
@@ -179,7 +181,7 @@ def reselect_evidence(state: ReviewState, k: int = 6, min_support: float = 0.9, 
                 cited_titles.add(doc.title)
                 best = s
                 n_added += 1
-            elif s >= min_support and doc.title not in cited_titles and n_co < max_cocite:   # (2) 다른 문서의 동일 규범 공동 인용
+            elif doc.title not in cited_titles and n_co < max_cocite:   # (2) 다른 문서의 동일 규범 공동 인용 — 검증기가 통과시키는 조항(entail ≥ 0.7)이면 인용
                 eid = _register(h, doc)
                 if eid not in f.evidence_ids:
                     f.evidence_ids.append(eid)
