@@ -83,6 +83,33 @@ def string_support(evidence_quote: str, claim: str, min_overlap: float = 0.6) ->
     return NLIResult(label, {"overlap": round(ratio, 3)}, "string_match")  # type: ignore[arg-type]
 
 
+_SENT_SPLIT = re.compile(r"(?<=[.!?。])\s+|\n+|(?<=다\.)\s*")
+
+
+def focus_window(evidence_quote: str, claim: str, max_chars: int = 600) -> str:
+    """긴 인용문에서 주장과 어휘가 가장 많이 겹치는 문장 창(≤ max_chars)을 고른다 — CPU에서 NLI 비용은 전제 길이의 제곱에 가깝고,
+    함의를 지탱하는 문장은 보통 한두 문장이다. 창에서 함의가 안 나오면 호출부가 전문으로 되돌린다."""
+    if len(evidence_quote) <= max_chars:
+        return evidence_quote
+    sents = [x.strip() for x in _SENT_SPLIT.split(evidence_quote) if x and x.strip()]
+    if len(sents) <= 1:
+        return evidence_quote[:max_chars]
+    terms = {w for w in re.findall(r"[a-z가-힣][a-z0-9가-힣-]{2,}", claim.lower())}
+    scored = [(len(terms & set(re.findall(r"[a-z가-힣][a-z0-9가-힣-]{2,}", x.lower()))), i) for i, x in enumerate(sents)]
+    best = max(scored)[1]
+    win = [sents[best]]
+    lo, hi = best, best
+    while True:                      # 최고 문장을 중심으로 양옆 확장
+        grown = False
+        if lo > 0 and len(" ".join([sents[lo - 1]] + win)) <= max_chars:
+            lo -= 1; win.insert(0, sents[lo]); grown = True
+        if hi < len(sents) - 1 and len(" ".join(win + [sents[hi + 1]])) <= max_chars:
+            hi += 1; win.append(sents[hi]); grown = True
+        if not grown:
+            break
+    return " ".join(win)[:max_chars]
+
+
 def verify_claim(claim: str, evidence_quote: str, norm_strength: str | None = None,
                  evidence_effective_date: str | None = None, superseded: bool = False,
                  entail_threshold: float = 0.7) -> Verdict:
@@ -99,9 +126,16 @@ def verify_claim(claim: str, evidence_quote: str, norm_strength: str | None = No
         if res.label == "entailment":
             return Verdict("verified", f"문자열 대조 overlap={res.scores['overlap']}", res)
         return Verdict("held", f"한국어 근거 문자열 대조 미달(overlap={res.scores['overlap']}) — 원문 발췌 재확인 또는 기계번역 후 NLI", res)
-    res = nli(evidence_quote, strip_attribution(claim), multilingual=_is_korean(evidence_quote) != _is_korean(claim))
+    hyp = strip_attribution(claim)
+    multi = _is_korean(evidence_quote) != _is_korean(claim)
+    win = focus_window(evidence_quote, claim)
+    res = nli(win, hyp, multilingual=multi)
     if res.label == "entailment" and res.scores["entailment"] >= entail_threshold:
-        return Verdict("verified", f"NLI entailment={res.scores['entailment']:.2f}", res)
+        return Verdict("verified", f"NLI entailment={res.scores['entailment']:.2f}" + (" (창)" if win != evidence_quote else ""), res)
+    if win != evidence_quote:        # 창에서 함의가 안 나오면 전문으로 재판정(정확도 우선)
+        res = nli(evidence_quote, hyp, multilingual=multi)
+        if res.label == "entailment" and res.scores["entailment"] >= entail_threshold:
+            return Verdict("verified", f"NLI entailment={res.scores['entailment']:.2f}", res)
     if res.label == "contradiction":
         return Verdict("rejected", f"NLI contradiction={res.scores['contradiction']:.2f}", res)
     return Verdict("held", f"NLI 불충분 label={res.label} entail={res.scores.get('entailment', 0):.2f}", res)
