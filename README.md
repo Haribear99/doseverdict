@@ -36,6 +36,13 @@ uv venv --python 3.13 .venv && uv pip install --python .venv/Scripts/python.exe 
 .venv/Scripts/python.exe -m streamlit run app/ui/main.py
 ```
 
+## 배포 (Hugging Face Spaces, Docker SDK)
+
+1. Space 생성: **Docker** SDK, CPU basic(무료). 이 저장소를 Space의 git 원격으로 푸시하면 `Dockerfile`로 빌드된다(포트 7860, 이 README 프런트매터가 Space 설정).
+2. **Settings → Variables and secrets**에 `OPENAI_API_KEY`(팀 키, Secret)와 `OPENAI_BASE_URL`(데이콘 게이트웨이, Variable)을 넣는다. 키는 저장소 어디에도 두지 않는다.
+3. 선택 변수: `DV_REVIEWERS`(기본 `regulatory`), `DV_EVIDENCE_RERANK`(기본 `auto` = GPU에서만), `DV_RUN_TOKEN_BUDGET`(기본 150000), `OPENFDA_API_KEY`.
+4. CPU 배포본의 라이브 검토는 로컬 모델(bge-m3 질의 임베딩·DeBERTa NLI) 때문에 **5~10분**이 걸린다. 심사·시연은 **저장 결과 즉시 보기**(`?demo=N&cached=1`)를 기본 동선으로 하고, 라이브 실행은 대기 가능한 경우에만 쓴다. 기동 시 모델을 예열하므로 첫 요청 이후에는 로드 시간이 빠진다.
+
 ## 구조
 `app/llm`(게이트웨이·감사로그) · `app/schema`(Trial Schema·상태) · `app/agents`(Compiler·Planner·도구 노드·Reviewer·Findings·Verifier·LangGraph) ·
 `app/tools`(RDKit·ChEMBL·openFDA·Open Targets·시뮬·CT.gov) · `app/corpus`(규제 PDF 7종·절 청킹·bge-m3+BM25) · `app/verify`(NLI) · `app/ui`(Streamlit) · `app/eval`(평가셋)
