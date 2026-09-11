@@ -99,3 +99,4 @@
 - 오프라인 검색 벤치(결함 문장 100건 → 출처 청크): BM25만 recall@1/3/5 = 0.24/0.37/0.42(3 ms), 하이브리드 0.22/0.39/0.46(505 ms, CPU), dense만 0.22/0.34/0.37. dense 이득은 recall@5 +4%p. 예열 후 질의당 0.5초라 하이브리드 유지, 로드 비용만 예열로 제거.
 - **컨테이너 느림의 진짜 원인**: 이미지에 모델이 없어 `docker run`마다 bge-m3(2.2GB)·DeBERTa(1.7GB)·mDeBERTa를 HF Hub에서 내려받고 있었다(첫 corpus.search 164초, verify 176초의 대부분). Dockerfile에 빌드 시 `snapshot_download` 3종 추가.
 - 검증기 전제 창 선택(`focus_window`): 인용문이 600자를 넘으면 주장과 어휘가 가장 겹치는 문장 창만 NLI 전제로 쓰고, 함의가 안 나오면 전문으로 재판정. lean 사후 재채점: grounded 0.408 동일, 검증 통과율 0.925→0.954(전제가 짧고 초점이 맞아 함의가 안정). CPU에서는 전제 길이 제곱에 비례하는 NLI 비용도 준다.
+- **모델 내장 이미지 CPU e2e(예시 ①, CLI, 예열 없음)**: compile 26s / plan 32s / tools 50s(첫 corpus.search 30s = bge-m3 로드) / arena 18s / findings 29s / verify 34s = **3.1분**(종전 9.4분). Streamlit은 기동 시 예열하므로 라이브 검토 약 2.5분 예상(HF 무료 2 vCPU는 더 느릴 수 있음). 전체 다운로드+chown 중복으로 41GB가 됐던 이미지는 필요 형식만(bge-m3 bin, DeBERTa safetensors)·USER user 이후 다운로드로 정리.
