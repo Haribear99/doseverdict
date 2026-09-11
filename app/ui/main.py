@@ -99,6 +99,8 @@ with st.sidebar:
         if up:
             text = up.read().decode("utf-8", errors="replace")
     budget = st.number_input("run 토큰 상한", 20000, 300000, int(os.getenv("DV_RUN_TOKEN_BUDGET", "150000")), step=10000)
+    three = st.checkbox("Reviewer 3인(규제·시험기관·환자) — 토큰 약 2배", value=False,
+                        help="기본은 규제 Reviewer 1인. 본평가에서 3인은 토큰 48%를 쓰고 규범 결함 탐지 기여가 측정되지 않았다.")
     run = st.button("🔍 검토 실행", type="primary", disabled=not text.strip(), use_container_width=True)
     if qp.get("autorun") == "1" and text.strip() and st.session_state.get("review") is None and not st.session_state.get("autorun_done"):
         st.session_state["autorun_done"] = True
@@ -134,7 +136,8 @@ if run:
             msg += f" — 도구 호출 {len(upd.get('tool_log', []))}회, 근거 {len(upd.get('evidence', {}))}건"
         if node == "findings":
             fs = upd.get("findings", [])
-            msg += f" — finding {len(fs)}건" + (" · **🛑 기권(TCR 지표 의존)**" if any(getattr(f, 'verdict', '') == 'abstain' for f in fs) else "")
+            rs_ev = [e for e in upd.get("replan_events", []) if e.get("trigger") == "evidence_reselected"]
+            msg += f" — finding {len(fs)}건" + (f" · 🔎 근거 재선택 {rs_ev[0]['n']}건(로컬 NLI)" if rs_ev else "") + (" · **🛑 기권(TCR 지표 의존)**" if any(getattr(f, 'verdict', '') == 'abstain' for f in fs) else "")
         if node == "verify":
             fs = upd.get("findings", [])
             rej = [f.finding_id for f in fs if f.verifier_status == "rejected"]
@@ -147,7 +150,7 @@ if run:
 
     graph_box.graphviz_chart(graph_dot("compile", set()), use_container_width=True)
     try:
-        g, cfg, rs = run_until_gate(text, on_step=on_step)
+        g, cfg, rs = run_until_gate(text, on_step=on_step, reviewers=["regulatory", "site", "patient"] if three else ["regulatory"])
         st.session_state.update({"graph": g, "config": cfg, "review": rs, "current": "gate"})
         status.update(label=f"Human Gate 대기 — {rs.budget.used_tokens:,} 토큰, 도구 {rs.budget.used_tool_calls}회", state="complete", expanded=False)
     except Exception as e:  # noqa: BLE001
@@ -157,7 +160,7 @@ if run:
 rs: ReviewState | None = st.session_state.review
 if rs is None and not run:
     graph_box.graphviz_chart(graph_dot(None, set()), use_container_width=True)
-    st.info("왼쪽에서 예시 프로토콜을 고르고 **검토 실행**을 누르세요. 약 3분이 걸리고 30~40k 토큰을 씁니다.")
+    st.info("왼쪽에서 예시 프로토콜을 고르고 **검토 실행**을 누르세요. 약 3분이 걸리고 25~35k 토큰을 씁니다(Reviewer 3인 옵션 시 약 2배).")
     st.stop()
 if rs is None:
     st.stop()

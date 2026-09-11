@@ -24,7 +24,7 @@ from langgraph.graph import END, START, StateGraph
 from langgraph.types import Command, interrupt
 
 from app.agents.compiler import compile_protocol
-from app.agents.findings import draft_findings, rewrite_rejected, verify_findings
+from app.agents.findings import draft_findings, rewrite_rejected, verify_findings, reselect_evidence
 from app.agents.nodes import execute_tasks
 from app.agents.planner import build_task_dag, plan_questions
 from app.agents.reviewers import run_arena
@@ -123,7 +123,11 @@ def node_arena(state: ReviewState) -> dict[str, Any]:
 def node_findings(state: ReviewState) -> dict[str, Any]:
     meta = draft_findings(gateway(), state, purpose=f"{state.run_id}:findings")
     _add_tokens(state, meta)
-    return {"findings": state.findings, "budget": state.budget, "scratch": state.scratch}
+    if os.getenv("DV_EVIDENCE_RERANK", "1") == "1" and "no_rerank" not in state.scratch.get("ablate", []):
+        n = reselect_evidence(state)   # 로컬 NLI 재검색 — 토큰 0
+        if n:
+            state.replan_events.append({"trigger": "evidence_reselected", "n": n, "action": "evidence_fact를 더 강하게 함의하는 현행 조항을 근거로 추가"})
+    return {"findings": state.findings, "evidence": state.evidence, "budget": state.budget, "scratch": state.scratch, "replan_events": state.replan_events}
 
 
 def node_verify(state: ReviewState) -> dict[str, Any]:
@@ -216,7 +220,8 @@ def sqlite_checkpointer(path: str | None = None) -> SqliteSaver:
 
 
 def run_until_gate(protocol_text: str, *, run_id: str | None = None, checkpointer=None, on_step=None, precompiled=None,
-                   ablate: list[str] | None = None, holdout_chunk_ids: list[str] | None = None) -> tuple[Any, dict[str, Any], ReviewState]:
+                   ablate: list[str] | None = None, holdout_chunk_ids: list[str] | None = None,
+                   reviewers: list[str] | None = None) -> tuple[Any, dict[str, Any], ReviewState]:
     """그래프를 Human Gate까지 실행. 반환: (graph, config, 현재 상태). on_step(node_name, state_dict)로 UI 갱신.
     precompiled=TrialSchema면 compile 생략. ablate=['no_calc','no_arena','no_verifier'] 평가용. holdout_chunk_ids는 검색에서 제외(누수 차단)."""
     graph = build_graph(checkpointer)
@@ -228,6 +233,8 @@ def run_until_gate(protocol_text: str, *, run_id: str | None = None, checkpointe
         state.scratch["ablate"] = list(ablate)
     if holdout_chunk_ids:
         state.scratch["holdout_chunk_ids"] = list(holdout_chunk_ids)
+    if reviewers:
+        state.scratch["reviewers"] = list(reviewers)
     config = {"configurable": {"thread_id": state.run_id}}
     for chunk in graph.stream(state, config, stream_mode="updates"):
         for node, upd in chunk.items():

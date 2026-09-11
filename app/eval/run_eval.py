@@ -127,6 +127,12 @@ def score_case(case: dict, finding_texts: list[str], n_findings: int, finding_do
             "n_findings": n_findings, "precision_proxy": round(sum(hit) / n_findings, 3) if n_findings else 0.0}
 
 
+_THREE = ["regulatory", "site", "patient"]
+# (ablate, reviewers). full·ablation 3종은 2026-09-11 본평가 조건(Reviewer 3인, 재선택 없음)을 보존한다. lean = 기본 배포 설정(규제 1인 + 근거 재선택).
+_GRAPH_CONFIGS = {"full": (["no_rerank"], _THREE), "no_calc": (["no_calc", "no_rerank"], _THREE), "no_arena": (["no_arena", "no_rerank"], _THREE),
+                  "no_verifier": (["no_verifier", "no_rerank"], _THREE), "lean": ([], ["regulatory"]), "lean_no_rerank": (["no_rerank"], ["regulatory"])}
+
+
 def evaluate(config: str, cases: list[dict], gc=None, resume: bool = False) -> dict[str, Any]:
     from app.agents.graph import run_until_gate
     rows = []
@@ -145,14 +151,14 @@ def evaluate(config: str, cases: list[dict], gc=None, resume: bool = False) -> d
             from app.corpus.manifest import DOCS
             from app.schema.trial_schema import ReviewState
             title2id = {d.title: d.doc_id for d in DOCS}
-            ablate = {"full": [], "no_calc": ["no_calc"], "no_arena": ["no_arena"], "no_verifier": ["no_verifier"]}[config]
+            ablate, reviewers = _GRAPH_CONFIGS[config]
             sdir = OUT / "states" / config
             sdir.mkdir(parents=True, exist_ok=True)   # 상태 전량 보존 → LLM 재실행 없이 재채점·실패 사례 갤러리 생성
             spath = sdir / f"{c['case_id']}.json"
             if resume and spath.exists():             # --resume: 완료된 케이스는 상태 파일로 재채점(LLM 재호출 없음)
                 st = ReviewState.model_validate_json(spath.read_text(encoding="utf-8"))
             else:
-                _, _, st = run_until_gate(c["synopsis"], run_id=f"eval-{config}-{c['case_id']}", ablate=ablate, holdout_chunk_ids=c.get("holdout_chunk_ids"))
+                _, _, st = run_until_gate(c["synopsis"], run_id=f"eval-{config}-{c['case_id']}", ablate=ablate, holdout_chunk_ids=c.get("holdout_chunk_ids"), reviewers=reviewers)
                 spath.write_text(st.model_dump_json(indent=1), encoding="utf-8")
             elapsed_audit = elapsed_from_audit(f"eval-{config}-{c['case_id']}")
             fs = st.findings

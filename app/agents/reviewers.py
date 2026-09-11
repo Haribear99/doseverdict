@@ -9,6 +9,7 @@ Adversarial Review Arena — 규제 / 시험기관 / 환자 부담 Reviewer 3인
 from __future__ import annotations
 
 import json
+import os
 from typing import Any
 
 from app.llm.client import GatewayClient
@@ -66,11 +67,22 @@ def _ctx(state: ReviewState, role: str, evs: list[Evidence]) -> str:
     return json.dumps(base, ensure_ascii=False)
 
 
+ROLES = ("regulatory", "site", "patient")
+
+
+def reviewer_roles(state: ReviewState) -> list[str]:
+    """실행할 Reviewer. state.scratch['reviewers'] > 환경변수 DV_REVIEWERS > 기본 'regulatory'.
+    본평가(2026-09-11)에서 3인은 토큰 48%를 쓰고 축① 기여가 측정되지 않아 기본값을 규제 1인으로 둔다. 3인은 UI 옵션·DV_REVIEWERS=regulatory,site,patient."""
+    raw = state.scratch.get("reviewers") or os.getenv("DV_REVIEWERS", "regulatory")
+    roles = [r.strip() for r in (raw if isinstance(raw, list) else raw.split(",")) if r.strip() in ROLES]
+    return roles or ["regulatory"]
+
+
 def run_arena(gc: GatewayClient, state: ReviewState, purpose: str = "reviewer") -> dict[str, Any]:
     parts = _partition(state)
     usage: dict[str, Any] = {}
     positions: dict[str, list[ReviewerPosition]] = {}
-    for role in ("regulatory", "site", "patient"):
+    for role in reviewer_roles(state):
         resp, rec = gc.respond("reviewer", _ctx(state, role, parts[role]), instructions=_ROLE_INSTR[role] + _COMMON, text_format=_SCHEMA,
                                reasoning_effort="low", max_output_tokens=2500, purpose=f"{purpose}_{role}")
         usage[role] = rec.usage

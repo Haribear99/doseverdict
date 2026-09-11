@@ -25,7 +25,8 @@ def boot_ci(values: list[float], n: int = 2000, seed: int = 3) -> tuple[float, f
 
 def main() -> None:
     res = {}
-    for c in CONFIGS:
+    extra = sorted(p.stem for p in OUT.glob("*.json") if p.stem not in CONFIGS and not p.stem.startswith("summary"))
+    for c in CONFIGS + extra:
         p = OUT / f"{c}.json"
         if p.exists():
             res[c] = json.load(p.open(encoding="utf-8"))
