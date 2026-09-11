@@ -52,6 +52,12 @@ def _pipeline(model_name: str):
     import torch
     from transformers import pipeline
     device = 0 if torch.cuda.is_available() and os.getenv("DV_NLI_DEVICE", "auto") != "cpu" else -1
+    if device == -1:
+        # CPU: transformers 5의 기본 dtype(auto→bf16)은 CPU에서 매우 느리다(대형 20 s/쌍). float32로 강제하고, 선택적으로 int8 동적 양자화.
+        pipe = pipeline("text-classification", model=model_name, device=-1, top_k=None, dtype=torch.float32)
+        if os.getenv("DV_NLI_CPU_INT8", "0") == "1":   # 기본 끔 — 2026-09-11 벤치에서 int8 동적 양자화는 판정 일치율 4/40(대형)·3/40(base)로 사용 불가
+            pipe.model = torch.quantization.quantize_dynamic(pipe.model, {torch.nn.Linear}, dtype=torch.qint8)
+        return pipe
     return pipeline("text-classification", model=model_name, device=device, top_k=None)
 
 

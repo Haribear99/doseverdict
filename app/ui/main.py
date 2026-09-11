@@ -37,6 +37,19 @@ NODE_LABEL = {"compile": "Protocol\nCompiler", "plan": "Orchestrator\n(과제 DA
 st.set_page_config(page_title="DoseVerdict", page_icon="⚖️", layout="wide")
 
 
+@st.cache_resource(show_spinner="로컬 모델 예열 중(코퍼스 인덱스·NLI) — 최초 1회")
+def _warm_models() -> bool:
+    """컨테이너 기동 후 첫 검토가 모델 로드 시간(CPU에서 수십 초)을 물지 않도록 프로세스당 1회 미리 올린다."""
+    from app.corpus.index import CorpusIndex
+    from app.verify.nli import NLI_MODEL_EN, _pipeline
+    CorpusIndex.get()
+    _pipeline(NLI_MODEL_EN)
+    return True
+
+
+_warm_models()
+
+
 # ----------------------------------------------------------------- helpers
 def graph_dot(current: str | None, done: set[str]) -> str:
     lines = ['digraph G { rankdir=LR; node [shape=box, style="rounded,filled", fontname="Helvetica", fontsize=10];']
