@@ -94,3 +94,16 @@ def test_invariants_hold_llm_tcr_claims_and_abstain_on_conflict():
 
 def test_abstain_always_has_reason():
     assert _finding("F09", "c", verdict="abstain").abstain_reason
+
+
+def test_topic_filter_moves_gcp_clause_off_dose_finding():
+    from app.agents.findings import _topic_filter
+    from app.schema.trial_schema import Evidence, ReviewState
+    st = ReviewState(run_id="t", raw_protocol_text="")
+    st.evidence = {
+        "ev1": Evidence(evidence_id="ev1", kind="regulatory_clause", document_title="ICH E6(R3) Good Clinical Practice — Principles and Annex 1"),
+        "ev2": Evidence(evidence_id="ev2", kind="regulatory_clause", document_title="ICH E4 Dose-Response Information to Support Drug Registration"),
+        "ev3": Evidence(evidence_id="ev3", kind="calculation"),
+    }
+    assert _topic_filter(st, "dose_optimization", ["ev1", "ev2", "ev3"]) == (["ev2", "ev3"], ["ev1"])
+    assert _topic_filter(st, "endpoint_ctq", ["ev1"]) == (["ev1"], [])      # CTQ finding은 GCP 조항 인용 허용

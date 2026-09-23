@@ -133,7 +133,7 @@ _GRAPH_CONFIGS = {"full": (["no_rerank"], _THREE), "no_calc": (["no_calc", "no_r
                   "no_verifier": (["no_verifier", "no_rerank"], _THREE), "lean": ([], ["regulatory"]), "lean_no_rerank": (["no_rerank"], ["regulatory"])}
 
 
-def evaluate(config: str, cases: list[dict], gc=None, resume: bool = False) -> dict[str, Any]:
+def evaluate(config: str, cases: list[dict], gc=None, resume: bool = False, suffix: str = "") -> dict[str, Any]:
     from app.agents.graph import run_until_gate
     rows = []
     for c in cases:
@@ -152,29 +152,32 @@ def evaluate(config: str, cases: list[dict], gc=None, resume: bool = False) -> d
             from app.schema.trial_schema import ReviewState
             title2id = {d.title: d.doc_id for d in DOCS}
             ablate, reviewers = _GRAPH_CONFIGS[config]
-            sdir = OUT / "states" / config
+            sdir = OUT / "states" / f"{config}{suffix}"   # suffix: 기준선 상태를 덮어쓰지 않는 별도 실행
             sdir.mkdir(parents=True, exist_ok=True)   # 상태 전량 보존 → LLM 재실행 없이 재채점·실패 사례 갤러리 생성
             spath = sdir / f"{c['case_id']}.json"
             if resume and spath.exists():             # --resume: 완료된 케이스는 상태 파일로 재채점(LLM 재호출 없음)
                 st = ReviewState.model_validate_json(spath.read_text(encoding="utf-8"))
             else:
-                _, _, st = run_until_gate(c["synopsis"], run_id=f"eval-{config}-{c['case_id']}", ablate=ablate, holdout_chunk_ids=c.get("holdout_chunk_ids"), reviewers=reviewers)
+                _, _, st = run_until_gate(c["synopsis"], run_id=f"eval-{config}{suffix}-{c['case_id']}", ablate=ablate, holdout_chunk_ids=c.get("holdout_chunk_ids"), reviewers=reviewers)
                 spath.write_text(st.model_dump_json(indent=1), encoding="utf-8")
-            elapsed_audit = elapsed_from_audit(f"eval-{config}-{c['case_id']}")
+            elapsed_audit = elapsed_from_audit(f"eval-{config}{suffix}-{c['case_id']}")
             fs = st.findings
             texts = [f"{f.protocol_span.text} {f.protocol_fact or ''} {f.evidence_fact or ''}" for f in fs]
             docs = [{title2id.get(st.evidence[e].document_title or "", "") for e in f.evidence_ids if e in st.evidence} for f in fs]
             tokens = st.budget.used_tokens
             verified_rate = round(sum(1 for f in fs if f.verifier_status == "verified") / max(1, len(fs)), 3)
+            n_fail = len(st.scratch.get("llm_failures", []))
         elapsed = round(time.perf_counter() - t0, 1)
         if config not in ("checklist", "single_rag") and elapsed_audit is not None:
             elapsed = elapsed_audit                   # 그래프 설정은 감사로그 기준(첫 호출 시작~마지막 호출 응답)으로 통일 — --resume 재채점 케이스도 같은 정의
-        row = {"case_id": c["case_id"], "config": config, "tokens": tokens, "elapsed_s": elapsed, "verified_rate": verified_rate} | score_case(c, texts, len(fs), docs or None)
+        row = {"case_id": c["case_id"], "config": config + suffix, "tokens": tokens, "elapsed_s": elapsed, "verified_rate": verified_rate} | score_case(c, texts, len(fs), docs or None)
+        if config not in ("checklist", "single_rag"):
+            row["llm_failures"] = n_fail
         rows.append(row)
         print(json.dumps(row, ensure_ascii=False))
     agg = {k: round(sum(r[k] for r in rows) / len(rows), 3) for k in ("recall", "weighted_recall", "grounded_recall", "grounded_weighted_recall", "precision_proxy", "tokens", "elapsed_s")}
     agg["verified_rate"] = round(sum(r["verified_rate"] or 0 for r in rows) / len(rows), 3)
-    return {"config": config, "n_cases": len(rows), "aggregate": agg, "rows": rows, "at": datetime.now(timezone.utc).isoformat()}
+    return {"config": config + suffix, "n_cases": len(rows), "aggregate": agg, "rows": rows, "at": datetime.now(timezone.utc).isoformat()}
 
 
 def elapsed_from_audit(run_id: str) -> float | None:
@@ -205,6 +208,7 @@ def main() -> None:
     ap.add_argument("--gold", default=str(DATA / "gold_axis1.jsonl"))
     ap.add_argument("--tag", default="", help="summary 파일 접미사(병렬 실행 시 충돌 방지)")
     ap.add_argument("--resume", action="store_true", help="상태 파일이 있는 케이스는 재실행하지 않고 재채점")
+    ap.add_argument("--suffix", default="", help="결과·상태·run_id 접미사(예: _d3) — 기준선 결과를 덮어쓰지 않는다")
     a = ap.parse_args()
     cases = [json.loads(l) for l in Path(a.gold).read_text(encoding="utf-8").splitlines() if l.strip()][: a.limit]
     OUT.mkdir(parents=True, exist_ok=True)
@@ -214,9 +218,9 @@ def main() -> None:
         gc = GatewayClient(audit_path="logs/eval_runs.jsonl")
     summary = []
     for cfg in a.configs.split(","):
-        res = evaluate(cfg.strip(), cases, gc, resume=a.resume)
-        (OUT / f"{cfg.strip()}.json").write_text(json.dumps(res, ensure_ascii=False, indent=2), encoding="utf-8")
-        summary.append({"config": cfg.strip(), **res["aggregate"], "n": res["n_cases"]})
+        res = evaluate(cfg.strip(), cases, gc, resume=a.resume, suffix=a.suffix)
+        (OUT / f"{cfg.strip()}{a.suffix}.json").write_text(json.dumps(res, ensure_ascii=False, indent=2), encoding="utf-8")
+        summary.append({"config": cfg.strip() + a.suffix, **res["aggregate"], "n": res["n_cases"]})
     print("\n| config | n | recall | weighted_recall | precision_proxy | verified | tokens/case | s/case |")
     print("|---|---|---|---|---|---|---|---|")
     for s in summary:
