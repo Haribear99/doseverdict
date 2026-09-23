@@ -31,6 +31,11 @@ class _Positions(BaseModel):
     positions: list[_Position] = Field(default_factory=list)
 
 
+def quote_chars() -> int:
+    """LLM에 넘기는 근거 인용문 길이(기본 450자). 케이스당 토큰의 70~80%가 입력이라(docs/token_ledger.md) 입력 축소 A/B용 스위치(DV_QUOTE_CHARS)."""
+    return int(os.getenv("DV_QUOTE_CHARS", "450"))
+
+
 def strict_draft() -> bool:
     """reviewers·findings의 strict 적용은 A/B 전까지 스위치(DV_STRICT_DRAFT=1)로만 켠다."""
     return os.getenv("DV_STRICT_DRAFT", "0").lower() in ("1", "true", "on")
@@ -74,7 +79,7 @@ def _ctx(state: ReviewState, role: str, evs: list[Evidence]) -> str:
     if role == "site":
         base["eligibility"] = state.trial.design.eligibility.model_dump(exclude_none=True)
     base["evidence"] = [{"id": e.evidence_id, "kind": e.kind, "authority": e.authority, "section": e.section, "applicability": e.applicability,
-                         "norm_strength": e.norm_strength, "quote": (e.quote or "")[:450]} for e in evs]   # 판단용 요약 인용(검증기는 전문 사용)
+                         "norm_strength": e.norm_strength, "quote": (e.quote or "")[:quote_chars()]} for e in evs]   # 판단용 요약 인용(검증기는 전문 사용)
     base["unavailable_axes"] = state.unavailable_axes
     base["protocol_text"] = (state.raw_protocol_text or "")[:4500]
     return json.dumps(base, ensure_ascii=False)
