@@ -70,3 +70,27 @@ def test_persistent_failure_returns_none_and_is_recorded():
     scratch = {}
     record_failure(scratch, "rewrite", meta)
     assert scratch["llm_failures"][0]["node"] == "rewrite"
+
+
+def _finding(fid, claim, **kw):
+    from app.schema.trial_schema import Finding, ProtocolSpan, Severity
+    return Finding(finding_id=fid, category="dose_optimization", severity=Severity.high, protocol_span=ProtocolSpan(text="x"), claim=claim, **kw)
+
+
+def test_invariants_hold_llm_tcr_claims_and_abstain_on_conflict():
+    from app.agents.findings import enforce_invariants
+    from app.schema.trial_schema import ReviewState
+    st = ReviewState(run_id="t", raw_protocol_text="")
+    st.findings = [_finding("F01", "The target coverage ratio at 240 mg is adequate.", verifier_status="verified"),
+                   _finding("F02", "The protocol lacks exposure metrics.", verifier_status="verified", conflict_unresolved=True),
+                   _finding("F00", "TCR abstain (tool)", verdict="abstain", verifier_status="verified")]
+    ev = enforce_invariants(st)
+    f1, f2, f0 = st.findings
+    assert f1.verifier_status == "held" and f2.verifier_status == "verified"
+    assert f2.verdict == "abstain" and f2.abstain_reason
+    assert f0.verifier_status == "verified"            # 도구 finding은 건드리지 않는다
+    assert {e["trigger"] for e in ev} == {"invariant_tcr_claim", "invariant_conflict_abstain"}
+
+
+def test_abstain_always_has_reason():
+    assert _finding("F09", "c", verdict="abstain").abstain_reason

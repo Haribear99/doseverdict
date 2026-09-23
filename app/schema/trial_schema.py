@@ -10,7 +10,7 @@ from datetime import datetime
 from enum import Enum
 from typing import Any, Literal, Optional
 
-from pydantic import BaseModel, Field, field_validator
+from pydantic import BaseModel, Field, field_validator, model_validator
 
 
 # ----------------------------------------------------------------- 기본 열거형
@@ -204,6 +204,13 @@ class Finding(BaseModel):
     verifier_status: Literal["pending", "verified", "rejected", "held"] = "pending"
     verifier_note: Optional[str] = None
     human_status: HumanStatus = HumanStatus.pending
+
+    @model_validator(mode="after")
+    def _abstain_needs_reason(self) -> "Finding":
+        """기권은 사유 없이 존재할 수 없다 — 사유가 비면 기본 사유를 채워 화면·보고서에서 '빈 기권'이 보이지 않게 한다."""
+        if self.verdict == "abstain" and not self.abstain_reason:
+            self.abstain_reason = "근거 불충분 — 결론 보류"
+        return self
 
 
 # ----------------------------------------------------------------- 오케스트레이션 상태

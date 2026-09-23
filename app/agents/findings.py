@@ -282,6 +282,31 @@ def verify_findings(state: ReviewState) -> list[dict[str, Any]]:
             f.verifier_status, f.verifier_note = "held", (("span 원문 불일치; " if f.span_verified is False else "protocol_fact 미확인; ") if not p_ok else "") + e_note
         if f.verifier_status != "verified":
             events.append({"trigger": "citation_rejected" if f.verifier_status == "rejected" else "citation_held", "finding_id": f.finding_id, "reason": f.verifier_note})
+    events.extend(enforce_invariants(state))
+    return events
+
+
+# LLM finding이 표적 커버(TCR) 판정을 주장하면 보류 — 그 판정은 계산 도구만 낸다(F00). 프롬프트 규칙만으로는 막지 못하므로 결정론으로 강제한다.
+_TCR_CLAIM = re.compile(r"(target[- ]coverage|coverage ratio|\bTCR\b|타깃\s?커버|표적\s?커버|표적\s?포화)", re.I)
+
+
+def enforce_invariants(state: ReviewState) -> list[dict[str, Any]]:
+    """검증 뒤에 적용하는 결정론 불변식(fail-closed). 반환: 재계획 이벤트.
+
+    ① LLM finding이 TCR 판정을 담으면 held — 약리 지표는 도구가 세 기준으로만 낸다(프로젝트 규칙).
+    ② Reviewer 간 심각도 차이 ≥2(conflict_unresolved)면 verdict=abstain — 합의를 강제하지 않고 결론을 보류한다.
+    """
+    events = []
+    for f in state.findings:
+        if f.finding_id == "F00" or f.finding_id.startswith("V"):
+            continue
+        text = " ".join(x for x in (f.claim, f.protocol_fact, f.evidence_fact) if x)
+        if _TCR_CLAIM.search(text) and f.verifier_status != "rejected":
+            f.verifier_status, f.verifier_note = "held", "불변식: TCR 판정은 계산 도구(F00)만 낸다 — LLM finding의 커버 판정 보류"
+            events.append({"trigger": "invariant_tcr_claim", "finding_id": f.finding_id})
+        if f.conflict_unresolved and f.verdict == "defect":
+            f.verdict, f.abstain_reason = "abstain", "Reviewer 간 심각도 차이 ≥2 — 결론 보류, 사람 검토"
+            events.append({"trigger": "invariant_conflict_abstain", "finding_id": f.finding_id})
     return events
 
 
