@@ -1,0 +1,43 @@
+{
+  "generated_at": "2026-09-23T05:27:53.404548+00:00",
+  "drug": "sotorasib (LUMAKRAS)",
+  "inputs": {
+    "cl_f_L_per_hr": 26.2,
+    "t_half_hr": 5.0,
+    "fu": 0.11,
+    "ic50_nM": 30.0,
+    "ic50_basis": "ChEMBL 세포 기반 중앙값",
+    "mw": 560.605,
+    "tau_hr": 24.0
+  },
+  "sources": {
+    "label_url": "https://api.fda.gov/drug/label.json?search=openfda.brand_name:\"LUMAKRAS\"",
+    "label_effective_time": "20250122",
+    "label_section": "12.3 Pharmacokinetics",
+    "label_quote": "Sotorasib exhibited non-linear, time-dependent, pharmacokinetics over the dose range of 180 mg to 960 mg (0.19 to 1 time the approved recommended dosage) once daily with similar systemic exposure (i.e., AUC 0-24h and C max ) across doses at steady state.",
+    "inputs_from": "app/demo/results/demo1.json scratch.label_pk / scratch.chembl"
+  },
+  "rows": [
+    {
+      "assumption": "(가) 선형 CL/F",
+      "dose_mg": 240,
+      "exposure_input_dose_mg": 240,
+      "TCR_max": 8.615,
+      "TCR_avg": 2.4964,
+      "TCR_trough": 0.3093,
+      "verdict": "abstain_metric_dependent"
+    },
+    {
+      "assumption": "(나) 노출 유사(라벨 12.3)",
+      "dose_mg": 240,
+      "exposure_input_dose_mg": 960,
+      "TCR_max": 34.4601,
+      "TCR_avg": 9.9856,
+      "TCR_trough": 1.237,
+      "verdict": "covered"
+    }
+  ],
+  "overall": "abstain_assumption_dependent",
+  "overall_reason": "PK 가정에 따라 판정이 달라짐 — 240 mg 결론을 만들지 않고 용량군별 반복투여 PK를 요청한다",
+  "thresholds_note": "TCR<1 미커버 / >10 포화 의심 — 본 프로젝트 잠정 기준(문헌값 아님)"
+}
