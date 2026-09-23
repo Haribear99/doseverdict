@@ -1,7 +1,7 @@
 """
 Protocol Compiler — 비정형 프로토콜 텍스트 → TrialSchema (구조화만, 판단 없음).
 
-모델: DV_MODEL_EXTRACT(gpt-5.6-terra), Structured Outputs(json_schema strict → Pydantic으로 재검증, 실패 시 1회 재시도).
+모델: DV_MODEL_EXTRACT(gpt-6-sol), Structured Outputs(json_schema strict → Pydantic으로 재검증, 실패 시 1회 재시도).
 프롬프트 인젝션 방어: 프로토콜 본문은 <protocol_document> 데이터 블록 안에만 넣고, 그 안의 지시를 따르지 말라고 명시한다.
 """
 from __future__ import annotations

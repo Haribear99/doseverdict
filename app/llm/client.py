@@ -17,7 +17,7 @@ from pathlib import Path
 from typing import Any
 
 from dotenv import load_dotenv
-from openai import APIStatusError, OpenAI, RateLimitError
+from openai import APIConnectionError, APIStatusError, APITimeoutError, OpenAI, RateLimitError
 
 load_dotenv()
 
@@ -28,9 +28,9 @@ ROLE_ENV = {
     "bulk": "DV_MODEL_BULK",
 }
 DEFAULT_MODELS = {
-    "planner": "gpt-5.6-sol",
-    "reviewer": "gpt-5.6-sol",
-    "extract": "gpt-5.6-terra",
+    "planner": "gpt-6-sol",   # 09-24 A/B 60케이스: grounded +0.072 유의, 토큰 −7%, 시간 −49%
+    "reviewer": "gpt-6-sol",
+    "extract": "gpt-6-sol",
     "bulk": "gpt-5.6-luna",
 }
 QUOTA_HEADERS = (
@@ -86,6 +86,7 @@ class GatewayClient:
             api_key=api_key,
             default_headers={"api-key": api_key},  # 게이트웨이는 api-key 헤더로 인증한다
             max_retries=0,  # 재시도는 여기서 직접 제어(403은 재시도 금지)
+            timeout=float(os.getenv("DV_LLM_TIMEOUT", "180")),  # SDK 기본 600초는 게이트웨이가 응답을 끌 때 실행 전체를 붙잡는다(09-24 평가 13분 정지)
         )
         self.audit_path = Path(audit_path or os.getenv("DV_AUDIT_LOG", "logs/llm_calls.jsonl"))
         self.audit_path.parent.mkdir(parents=True, exist_ok=True)
@@ -143,6 +144,12 @@ class GatewayClient:
                 )
                 self._log(rec)
                 return resp, rec
+            except (APITimeoutError, APIConnectionError) as e:   # 응답 지연·연결 끊김 — 같은 본문으로 백오프 재시도
+                self._log(self._err_rec(role, model, purpose, prompt_hash, 0, t0, f"{type(e).__name__}: {e}"))
+                if attempt == self.max_retries:
+                    raise
+                time.sleep(delay)
+                delay *= 2
             except RateLimitError as e:  # 429
                 self._log(self._err_rec(role, model, purpose, prompt_hash, 429, t0, str(e)))
                 if attempt == self.max_retries:

@@ -126,7 +126,7 @@ with st.sidebar:
         run = True
     st.divider()
     st.markdown("**모델**  \n" + "  \n".join(f"`{r}` → `{os.getenv(e, d)}`" for r, e, d in
-                                          [("planner", "DV_MODEL_PLANNER", "gpt-5.6-sol"), ("reviewer", "DV_MODEL_REVIEWER", "gpt-5.6-sol"), ("extract", "DV_MODEL_EXTRACT", "gpt-5.6-terra")]))
+                                          [("planner", "DV_MODEL_PLANNER", "gpt-6-sol"), ("reviewer", "DV_MODEL_REVIEWER", "gpt-6-sol"), ("extract", "DV_MODEL_EXTRACT", "gpt-6-sol")]))
     st.caption("판정 권한: 계산·규칙은 도구, 최종 승인은 사람. LLM은 구조화·가설·문장 초안만.")
 
 # ----------------------------------------------------------------- run

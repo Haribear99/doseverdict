@@ -1,4 +1,4 @@
-# 수치 원천표 (자동 생성 2026-09-23 23:15, `python -m app.eval.numbers`)
+# 수치 원천표 (자동 생성 2026-09-24 01:13, `python -m app.eval.numbers`)
 
 제출물(기술서·발표·영상·README·데모 화면)의 모든 수치는 이 표에서만 가져온다. 점추정 간 차이는 n=20에서 대부분 신뢰구간이 겹친다 — 유의 여부는 `python -m app.eval.compare`로 확인한 것만 주장한다.
 
@@ -19,6 +19,7 @@
 | lean_c6sol | A/B: compile gpt-6-sol | 원 20(AX1-001~020) | 20 | 0.950 | 0.450 [0.367, 0.533] | 0.957 | 47,099 | 0 | `app/eval/data/results/lean_c6sol.json` |
 | lean_g6all | A/B: 전 노드 gpt-6-sol | 원 20(AX1-001~020) | 20 | 0.975 | 0.500 [0.417, 0.583] | 0.969 | 43,734 | 0 | `app/eval/data/results/lean_g6all.json` |
 | lean_d3ext | 09-23 새 코드, 확장 세트 | 확장 40(AX1-021~060) | 40 | 0.871 | 0.513 [0.462, 0.563] | 0.947 | 47,162 | 0 | `app/eval/data/results/lean_d3ext.json` |
+| lean_g6allext | 전 노드 gpt-6-sol, 확장 세트 | 확장 40(AX1-021~060) | 40 | 0.896 | 0.563 [0.500, 0.629] | 0.956 | 44,433 | 0 | `app/eval/data/results/lean_g6allext.json` |
 
 ## 2. 소토라십 240 mg TCR (`evidence/tcr_240mg.json`)
 
@@ -33,6 +34,6 @@
 
 - 쿼터: 총 6,000만(09-22 공지). 09-23 13:45 헤더 잔여 59,999,986. 과금 = usage.total_tokens 1:1(모델별 가중치 없음, reasoning 포함).
 - 캐시: gpt-6-luna 적중 2,780토큰에도 차감 2,788 → 캐시 절감 0(⑩-b).
-- 모델: gpt-5.6-sol/terra/luna, gpt-6-sol/luna 200 / gpt-6-astra 404(09-11·09-23).
+- 모델: gpt-5.6-sol/terra/luna, gpt-6-sol/luna 200 / gpt-6-astra 404(09-11·09-23). 기본값은 09-24부터 planner·reviewer·extract 모두 gpt-6-sol.
 - 토큰 구성: 케이스당 reasoning 3.7~4.9%, 입력 약 70~80%(`docs/token_ledger.md`).
 

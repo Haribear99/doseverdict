@@ -45,7 +45,7 @@ def main() -> None:
         ("lean_d3", "09-23 새 코드 기준선(구조화 출력 경화·불변식·범주 필터)"), ("lean_cnone", "A/B: compile effort none"),
         ("lean_strict", "A/B: reviewers·findings strict"), ("lean_q250", "A/B: 근거 인용문 250자"), ("lean_notopic", "A/B: 주제 태그 프롬프트 제거"),
         ("lean_c6sol", "A/B: compile gpt-6-sol"), ("lean_g6all", "A/B: 전 노드 gpt-6-sol"), ("lean_combo", "최종 후보 결합 설정"),
-        ("lean_d3ext", "09-23 새 코드, 확장 세트"), ("lean_comboext", "최종 후보, 확장 세트"),
+        ("lean_d3ext", "09-23 새 코드, 확장 세트"), ("lean_g6allext", "전 노드 gpt-6-sol, 확장 세트"), ("lean_comboext", "최종 후보, 확장 세트"),
     ]
     tcr = json.loads((ROOT / "evidence" / "tcr_240mg.json").read_text(encoding="utf-8"))
     lines = [f"# 수치 원천표 (자동 생성 {datetime.now():%Y-%m-%d %H:%M}, `python -m app.eval.numbers`)", "",
@@ -59,7 +59,7 @@ def main() -> None:
               "## 3. 게이트웨이 실측 (`docs/gateway_probe.md`)", "",
               "- 쿼터: 총 6,000만(09-22 공지). 09-23 13:45 헤더 잔여 59,999,986. 과금 = usage.total_tokens 1:1(모델별 가중치 없음, reasoning 포함).",
               "- 캐시: gpt-6-luna 적중 2,780토큰에도 차감 2,788 → 캐시 절감 0(⑩-b).",
-              "- 모델: gpt-5.6-sol/terra/luna, gpt-6-sol/luna 200 / gpt-6-astra 404(09-11·09-23).",
+              "- 모델: gpt-5.6-sol/terra/luna, gpt-6-sol/luna 200 / gpt-6-astra 404(09-11·09-23). 기본값은 09-24부터 planner·reviewer·extract 모두 gpt-6-sol.",
               "- 토큰 구성: 케이스당 reasoning 3.7~4.9%, 입력 약 70~80%(`docs/token_ledger.md`).", ""]
     (ROOT / "docs" / "numbers.md").write_text("\n".join(lines) + "\n", encoding="utf-8")
     print("\n".join(lines))

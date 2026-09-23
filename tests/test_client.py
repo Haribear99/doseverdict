@@ -11,7 +11,7 @@ def test_model_for_reads_env(monkeypatch):
     monkeypatch.setenv("DV_MODEL_PLANNER", "gpt-6-astra")
     assert c.model_for("planner") == "gpt-6-astra"
     monkeypatch.delenv("DV_MODEL_PLANNER")
-    assert c.model_for("planner") == "gpt-5.6-sol"
+    assert c.model_for("planner") == "gpt-6-sol"
     assert c.model_for("bulk") == "gpt-5.6-luna"
 
 
