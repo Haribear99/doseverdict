@@ -1,4 +1,4 @@
-# 수치 원천표 (자동 생성 2026-09-23 22:28, `python -m app.eval.numbers`)
+# 수치 원천표 (자동 생성 2026-09-23 23:15, `python -m app.eval.numbers`)
 
 제출물(기술서·발표·영상·README·데모 화면)의 모든 수치는 이 표에서만 가져온다. 점추정 간 차이는 n=20에서 대부분 신뢰구간이 겹친다 — 유의 여부는 `python -m app.eval.compare`로 확인한 것만 주장한다.
 
@@ -17,6 +17,7 @@
 | lean_q250 | A/B: 근거 인용문 250자 | 원 20(AX1-001~020) | 20 | 0.950 | 0.383 [0.308, 0.458] | 0.954 | 44,197 | 0 | `app/eval/data/results/lean_q250.json` |
 | lean_notopic | A/B: 주제 태그 프롬프트 제거 | 원 20(AX1-001~020) | 20 | 0.950 | 0.400 [0.317, 0.483] | 0.911 | 46,419 | 0 | `app/eval/data/results/lean_notopic.json` |
 | lean_c6sol | A/B: compile gpt-6-sol | 원 20(AX1-001~020) | 20 | 0.950 | 0.450 [0.367, 0.533] | 0.957 | 47,099 | 0 | `app/eval/data/results/lean_c6sol.json` |
+| lean_g6all | A/B: 전 노드 gpt-6-sol | 원 20(AX1-001~020) | 20 | 0.975 | 0.500 [0.417, 0.583] | 0.969 | 43,734 | 0 | `app/eval/data/results/lean_g6all.json` |
 | lean_d3ext | 09-23 새 코드, 확장 세트 | 확장 40(AX1-021~060) | 40 | 0.871 | 0.513 [0.462, 0.563] | 0.947 | 47,162 | 0 | `app/eval/data/results/lean_d3ext.json` |
 
 ## 2. 소토라십 240 mg TCR (`evidence/tcr_240mg.json`)
