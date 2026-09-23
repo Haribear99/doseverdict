@@ -100,3 +100,49 @@
 - **컨테이너 느림의 진짜 원인**: 이미지에 모델이 없어 `docker run`마다 bge-m3(2.2GB)·DeBERTa(1.7GB)·mDeBERTa를 HF Hub에서 내려받고 있었다(첫 corpus.search 164초, verify 176초의 대부분). Dockerfile에 빌드 시 `snapshot_download` 3종 추가.
 - 검증기 전제 창 선택(`focus_window`): 인용문이 600자를 넘으면 주장과 어휘가 가장 겹치는 문장 창만 NLI 전제로 쓰고, 함의가 안 나오면 전문으로 재판정. lean 사후 재채점: grounded 0.408 동일, 검증 통과율 0.925→0.954(전제가 짧고 초점이 맞아 함의가 안정). CPU에서는 전제 길이 제곱에 비례하는 NLI 비용도 준다.
 - **모델 내장 이미지 CPU e2e(예시 ①, CLI, 예열 없음)**: compile 26s / plan 32s / tools 50s(첫 corpus.search 30s = bge-m3 로드) / arena 18s / findings 29s / verify 34s = **3.1분**(종전 9.4분). Streamlit은 기동 시 예열하므로 라이브 검토 약 2.5분 예상(HF 무료 2 vCPU는 더 느릴 수 있음). 전체 다운로드+chown 중복으로 41GB가 됐던 이미지는 필요 형식만(bge-m3 bin, DeBERTa safetensors)·USER user 이후 다운로드로 정리.
+
+### 2026-09-23 — 추가 토큰 3,000만(총 6,000만)·GPT-6 실측·리서치 반영 개발
+
+**게이트웨이 실측**(`docs/gateway_probe.md` ⑧~⑫)
+- gpt-6-astra: 5개 이름 모두 여전히 404(09-11과 같음). OpenAI 문서상 Astra는 effort none을 받지 않는다(HTTP 400).
+- **gpt-6-sol과 gpt-6-luna는 200으로 응답한다**(09-07 공지 목록에는 없음 → 주최측 문의 발송 권고).
+- 쿼터 헤더 59,999,986(실시간으로 줄어듦).
+- **캐시 적중(2,780토큰)에도 팀 쿼터는 total_tokens 전액이 차감된다.** 캐시는 절감 수단이 아니다.
+- strict json_schema: TrialSchema는 `source_spans` dict 때문에 400, list로 바꾸면 통과.
+- logprobs는 effort none에서만 되고, reasoning 모델에서는 400.
+
+**240 mg TCR**(`evidence/tcr_240mg.py`): 가정에 따라 판정이 갈려 기권이다.
+- (가) 선형 CL/F: 8.6 / 2.5 / 0.31
+- (나) 라벨 12.3 노출 유사: 34.5 / 10.0 / 1.24
+
+**배포**: HF 계정 Haribear99(PRO)에 비공개 Space `Haribear99/doseverdict`를 만들었다. Secrets를 등록하고 `git archive HEAD`를 업로드했다. RUNNING, health 200. 공개 전환은 제출 직전에 한다.
+
+**코드 변경**
+- d26248e 구조화 출력 경화
+  - `app/llm/structured.py`: Pydantic 스키마 생성, incomplete 사전 검사, 1회 재시도, usage 합산, 실패 기록
+  - `source_spans`를 list로 변경
+  - compiler·planner에 strict 적용
+  - reviewers·findings는 근거 필드를 판정 필드 앞에 두고, strict는 `DV_STRICT_DRAFT` 스위치로
+  - rewrite 토큰을 실측으로 기록
+  - `DV_NODE_MODEL_<NODE>`, `DV_EFFORT_<NODE>` 추가
+- 32c2bad 결정론 불변식: LLM의 TCR 판정 주장은 held, Reviewer 충돌 시 기권, 기권에는 사유 필수.
+- c7ddabc 인용 범주-주제 대조: 용량 finding에 붙은 GCP·품질 조항을 인용에서 빼 후보로 이동. 평가 러너 `--suffix` 추가.
+- 3e5d656 fail-closed: 계획·초안 생성이 끝내 실패하면 결론 없음으로 처리. refusal·잘림 처리, Astra effort 가드, 평가셋 40케이스 확장(`gold_axis1_ext.jsonl`).
+- 0c2813a 토큰 원장(`app/eval/ledger.py` → `docs/token_ledger.md`, `figures/pareto_tokens_grounded.png`).
+  - 케이스당 reasoning은 3.7~4.9%, 입력은 약 70~80%다. **쿼터 레버는 effort가 아니라 입력 크기다.**
+- 7cff3b9 `DV_QUOTE_CHARS`(입력 축소 A/B), 4b0e6c3 `DV_TOPIC_PROMPT`(주제 태그 프롬프트 A/B, 켜짐일 때 프롬프트 동일성 검증).
+- 테스트는 29개에서 39개로 늘었고 전부 통과한다.
+
+**측정: lean_d3**(새 코드 기준선, 20케이스, 기존 lean 대비 쌍대 부트스트랩)
+- grounded 0.383(−0.025 [−0.100, +0.042])
+- span 0.925
+- 검증 0.951(+0.026, 유의하지 않음)
+- **토큰 48.0k(+3.8k [+1.2k, +6.9k], 유의한 증가)**. 증가분 대부분은 findings 입력(+2.35k, 주제 태그)이다.
+- LLM 출력 실패 0건.
+- 판정: 범주 필터는 grounded를 올리지 못했다. 주제 태그를 뺀 조건(`_notopic`)과 입력 축소(`_q250`)를 A/B로 판정한다.
+
+**진행 중인 A/B**(각 20케이스): `_cnone`(compile effort none) → `_strict` → `_c6sol`(compile에 gpt-6-sol) → `_fmed`(findings effort medium). 두 번째 슬롯에서는 `_q250` → `_notopic`. 확장 40케이스 `lean_d3ext`도 진행 중이다.
+
+**한계**: 평가 60케이스가 모두 소토라십 시놉시스(DV-DEMO-002)의 변형이다. 확장 세트는 문서 분포가 달라(확장코호트 45%, E6R3 20%) 결과를 분리해 보고한다.
+
+**리서치**: `research/notes/final_report_doseverdict-finals-jev-astra-9b11b2.md`(dissertation, 27k단어). ship 게이트는 길이 검사 하나만 실패했다(argumentative 목표를 적용한 탓). 사용자 결정에 따라 본문을 유지하고 요약본은 `docs/리서치_요약_0923.md`에 둔다.
