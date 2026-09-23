@@ -39,17 +39,25 @@ def call_structured(gc: GatewayClient, role: str, user_input: str, *, model: typ
     usage: dict[str, int] = {}
     meta: dict[str, Any] = {"usage": usage, "attempts": 0, "error": None}
     err = None
+    cap = max_output_tokens
     for attempt in range(retries + 1):
         inp = user_input if not err else f"{user_input}\n\nYour previous output was rejected: {err}. Return valid JSON only."
         resp, rec = gc.respond(role, inp, instructions=instructions, text_format=fmt, reasoning_effort=reasoning_effort,
-                               max_output_tokens=max_output_tokens, purpose=purpose)
+                               max_output_tokens=cap, purpose=purpose)
         _add_usage(usage, rec.usage)
         meta.update(model=rec.model, prompt_sha256=rec.prompt_sha256, attempts=attempt + 1)
         status = getattr(resp, "status", None)
         if status == "incomplete":
             reason = getattr(getattr(resp, "incomplete_details", None), "reason", None)
             err = f"response incomplete ({reason})"
+            if cap and reason == "max_output_tokens":
+                cap = int(cap * 1.5)          # 같은 상한으로 재시도하면 같은 곳에서 잘린다
             continue
+        refusal = _refusal(resp)
+        if refusal:
+            err = f"refusal: {refusal[:200]}"
+            meta["refusal"] = True
+            break                              # 거절은 재시도로 바뀌지 않는다 — 실패로 기록
         try:
             obj = model.model_validate(json.loads(resp.output_text))
             meta["error"] = None
@@ -58,6 +66,15 @@ def call_structured(gc: GatewayClient, role: str, user_input: str, *, model: typ
             err = f"{type(e).__name__}: {str(e)[:400]}"
     meta["error"] = err
     return None, meta
+
+
+def _refusal(resp: Any) -> str | None:
+    """Structured Outputs의 거절(refusal) 콘텐츠를 찾는다 — 거절은 스키마 파싱 실패와 다른 신호다(OpenAI Structured Outputs 문서)."""
+    for item in getattr(resp, "output", None) or []:
+        for c in getattr(item, "content", None) or []:
+            if getattr(c, "type", None) == "refusal":
+                return getattr(c, "refusal", None) or "refused"
+    return None
 
 
 def record_failure(scratch: dict[str, Any], node: str, meta: dict[str, Any]) -> None:

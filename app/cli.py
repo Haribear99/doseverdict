@@ -43,6 +43,8 @@ def main(argv: list[str] | None = None) -> int:
     if a.out:
         Path(a.out).write_text(json.dumps(out, ensure_ascii=False, indent=2), encoding="utf-8")
     print(f"\nrun {st.run_id} · status {st.terminal_status} · tokens {st.budget.used_tokens:,} · tools {st.budget.used_tool_calls} · findings {len(st.findings)}")
+    for f in st.scratch.get("llm_failures", []):
+        print(f"  ! LLM 출력 실패 — node {f['node']}: {f.get('error')}")
     for f in st.findings:
         print(f"  {f.finding_id} [{f.severity.value}] {f.verdict}/{f.verifier_status} — {f.claim[:120]}")
     slow = sorted(st.tool_log, key=lambda c: -(c.latency_s or 0))[:6]

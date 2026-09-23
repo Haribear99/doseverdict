@@ -191,10 +191,18 @@ def node_gate(state: ReviewState) -> dict[str, Any]:
     return {"findings": state.findings, "audit": state.audit, "terminal_status": "completed"}
 
 
+_CRITICAL_NODES = ("plan", "findings")
+
+
 def node_finalize(state: ReviewState) -> dict[str, Any]:
     if state.terminal_status != "completed":
         state.terminal_status = "no_conclusion" if state.budget.exhausted() else state.terminal_status
-    return {"terminal_status": state.terminal_status}
+    failed = [f["node"] for f in state.scratch.get("llm_failures", []) if f.get("node") in _CRITICAL_NODES]
+    if failed:   # 계획·초안 생성 실패를 '결함 없음'으로 끝내지 않는다(fail-closed)
+        state.terminal_status = "no_conclusion"
+        state.replan_events.append({"trigger": "llm_output_failure", "nodes": failed,
+                                    "action": "구조화 출력 생성 실패 — 결함 목록이 불완전하므로 결론 없음으로 종료, 재실행 또는 사람 검토"})
+    return {"terminal_status": state.terminal_status, "replan_events": state.replan_events}
 
 
 # ----------------------------------------------------------------- graph

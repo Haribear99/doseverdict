@@ -169,6 +169,9 @@ if run:
             msg += f" — 검증 {sum(1 for f in fs if f.verifier_status == 'verified')}/{len(fs)}" + (f" · **⛔ 인용 기각 {rej}**" if rej else "")
         if node == "rewrite":
             msg += " — **🔁 재계획①: 기각 문장 재작성**"
+        fails = (upd.get("scratch") or {}).get("llm_failures")
+        if fails and node in ("plan", "arena", "findings", "rewrite"):
+            msg += f" — **⚠️ LLM 출력 실패 {[f['node'] for f in fails]} → 해당 결과 불완전(결론 없음 처리)**"
         st.session_state.events.append(msg)
         status.write(msg)
         graph_box.graphviz_chart(graph_dot(st.session_state.current, st.session_state.done), use_container_width=True)

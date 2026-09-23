@@ -77,7 +77,7 @@ def inject_one(gc: GatewayClient, req: dict) -> dict | None:
                 "jurisdiction": req["jurisdiction"], "norm_strength": req["norm_strength"], "usage": rec.usage}
 
 
-def build_cases(defects: list[dict], n_cases: int, per_case: int, seed: int = 11) -> list[dict]:
+def build_cases(defects: list[dict], n_cases: int, per_case: int, seed: int = 11, start: int = 1) -> list[dict]:
     base = BASE.read_text(encoding="utf-8")
     rng = random.Random(seed)
     cases = []
@@ -94,9 +94,30 @@ def build_cases(defects: list[dict], n_cases: int, per_case: int, seed: int = 11
             new_body = body + f"\n{d['protocol_sentence']}\n\n"
             text = text[:m.start(1)] + new_body + text[m.end(1):]
             injected.append(d)
-        cases.append({"case_id": f"AX1-{i + 1:03d}", "synopsis": text, "defects": [{k: v for k, v in d.items() if k != "usage"} for d in injected],
+        cases.append({"case_id": f"AX1-{i + start:03d}", "synopsis": text, "defects": [{k: v for k, v in d.items() if k != "usage"} for d in injected],
                       "holdout_chunk_ids": [d["holdout_chunk_id"] for d in injected], "created_at": datetime.now(timezone.utc).isoformat()})
     return cases
+
+
+def extend(gc: GatewayClient, n_cases: int, per_case: int, e6r3_max: int = 20) -> None:
+    """확장 세트: 기존 결함에 쓰지 않은 규범 문장만 새로 주입해 AX1-021부터 케이스를 만든다(원 20케이스와 결함 비중복).
+
+    코퍼스 규범 문장 702개 중 71%가 ICH E6(R3) 일반 GCP 문장이라 상한 없이 늘리면 용량 특이성이 희석된다
+    (interim-report-eval-budget-cases-vs-repeats-and-silver-set-validity) → E6(R3)만 e6r3_max로 제한하고 나머지 문서는 전부 쓴다.
+    """
+    old = [json.loads(l) for l in (DATA / "defects_axis1.jsonl").read_text(encoding="utf-8").splitlines() if l.strip()]
+    used = {d["source_sentence"] for d in old}
+    n_old = sum(1 for l in (DATA / "gold_axis1.jsonl").read_text(encoding="utf-8").splitlines() if l.strip())
+    fresh = [r for r in candidate_requirements(max_per_doc=10**6, seed=23) if r["sentence"] not in used]
+    e6 = [r for r in fresh if r["doc_id"] == "ICH-E6R3-2025"][:e6r3_max]
+    reqs = [r for r in fresh if r["doc_id"] != "ICH-E6R3-2025"] + e6
+    print(f"fresh normative sentences: {len(reqs)} (E6R3 {len(e6)})")
+    defects = [d for d in (inject_one(gc, r) for r in reqs) if d]
+    (DATA / "defects_axis1_ext.jsonl").write_text("\n".join(json.dumps(d, ensure_ascii=False) for d in defects) + "\n", encoding="utf-8")
+    cases = build_cases(defects, n_cases, per_case, seed=23, start=n_old + 1)
+    (DATA / "gold_axis1_ext.jsonl").write_text("\n".join(json.dumps(c, ensure_ascii=False) for c in cases) + "\n", encoding="utf-8")
+    tot = gc.audit_totals()
+    print(f"ext defects {len(defects)}, cases {len(cases)} (injected {sum(len(c['defects']) for c in cases)}), audit tokens {sum(v['total'] for v in tot['by_model'].values()):,}")
 
 
 def main() -> None:
@@ -104,9 +125,13 @@ def main() -> None:
     ap.add_argument("--n-cases", type=int, default=20)
     ap.add_argument("--defects-per-case", type=int, default=6)
     ap.add_argument("--max-requirements", type=int, default=140)
+    ap.add_argument("--extend", action="store_true", help="기존 결함과 비중복인 확장 세트 생성 → gold_axis1_ext.jsonl")
     a = ap.parse_args()
     DATA.mkdir(parents=True, exist_ok=True)
     gc = GatewayClient(audit_path="logs/eval_inject.jsonl")
+    if a.extend:
+        extend(gc, a.n_cases, a.defects_per_case)
+        return
     reqs = candidate_requirements()[: a.max_requirements]
     print(f"candidate normative sentences: {len(reqs)}")
     defects = []

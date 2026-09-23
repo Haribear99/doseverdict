@@ -107,3 +107,36 @@ def test_topic_filter_moves_gcp_clause_off_dose_finding():
     }
     assert _topic_filter(st, "dose_optimization", ["ev1", "ev2", "ev3"]) == (["ev2", "ev3"], ["ev1"])
     assert _topic_filter(st, "endpoint_ctq", ["ev1"]) == (["ev1"], [])      # CTQ finding은 GCP 조항 인용 허용
+
+
+def test_incomplete_retry_grows_cap_and_refusal_stops():
+    caps = []
+
+    class G(FakeGateway):
+        def respond(self, role, inp, **kw):
+            caps.append(kw.get("max_output_tokens"))
+            return super().respond(role, inp, **kw)
+
+    gc = G([("incomplete", "{"), ("completed", '{"evidence_fact": "ok"}')])
+    out, _ = call_structured(gc, "planner", "x", model=_RewriteOut, name="rewrite", strict=True, max_output_tokens=300)
+    assert out and caps == [300, 450]
+
+    class R(FakeGateway):
+        def respond(self, role, inp, **kw):
+            resp, rec = super().respond(role, inp, **kw)
+            resp.output = [SimpleNamespace(content=[SimpleNamespace(type="refusal", refusal="cannot help")])]
+            return resp, rec
+
+    out, meta = call_structured(R([("completed", ""), ("completed", "")]), "planner", "x", model=_RewriteOut, name="rewrite", strict=True)
+    assert out is None and meta.get("refusal") and meta["attempts"] == 1
+
+
+def test_finalize_fails_closed_on_findings_failure():
+    from app.agents.graph import node_finalize
+    from app.schema.trial_schema import ReviewState
+    st = ReviewState(run_id="t", raw_protocol_text="", terminal_status="completed")
+    st.scratch["llm_failures"] = [{"node": "findings", "error": "x", "attempts": 2}]
+    assert node_finalize(st)["terminal_status"] == "no_conclusion"
+    st2 = ReviewState(run_id="t2", raw_protocol_text="", terminal_status="completed")
+    st2.scratch["llm_failures"] = [{"node": "rewrite", "error": "x", "attempts": 1}]
+    assert node_finalize(st2)["terminal_status"] == "completed"     # rewrite 실패는 원문 유지라 결론을 막지 않는다

@@ -113,6 +113,8 @@ class GatewayClient:
         node = _node(purpose)
         model = model or os.getenv(f"DV_NODE_MODEL_{node}") or model_for(role)
         reasoning_effort = os.getenv(f"DV_EFFORT_{node}") or reasoning_effort
+        if model.startswith("gpt-6-astra") and reasoning_effort in (None, "none"):
+            reasoning_effort = "low"   # Astra 문서의 effort 값은 low부터 — role 공유(planner=plan·findings·rewrite)로 none이 흘러가지 않게
         body: dict[str, Any] = {"model": model, "input": input}
         if instructions:
             body["instructions"] = instructions
