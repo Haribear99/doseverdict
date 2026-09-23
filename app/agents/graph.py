@@ -29,6 +29,7 @@ from app.agents.nodes import execute_tasks
 from app.agents.planner import build_task_dag, plan_questions
 from app.agents.reviewers import run_arena
 from app.llm.client import GatewayClient, model_for
+from app.llm.structured import record_failure
 from app.schema.trial_schema import AuditMeta, Budget, HumanStatus, ReviewState
 
 ROOT = Path(__file__).resolve().parents[2]
@@ -95,8 +96,11 @@ def node_plan(state: ReviewState) -> dict[str, Any]:
     tasks, unavailable = build_task_dag(state.trial)
     qs, meta = plan_questions(gateway(), state.trial, tasks, purpose=f"{state.run_id}:plan", protocol_text=state.raw_protocol_text)
     _add_tokens(state, meta)
+    if meta.get("error"):
+        record_failure(state.scratch, "plan", meta)
     state.replan_events.append({"event": "plan", "n_tasks": len(tasks), "unavailable": unavailable, "at": datetime.now().isoformat()})
-    return {"tasks": tasks, "unavailable_axes": unavailable, "review_questions": qs, "trial": state.trial, "budget": state.budget, "replan_events": state.replan_events}
+    return {"tasks": tasks, "unavailable_axes": unavailable, "review_questions": qs, "trial": state.trial, "budget": state.budget, "replan_events": state.replan_events,
+            "scratch": state.scratch}
 
 
 def node_tools(state: ReviewState) -> dict[str, Any]:
@@ -164,9 +168,9 @@ def route_after_verify(state: ReviewState) -> str:
 
 
 def node_rewrite(state: ReviewState) -> dict[str, Any]:
-    n = rewrite_rejected(gateway(), state, purpose=f"{state.run_id}:rewrite")
-    state.budget.used_tokens += 400 * n
-    return {"findings": state.findings, "replan_events": state.replan_events, "budget": state.budget}
+    n, usage = rewrite_rejected(gateway(), state, purpose=f"{state.run_id}:rewrite")
+    _add_tokens(state, {"usage": usage})   # 실측 usage 합(이전: 400·n 추정)
+    return {"findings": state.findings, "replan_events": state.replan_events, "budget": state.budget, "scratch": state.scratch}
 
 
 def node_gate(state: ReviewState) -> dict[str, Any]:

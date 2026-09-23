@@ -262,3 +262,19 @@ gpt-6-sol: `reasoning.effort` none·low 모두 허용, strict json_schema 정상
 | GPT-6 세대 | **`gpt-6-sol`, `gpt-6-luna` 호출 가능(200)**. 날짜 접미 이름은 404. 공지(09-07)에는 없는 모델 |
 | 캐시 적중 | gpt-5.6-luna는 3회 모두 cached 0. gpt-6-luna는 2회차에 2,780/2,783 적중 |
 | 쿼터 차감 | 캐시 적중 여부와 무관하게 `x-team-tokens-consumed` = `usage.total_tokens` → **캐시는 팀 토큰을 줄이지 않는다**(지연만 감소). 토큰 절감은 입력 축소·호출 수 감소·reasoning 토큰 감소로만 가능 |
+
+## ⑪ TrialSchema strict 호환성 (2026-09-23)
+
+- `to_strict_json_schema(TrialSchema)` 그대로 보내면 두 모델 모두 400: `source_spans: dict[str, ProtocolSpan]`(임의 키 맵)는 strict에서 지원되지 않는다.
+- `source_spans`를 뺀 스키마(속성 55개, 7,774자)는 gpt-5.6-terra·gpt-6-sol 모두 strict 200 + Pydantic 재검증 통과. 1회 표본 토큰: terra 2,367(출력 550), gpt-6-sol 2,249(출력 432).
+- 결론: strict 전환 시 `source_spans`를 `list[{field, span}]` 형태로 바꿔야 한다. 크기 한도(Azure 문서 100속성/5단계)는 현재 스키마에서 문제되지 않았다.
+
+## ⑫ strict json_schema + top_logprobs (2026-09-23)
+
+| model | effort | 결과 | 토큰 | severity 토큰 확률 |
+|---|---|---|---|---|
+| gpt-6-sol | none | 200 `{"severity":"high"}` | 80 | high 0.997 |
+| gpt-5.6-sol | none | 200 `{"severity":"high"}` | 80 | high 0.954 / critical 0.039 |
+| gpt-6-sol | low | **400** "logprobs are not supported with reasoning models." | — | — |
+
+판정: enum 필드의 토큰 확률(confidence)은 effort none 호출에서만 얻을 수 있다. reasoning을 쓰는 노드에서는 불가 → 필요하면 effort none 별도 분류 호출(약 80토큰)로 분리.

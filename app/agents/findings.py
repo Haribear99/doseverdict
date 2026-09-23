@@ -14,23 +14,37 @@ from __future__ import annotations
 
 import json
 import re
-from typing import Any
+from typing import Any, Literal
 
+from pydantic import BaseModel, Field
+
+from app.agents.reviewers import strict_draft
 from app.llm.client import GatewayClient
+from app.llm.structured import call_structured, record_failure
 from app.schema.trial_schema import Finding, ProtocolSpan, ReviewState, ReviewerPosition, Severity
 from app.verify.nli import strip_attribution, string_support, verify_claim
 
-_SCHEMA = {"type": "json_schema", "name": "findings_draft", "strict": False,
-           "schema": {"type": "object", "properties": {"findings": {"type": "array", "items": {"type": "object", "properties": {
-               "task_id": {"type": "string"},
-               "category": {"type": "string", "enum": ["dose_optimization", "safety_monitoring", "eligibility", "endpoint_ctq", "burden", "source_version", "feasibility"]},
-               "severity": {"type": "string", "enum": ["critical", "high", "medium", "low"]},
-               "protocol_span_text": {"type": "string", "description": "verbatim protocol sentence(s)"}, "protocol_section": {"type": "string"},
-               "protocol_fact": {"type": "string", "description": "ONE sentence: what the protocol states or omits. Must be checkable against the span."},
-               "evidence_fact": {"type": "string", "description": "ONE sentence: what the cited evidence says, phrased as a bare proposition without 'the guidance states'. Must be literally supported by one cited quote."},
-               "evidence_ids": {"type": "array", "items": {"type": "string"}},
-               "suggested_patch": {"type": "string", "description": "Replacement protocol sentence(s) ready to paste; empty if data is insufficient"},
-               "required_additional_data": {"type": "array", "items": {"type": "string"}}}}}}}}
+class _FindingOut(BaseModel):
+    """필드 순서: 원문 span·사실(근거) → 인용 → 패치 → 분류·심각도(판정). 판정 필드를 뒤로 둔다(field-order 문헌, interim-report-strict-and-field-order-on-reasoning-effort-models)."""
+    task_id: str
+    protocol_span_text: str = Field(..., description="verbatim protocol sentence(s)")
+    protocol_section: str = ""
+    protocol_fact: str = Field(..., description="ONE sentence: what the protocol states or omits. Must be checkable against the span.")
+    evidence_fact: str = Field(..., description="ONE sentence: what the cited evidence says, phrased as a bare proposition without 'the guidance states'. Must be literally supported by one cited quote.")
+    evidence_ids: list[str] = Field(default_factory=list)
+    required_additional_data: list[str] = Field(default_factory=list)
+    suggested_patch: str = Field("", description="Replacement protocol sentence(s) ready to paste; empty if data is insufficient")
+    category: Literal["dose_optimization", "safety_monitoring", "eligibility", "endpoint_ctq", "burden", "source_version", "feasibility"]
+    severity: Literal["critical", "high", "medium", "low"]
+
+
+class _FindingsOut(BaseModel):
+    findings: list[_FindingOut] = Field(default_factory=list)
+
+
+class _RewriteOut(BaseModel):
+    evidence_fact: str
+
 
 _INSTR = """You assemble review findings for an oncology Phase 1/2 protocol from reviewer positions (one or more reviewers) and an evidence registry.
 Output at most 10 findings, most severe first. Cover every review question whose hypothesis the protocol_text confirms; one finding per distinct protocol sentence. For each finding write TWO separate sentences:
@@ -96,12 +110,11 @@ def draft_findings(gc: GatewayClient, state: ReviewState, purpose: str = "findin
         "unavailable_axes": state.unavailable_axes,
         "protocol_text": (state.raw_protocol_text or "")[:4500],
     }
-    resp, rec = gc.respond("planner", json.dumps(ctx, ensure_ascii=False), instructions=_INSTR, text_format=_SCHEMA, reasoning_effort="low",
-                           max_output_tokens=5000, purpose=purpose)
-    try:
-        rows = json.loads(resp.output_text).get("findings", [])[:10]
-    except json.JSONDecodeError:
-        rows = []
+    out, meta = call_structured(gc, "planner", json.dumps(ctx, ensure_ascii=False), model=_FindingsOut, name="findings_draft", strict=strict_draft(),
+                                instructions=_INSTR, reasoning_effort="low", max_output_tokens=5000, purpose=purpose)
+    if out is None:
+        record_failure(state.scratch, "findings", meta)   # 초안 실패를 '결함 없음'으로 보이게 두지 않는다
+    rows = [r.model_dump() for r in out.findings][:10] if out else []
     findings: list[Finding] = []
     tcr = deterministic_tcr_finding(state)
     if tcr:
@@ -118,7 +131,7 @@ def draft_findings(gc: GatewayClient, state: ReviewState, purpose: str = "findin
                     required_additional_data=r.get("required_additional_data") or [])
         findings.append(f)
     state.findings = findings
-    return {"usage": rec.usage, "model": rec.model, "prompt_sha256": rec.prompt_sha256, "n": len(findings)}
+    return meta | {"n": len(findings)}
 
 
 def _norm(t: str) -> str:
@@ -272,12 +285,10 @@ def verify_findings(state: ReviewState) -> list[dict[str, Any]]:
     return events
 
 
-_REWRITE = {"type": "json_schema", "name": "rewrite", "strict": False, "schema": {"type": "object", "properties": {"evidence_fact": {"type": "string"}}}}
-
-
-def rewrite_rejected(gc: GatewayClient, state: ReviewState, purpose: str = "rewrite") -> int:
-    """기각된 evidence_fact를 근거 강도에 맞춰 1회 재작성(재계획 ①). 반환: 재작성 수."""
+def rewrite_rejected(gc: GatewayClient, state: ReviewState, purpose: str = "rewrite") -> tuple[int, dict[str, int]]:
+    """기각된 evidence_fact를 근거 강도에 맞춰 1회 재작성(재계획 ①). 반환: (재작성 수, 실측 usage 합)."""
     n = 0
+    usage: dict[str, int] = {}
     for f in state.findings:
         if f.verifier_status != "rejected":
             continue
@@ -285,16 +296,17 @@ def rewrite_rejected(gc: GatewayClient, state: ReviewState, purpose: str = "rewr
         old = f.evidence_fact or f.claim
         ctx = {"rejected_evidence_fact": old, "verifier_reason": f.verifier_note,
                "evidence": [{"id": e.evidence_id, "authority": e.authority, "norm_strength": e.norm_strength, "quote": e.quote} for e in evs]}
-        resp, rec = gc.respond("planner", json.dumps(ctx, ensure_ascii=False),
-                               instructions="Rewrite evidence_fact as ONE bare proposition that a cited quote literally supports, matching its norm strength (civil guide → '안내한다/권고한다', never '의무화/mandates'). Same language as the original.",
-                               text_format=_REWRITE, reasoning_effort="none", max_output_tokens=300, purpose=purpose)
-        try:
-            new = json.loads(resp.output_text).get("evidence_fact")
-        except json.JSONDecodeError:
-            new = None
+        out, meta = call_structured(gc, "planner", json.dumps(ctx, ensure_ascii=False), model=_RewriteOut, name="rewrite", strict=True,
+                                    instructions="Rewrite evidence_fact as ONE bare proposition that a cited quote literally supports, matching its norm strength (civil guide → '안내한다/권고한다', never '의무화/mandates'). Same language as the original.",
+                                    reasoning_effort="none", max_output_tokens=300, purpose=purpose, retries=0)
+        for k, v in meta["usage"].items():
+            usage[k] = usage.get(k, 0) + v
+        if out is None:
+            record_failure(state.scratch, "rewrite", meta)
+        new = out.evidence_fact if out else None
         if new and new != old:
             state.replan_events.append({"trigger": "citation_rejected", "finding_id": f.finding_id, "before": old, "after": new})
             f.evidence_fact = new
             f.claim = ((f.protocol_fact or "") + " " + new).strip()
             f.verifier_status = "pending"; n += 1
-    return n
+    return n, usage

@@ -15,9 +15,12 @@ from __future__ import annotations
 
 import json
 import re
-from typing import Any
+from typing import Any, Literal
+
+from pydantic import BaseModel, Field
 
 from app.llm.client import GatewayClient
+from app.llm.structured import call_structured
 from app.schema.trial_schema import Task, TrialSchema
 
 _TOOL_MAP = {
@@ -107,13 +110,20 @@ def build_task_dag(ts: TrialSchema) -> tuple[list[Task], list[str]]:
     return tasks, unavailable
 
 
-_Q_SCHEMA = {
-    "type": "json_schema", "name": "review_questions", "strict": False,
-    "schema": {"type": "object", "properties": {"questions": {"type": "array", "items": {"type": "object", "properties": {
-        "task_id": {"type": "string", "description": "a task_id, or T00_protocol_scan for defects outside the task list"}, "hypothesis": {"type": "string"}, "what_to_verify": {"type": "string"},
-        "protocol_span": {"type": "string"}, "severity_if_true": {"type": "string", "enum": ["critical", "high", "medium", "low"]},
-        "search_query": {"type": "string", "description": "a short English (or Korean for KR) query to retrieve the governing regulatory clause"},
-        "jurisdiction": {"type": "string", "enum": ["US", "KR", "common"]}}}}}}}
+class _Question(BaseModel):
+    """필드 순서: 가설·확인 대상(근거) → 심각도(판정). 순서가 판정 품질에 영향(interim-report-strict-and-field-order-on-reasoning-effort-models)."""
+    task_id: str = Field(..., description="a task_id, or T00_protocol_scan for defects outside the task list")
+    hypothesis: str
+    what_to_verify: str
+    protocol_span: str
+    severity_if_true: Literal["critical", "high", "medium", "low"]
+    search_query: str = Field(..., description="a short English (or Korean for KR) query to retrieve the governing regulatory clause")
+    jurisdiction: Literal["US", "KR", "common"]
+
+
+class _Questions(BaseModel):
+    questions: list[_Question] = Field(default_factory=list)
+
 
 _INSTR = """You are the planning component of a protocol review agent. You do NOT make verdicts.
 For each review task, write the defect hypothesis to test and what evidence would confirm or refute it.
@@ -128,10 +138,7 @@ Also scan the full protocol text for sentences that conflict with FDA/ICH/MFDS d
 def plan_questions(gc: GatewayClient, ts: TrialSchema, tasks: list[Task], purpose: str = "planner", protocol_text: str = "") -> tuple[list[dict[str, Any]], dict[str, Any]]:
     payload = {"trial_schema": ts.model_dump(exclude_none=True), "tasks": [{"task_id": t.task_id, "kind": t.kind, "rationale": t.rationale} for t in tasks],
                "protocol_text": (protocol_text or "")[:7000]}
-    resp, rec = gc.respond("planner", json.dumps(payload, ensure_ascii=False), instructions=_INSTR, text_format=_Q_SCHEMA,
-                           reasoning_effort="low", max_output_tokens=4000, purpose=purpose)
-    try:
-        qs = json.loads(resp.output_text).get("questions", [])
-    except json.JSONDecodeError:
-        qs = []
-    return qs, {"usage": rec.usage, "model": rec.model, "prompt_sha256": rec.prompt_sha256}
+    out, meta = call_structured(gc, "planner", json.dumps(payload, ensure_ascii=False), model=_Questions, name="review_questions", strict=True,
+                                instructions=_INSTR, reasoning_effort="low", max_output_tokens=4000, purpose=purpose)
+    qs = [q.model_dump() for q in out.questions] if out else []
+    return qs, meta

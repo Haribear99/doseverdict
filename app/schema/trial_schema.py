@@ -10,7 +10,7 @@ from datetime import datetime
 from enum import Enum
 from typing import Any, Literal, Optional
 
-from pydantic import BaseModel, Field
+from pydantic import BaseModel, Field, field_validator
 
 
 # ----------------------------------------------------------------- 기본 열거형
@@ -133,12 +133,29 @@ class ProtocolSpan(BaseModel):
     text: str = Field(..., description="프로토콜 원문 발췌(수정 없이)")
 
 
+class SourceSpan(BaseModel):
+    field: str = Field(..., description="필드 경로(예: design.dose_strategy.rp2d_rule_text)")
+    section: Optional[str] = None
+    text: str = Field(..., description="프로토콜 원문 발췌(수정 없이)")
+
+
 class TrialSchema(BaseModel):
-    """Protocol Compiler 출력. `source_spans`는 필드 → 원문 위치 매핑(추적성)."""
+    """Protocol Compiler 출력. `source_spans`는 필드 → 원문 위치 매핑(추적성).
+
+    strict Structured Outputs는 임의 키 맵(dict[str, ...])을 받지 않아 list[SourceSpan]으로 둔다(docs/gateway_probe.md ⑪).
+    """
     study: Study = Field(default_factory=Study)
     design: Design = Field(default_factory=Design)
-    source_spans: dict[str, ProtocolSpan] = Field(default_factory=dict)
+    source_spans: list[SourceSpan] = Field(default_factory=list)
     missing_fields: list[str] = Field(default_factory=list, description="Compiler가 찾지 못한 필드 경로")
+
+    @field_validator("source_spans", mode="before")
+    @classmethod
+    def _spans_from_dict(cls, v: Any) -> Any:
+        """이전 형식(dict: 필드 경로 → {section, text})으로 저장된 결과도 읽는다."""
+        if isinstance(v, dict):
+            return [{"field": k, **(x if isinstance(x, dict) else {"text": str(x)})} for k, x in v.items()]
+        return v
 
 
 # ----------------------------------------------------------------- 근거·판정

@@ -10,18 +10,31 @@ from __future__ import annotations
 
 import json
 import os
-from typing import Any
+from typing import Any, Literal
+
+from pydantic import BaseModel, Field
 
 from app.llm.client import GatewayClient
+from app.llm.structured import call_structured, record_failure
 from app.schema.trial_schema import Evidence, ReviewState, ReviewerPosition, Severity
 
-_SCHEMA = {"type": "json_schema", "name": "reviewer_positions", "strict": False,
-           "schema": {"type": "object", "properties": {"positions": {"type": "array", "items": {"type": "object", "properties": {
-               "finding_key": {"type": "string", "description": "one of the review question task_ids"},
-               "severity": {"type": "string", "enum": ["critical", "high", "medium", "low"]},
-               "position": {"type": "string"},
-               "evidence_ids_used": {"type": "array", "items": {"type": "string"}},
-               "required_additional_data": {"type": "array", "items": {"type": "string"}}}}}}}}
+class _Position(BaseModel):
+    """필드 순서: 근거(position·인용) → 판정(severity). 판정을 먼저 쓰게 하면 근거가 판정을 사후 합리화한다(interim-report-strict-and-field-order-on-reasoning-effort-models)."""
+    finding_key: str = Field(..., description="one of the review question task_ids")
+    position: str
+    evidence_ids_used: list[str] = Field(default_factory=list)
+    required_additional_data: list[str] = Field(default_factory=list)
+    severity: Literal["critical", "high", "medium", "low"]
+
+
+class _Positions(BaseModel):
+    positions: list[_Position] = Field(default_factory=list)
+
+
+def strict_draft() -> bool:
+    """reviewers·findings의 strict 적용은 A/B 전까지 스위치(DV_STRICT_DRAFT=1)로만 켠다."""
+    return os.getenv("DV_STRICT_DRAFT", "0").lower() in ("1", "true", "on")
+
 
 _ROLE_INSTR = {
     "regulatory": "You are a regulatory reviewer (FDA/MFDS perspective). Judge ONLY from the regulatory clauses and label statements provided. "
@@ -83,13 +96,12 @@ def run_arena(gc: GatewayClient, state: ReviewState, purpose: str = "reviewer") 
     usage: dict[str, Any] = {}
     positions: dict[str, list[ReviewerPosition]] = {}
     for role in reviewer_roles(state):
-        resp, rec = gc.respond("reviewer", _ctx(state, role, parts[role]), instructions=_ROLE_INSTR[role] + _COMMON, text_format=_SCHEMA,
-                               reasoning_effort="low", max_output_tokens=2500, purpose=f"{purpose}_{role}")
-        usage[role] = rec.usage
-        try:
-            rows = json.loads(resp.output_text).get("positions", [])
-        except json.JSONDecodeError:
-            rows = []
+        out, meta = call_structured(gc, "reviewer", _ctx(state, role, parts[role]), model=_Positions, name="reviewer_positions", strict=strict_draft(),
+                                    instructions=_ROLE_INSTR[role] + _COMMON, reasoning_effort="low", max_output_tokens=2500, purpose=f"{purpose}_{role}")
+        usage[role] = meta["usage"]
+        if out is None:
+            record_failure(state.scratch, f"arena_{role}", meta)
+        rows = [p.model_dump() for p in out.positions] if out else []
         seen_keys: set[str] = set()
         for r in rows:
             key = r.get("finding_key") or "unknown"

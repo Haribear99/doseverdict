@@ -57,10 +57,16 @@ class CallRecord:
     usage: dict[str, Any] = field(default_factory=dict)
     quota: dict[str, str | None] = field(default_factory=dict)
     error: str | None = None
+    effort: str | None = None
 
 
 def model_for(role: str) -> str:
     return os.getenv(ROLE_ENV[role], DEFAULT_MODELS[role])
+
+
+def _node(purpose: str) -> str:
+    """purpose "{run_id}:{node}[_suffix]" → node(compile·plan·arena·findings·rewrite). A/B용 노드별 환경변수 키."""
+    return purpose.rsplit(":", 1)[-1].split("_", 1)[0].upper()
 
 
 def _sha(text: str) -> str:
@@ -100,8 +106,13 @@ class GatewayClient:
         model: str | None = None,
         **extra: Any,
     ):
-        """Responses API 1회 호출. 반환: (response, CallRecord)."""
-        model = model or model_for(role)
+        """Responses API 1회 호출. 반환: (response, CallRecord).
+
+        노드별 A/B: DV_NODE_MODEL_<NODE>(모델 인자가 없을 때만), DV_EFFORT_<NODE>가 설정되면 기본값을 덮어쓴다.
+        """
+        node = _node(purpose)
+        model = model or os.getenv(f"DV_NODE_MODEL_{node}") or model_for(role)
+        reasoning_effort = os.getenv(f"DV_EFFORT_{node}") or reasoning_effort
         body: dict[str, Any] = {"model": model, "input": input}
         if instructions:
             body["instructions"] = instructions
@@ -126,7 +137,7 @@ class GatewayClient:
                     ts=datetime.now(timezone.utc).isoformat(),
                     role=role, model=model, purpose=purpose, prompt_sha256=prompt_hash,
                     status=raw.status_code, latency_s=round(time.perf_counter() - t0, 3),
-                    usage=_usage_dict(resp), quota=_quota(raw.headers),
+                    usage=_usage_dict(resp), quota=_quota(raw.headers), effort=reasoning_effort,
                 )
                 self._log(rec)
                 return resp, rec
