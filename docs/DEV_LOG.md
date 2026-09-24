@@ -210,3 +210,12 @@
   - **기본 모델을 planner·reviewer·extract 모두 gpt-6-sol로 전환한다.** 바꾼 곳은 `client.py`, `.env`, `.env.example`, UI, README다.
   - bulk(gpt-5.6-luna)는 A/B를 하지 않았으므로 그대로 둔다.
 - 기술서의 "grounded 개선"은 두 수치를 함께 적는다: 확장 세트 +0.050(유의하지 않음), 통합 +0.072(유의).
+- `_fmed`(findings effort medium, gpt-5.6 기준) vs lean_d3: 토큰 +28.5%, grounded +0.033, 검증 ±0 → **기각**.
+- 다음: `_combo` = gpt-6-sol 기본 + `DV_STRICT_DRAFT=1` + `DV_QUOTE_CHARS=250`, 기준선은 `lean_g6all`(같은 모델). strict·250자는 gpt-5.6에서만 측정했기 때문에 새 모델에서 다시 확인한다.
+- `_combo`(gpt-6-sol + strict + 인용문 250자, 사용자 터미널에서 실행) vs `lean_g6all`:
+  - 토큰 39.3k(−10.2% [−6.6k, −2.9k], 유의)
+  - grounded 0.508(+0.008 [−0.075, +0.092])
+  - 검증 +0.006, span −0.017, precision +0.023
+  - LLM 실패 0
+  - 사전 규칙상 **보류**다(절감이 −15% 미달이고 grounded CI가 0을 포함). 품질 손실 없이 토큰이 유의하게 줄었으므로 확장 세트(`_comboext`)에서 `lean_g6allext`와 비교해 재확인한다.
+  - 참고로 09-23 기준선(lean_d3) 대비 누적 효과는 토큰 −18.3%, grounded +0.125다.
