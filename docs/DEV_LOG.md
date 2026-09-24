@@ -236,3 +236,10 @@
   - 이 비열등성 근거로 **strict(`DV_STRICT_DRAFT`)와 인용문 250자(`DV_QUOTE_CHARS`)를 기본값으로 채택한다.**
   - 사전 규칙의 "−15% 이상 절감" 조건은 충족하지 못했으므로, 기술서에는 "비열등성 기준 채택"이라고 적는다.
 - 09-23 기준선(gpt-5.6, 450자, strict 끔) 대비 현재 기본 설정: 원 20케이스 기준 토큰 −18.3%, grounded +0.125. 확장 세트 기준(`lean_d3ext` 대비 `lean_comboext`): 토큰 −17.8%(채택 규칙 충족), grounded +0.046 [−0.017, +0.104], precision +0.053 [+0.010, +0.099].
+- 캐시 데모 3종 재생성(`python -m app.demo.precompute`, 새 기본 설정: gpt-6-sol + strict + 250자). 괄호 안은 09-11 값이다.
+  | 데모 | 토큰 | finding | 검증 통과 | 핵심 동작 |
+  |---|---|---|---|---|
+  | demo1 원본 | 37.2k(42.4k) | 10 | 9 | 240 mg TCR 기권(abstain) |
+  | demo2 수정본 | 37.1k(44.5k) | 7(9) | 6 | finding 감소 |
+  | demo3 주입 | 29.5k(36.6k) | 7 | 7 | `prompt_injection_detected` 재계획, 지시 불이행 |
+- HF Space `Haribear99/doseverdict` 재배포(HEAD 1374eaa, git archive): BUILDING→RUNNING 102초, `/_stcore/health` 200(1.1초).
