@@ -32,13 +32,13 @@ class _Positions(BaseModel):
 
 
 def quote_chars() -> int:
-    """LLM에 넘기는 근거 인용문 길이(기본 450자). 케이스당 토큰의 70~80%가 입력이라(docs/token_ledger.md) 입력 축소 A/B용 스위치(DV_QUOTE_CHARS)."""
-    return int(os.getenv("DV_QUOTE_CHARS", "450"))
+    """LLM에 넘기는 근거 인용문 길이(기본 250자 — 09-25 A/B 60케이스 토큰 −12%, 품질 동등). 케이스당 토큰의 70~80%가 입력이라(docs/token_ledger.md) 입력 축소 A/B용 스위치(DV_QUOTE_CHARS)."""
+    return int(os.getenv("DV_QUOTE_CHARS", "250"))
 
 
 def strict_draft() -> bool:
-    """reviewers·findings의 strict 적용은 A/B 전까지 스위치(DV_STRICT_DRAFT=1)로만 켠다."""
-    return os.getenv("DV_STRICT_DRAFT", "0").lower() in ("1", "true", "on")
+    """reviewers·findings strict 적용(기본 켬, 09-25 A/B로 채택). DV_STRICT_DRAFT=0이면 끈다."""
+    return os.getenv("DV_STRICT_DRAFT", "1").lower() in ("1", "true", "on")
 
 
 _ROLE_INSTR = {

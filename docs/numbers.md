@@ -1,4 +1,4 @@
-# 수치 원천표 (자동 생성 2026-09-25 02:05, `python -m app.eval.numbers`)
+# 수치 원천표 (자동 생성 2026-09-25 05:04, `python -m app.eval.numbers`)
 
 제출물(기술서·발표·영상·README·데모 화면)의 모든 수치는 이 표에서만 가져온다. 점추정 간 차이는 n=20에서 대부분 신뢰구간이 겹친다 — 유의 여부는 `python -m app.eval.compare`로 확인한 것만 주장한다.
 
@@ -21,6 +21,7 @@
 | lean_combo | 최종 후보 결합 설정 | 원 20(AX1-001~020) | 20 | 0.958 | 0.508 [0.442, 0.575] | 0.975 | 39,262 | 0 | `app/eval/data/results/lean_combo.json` |
 | lean_d3ext | 09-23 새 코드, 확장 세트 | 확장 40(AX1-021~060) | 40 | 0.871 | 0.513 [0.462, 0.563] | 0.947 | 47,162 | 0 | `app/eval/data/results/lean_d3ext.json` |
 | lean_g6allext | 전 노드 gpt-6-sol, 확장 세트 | 확장 40(AX1-021~060) | 40 | 0.896 | 0.563 [0.500, 0.629] | 0.956 | 44,433 | 0 | `app/eval/data/results/lean_g6allext.json` |
+| lean_comboext | 최종 후보, 확장 세트 | 확장 40(AX1-021~060) | 40 | 0.883 | 0.558 [0.492, 0.629] | 0.963 | 38,756 | 0 | `app/eval/data/results/lean_comboext.json` |
 
 ## 2. 소토라십 240 mg TCR (`evidence/tcr_240mg.json`)
 
