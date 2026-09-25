@@ -56,11 +56,14 @@ def run_structure_class(state: ReviewState, task: Task) -> None:
     chembl_id = ip.chembl_id or _CHEMBL_BY_GENERIC.get(generic_name(ip))
     if chembl_id:
         r2 = pharmacology.chembl_potency(chembl_id, target_keyword=(ip.target or "").split()[0] if ip.target else None)
-        cid2 = _log(state, "chembl.potency", {"chembl_id": ip.chembl_id, "target": ip.target}, r2)
+        cid2 = _log(state, "chembl.potency", {"chembl_id": chembl_id, "target": ip.target}, r2)
         if r2.ok and r2.data.get("n_target"):
             _ev(state, "database_record", "ChEMBL", f"KRAS 표적 활성값 {r2.data['n_target']}건 중 검열값 {r2.data['n_censored_excluded']}건 제외. 세포 기반 {r2.data['cell_based_nM']} nM (중앙값 {r2.data['cell_based_median_nM']}), 생화학 {r2.data['biochemical_nM'][:5]} nM. 어세이 유형을 풀링하지 않는다.",
                 url=r2.source.get("url"), tool_call_id=cid2, tier=1)
             state.scratch["chembl"] = r2.data
+        elif not r2.ok:   # 재시도 후에도 실패 — 과제는 RDKit 결과로 계속하되 TCR의 IC50 대체를 기록한다
+            state.replan_events.append({"trigger": "tool_failure", "tasks": [task.task_id], "tool": "chembl.potency",
+                                        "action": "IC50 미확보 → TCR은 기본값 30 nM(소토라십 ChEMBL 세포 기반 중앙값, 2026-09 조회)으로 계산하고 근거에 명시"})
     task.status = "done" if r.ok else "failed"
 
 
@@ -115,7 +118,10 @@ def run_exposure_dose(state: ReviewState, task: Task) -> None:
         _ev(state, "calculation", "DoseVerdict", "노출-용량 관계를 계산할 PK 보고값(CL/F, t½, f_u)이 없다 → 용량군별 반복투여 PK 자료 요청. 판정 보류.", tier=3)
         return
     mw = struct.get("properties", {}).get("MW", 560.61)
-    ic50 = chembl.get("cell_based_median_nM") or 30.0
+    ic50 = chembl.get("cell_based_median_nM")
+    ic50_src = "ChEMBL 세포 기반 중앙값"
+    if not ic50:
+        ic50, ic50_src = 30.0, "ChEMBL 미확보 → 기본값(소토라십 ChEMBL 세포 기반 중앙값, 2026-09 조회)"
     doses = []
     for lvl in state.trial.design.dose_strategy.dose_levels:
         try:
@@ -130,7 +136,7 @@ def run_exposure_dose(state: ReviewState, task: Task) -> None:
             rows.append((dose, r.data["TCR_max"], r.data["TCR_avg"], r.data["TCR_trough"], r.data["verdict"]))
     split = any(v == "abstain_metric_dependent" for *_, v in rows)
     table = "; ".join(f"{d:.0f} mg: Cmax {a:.1f}/Cavg {b:.1f}/Ctrough {c:.2f} → {v}" for d, a, b, c, v in rows)
-    _ev(state, "calculation", "DoseVerdict", f"TCR(선형 CL/F 가정, IC50 {ic50} nM 세포 기반, f_u {pk['fu_label']}, t½ {pk['t_half_hr']} h): {table}. "
+    _ev(state, "calculation", "DoseVerdict", f"TCR(선형 CL/F 가정, IC50 {ic50} nM — {ic50_src}, f_u {pk['fu_label']}, t½ {pk['t_half_hr']} h): {table}. "
         + ("판정이 지표(Cavg vs Ctrough)에 따라 갈리므로 '커버된다'는 결론을 만들지 않는다. " if split else "")
         + "라벨이 비선형 PK를 보고하므로 선형 외삽은 라벨과 모순될 수 있다 → 두 가정을 병기하고 용량군별 반복투여 PK를 요청한다.", tier=3)
     r2 = pharmacology.exposure_power(pk.get("cl_cv_pct", 76) / 100)

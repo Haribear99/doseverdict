@@ -104,7 +104,7 @@ def main() -> None:
         pts.append((cfg, o["tokens_per_case"], o["grounded_recall"]))
         lines.append(f"| {cfg} | {o['n']} | {o['tokens_per_case']:,.0f} | {o['recall']:.3f} | {o['grounded_recall']:.3f} | {o['verified_rate']:.3f} | "
                      f"{o['tokens_per_verified_finding']:,.0f} | {o['tokens_per_grounded_hit']:,.0f} |")
-    lines += ["", "주의: n=20 설정 간 grounded 차이는 부트스트랩 CI가 겹친다(유의하지 않음). 토큰 차이는 호출 구조로 정해지므로 확정적이다.",
+    lines += ["", "주의: n=20 설정 간 grounded 차이는 대부분 부트스트랩 CI가 겹친다 — 유의 여부는 `python -m app.eval.compare`의 쌍대 비교로만 주장한다. 토큰 차이는 호출 구조로 정해지므로 확정적이다.", "`*ext`는 확장 40케이스(AX1-021~060)로 원 20케이스와 분포가 달라 설정 간 비교는 같은 세트 안에서만 한다.",
               "캐시·Batch·Flex는 이 게이트웨이의 팀 쿼터를 줄이지 않으므로 절감 수단으로 계산하지 않았다."]
     (ROOT / "docs" / "token_ledger.md").write_text("\n".join(lines) + "\n", encoding="utf-8")
     if pts:
@@ -113,11 +113,13 @@ def main() -> None:
         import matplotlib.pyplot as plt
         fig, ax = plt.subplots(figsize=(6, 4))
         for name, x, y in pts:
-            ax.scatter(x / 1000, y, s=40)
-            ax.annotate(name, (x / 1000, y), textcoords="offset points", xytext=(5, 4), fontsize=9)
+            ext = name.endswith("ext")   # 확장 세트는 속 빈 사각형 — 원 세트와 직접 비교하지 않는다
+            ax.scatter(x / 1000, y, s=45, marker="s" if ext else "o", facecolors="none" if ext else None,
+                       edgecolors="C1" if ext else None, color=None if ext else "C0")
+            ax.annotate(name, (x / 1000, y), textcoords="offset points", xytext=(6, -12 if ext else 4), fontsize=8)
         ax.set_xlabel("tokens per case (thousand, gateway quota)")
         ax.set_ylabel("grounded recall (point estimate)")
-        ax.set_title("Cost vs grounded citation (n=20; CIs overlap)")
+        ax.set_title("Cost vs grounded citation (n=20; *ext n=40, different case mix)")
         ax.grid(alpha=0.3)
         fig.tight_layout()
         fig.savefig(ROOT / "figures" / "pareto_tokens_grounded.png", dpi=160)

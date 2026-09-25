@@ -1,4 +1,4 @@
-# 수치 원천표 (자동 생성 2026-09-25 05:04, `python -m app.eval.numbers`)
+# 수치 원천표 (자동 생성 2026-09-25 13:59, `python -m app.eval.numbers`)
 
 제출물(기술서·발표·영상·README·데모 화면)의 모든 수치는 이 표에서만 가져온다. 점추정 간 차이는 n=20에서 대부분 신뢰구간이 겹친다 — 유의 여부는 `python -m app.eval.compare`로 확인한 것만 주장한다.
 

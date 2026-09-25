@@ -20,16 +20,28 @@ DoseVerdict — Pharmacology Evidence Agent 근거 산출 스크립트
 
 import json
 import sys
+import time
 import urllib.parse
+import urllib.error
 import urllib.request
 
 UA = {"User-Agent": "DoseVerdict-Evidence/1.0 (academic competition prototype)"}
 
 
-def fetch_json(url, timeout=40):
-    req = urllib.request.Request(url, headers=UA)
-    with urllib.request.urlopen(req, timeout=timeout) as r:
-        return json.load(r)
+def fetch_json(url, timeout=40, retries=2):
+    """일시 오류(5xx·연결·타임아웃)는 2초·4초 백오프로 재시도한다 — 평가 60케이스에서 ChEMBL 500이 4회 있었다(2026-09-25)."""
+    for attempt in range(retries + 1):
+        try:
+            req = urllib.request.Request(url, headers=UA)
+            with urllib.request.urlopen(req, timeout=timeout) as r:
+                return json.load(r)
+        except urllib.error.HTTPError as e:
+            if e.code < 500 or attempt == retries:
+                raise
+        except (urllib.error.URLError, TimeoutError):
+            if attempt == retries:
+                raise
+        time.sleep(2 * 2 ** attempt)
 
 
 # ---------------------------------------------------------------- 1. RDKit

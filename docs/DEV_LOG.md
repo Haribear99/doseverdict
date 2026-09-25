@@ -267,3 +267,20 @@
 - 재배포 후 같은 조건의 결과: compile 15s → plan 31s → tools 53s(**근거 52건**, 도구 17회) → arena 64s → findings 76s → verify 83s. 36.5k 토큰, finding 9건, 검증 9/9, 240 mg 기권 유지.
 - HF cpu-basic 웜 실행 약 83~93초로, 로컬(140초)보다 빠르다. 로컬 findings 단계는 68초였는데, 로컬 PC의 NLI 재선택(CUDA 감지 시 `DV_EVIDENCE_RERANK=auto`가 켬) 때문으로 추정한다. 재빌드 시 BUILDING→RUNNING은 83~102초.
 - 교훈: 배포 검증은 health가 아니라 **도구 호출 성공률**로 한다. 실패한 도구 호출도 UI에 관측값으로 남긴 설계 덕분에 발견할 수 있었다.
+
+### 2026-09-25 — 자율성·도구 집계(P1-2·P1-3), 외부 API 재시도, IC50 대체 표기
+
+- `app/eval/agency.py` → `docs/agency.md`: 현재 기본 설정 60케이스(combo·comboext)의 저장 상태만 읽는다(토큰 0). 단위 규칙(이벤트·케이스·finding·도구 호출)은 스크립트 머리말에 고정했다.
+  - 재계획 이벤트:
+    - citation_held 21이벤트(16케이스·19 finding)
+    - evidence_reselected 20(GPU에서만 켜짐)
+    - citation_rejected 6(2케이스, 재작성 2건 모두 최종 검증 통과)
+    - 데모에서는 prompt_injection_detected 1
+  - finding: 561건(케이스당 9.3), defect 502·abstain 59, 비기권 검증 통과율 483/502 = **0.962**
+  - 도구: 966회(케이스당 16.1), 10종, 성공률 **0.995**. 실패 5건은 chembl.potency 500 4건과 openfda.label 500 1건이다.
+- 집계 중 발견한 결함:
+  - ChEMBL 실패 시 과제가 `done`으로 남고, TCR이 IC50 기본값 30 nM을 조용히 쓰면서 근거 문장에는 "세포 기반"이라고 적었다. 기본값이 ChEMBL 중앙값과 같아 이번 수치에는 영향이 없었다.
+    - 수정: 대체 시 `tool_failure` 재계획 이벤트를 남기고, 근거 문장에 "ChEMBL 미확보 → 기본값"이라고 출처를 명시한다.
+  - chembl.potency 호출 로그의 `chembl_id`가 해석 전 값(None)이었다. 실제로 호출한 ID를 기록하도록 고쳤다.
+  - 외부 API(`fetch_json`: ChEMBL·openFDA)가 재시도 없이 실패했다. 5xx·연결·타임아웃은 2초·4초 백오프로 2회 재시도하도록 했다(`tests/test_fetch_retry.py` 3건).
+- 토큰 원장·파레토 그림에 09-23 이후 설정 6개를 추가했다. 확장 세트는 속 빈 사각형으로 구분한다. 감사로그 합계와 평가 결과의 토큰은 모든 설정에서 일치했다.
