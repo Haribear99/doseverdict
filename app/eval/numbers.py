@@ -56,7 +56,39 @@ PAIRS = [  # (기준, 비교, 설명) — 기술서·발표의 쌍대 비교 수
     ("lean_d3ext", "lean_g6allext", "경화 코드 → 전 노드 gpt-6-sol(확장 40)"),
     ("lean_d3ext", "lean_comboext", "경화 코드 → 현재 기본(확장 40)"),
     ("lean_g6allext", "lean_comboext", "gpt-6-sol → + strict·250자(확장 40)"),
+    ("lean_combo", "lean_v2", "09-25 기본 → 09-26 업그레이드 코드(원 20, 회귀)"),
+    ("lean", "lean_v2", "09-11 배포 기본 → 09-26 업그레이드 코드(원 20)"),
 ]
+
+
+def multidrug_lines(cfg: str = "lean_mdrug") -> list[str]:
+    """다약물 세트의 약물별 지표와 약리 축 도달(저장 상태에서 집계). 원 세트와 결함 풀은 같고 기준 시놉시스만 다르다."""
+    from collections import Counter, defaultdict
+    p = RES / f"{cfg}.json"
+    if not p.exists():
+        return []
+    rows = json.loads(p.read_text(encoding="utf-8"))["rows"]
+    by = defaultdict(list)
+    for r in rows:
+        by[r["case_id"].split("-")[1]].append(r)
+    reach: dict[str, Counter] = defaultdict(Counter)
+    tools: dict[str, list[int]] = defaultdict(lambda: [0, 0])
+    for sp in sorted((RES / "states" / cfg).glob("*.json")):
+        d = json.loads(sp.read_text(encoding="utf-8"))
+        drug = sp.stem.split("-")[1]
+        src = d["scratch"].get("tcr_source")
+        st = next((t["status"] for t in d["tasks"] if t["kind"] == "exposure_dose_relationship"), "없음")
+        reach[drug][f"{'TCR 계산' if src else 'TCR 기권(입력 부족)'}·{st}"] += 1
+        for c in d["tool_log"]:
+            tools[drug][0 if c["ok"] else 1] += 1
+    out = ["| 약물(기준 시놉시스) | n | span recall | grounded (95% CI) | 검증 통과율 | precision proxy | 토큰/케이스 | 도구 성공/실패 | 약리 축(TCR) |",
+           "|---|---|---|---|---|---|---|---|---|"]
+    for drug, v in sorted(by.items()):
+        lo, hi = _ci([r["grounded_recall"] for r in v])
+        m = lambda k: sum(r[k] for r in v) / len(v)
+        out.append(f"| {drug.lower()} | {len(v)} | {m('recall'):.3f} | {m('grounded_recall'):.3f} [{lo:.3f}, {hi:.3f}] | {m('verified_rate'):.3f} | "
+                   f"{m('precision_proxy'):.3f} | {m('tokens'):,.0f} | {tools[drug][0]}/{tools[drug][1]} | {', '.join(f'{k} {n}' for k, n in reach[drug].most_common())} |")
+    return out + ["", "도구 실패의 대부분은 미승인 후보(DV-505)의 openFDA 라벨 404(라벨이 없는 것이 정상)다. 약리 축 'TCR 기권(입력 부족)'은 PK·구조·IC50 중 하나를 얻지 못해 전형값 없이 멈춘 경우다.", ""]
 
 
 def pair_lines() -> list[str]:
@@ -102,13 +134,15 @@ def main() -> None:
         ("no_arena", "ablation: Reviewer 없음"), ("no_calc", "ablation: 계산 도구 없음"), ("no_verifier", "ablation: 검증기 없음"),
         ("lean_d3", "09-23 새 코드 기준선(구조화 출력 경화·불변식·범주 필터)"), ("lean_cnone", "A/B: compile effort none"),
         ("lean_strict", "A/B: reviewers·findings strict"), ("lean_q250", "A/B: 근거 인용문 250자"), ("lean_notopic", "A/B: 주제 태그 프롬프트 제거"), ("lean_fmed", "A/B: findings effort medium"),
-        ("lean_c6sol", "A/B: compile gpt-6-sol"), ("lean_g6all", "A/B: 전 노드 gpt-6-sol"), ("lean_combo", "현재 기본: gpt-6-sol + strict + 인용문 250자"),
-        ("lean_d3ext", "09-23 새 코드, 확장 세트"), ("lean_g6allext", "전 노드 gpt-6-sol, 확장 세트"), ("lean_comboext", "현재 기본, 확장 세트"),
+        ("lean_c6sol", "A/B: compile gpt-6-sol"), ("lean_g6all", "A/B: 전 노드 gpt-6-sol"), ("lean_combo", "09-25 기본: gpt-6-sol + strict + 인용문 250자"),
+        ("lean_d3ext", "09-23 새 코드, 확장 세트"), ("lean_g6allext", "전 노드 gpt-6-sol, 확장 세트"), ("lean_comboext", "09-25 기본, 확장 세트"),
+        ("lean_v2", "09-26 업그레이드 코드(약물 무관화·보류 재검색·예산 가드)"), ("lean_mdrug", "09-26 업그레이드 코드, 다약물 세트"),
     ]
     tcr = json.loads((ROOT / "evidence" / "tcr_240mg.json").read_text(encoding="utf-8"))
     lines = [f"# 수치 원천표 (자동 생성 {datetime.now():%Y-%m-%d %H:%M}, `python -m app.eval.numbers`)", "",
              "제출물(기술서·발표·영상·README·데모 화면)의 모든 수치는 이 표에서만 가져온다. 점추정 간 차이는 n=20에서 대부분 신뢰구간이 겹친다 — 유의 여부는 `python -m app.eval.compare`로 확인한 것만 주장한다.", "",
-             "## 1. 평가(축① Silver Set, 단일 기준 시놉시스 DV-DEMO-002의 결함 주입 변형)", ""] + config_rows(cfgs) + [
+             "## 1. 평가(축① Silver Set — 원·확장 세트는 기준 시놉시스 DV-DEMO-002, 다약물 세트는 아다그라십·로를라티닙·DV-505(가상) 시놉시스의 결함 주입 변형)", ""] + config_rows(cfgs) + [
+             "", "## 1-1. 다약물 세트 약물별(`lean_mdrug`)", ""] + multidrug_lines() + [
              "", "## 1-2. 쌍대 비교(같은 케이스끼리)", ""] + pair_lines() + [
              "## 2. 소토라십 240 mg TCR (`evidence/tcr_240mg.json`)", "",
              "| 가정 | C_max | C_avg | C_trough | 판정 |", "|---|---|---|---|---|"]

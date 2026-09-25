@@ -166,12 +166,29 @@ def chembl_lookup(name):
     성분명 → ChEMBL 분자 ID. 검색 결과 중 pref_name이 이름과 **정확히 같은** 분자만 채택한다
     (염 형태 'DIVARASIB ADIPATE'나 이름 없는 유사 구조를 고르지 않도록). 없으면 None.
     """
+    import pathlib
+    cache_p = pathlib.Path(__file__).resolve().parent / "chembl_lookup_cache.json"   # 식별자는 거의 바뀌지 않는다 — 서버 불안정(09-26 다약물 평가: 500·타임아웃 2/10) 대비
+    try:
+        cache = json.loads(cache_p.read_text(encoding="utf-8"))
+    except (OSError, ValueError):
+        cache = {}
+    key = name.strip().upper()
+    if key in cache:
+        return cache[key] | {"cached": True}
     q = urllib.parse.urlencode({"q": name, "limit": 10})
     data = fetch_json(f"https://www.ebi.ac.uk/chembl/api/data/molecule/search.json?{q}")
+    hit = None
     for m in data.get("molecules", []):
-        if (m.get("pref_name") or "").strip().upper() == name.strip().upper():
-            return {"chembl_id": m["molecule_chembl_id"], "pref_name": m["pref_name"], "max_phase": m.get("max_phase")}
-    return None
+        if (m.get("pref_name") or "").strip().upper() == key:
+            hit = {"chembl_id": m["molecule_chembl_id"], "pref_name": m["pref_name"], "max_phase": m.get("max_phase")}
+            break
+    if hit:   # 찾은 것만 저장(못 찾음은 다음에 다시 조회)
+        cache[key] = hit
+        try:
+            cache_p.write_text(json.dumps(cache, ensure_ascii=False, indent=1), encoding="utf-8")
+        except OSError:
+            pass
+    return hit
 
 
 def chembl_potency(molecule_chembl_id, limit=1000):
