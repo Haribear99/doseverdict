@@ -162,10 +162,30 @@ def _openfda_query(brand: str | None, generic: str | None) -> str:
 def _openfda_label_raw(brand: str | None = None, generic: str | None = None) -> dict[str, Any]:
     """openFDA 라벨 조회(브랜드명 또는 성분명). OPENFDA_API_KEY가 있으면 일 한도 1,000 → 120,000으로 상향(open.fda.gov/apis/authentication)."""
     import os
+    import urllib.error
     import urllib.parse
 
     key = os.getenv("OPENFDA_API_KEY")
-    q = urllib.parse.quote(_openfda_query(brand, generic))
+    try:
+        return _openfda_fetch(_openfda_query(brand, generic), key)
+    except urllib.error.HTTPError as e:
+        if e.code != 404:
+            raise
+    # 필드 검색 404 → 전문 검색. 라벨 개정본에 openfda 조화 필드(brand_name 등)가 비면 필드 검색에 안 잡힌다(09-26 TAGRISSO 실측).
+    # 오탐을 막기 위해 제품 데이터 요소(spl_product_data_elements) 첫 단어가 그 이름인 라벨만 채택한다.
+    name = (brand or generic or "").upper()
+    for r in pe.fetch_json(f"https://api.fda.gov/drug/label.json?search={urllib.parse.quote(name)}&limit=5"
+                           + (f"&api_key={key}" if key else ""))["results"]:
+        prod = " ".join(r.get("spl_product_data_elements") or []).upper().split()
+        if prod and (prod[0] == name or (generic and name in prod[:3])):
+            return r
+    raise urllib.error.HTTPError("", 404, f"no label for {name}", {}, None)
+
+
+def _openfda_fetch(query: str, key: str | None) -> dict[str, Any]:
+    import urllib.parse
+
+    q = urllib.parse.quote(query)
     url = f"https://api.fda.gov/drug/label.json?search={q}&limit=1" + (f"&api_key={key}" if key else "")
     return pe.fetch_json(url)["results"][0]
 
@@ -185,7 +205,7 @@ def openfda_label(brand: str | None = None, generic: str | None = None) -> ToolR
         monitor = re.findall(_MONITOR, warn, flags=re.I)
         return {
             "brand": brand,
-            "generic": (label.get("openfda") or {}).get("generic_name"),
+            "generic": (label.get("openfda") or {}).get("generic_name") or ([generic] if generic else None),
             "set_id": label.get("set_id"),
             "effective_time": label.get("effective_time"),
             "pk": pk,
