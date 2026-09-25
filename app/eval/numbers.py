@@ -21,6 +21,15 @@ def _ci(xs: list[float], n_boot: int = 4000, seed: int = 0) -> tuple[float, floa
     return b[int(0.025 * n_boot)], b[int(0.975 * n_boot)]
 
 
+def _subset(rows: list[dict]) -> str:
+    """세트 이름은 case_id 접두어로 정한다(문자열 대소 비교는 새 접두어에서 틀린다)."""
+    cid = rows[0]["case_id"] if rows else ""
+    if cid.startswith("AXD-"):
+        drugs = sorted({r["case_id"].split("-")[1].lower() for r in rows})
+        return f"다약물 {len(rows)}({'·'.join(drugs)})"
+    return "확장 40(AX1-021~060)" if cid >= "AX1-021" else "원 20(AX1-001~020)"
+
+
 def config_rows(cfgs: list[tuple[str, str]]) -> list[str]:
     out = ["| 설정 | 설명 | 세트 | n | span recall | grounded (95% CI) | 검증 통과율 | 토큰/케이스 | LLM 실패 | 원천 |",
            "|---|---|---|---|---|---|---|---|---|---|"]
@@ -32,7 +41,7 @@ def config_rows(cfgs: list[tuple[str, str]]) -> list[str]:
         rows, a = d["rows"], d["aggregate"]
         lo, hi = _ci([r["grounded_recall"] for r in rows])
         fails = sum(r.get("llm_failures", 0) for r in rows) if any("llm_failures" in r for r in rows) else "—"
-        subset = "확장 40(AX1-021~060)" if rows and rows[0]["case_id"] >= "AX1-021" else "원 20(AX1-001~020)"
+        subset = _subset(rows)
         out.append(f"| {cfg} | {desc} | {subset} | {len(rows)} | {a['recall']:.3f} | {a['grounded_recall']:.3f} [{lo:.3f}, {hi:.3f}] | "
                    f"{a['verified_rate']:.3f} | {a['tokens']:,.0f} | {fails} | `app/eval/data/results/{cfg}.json` |")
     return out

@@ -25,7 +25,7 @@ from langgraph.graph import END, START, StateGraph
 from langgraph.types import Command, interrupt
 
 from app.agents.compiler import compile_protocol
-from app.agents.findings import draft_findings, rewrite_rejected, verify_findings, reselect_evidence
+from app.agents.findings import draft_findings, research_held, rewrite_rejected, verify_findings, reselect_evidence
 from app.agents.nodes import execute_tasks
 from app.agents.planner import build_task_dag, plan_questions
 from app.agents.reviewers import run_arena
@@ -44,11 +44,30 @@ def gateway() -> GatewayClient:
     return _gc
 
 
-def _add_tokens(state: ReviewState, meta: dict[str, Any]) -> None:
+def _add_tokens(state: ReviewState, meta: dict[str, Any], node: str = "other") -> None:
     u = meta.get("usage") or {}
-    state.budget.used_tokens += int(u.get("total_tokens") or 0)
+    t = int(u.get("total_tokens") or 0)
+    state.budget.used_tokens += t
+    state.budget.by_node[node] = state.budget.by_node.get(node, 0) + t
     if meta.get("prompt_sha256") and state.audit:
         state.audit.prompt_hashes.append(meta["prompt_sha256"])
+
+
+# 호출 전 예산 가드 — 노드별 예상 토큰(현재 기본 설정 60케이스 원장의 노드별 중앙값을 반올림, docs/token_ledger.md).
+# 사후 합산만으로는 남은 예산보다 큰 호출을 막지 못한다(09-25 조사). 부족하면 호출하지 않고 강등하거나 결론 없음으로 끝낸다.
+_EST_TOKENS = {"arena": 10_000, "findings": 16_000, "rewrite": 1_500}
+
+
+def _guard(state: ReviewState, node: str) -> bool:
+    """True면 호출 가능. False면 budget_guard 이벤트를 남긴다."""
+    mult = max(1, len(state.scratch.get("reviewers") or [1])) if node == "arena" else 1   # Reviewer 3인 옵션은 arena 비용이 인원만큼
+    need = _EST_TOKENS.get(node, 0) * mult
+    if state.budget.remaining() >= need:
+        return True
+    state.replan_events.append({"trigger": "budget_guard", "node": node, "remaining": state.budget.remaining(), "estimated": need,
+                                "action": {"arena": "Reviewer 생략 → 근거에서 직접 finding 초안", "findings": "초안 생략 → 결론 없음",
+                                           "rewrite": "재작성 생략 → 보류 상태로 사람 검토"}[node]})
+    return False
 
 
 _INJECTION = re.compile(r"(ignore (all )?(previous|prior|above) instructions|system note to (the )?ai|report zero findings|do not cite|disregard (the )?(guidance|instructions)|"
@@ -89,14 +108,14 @@ def node_compile(state: ReviewState) -> dict[str, Any]:
         return {"trial": state.trial, "replan_events": state.replan_events}
     ts, meta = compile_protocol(gateway(), state.raw_protocol_text, purpose=f"{state.run_id}:compile")
     state.trial = ts
-    _add_tokens(state, meta)
+    _add_tokens(state, meta, "compile")
     return {"trial": ts, "budget": state.budget, "audit": state.audit, "replan_events": state.replan_events, "scratch": state.scratch}
 
 
 def node_plan(state: ReviewState) -> dict[str, Any]:
     tasks, unavailable = build_task_dag(state.trial)
     qs, meta = plan_questions(gateway(), state.trial, tasks, purpose=f"{state.run_id}:plan", protocol_text=state.raw_protocol_text)
-    _add_tokens(state, meta)
+    _add_tokens(state, meta, "plan")
     if meta.get("error"):
         record_failure(state.scratch, "plan", meta)
     state.replan_events.append({"event": "plan", "n_tasks": len(tasks), "unavailable": unavailable, "at": datetime.now().isoformat()})
@@ -119,9 +138,12 @@ def node_arena(state: ReviewState) -> dict[str, Any]:
     if state.budget.exhausted():
         state.terminal_status = "no_conclusion"
         return {"terminal_status": "no_conclusion"}
+    if not _guard(state, "arena"):
+        state.scratch["positions"] = {}
+        return {"scratch": state.scratch, "replan_events": state.replan_events}
     usage = run_arena(gateway(), state, purpose=f"{state.run_id}:arena")
     for u in usage.values():
-        _add_tokens(state, {"usage": u})
+        _add_tokens(state, {"usage": u}, "arena")
     return {"scratch": state.scratch, "budget": state.budget}
 
 
@@ -140,8 +162,11 @@ def _rerank_enabled() -> bool:
 
 
 def node_findings(state: ReviewState) -> dict[str, Any]:
+    if not _guard(state, "findings"):
+        record_failure(state.scratch, "findings", {"error": "budget_guard: 남은 토큰이 초안 예상치보다 적음", "attempts": 0})
+        return {"findings": state.findings, "scratch": state.scratch, "replan_events": state.replan_events}
     meta = draft_findings(gateway(), state, purpose=f"{state.run_id}:findings")
-    _add_tokens(state, meta)
+    _add_tokens(state, meta, "findings")
     if _rerank_enabled() and "no_rerank" not in state.scratch.get("ablate", []):
         n = reselect_evidence(state)   # 로컬 NLI 재검색 — 토큰 0
         if n:
@@ -155,22 +180,26 @@ def node_verify(state: ReviewState) -> dict[str, Any]:
             f.verifier_status, f.verifier_note = "verified", "ablation: verifier off"
         return {"findings": state.findings}
     events = verify_findings(state)
+    if not state.scratch.get("held_researched") and "no_research" not in state.scratch.get("ablate", []):
+        state.scratch["held_researched"] = True   # 첫 검증 뒤 1회만(rewrite 루프에서 반복하지 않는다)
+        events += research_held(state)
     for ev in events:
         state.replan_events.append(ev | {"at": datetime.now().isoformat()})
-    return {"findings": state.findings, "replan_events": state.replan_events}
+    return {"findings": state.findings, "evidence": state.evidence, "replan_events": state.replan_events, "scratch": state.scratch}
 
 
 def route_after_verify(state: ReviewState) -> str:
     rejected = [f for f in state.findings if f.verifier_status == "rejected"]
-    replans = sum(1 for e in state.replan_events if e.get("trigger") == "citation_rejected" and e.get("after"))
-    if rejected and replans < state.budget.max_replans_per_gap and not state.budget.exhausted():
-        return "rewrite"
+    attempts = state.scratch.get("rewrite_attempts", 0)   # 재작성 결과가 같거나 출력이 실패해도 1회로 센다(무한 반복 방지)
+    if rejected and attempts < state.budget.max_replans_per_gap and not state.budget.exhausted():
+        return "rewrite" if _guard(state, "rewrite") else "gate"
     return "gate"
 
 
 def node_rewrite(state: ReviewState) -> dict[str, Any]:
+    state.scratch["rewrite_attempts"] = state.scratch.get("rewrite_attempts", 0) + 1
     n, usage = rewrite_rejected(gateway(), state, purpose=f"{state.run_id}:rewrite")
-    _add_tokens(state, {"usage": usage})   # 실측 usage 합(이전: 400·n 추정)
+    _add_tokens(state, {"usage": usage}, "rewrite")   # 실측 usage 합(이전: 400·n 추정)
     return {"findings": state.findings, "replan_events": state.replan_events, "budget": state.budget, "scratch": state.scratch}
 
 

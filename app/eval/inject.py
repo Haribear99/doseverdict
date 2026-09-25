@@ -77,8 +77,9 @@ def inject_one(gc: GatewayClient, req: dict) -> dict | None:
                 "jurisdiction": req["jurisdiction"], "norm_strength": req["norm_strength"], "usage": rec.usage}
 
 
-def build_cases(defects: list[dict], n_cases: int, per_case: int, seed: int = 11, start: int = 1) -> list[dict]:
-    base = BASE.read_text(encoding="utf-8")
+def build_cases(defects: list[dict], n_cases: int, per_case: int, seed: int = 11, start: int = 1,
+                base_path: Path = BASE, prefix: str = "AX1") -> list[dict]:
+    base = base_path.read_text(encoding="utf-8")
     rng = random.Random(seed)
     cases = []
     for i in range(n_cases):
@@ -94,7 +95,7 @@ def build_cases(defects: list[dict], n_cases: int, per_case: int, seed: int = 11
             new_body = body + f"\n{d['protocol_sentence']}\n\n"
             text = text[:m.start(1)] + new_body + text[m.end(1):]
             injected.append(d)
-        cases.append({"case_id": f"AX1-{i + start:03d}", "synopsis": text, "defects": [{k: v for k, v in d.items() if k != "usage"} for d in injected],
+        cases.append({"case_id": f"{prefix}-{i + start:03d}", "synopsis": text, "defects": [{k: v for k, v in d.items() if k != "usage"} for d in injected],
                       "holdout_chunk_ids": [d["holdout_chunk_id"] for d in injected], "created_at": datetime.now(timezone.utc).isoformat()})
     return cases
 
@@ -120,14 +121,34 @@ def extend(gc: GatewayClient, n_cases: int, per_case: int, e6r3_max: int = 20) -
     print(f"ext defects {len(defects)}, cases {len(cases)} (injected {sum(len(c['defects']) for c in cases)}), audit tokens {sum(v['total'] for v in tot['by_model'].values()):,}")
 
 
+def multi_drug(bases: list[str], n_cases: int, per_case: int, pool: str, seed: int = 31) -> None:
+    """다약물 세트(09-26): 원 세트와 **같은 결함 풀**(약물 정보 없음)을 다른 기준 시놉시스에 주입한다 — LLM 호출 0.
+    약물마다 case_id 접두어를 달리해(AXD-<약물>) 원·확장 세트와 섞이지 않게 한다."""
+    defects = [json.loads(l) for l in (DATA / pool).read_text(encoding="utf-8").splitlines() if l.strip()]
+    allc = []
+    for j, b in enumerate(bases):
+        bp = Path(b)
+        tag = bp.stem.split("_")[0].upper()
+        cases = build_cases(defects, n_cases, per_case, seed=seed + j, base_path=bp, prefix=f"AXD-{tag}")
+        miss = sum(per_case - len(c["defects"]) for c in cases)
+        print(f"{tag}: {len(cases)} cases, injected {sum(len(c['defects']) for c in cases)} (section miss {miss})")
+        allc += cases
+    (DATA / "gold_axis1_multidrug.jsonl").write_text("\n".join(json.dumps(c, ensure_ascii=False) for c in allc) + "\n", encoding="utf-8")
+
+
 def main() -> None:
     ap = argparse.ArgumentParser()
     ap.add_argument("--n-cases", type=int, default=20)
     ap.add_argument("--defects-per-case", type=int, default=6)
     ap.add_argument("--max-requirements", type=int, default=140)
     ap.add_argument("--extend", action="store_true", help="기존 결함과 비중복인 확장 세트 생성 → gold_axis1_ext.jsonl")
+    ap.add_argument("--multi-drug", nargs="+", metavar="SYNOPSIS", help="기준 시놉시스들에 원 세트 결함 풀을 주입 → gold_axis1_multidrug.jsonl (LLM 호출 없음)")
+    ap.add_argument("--pool", default="defects_axis1_scoped.jsonl", help="--multi-drug용 결함 풀(원 세트와 동일)")
     a = ap.parse_args()
     DATA.mkdir(parents=True, exist_ok=True)
+    if a.multi_drug:
+        multi_drug(a.multi_drug, a.n_cases, a.defects_per_case, a.pool)
+        return
     gc = GatewayClient(audit_path="logs/eval_inject.jsonl")
     if a.extend:
         extend(gc, a.n_cases, a.defects_per_case)

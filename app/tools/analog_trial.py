@@ -3,22 +3,18 @@ Analog Trial 도구 — ClinicalTrials.gov API v2. 설계 구조 비교 전용(�
 """
 from __future__ import annotations
 
-import json
 import urllib.parse
-import urllib.request
 from datetime import datetime, timezone
 from typing import Any
 
 from app.tools import ToolResult, run_tool
 
 BASE = "https://clinicaltrials.gov/api/v2/studies"
-UA = {"User-Agent": "DoseVerdict/0.1 (academic competition prototype)"}
 
 
 def _get(url: str, timeout: int = 40) -> dict[str, Any]:
-    req = urllib.request.Request(url, headers=UA)
-    with urllib.request.urlopen(req, timeout=timeout) as r:
-        return json.load(r)
+    import pharmacology_evidence as pe   # 5xx·연결·타임아웃 재시도(2회, 백오프) 공용 구현
+    return pe.fetch_json(url, timeout=timeout)
 
 
 def _design_summary(study: dict[str, Any]) -> dict[str, Any]:

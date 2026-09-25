@@ -253,9 +253,13 @@ class Budget(BaseModel):
     max_replans_per_gap: int = 3
     used_tokens: int = 0
     used_tool_calls: int = 0
+    by_node: dict[str, int] = Field(default_factory=dict, description="노드별 실측 토큰(게이트웨이 usage.total_tokens) — UI 원장·예산 가드용")
 
     def exhausted(self) -> bool:
         return self.used_tokens >= self.max_tokens or self.used_tool_calls >= self.max_tool_calls
+
+    def remaining(self) -> int:
+        return self.max_tokens - self.used_tokens
 
 
 class AuditMeta(BaseModel):

@@ -277,6 +277,53 @@ def reselect_evidence(state: ReviewState, k_per_doc: int = 3, min_support: float
     return n_added
 
 
+def research_held(state: ReviewState, max_findings: int = 5, k_per_doc: int = 2, min_support: float = 0.9, min_overlap: float = 0.5) -> list[dict[str, Any]]:
+    """보류(held) finding의 표적 재검색(재계획, LLM 호출 없음). 근거 사실이 인용 근거로 검증되지 않아 보류된 finding만 대상으로,
+    코퍼스를 다시 검색해 **값싼 가드(같은 언어·내용어 50% 실재)를 먼저** 통과한 후보에만 NLI를 돌린다(CPU에서도 수 초).
+    함의 ≥ 0.9인 현행 조항을 찾으면 그 조항을 첫 근거로 두고 재검증, 못 찾으면 보류를 유지한다. 반환: 재계획 이벤트."""
+    from app.agents.nodes import _ev
+    from app.corpus.index import CorpusIndex
+    from app.corpus.manifest import DOCS, by_id
+    targets = [f for f in state.findings if f.verifier_status == "held" and f.evidence_fact and f.finding_id != "F00" and not f.finding_id.startswith("V")
+               and not (f.verifier_note or "").startswith(("span 원문 불일치", "protocol_fact 미확인", "불변식"))][:max_findings]
+    if not targets:
+        return []
+    idx = CorpusIndex.get()
+    holdout = set(state.scratch.get("holdout_chunk_ids", []))
+    events = []
+    for f in targets:
+        ef = f.evidence_fact
+        cited = {(state.evidence[e].quote or "")[:200] for e in f.evidence_ids}
+        found = None
+        n_nli = 0
+        for d in DOCS:
+            if d.superseded_by or found:
+                continue
+            for h in idx.search(ef, k=k_per_doc, doc_ids=[d.doc_id]):
+                if h["chunk_id"] in holdout or "....." in h["text"] or h["text"][:200] in cited or h["text"].lstrip().startswith("등록번호"):
+                    continue
+                if not (_same_lang(ef, h["text"]) and _lexical_overlap(ef, h["text"]) >= min_overlap):
+                    continue   # 가드를 NLI 앞에 — 대부분의 후보가 여기서 걸러진다
+                n_nli += 1
+                v = verify_claim(ef, h["text"], norm_strength=h["norm_strength"])
+                if v.status == "verified" and _support_score(v) >= min_support:
+                    found = (h, v)
+                    break
+        if found:
+            h, v = found
+            doc = by_id(h["doc_id"])
+            eid = _ev(state, "regulatory_clause", doc.authority, h["text"], title=doc.title, section=h["heading"], applicability=h["jurisdiction"],
+                      norm_strength=h["norm_strength"], url=doc.url, tier=2, version_date=doc.effective_date)
+            f.evidence_ids.insert(0, eid)
+            p_ok = not (f.verifier_note or "").startswith(("span", "protocol_fact"))
+            if p_ok:
+                f.verifier_status, f.verifier_note = "verified", f"protocol_fact ok; 재검색 {eid}: {v.reason}"
+            events.append({"trigger": "held_research", "finding_id": f.finding_id, "result": "verified", "evidence_id": eid, "nli_pairs": n_nli})
+        else:
+            events.append({"trigger": "held_research", "finding_id": f.finding_id, "result": "still_held", "nli_pairs": n_nli})
+    return events
+
+
 def _protocol_premise(state: ReviewState, f: Finding) -> str:
     ds = state.trial.design.dose_strategy
     bits = [f.protocol_span.text, ds.rp2d_rule_text or "", ds.dose_comparison_plan or "", ds.pk_sampling_plan or "",

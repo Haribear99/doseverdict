@@ -27,12 +27,20 @@ query T($id: String!) { target(ensemblId: $id) {
 
 def _gql(query: str, variables: dict[str, Any]) -> dict[str, Any]:
     import urllib.error
-    req = urllib.request.Request(ENDPOINT, data=json.dumps({"query": query, "variables": variables}).encode(), headers=UA)
-    try:
-        with urllib.request.urlopen(req, timeout=40) as r:
-            data = json.load(r)
-    except urllib.error.HTTPError as e:  # GraphQL 스키마 오류는 400 본문에 메시지가 있다 → 관측값으로 보존
-        raise RuntimeError(f"HTTP {e.code}: {e.read().decode(errors='replace')[:300]}") from e
+    import time
+    for attempt in range(3):   # 5xx·연결·타임아웃은 2초·4초 백오프로 재시도, 4xx(스키마 오류)는 즉시 보존
+        req = urllib.request.Request(ENDPOINT, data=json.dumps({"query": query, "variables": variables}).encode(), headers=UA)
+        try:
+            with urllib.request.urlopen(req, timeout=40) as r:
+                data = json.load(r)
+            break
+        except urllib.error.HTTPError as e:  # GraphQL 스키마 오류는 400 본문에 메시지가 있다 → 관측값으로 보존
+            if e.code < 500 or attempt == 2:
+                raise RuntimeError(f"HTTP {e.code}: {e.read().decode(errors='replace')[:300]}") from e
+        except (urllib.error.URLError, TimeoutError):
+            if attempt == 2:
+                raise
+        time.sleep(2 * 2 ** attempt)
     if data.get("errors"):
         raise RuntimeError(str(data["errors"])[:300])
     return data["data"]
