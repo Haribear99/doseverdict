@@ -253,3 +253,17 @@
   - 서버 기동 직후 캐시 화면이 열린다(Findings 10건, 기권 표시).
   - 라이브 실행: compile 15s → plan 30s → tools 61s → arena 71s → findings 139s → verify 140s. 34.6k 토큰, 도구 17회, 검증 10/10.
   - Human Gate 승인까지 정상.
+
+### 2026-09-25 — 배포본 결함: 규제 조항 검색이 한 번도 동작하지 않았음
+
+- HF Space에서 라이브 검토를 처음 끝까지 돌렸다(로그인된 Chrome, 예시 ①). 결과는 25.6k 토큰, 93초, 검증 11/11이었다. 그런데 **tools 근거가 12건**으로, 로컬 42건보다 크게 적었다.
+- 도구 호출 탭을 확인하니 `regulatory_clause_search` 2회가 모두 `invalid load key, 'v'`로 실패했다.
+- 원인:
+  - Space 저장소는 `bm25.pkl`·`dense.npy`(·PDF·PNG·hwpx)를 LFS로 저장한다.
+  - 그런데 우리가 올린 `.gitattributes`(`* text=auto eol=lf`)가 HF 기본 LFS 규칙을 덮어썼다.
+  - 그래서 Docker 빌드의 clone이 LFS 포인터 파일을 받았고, 이를 pickle로 로드하다 실패했다.
+  - 09-23 첫 배포부터 이 상태였다. health 200과 캐시 결과(로컬에서 생성)로는 드러나지 않았다.
+- 수정: `app/deploy_space.py`를 추가했다. git archive HEAD를 올리면서, Space용 `.gitattributes`에 LFS 규칙(pkl·npy·pdf·png·hwpx·bin·safetensors)을 더한다. **앞으로 배포는 이 스크립트로만 한다.**
+- 재배포 후 같은 조건의 결과: compile 15s → plan 31s → tools 53s(**근거 52건**, 도구 17회) → arena 64s → findings 76s → verify 83s. 36.5k 토큰, finding 9건, 검증 9/9, 240 mg 기권 유지.
+- HF cpu-basic 웜 실행 약 83~93초로, 로컬(140초)보다 빠르다. 로컬 findings 단계는 68초였는데, 로컬 PC의 NLI 재선택(CUDA 감지 시 `DV_EVIDENCE_RERANK=auto`가 켬) 때문으로 추정한다. 재빌드 시 BUILDING→RUNNING은 83~102초.
+- 교훈: 배포 검증은 health가 아니라 **도구 호출 성공률**로 한다. 실패한 도구 호출도 UI에 관측값으로 남긴 설계 덕분에 발견할 수 있었다.
