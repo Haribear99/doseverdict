@@ -72,3 +72,22 @@ def test_label_generic_fallback_and_unapproved(monkeypatch):
     assert calls == [(None, "NEWDRUG"), (None, "OTHERDRUG")]
     assert st.scratch.get("no_label") and t.status == "done"            # 미승인 404는 실패가 아니다
     assert not any(e.get("trigger") == "tool_failure" for e in st.replan_events)
+
+
+def test_tau_uses_dose_levels_not_other_sentences():
+    """09-26 red-judge: 주입 문장 '240 mg twice daily'를 시험약 투여 간격으로 오인해 원 세트 4/20에서 240 mg 기권이 빠졌다."""
+    st = _state()
+    st.trial.design.dose_strategy.dose_levels = [DoseLevel(label="L1", dose="180 mg once daily, oral"), DoseLevel(label="L2", dose="360 mg once daily, oral")]
+    st.raw_protocol_text = "Planned dose levels (once daily). After the lead-in, all participants will receive 240 mg twice daily."
+    assert nodes._tau(st)[0] == 24.0
+    st.trial.design.dose_strategy.dose_levels = [DoseLevel(label="L1", dose="150 mg twice daily"), DoseLevel(label="L2", dose="600 mg BID")]
+    assert nodes._tau(st)[0] == 12.0
+    st.trial.design.dose_strategy.dose_levels = [DoseLevel(label="L1", dose="150 mg twice daily"), DoseLevel(label="L2", dose="300 mg once daily")]
+    assert nodes._tau(st) == (None, "용량군 투여 간격 표기 충돌")
+
+
+def test_missing_inputs_produce_visible_abstain_finding():
+    st = _state(name="XYZ-1")
+    nodes.run_exposure_dose(st, _task("exposure_dose_relationship"))
+    f = deterministic_tcr_finding(st)
+    assert f and f.verdict == "abstain" and "IC50" in f.abstain_reason and f.evidence_ids

@@ -28,7 +28,7 @@ from app.agents.compiler import compile_protocol
 from app.agents.findings import draft_findings, research_held, rewrite_rejected, verify_findings, reselect_evidence
 from app.agents.nodes import execute_tasks
 from app.agents.planner import build_task_dag, plan_questions
-from app.agents.reviewers import run_arena
+from app.agents.reviewers import reviewer_roles, run_arena
 from app.llm.client import GatewayClient, model_for
 from app.llm.structured import record_failure
 from app.schema.trial_schema import AuditMeta, Budget, HumanStatus, ReviewState
@@ -60,7 +60,7 @@ _EST_TOKENS = {"arena": 10_000, "findings": 16_000, "rewrite": 1_500}
 
 def _guard(state: ReviewState, node: str) -> bool:
     """True면 호출 가능. False면 budget_guard 이벤트를 남긴다."""
-    mult = max(1, len(state.scratch.get("reviewers") or [1])) if node == "arena" else 1   # Reviewer 3인 옵션은 arena 비용이 인원만큼
+    mult = len(reviewer_roles(state)) if node == "arena" else 1   # Reviewer 3인 옵션(UI·DV_REVIEWERS)은 arena 비용이 인원만큼
     need = _EST_TOKENS.get(node, 0) * mult
     if state.budget.remaining() >= need:
         return True

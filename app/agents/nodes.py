@@ -54,10 +54,13 @@ def run_structure_class(state: ReviewState, task: Task) -> None:
             "구조 알림은 HTS 간섭 필터이며 임상 독성 예측용으로 검증되지 않았으므로 계열 분류까지만 사용한다.", tool_call_id=cid, tier=3)
         state.scratch["structure"] = r.data
     chembl_id = ip.chembl_id or _CHEMBL_BY_GENERIC.get(generic_name(ip))
-    if not chembl_id and generic_name(ip) and not generic_name(ip).startswith(("dv-", "code")):
+    if not chembl_id and generic_name(ip):
         rl = pharmacology.chembl_lookup(generic_name(ip))
         _log(state, "chembl.lookup", {"name": generic_name(ip)}, rl)
-        if rl.ok and rl.data.get("found"):
+        if not rl.ok:   # 서버 오류·타임아웃(재시도 후) — 원인을 남긴다. IC50이 없으면 노출-용량은 전형값 없이 기권한다
+            state.replan_events.append({"trigger": "tool_failure", "tasks": [task.task_id], "tool": "chembl.lookup",
+                                        "action": f"ChEMBL 이름 검색 실패({(rl.error or '')[:60]}) → IC50 미확보, 프로토콜 보고 IC50이 없으면 노출-용량 판정 보류"})
+        elif rl.data.get("found"):
             chembl_id = rl.data["chembl_id"]
             state.replan_events.append({"trigger": "tool_fallback", "tasks": [task.task_id], "tool": "chembl.lookup",
                                         "action": f"ID 매핑 표에 없음 → ChEMBL 이름 검색으로 {chembl_id} 확보"})
@@ -132,15 +135,29 @@ def run_class_label_check(state: ReviewState, task: Task) -> None:
     task.status = "done" if checked or state.scratch.get("no_label") else "failed"
 
 
+_QD = r"once[- ]daily|\bQD\b|\bq24h\b|daily\b"
+_BID = r"twice[- ]daily|\bBID\b|\bq12h\b"
+
+
 def _tau(state: ReviewState) -> tuple[float | None, str]:
-    """투여 간격: 프로토콜 보고값 → 본문의 1일 2회(BID·twice daily) 표기 → 없음."""
+    """투여 간격: ① 이 프로토콜의 **용량군 표기**(once daily/QD → 24 h, twice daily/BID → 12 h) ② 프로토콜 보고 PK의 투여 간격 ③ 없음.
+    원문 전체를 검색하지 않는다 — 다른 문장(예: 인용·비교 문장의 '240 mg twice daily')을 시험약 투여 간격으로 오인했다(09-26 red-judge, 원 세트 4/20).
+    용량군 표기가 서로 충돌하면 None(호출부에서 1일 1회 가정과 함께 표기)."""
     import re
+    kinds = set()
+    for lvl in state.trial.design.dose_strategy.dose_levels:
+        d = f"{lvl.dose or ''} {lvl.label or ''}"
+        if re.search(_BID, d, flags=re.I):
+            kinds.add(12.0)
+        elif re.search(_QD, d, flags=re.I):
+            kinds.add(24.0)
+    if len(kinds) == 1:
+        tau = kinds.pop()
+        return tau, "용량군 표기(" + ("1일 2회" if tau == 12.0 else "1일 1회") + ")"
     cp = state.trial.study.investigational_product.clinical_pk
-    if cp and cp.dosing_interval_hr:
-        return cp.dosing_interval_hr, "프로토콜"
-    if re.search(r"twice[- ]daily|\bBID\b|\bq12h\b", state.raw_protocol_text or "", flags=re.I):
-        return 12.0, "프로토콜 투여 빈도(1일 2회)"
-    return None, ""
+    if not kinds and cp and cp.dosing_interval_hr:
+        return cp.dosing_interval_hr, "프로토콜 보고 투여 간격"
+    return None, ("용량군 투여 간격 표기 충돌" if kinds else "")
 
 
 def _pk_inputs(state: ReviewState) -> tuple[dict[str, Any] | None, str]:
@@ -167,6 +184,7 @@ def run_exposure_dose(state: ReviewState, task: Task) -> None:
     missing = [n for n, v in (("CL/F·t½", pk), ("MW(구조)", mw), ("IC50", ic50)) if not v]
     if missing:
         task.status = "abstained"
+        state.scratch["tcr_missing"] = missing
         _ev(state, "calculation", "DoseVerdict", f"노출-용량 계산에 필요한 값({', '.join(missing)})이 라벨·프로토콜·DB 어디에도 없다 → 전형값으로 채우지 않고 판정 보류. "
             "용량군별 반복투여 PK와 세포 효력값 자료를 요청한다.", tier=3)
         return
@@ -176,7 +194,7 @@ def run_exposure_dose(state: ReviewState, task: Task) -> None:
         fu, fu_src = struct.get("fu_estimated"), "cLogP 기반 추정(자체 보정식, 실측 아님)"
     tau, tau_src = _tau(state)
     if not tau:
-        tau, tau_src = 24.0, "명시 없음 → 1일 1회 가정"
+        tau, tau_src = 24.0, (tau_src + " → " if tau_src else "명시 없음 → ") + "1일 1회 가정"
     doses = []
     for lvl in state.trial.design.dose_strategy.dose_levels:
         try:

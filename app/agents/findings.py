@@ -69,7 +69,19 @@ def _gap(pos: list[ReviewerPosition]) -> int:
 
 
 def deterministic_tcr_finding(state: ReviewState) -> Finding | None:
-    """도구가 '지표 의존적'으로 판정한 경우에만 생성되는 기권 finding — LLM이 만들지도, 뒤집지도 못한다."""
+    """도구가 '지표 의존적'으로 판정했거나, 계산 입력(PK·구조·IC50)이 없어 계산하지 못한 경우에 생성되는 기권 finding —
+    LLM이 만들지도, 뒤집지도 못한다. 입력 부족은 전형값으로 채우지 않고 무엇이 없는지 사용자에게 보인다(09-26)."""
+    missing = state.scratch.get("tcr_missing")
+    if missing:
+        ev_ids = [e.evidence_id for e in state.evidence.values() if e.kind == "calculation" and "노출-용량 계산에 필요한 값" in (e.quote or "")][:1]
+        ds = state.trial.design.dose_strategy
+        return Finding(finding_id="F00", category="dose_optimization", severity=Severity.high,
+                       protocol_span=ProtocolSpan(section="Dose Escalation / PK", text=ds.rp2d_rule_text or ds.pk_sampling_plan or "dose table"),
+                       claim=f"노출-용량(TCR) 판정에 필요한 값({', '.join(missing)})을 라벨·프로토콜·DB 어디에서도 얻지 못해 계산하지 않았다. 전형값으로 채우지 않고 판정을 보류한다.",
+                       evidence_ids=ev_ids, reviewer_positions=[], conflict_unresolved=False, suggested_patch=None,
+                       required_additional_data=[f"{m} 자료" for m in missing],
+                       verdict="abstain", abstain_reason=f"계산 입력 미확보({', '.join(missing)}) — 결론 보류", verifier_status="verified",
+                       verifier_note="결정론적 finding(도구 입력 부족)")
     if not state.scratch.get("tcr_split"):
         return None
     ev_ids = [e.evidence_id for e in state.evidence.values() if e.kind == "calculation" and ("TCR" in (e.quote or "") or "AUC 비" in (e.quote or ""))]
@@ -320,7 +332,8 @@ def research_held(state: ReviewState, max_findings: int = 5, k_per_doc: int = 2,
             p_ok = not (f.verifier_note or "").startswith(("span", "protocol_fact"))
             if p_ok:
                 f.verifier_status, f.verifier_note = "verified", f"protocol_fact ok; 재검색 {eid}: {v.reason}"
-            events.append({"trigger": "held_research", "finding_id": f.finding_id, "result": "verified", "evidence_id": eid, "nli_pairs": n_nli})
+            events.append({"trigger": "held_research", "finding_id": f.finding_id, "result": "verified" if p_ok else "evidence_added_still_held",
+                           "evidence_id": eid, "nli_pairs": n_nli})
         else:
             events.append({"trigger": "held_research", "finding_id": f.finding_id, "result": "still_held", "nli_pairs": n_nli})
     return events
