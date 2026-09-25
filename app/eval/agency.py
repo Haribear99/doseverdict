@@ -29,6 +29,8 @@ TRIGGER_KO = {
     "prompt_injection_detected": "문서 내 지시문 탐지 → 데이터로만 처리",
     "source_version_conflict": "폐기된 초안 인용 → 최신 최종본 기준",
     "tool_failure": "도구 실패 → 근거 미확보 표기",
+    "held_research": "보류 finding 표적 재검색(로컬 NLI, 가드 선행)",
+    "budget_guard": "호출 전 예산 가드 → 강등·결론 없음",
     "tool_fallback": "매핑 표 밖 약물 → ChEMBL 이름 검색·openFDA 성분명 검색으로 대체 조회",
     "llm_output_failure": "LLM 구조화 출력 실패 → 결론 없음",
 }
@@ -69,6 +71,15 @@ def rewrite_outcomes(states: list[tuple[str, dict]]) -> str:
             tot += 1
             ok += st.get(fid) == "verified"
     return f"재작성 {tot}건 중 최종 검증 통과 {ok}건" if tot else "재작성 없음"
+
+
+def held_outcomes(states: list[tuple[str, dict]]) -> str:
+    """보류 finding 표적 재검색의 결과(검증 전환 / 보류 유지)와 NLI 판정 쌍 수."""
+    ev = [e for _, d in states for e in d["replan_events"] if e.get("trigger") == "held_research"]
+    if not ev:
+        return "보류 재검색 없음"
+    ok = sum(1 for e in ev if e.get("result") == "verified")
+    return f"보류 재검색 {len(ev)}건 중 검증 전환 {ok}건, 보류 유지 {len(ev) - ok}건(NLI 판정 {sum(e.get('nli_pairs', 0) for e in ev)}쌍 — 가드가 대부분을 걸렀다)"
 
 
 def finding_table(states: list[tuple[str, dict]]) -> list[str]:
@@ -113,25 +124,27 @@ def tool_table(states: list[tuple[str, dict]]) -> list[str]:
         ok += good
         rows.append(f"| `{name}` | {len(ts)} | {len(ts) / n:.1f} | {good / len(ts):.3f} | {statistics.median(lat) if lat else 0:.3f} | "
                     f"{max(lat) if lat else 0:.3f} | {', '.join(f'{k} {v}' for k, v in err) if err else '—'} |")
+    expected = sum(1 for ts in by.values() for t in ts if not t["ok"] and "404" in (t.get("error") or "") and t["tool"] == "openfda.label")
     rows.append(f"| **합계** | {tot} | {tot / max(n, 1):.1f} | {ok / max(tot, 1):.3f} | | | 도구 종류 {len(by)}개 |")
+    rows.append(f"| 예상된 라벨 없음(openFDA 404) {expected}건 제외 | {tot - expected} | | {ok / max(tot - expected, 1):.3f} | | | |")
     return rows
 
 
 def main() -> None:
     ap = argparse.ArgumentParser()
-    ap.add_argument("--configs", default="lean_combo,lean_comboext")
+    ap.add_argument("--configs", default="lean_v2,lean_mdrug")
     a = ap.parse_args()
     cfgs = [c.strip() for c in a.configs.split(",") if c.strip()]
     states = load(cfgs)
     demos = [(p.stem, json.loads(p.read_text(encoding="utf-8"))) for p in sorted(DEMO.glob("demo*.json"))]
     lines = [f"# 자율성·도구 활용 집계 (자동 생성 {datetime.now():%Y-%m-%d %H:%M}, `python -m app.eval.agency`)", "",
-             f"원천: `app/eval/data/results/states/{{{','.join(cfgs)}}}/*.json` ({len(states)}케이스, 현재 기본 설정) · 데모: `app/demo/results/demo*.json`. 단위 규칙은 스크립트 머리말 참조.", "",
+             f"원천: `app/eval/data/results/states/{{{','.join(cfgs)}}}/*.json` ({len(states)}케이스, 09-26 업그레이드 코드 — 원 20 + 다약물 30) · 데모: `app/demo/results/demo*.json`. 단위 규칙은 스크립트 머리말 참조.", "",
              "## 1. 재계획 이벤트 — 평가 세트", ""] + replan_table(states) + [
-             "", f"- {rewrite_outcomes(states)}.",
+             "", f"- {rewrite_outcomes(states)}.", f"- {held_outcomes(states)}.",
              "- `evidence_reselected`는 CUDA가 있을 때만 켜진다(`DV_EVIDENCE_RERANK=auto`). 평가는 GPU PC에서 돌았고 배포본(CPU)에서는 꺼진다.",
              "- 평가 세트에는 인젝션·폐기 초안이 없어 해당 트리거가 0이다. 이 경로는 아래 데모·적대 테스트로 보인다.",
-             "- 도구 실패 5건(4절)은 평가 당시 `tool_failure`로 기록되지 않았다. 과제가 다른 도구 결과로 `done` 처리됐기 때문이다(09-25 수정 전 코드). openFDA 실패 1건(AX1-046)에서는 라벨 PK 미확보로 240 mg 기권 finding이 빠졌다(기권 59/60의 이유).", "",
-             "## 2. 재계획 이벤트 — 시연 데모 3종", ""] + replan_table(demos) + [
+             "- 도구 실패 중 openFDA 404는 대부분 미승인 가상 후보 DV-505의 라벨 없음(정상)이다. 이는 `tool_failure`가 아니라 `no_label`로 처리한다.", "",
+             f"## 2. 재계획 이벤트 — 시연 데모 {len(demos)}종", ""] + replan_table(demos) + [
              "", "## 3. finding 판정·검증 — 평가 세트", ""] + finding_table(states) + [
              "", "## 4. 도구 호출 — 평가 세트", ""] + tool_table(states) + [
              "", "성공률은 `ok` 필드 기준이다. 실패도 관측값으로 저장·표시한다(UI 도구 호출 탭)."]

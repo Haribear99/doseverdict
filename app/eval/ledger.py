@@ -36,7 +36,7 @@ def audit_by_config(configs: list[str]) -> dict[str, dict]:
         calls[run_id].append(r)
     out: dict[str, dict] = {}
     for cfg in configs:
-        prefix = f"eval-{cfg}-AX1"
+        prefix = f"eval-{cfg}-AX"   # AX1(원·확장)·AXD(다약물)
         per_node = defaultdict(lambda: defaultdict(int))
         n_runs = 0
         for run_id, rs in calls.items():
@@ -100,7 +100,7 @@ def main() -> None:
         pts.append((cfg, o["tokens_per_case"], o["grounded_recall"]))
         lines.append(f"| {cfg} | {o['n']} | {o['tokens_per_case']:,.0f} | {o['recall']:.3f} | {o['grounded_recall']:.3f} | {o['verified_rate']:.3f} | "
                      f"{o['tokens_per_verified_finding']:,.0f} | {o['tokens_per_grounded_hit']:,.0f} |")
-    lines += ["", "주의: n=20 설정 간 grounded 차이는 대부분 부트스트랩 CI가 겹친다 — 유의 여부는 `python -m app.eval.compare`의 쌍대 비교로만 주장한다. 토큰 차이는 호출 구조로 정해지므로 확정적이다.", "`*ext`는 확장 40케이스(AX1-021~060)로 원 20케이스와 분포가 달라 설정 간 비교는 같은 세트 안에서만 한다.",
+    lines += ["", "주의: n=20 설정 간 grounded 차이는 대부분 부트스트랩 CI가 겹친다 — 유의 여부는 `python -m app.eval.compare`의 쌍대 비교로만 주장한다. 토큰 차이는 호출 구조로 정해지므로 확정적이다.", "`*ext`는 확장 40케이스(AX1-021~060), `*mdrug`는 다약물 30케이스(AXD-)로 원 20케이스와 분포가 달라 설정 간 비교는 같은 세트 안에서만 한다.",
               "프롬프트 캐시는 적중해도 팀 쿼터 차감이 줄지 않아(⑩-b) 절감 수단으로 계산하지 않았다. Batch·Flex는 게이트웨이 지원을 확인하지 않았다."]
     (ROOT / "docs" / "token_ledger.md").write_text("\n".join(lines) + "\n", encoding="utf-8")
     if pts:
@@ -109,13 +109,14 @@ def main() -> None:
         import matplotlib.pyplot as plt
         fig, ax = plt.subplots(figsize=(6, 4))
         for name, x, y in pts:
-            ext = name.endswith("ext")   # 확장 세트는 속 빈 사각형 — 원 세트와 직접 비교하지 않는다
-            ax.scatter(x / 1000, y, s=45, marker="s" if ext else "o", facecolors="none" if ext else None,
-                       edgecolors="C1" if ext else None, color=None if ext else "C0")
-            ax.annotate(name, (x / 1000, y), textcoords="offset points", xytext=(6, -12 if ext else 4), fontsize=8)
+            # 세트마다 모양을 달리한다 — 원(원 20) · 속 빈 사각형(확장 40) · 속 빈 세모(다약물 30). 세트 간 직접 비교하지 않는다
+            kind = "ext" if name.endswith("ext") else ("mdrug" if name.endswith("mdrug") else "orig")
+            marker, edge = {"orig": ("o", None), "ext": ("s", "C1"), "mdrug": ("^", "C2")}[kind]
+            ax.scatter(x / 1000, y, s=50, marker=marker, facecolors="none" if edge else None, edgecolors=edge, color=None if edge else "C0")
+            ax.annotate(name, (x / 1000, y), textcoords="offset points", xytext=(6, -12 if edge else 4), fontsize=8)
         ax.set_xlabel("tokens per case (thousand, gateway quota)")
         ax.set_ylabel("grounded recall (point estimate)")
-        ax.set_title("Cost vs grounded citation (n=20; *ext n=40, different case mix)")
+        ax.set_title("Cost vs grounded citation (o n=20, □ *ext n=40, △ *mdrug n=30)")
         ax.grid(alpha=0.3)
         fig.tight_layout()
         fig.savefig(ROOT / "figures" / "pareto_tokens_grounded.png", dpi=160)
