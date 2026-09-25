@@ -38,6 +38,37 @@ def config_rows(cfgs: list[tuple[str, str]]) -> list[str]:
     return out
 
 
+PAIRS = [  # (기준, 비교, 설명) — 기술서·발표의 쌍대 비교 수치는 이 절에서만 가져온다
+    ("lean", "lean_combo", "09-11 배포 기본 → 현재 기본(원 20)"),
+    ("lean", "lean_d3", "09-11 배포 기본 → 09-23 경화 코드(원 20)"),
+    ("lean_d3", "lean_g6all", "경화 코드 → 전 노드 gpt-6-sol(원 20)"),
+    ("lean_d3", "lean_combo", "경화 코드 → 현재 기본(원 20)"),
+    ("lean_g6all", "lean_combo", "gpt-6-sol → + strict·250자(원 20)"),
+    ("lean_d3ext", "lean_g6allext", "경화 코드 → 전 노드 gpt-6-sol(확장 40)"),
+    ("lean_d3ext", "lean_comboext", "경화 코드 → 현재 기본(확장 40)"),
+    ("lean_g6allext", "lean_comboext", "gpt-6-sol → + strict·250자(확장 40)"),
+]
+
+
+def pair_lines() -> list[str]:
+    from app.eval.compare import load, paired, verdict
+    out = ["| 비교 | n | 토큰/케이스 차이 [95% CI] | 토큰 비율 | grounded [95% CI] | 검증 [95% CI] | precision [95% CI] | 사전 규칙 |",
+           "|---|---|---|---|---|---|---|---|"]
+    for b, a, desc in PAIRS:
+        if not ((RES / f"{b}.json").exists() and (RES / f"{a}.json").exists()):
+            continue
+        base, arm = load(b), load(a)
+        t, tl, th, n = paired(base, arm, "tokens")
+        rel = sum(arm[c]["tokens"] for c in arm if c in base) / sum(base[c]["tokens"] for c in arm if c in base) - 1
+        cells = []
+        for k in ("grounded_recall", "verified_rate", "precision_proxy"):
+            m, lo, hi, _ = paired(base, arm, k)
+            cells.append(f"{m:+.3f} [{lo:+.3f}, {hi:+.3f}]")
+        out.append(f"| {desc} (`{b}`→`{a}`) | {n} | {t:+,.0f} [{tl:+,.0f}, {th:+,.0f}] | {rel:+.1%} | " + " | ".join(cells)
+                   + f" | {verdict(base, arm).split(' ')[0]} |")
+    return out + ["", "쌍대 부트스트랩 5,000회(`app/eval/compare.py`, seed 0). 사전 규칙: 기각 = 토큰 +2% 초과 또는 grounded·검증 점추정 −5pp 초과 하락, 채택 = 토큰 −15% 이하 또는 grounded CI 하한 > 0, 그 외 보류.", ""]
+
+
 def usage_lines() -> list[str]:
     """원천 = 감사로그 공개 집계본(`app/eval/data/audit_usage.jsonl`, `python -m app.eval.audit_export`로 갱신). 쿼터 헤더는 09-22 한도 재설정 이후 값만 보여 누적 사용량과 대조할 수 없다."""
     from collections import Counter
@@ -69,7 +100,8 @@ def main() -> None:
     lines = [f"# 수치 원천표 (자동 생성 {datetime.now():%Y-%m-%d %H:%M}, `python -m app.eval.numbers`)", "",
              "제출물(기술서·발표·영상·README·데모 화면)의 모든 수치는 이 표에서만 가져온다. 점추정 간 차이는 n=20에서 대부분 신뢰구간이 겹친다 — 유의 여부는 `python -m app.eval.compare`로 확인한 것만 주장한다.", "",
              "## 1. 평가(축① Silver Set, 단일 기준 시놉시스 DV-DEMO-002의 결함 주입 변형)", ""] + config_rows(cfgs) + [
-             "", "## 2. 소토라십 240 mg TCR (`evidence/tcr_240mg.json`)", "",
+             "", "## 1-2. 쌍대 비교(같은 케이스끼리)", ""] + pair_lines() + [
+             "## 2. 소토라십 240 mg TCR (`evidence/tcr_240mg.json`)", "",
              "| 가정 | C_max | C_avg | C_trough | 판정 |", "|---|---|---|---|---|"]
     for r in tcr["rows"]:
         lines.append(f"| {r['assumption']} | {r['TCR_max']} | {r['TCR_avg']} | {r['TCR_trough']} | {r['verdict']} |")
