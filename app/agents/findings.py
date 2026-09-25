@@ -77,11 +77,17 @@ def deterministic_tcr_finding(state: ReviewState) -> Finding | None:
     ds = state.trial.design.dose_strategy
     span = ds.rp2d_rule_text or ds.pk_sampling_plan or "dose table"
     pos = _reviewer_positions(state, next((t.task_id for t in state.tasks if t.kind == "exposure_dose_relationship"), ""))
+    nonlinear = (state.scratch.get("label_pk") or {}).get("nonlinear", False)
+    covalent = "irreversible_covalent_inhibitor_candidate" in (state.scratch.get("structure") or {}).get("structural_class", [])
+    src = state.scratch.get("tcr_source") or "라벨"
     return Finding(finding_id="F00", category="dose_optimization", severity=Severity.high, protocol_span=ProtocolSpan(section="Dose Expansion / PK", text=span),
-                   claim="Target Coverage Ratio 판정이 지표(C_avg 커버 / C_trough 미커버)와 가정(선형 CL/F vs 라벨의 노출 유사)에 따라 갈리므로 '커버된다'는 결론을 만들지 않는다. "
+                   claim="Target Coverage Ratio 판정이 지표(C_avg 커버 / C_trough 미커버)"
+                         + ("와 가정(선형 CL/F vs 라벨의 노출 유사)" if nonlinear else "")
+                         + f"에 따라 갈리므로 '커버된다'는 결론을 만들지 않는다(PK 출처: {src}). "
                          "증량 코호트 규모(용량당 2~4명)로는 노출 포화를 확정할 수 없다.",
                    evidence_ids=ev_ids, reviewer_positions=pos, conflict_unresolved=_gap(pos) >= 2, suggested_patch=None,
-                   required_additional_data=["용량군별 반복투여 PK(AUC, C_max, C_trough) — 확장 코호트 진입 전", "어세이 조건이 명시된 세포 기반 IC50 또는 kinact/K_I(공유결합)"],
+                   required_additional_data=["용량군별 반복투여 PK(AUC, C_max, C_trough) — 확장 코호트 진입 전",
+                                             "어세이 조건이 명시된 세포 기반 IC50" + (" 또는 kinact/K_I(공유결합 저해제)" if covalent else "")],
                    verdict="abstain", abstain_reason="지표·가정 의존적 판정 — 결론 보류, 추가 PK 자료 요청", verifier_status="verified",
                    verifier_note="결정론적 계산 finding(도구 산출값 인용)")
 

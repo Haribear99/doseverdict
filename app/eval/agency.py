@@ -29,6 +29,7 @@ TRIGGER_KO = {
     "prompt_injection_detected": "문서 내 지시문 탐지 → 데이터로만 처리",
     "source_version_conflict": "폐기된 초안 인용 → 최신 최종본 기준",
     "tool_failure": "도구 실패 → 근거 미확보 표기",
+    "tool_fallback": "매핑 표 밖 약물 → ChEMBL 이름 검색·openFDA 성분명 검색으로 대체 조회",
     "llm_output_failure": "LLM 구조화 출력 실패 → 결론 없음",
 }
 

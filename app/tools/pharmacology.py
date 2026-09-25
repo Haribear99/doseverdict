@@ -85,41 +85,98 @@ def chembl_potency(molecule_chembl_id: str, target_keyword: str | None = None) -
     return r
 
 
+def chembl_lookup(name: str) -> ToolResult:
+    """성분명 → ChEMBL ID(정확한 pref_name 일치만). 매핑 표에 없는 약의 대체 경로."""
+    def _run(drug: str) -> dict[str, Any]:
+        hit = pe.chembl_lookup(drug)
+        return {"query": drug, "found": bool(hit), **(hit or {})}
+
+    r = run_tool("chembl.lookup", _run, drug=name)
+    r.source = {"url": "https://www.ebi.ac.uk/chembl/api/data/molecule/search.json", "license": "CC BY-SA 3.0", "retrieved_at": _now()}
+    return r
+
+
 # ----------------------------------------------------------------- openFDA
-_PK_PATTERNS = {
-    "cl_f_L_per_hr": r"apparent clearance[^.]*?is\s+([\d.]+)\s*L/h",
-    "t_half_hr": r"half-life[^.]*?is\s+([\d.]+)\s*hours?",
-    "vd_L": r"volume of distribution[^.]*?is\s+([\d.]+)\s*L\b",
-    "protein_binding_pct": r"plasma protein binding is\s+([\d.]+)%",
-    "cl_cv_pct": r"apparent clearance[^()]*?\(CV:\s*([\d.]+)%\)",   # [^.]는 "26.2"의 소수점에서 멈춰 파싱이 실패했다(09-25)
-}
+_NUM = r"(\d[\d,]*(?:\.\d+)?)"
+
+
+def _sentences(text: str) -> list[str]:
+    """소수점("26.2")에서 끊기지 않는 문장 분할."""
+    return [x.strip() for x in re.split(r"(?<!\d)\.(?!\d)\s+", text) if x.strip()]
+
+
+def _num(x: str) -> float:
+    return float(x.replace(",", ""))
+
+
+def parse_label_pk(text: str) -> tuple[dict[str, float], dict[str, str]]:
+    """
+    라벨 12.3 PK 문장에서 CL/F·t½·Vd·단백결합·CL/F CV를 뽑는다. 라벨마다 표현이 달라(09-25 조사: sotorasib·adagrasib·
+    osimertinib·lorlatinib·capivasertib·alectinib) 문장 단위 규칙으로 처리한다.
+    - CL/F: "clearance"와 "L/h(our)"가 같은 문장. 크레아티닌 청소율(mL/min)은 단위로 걸러진다.
+      값이 여럿이면 "steady"가 있는 문장에서는 마지막(정상상태) 값, 아니면 첫 값.
+    - CV: 그 값 바로 뒤 괄호 "(CV: 76%)", "(54%)", "(37% CV)".
+    """
+    pk: dict[str, float] = {}
+    quotes: dict[str, str] = {}
+    text = re.sub(r"[‐‑‒–]", "-", text)   # "half‑life"(U+2011) 등 — 로를라티닙 라벨
+    for sent in _sentences(text):
+        low = sent.lower()
+        if "cl_f_L_per_hr" not in pk and "clearance" in low:
+            hits = list(re.finditer(_NUM + r"\s*\(?\s*L/h(?:our|r)?\b\)?(?:\s*\((?:CV:?\s*)?" + _NUM + r"%(?:\s*CV)?\))?", sent))
+            if hits:
+                m = hits[-1] if "steady" in low else hits[0]
+                pk["cl_f_L_per_hr"] = _num(m.group(1))
+                if m.group(2):
+                    pk["cl_cv_pct"] = _num(m.group(2))
+                quotes["cl_f_L_per_hr"] = sent[:300]
+        if "t_half_hr" not in pk and "half-life" in low:
+            m = re.search(r"half-life" + r"[^%]*?(?:is|was|of)\s+(?:approximately\s+|about\s+)?" + _NUM + r"\s*(?:hours?|h)\b", sent, flags=re.I)
+            if m:
+                pk["t_half_hr"] = _num(m.group(1))
+                quotes["t_half_hr"] = sent[:300]
+        if "vd_L" not in pk and "volume of distribution" in low:
+            m = re.search(r"volume of distribution.*?(?:is|was)\s+(?:approximately\s+)?" + _NUM + r"\s*L\b", sent, flags=re.I)
+            if m:
+                pk["vd_L"] = _num(m.group(1))
+                quotes["vd_L"] = sent[:300]
+        if "protein_binding_pct" not in pk and "protein" in low and "%" in sent:
+            m = (re.search(r"protein binding.*?(?:is|was)\s+(?:approximately\s+|about\s+)?(?:greater than\s+|>\s*)?" + _NUM + r"%", sent, flags=re.I)
+                 or re.search(_NUM + r"%\s+bound to (?:human )?plasma proteins?", sent, flags=re.I)
+                 or re.search(r"bound to (?:human )?plasma proteins?.*?(?:greater than|>)\s*" + _NUM + r"%", sent, flags=re.I))
+            if m:
+                pk["protein_binding_pct"] = _num(m.group(1))
+                quotes["protein_binding_pct"] = sent[:300]
+    return pk, quotes
+
+
 _NONLINEAR = r"non-?linear[^.]*pharmacokinetics[^.]*\."
 _ER_UNKNOWN = r"exposure-response relationships?[^.]*unknown[^.]*\."
 _MONITOR = r"(monitor[^.]*(liver|hepatic|ALT|AST)[^.]*\.)"
 
 
-def _openfda_label_raw(brand: str) -> dict[str, Any]:
-    """openFDA 라벨 조회. OPENFDA_API_KEY가 있으면 일 한도 1,000 → 120,000으로 상향(open.fda.gov/apis/authentication)."""
+def _openfda_query(brand: str | None, generic: str | None) -> str:
+    return f'openfda.brand_name:"{brand}"' if brand else f'openfda.generic_name:"{generic}"'
+
+
+def _openfda_label_raw(brand: str | None = None, generic: str | None = None) -> dict[str, Any]:
+    """openFDA 라벨 조회(브랜드명 또는 성분명). OPENFDA_API_KEY가 있으면 일 한도 1,000 → 120,000으로 상향(open.fda.gov/apis/authentication)."""
     import os
     import urllib.parse
 
     key = os.getenv("OPENFDA_API_KEY")
-    q = urllib.parse.quote(f'openfda.brand_name:"{brand}"')
+    q = urllib.parse.quote(_openfda_query(brand, generic))
     url = f"https://api.fda.gov/drug/label.json?search={q}&limit=1" + (f"&api_key={key}" if key else "")
     return pe.fetch_json(url)["results"][0]
 
 
-def openfda_label(brand: str) -> ToolResult:
-    def _run(brand: str) -> dict[str, Any]:
-        label = _openfda_label_raw(brand)
-        text = " ".join(label.get("clinical_pharmacology", []) + label.get("description", []))
-        pk: dict[str, Any] = {}
-        quotes: dict[str, str] = {}
-        for k, pat in _PK_PATTERNS.items():
-            m = re.search(pat, text, flags=re.I)
-            if m:
-                pk[k] = float(m.group(1))
-                quotes[k] = text[max(0, m.start() - 40): m.end() + 40]
+def openfda_label(brand: str | None = None, generic: str | None = None) -> ToolResult:
+    """브랜드명이 없으면 성분명(openfda.generic_name)으로 찾는다 — 매핑 표에 없는 약의 대체 경로."""
+    def _run(brand: str | None, generic: str | None) -> dict[str, Any]:
+        label = _openfda_label_raw(brand, generic)
+        brand = brand or ((label.get("openfda") or {}).get("brand_name") or [generic])[0]
+        text = " ".join(label.get("clinical_pharmacology", []) + label.get("pharmacokinetics", []) + label.get("description", []))
+        pk, quotes = parse_label_pk(text)
         if "protein_binding_pct" in pk:
             pk["fu_label"] = round(1 - pk["protein_binding_pct"] / 100, 3)
         nonlinear = re.search(_NONLINEAR, text, flags=re.I)
@@ -140,8 +197,8 @@ def openfda_label(brand: str) -> ToolResult:
             "raw_sections": {k: label.get(k) for k in ("clinical_pharmacology", "warnings_and_cautions", "dosage_and_administration", "adverse_reactions")},
         }
 
-    r = run_tool("openfda.label", _run, brand=brand)
-    r.source = {"url": f'https://api.fda.gov/drug/label.json?search=openfda.brand_name:"{brand}"', "license": "public domain", "retrieved_at": _now()}
+    r = run_tool("openfda.label", _run, brand=brand, generic=generic)
+    r.source = {"url": f"https://api.fda.gov/drug/label.json?search={_openfda_query(brand, generic)}", "license": "public domain", "retrieved_at": _now()}
     return r
 
 

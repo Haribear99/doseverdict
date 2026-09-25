@@ -16,7 +16,7 @@ from app.schema.trial_schema import Evidence, ReviewState, Task, ToolCall, Trial
 from app.agents.planner import generic_name
 from app.tools import ToolResult, analog_trial, design_sim, open_targets, pharmacology
 
-_CHEMBL_BY_GENERIC = {"sotorasib": "CHEMBL4535757", "adagrasib": "CHEMBL4594398", "osimertinib": "CHEMBL3353410"}
+_CHEMBL_BY_GENERIC = {"sotorasib": "CHEMBL4535757", "adagrasib": "CHEMBL4594350", "osimertinib": "CHEMBL3353410"}
 
 
 def _now() -> str:
@@ -54,6 +54,13 @@ def run_structure_class(state: ReviewState, task: Task) -> None:
             "구조 알림은 HTS 간섭 필터이며 임상 독성 예측용으로 검증되지 않았으므로 계열 분류까지만 사용한다.", tool_call_id=cid, tier=3)
         state.scratch["structure"] = r.data
     chembl_id = ip.chembl_id or _CHEMBL_BY_GENERIC.get(generic_name(ip))
+    if not chembl_id and generic_name(ip) and not generic_name(ip).startswith(("dv-", "code")):
+        rl = pharmacology.chembl_lookup(generic_name(ip))
+        _log(state, "chembl.lookup", {"name": generic_name(ip)}, rl)
+        if rl.ok and rl.data.get("found"):
+            chembl_id = rl.data["chembl_id"]
+            state.replan_events.append({"trigger": "tool_fallback", "tasks": [task.task_id], "tool": "chembl.lookup",
+                                        "action": f"ID 매핑 표에 없음 → ChEMBL 이름 검색으로 {chembl_id} 확보"})
     if chembl_id:
         r2 = pharmacology.chembl_potency(chembl_id, target_keyword=(ip.target or "").split()[0] if ip.target else None)
         cid2 = _log(state, "chembl.potency", {"chembl_id": chembl_id, "target": ip.target}, r2)
@@ -63,7 +70,7 @@ def run_structure_class(state: ReviewState, task: Task) -> None:
             state.scratch["chembl"] = r2.data
         elif not r2.ok:   # 재시도 후에도 실패 — 과제는 RDKit 결과로 계속하되 TCR의 IC50 대체를 기록한다
             state.replan_events.append({"trigger": "tool_failure", "tasks": [task.task_id], "tool": "chembl.potency",
-                                        "action": "IC50 미확보 → TCR은 기본값 30 nM(소토라십 ChEMBL 세포 기반 중앙값, 2026-09 조회)으로 계산하고 근거에 명시"})
+                                        "action": "IC50 미확보 → 프로토콜 보고 IC50이 없으면 TCR 계산을 보류(기본값을 쓰지 않는다)"})
     task.status = "done" if r.ok else "failed"
 
 
@@ -80,24 +87,37 @@ def run_target_evidence(state: ReviewState, task: Task) -> None:
     task.status = "done" if r.ok else "failed"
 
 
-_BRAND_BY_GENERIC = {"SOTORASIB": "LUMAKRAS", "ADAGRASIB": "KRAZATI", "OSIMERTINIB": "TAGRISSO", "AFATINIB": "GILOTRIF"}
+_BRAND_BY_GENERIC = {"SOTORASIB": "LUMAKRAS", "ADAGRASIB": "KRAZATI", "OSIMERTINIB": "TAGRISSO", "AFATINIB": "GILOTRIF"}   # 캐시 — 없으면 성분명 검색
+_MAX_LABELS = 4   # 시험약 + 동일 표적 승인약 최대 3개(호출 상한)
 
 
 def run_class_label_check(state: ReviewState, task: Task) -> None:
     ip = state.trial.study.investigational_product
-    names = list(dict.fromkeys([generic_name(ip).upper()] + [x.upper() for x in state.scratch.get("approved_same_target", [])]))
+    own = generic_name(ip).upper()
+    names = list(dict.fromkeys([own] + [x.upper() for x in state.scratch.get("approved_same_target", [])]))[:_MAX_LABELS]
     checked = 0
     for g in names:
         brand = _BRAND_BY_GENERIC.get(g)
-        if not brand:
-            continue
-        r = pharmacology.openfda_label(brand)
-        cid = _log(state, "openfda.label", {"brand": brand}, r)
+        if brand:
+            r = pharmacology.openfda_label(brand)
+            args = {"brand": brand}
+        else:   # 매핑 표 밖 — 성분명으로 검색(승인약이면 찾고, 미승인 후보면 404)
+            r = pharmacology.openfda_label(generic=g)
+            args = {"generic": g}
+        cid = _log(state, "openfda.label", args, r)
         if not r.ok:
-            if g == generic_name(ip).upper():   # 시험약 자체 라벨 실패 → PK 미확보로 TCR 기권 finding이 빠진다. 원인을 남긴다
-                state.replan_events.append({"trigger": "tool_failure", "tasks": [task.task_id], "tool": "openfda.label",
-                                            "action": f"{brand} 라벨 PK 미확보(재시도 후 실패) → 노출-용량 계산 불가, 근거 미확보로 표기"})
+            not_found = "404" in (r.error or "")
+            if g == own:
+                if not_found:   # 미승인 후보물질 — 실패가 아니라 예상된 결과. PK는 프로토콜 보고값으로 대체한다
+                    state.scratch["no_label"] = True
+                else:           # 시험약 자체 라벨 조회 실패 → 원인을 남긴다
+                    state.replan_events.append({"trigger": "tool_failure", "tasks": [task.task_id], "tool": "openfda.label",
+                                                "action": f"{g} 라벨 PK 미확보(재시도 후 실패) → 프로토콜 보고 PK가 없으면 노출-용량 계산 보류"})
             continue
+        if not brand and g == own:
+            state.replan_events.append({"trigger": "tool_fallback", "tasks": [task.task_id], "tool": "openfda.label",
+                                        "action": f"브랜드 매핑 표에 없음 → 성분명 검색으로 {r.data['brand']} 라벨 확보"})
+        brand = r.data["brand"]
         checked += 1
         d = r.data
         mon = "; ".join(d["liver_monitoring_statements"][:2]) or "간기능 모니터링 요구 없음"
@@ -107,24 +127,56 @@ def run_class_label_check(state: ReviewState, task: Task) -> None:
             _ev(state, "label_statement", "FDA label", f"{brand} 12.2/12.3: {d.get('exposure_response_unknown_statement') or ''} {d.get('nonlinear_pk_statement') or ''}".strip(),
                 title=f"{brand} prescribing information", section="12 Clinical Pharmacology", applicability="US", norm_strength="final_guidance",
                 url=r.source.get("url"), tool_call_id=cid, tier=1, version_date=str(d.get("effective_time")))
-        if g == generic_name(ip).upper() and d.get("pk"):
-            state.scratch["label_pk"] = d["pk"] | {"brand": brand}
-    task.status = "done" if checked else "failed"
+        if g == own and d.get("pk"):
+            state.scratch["label_pk"] = d["pk"] | {"brand": brand, "nonlinear": bool(d.get("nonlinear_pk_statement"))}
+    task.status = "done" if checked or state.scratch.get("no_label") else "failed"
+
+
+def _tau(state: ReviewState) -> tuple[float | None, str]:
+    """투여 간격: 프로토콜 보고값 → 본문의 1일 2회(BID·twice daily) 표기 → 없음."""
+    import re
+    cp = state.trial.study.investigational_product.clinical_pk
+    if cp and cp.dosing_interval_hr:
+        return cp.dosing_interval_hr, "프로토콜"
+    if re.search(r"twice[- ]daily|\bBID\b|\bq12h\b", state.raw_protocol_text or "", flags=re.I):
+        return 12.0, "프로토콜 투여 빈도(1일 2회)"
+    return None, ""
+
+
+def _pk_inputs(state: ReviewState) -> tuple[dict[str, Any] | None, str]:
+    """TCR 입력 PK. 우선순위: ① 시험약 승인 라벨 ② 프로토콜 보고값 ③ 없음(기권). 기본값(전형값)으로 채우지 않는다."""
+    lab = state.scratch.get("label_pk") or {}
+    if all(k in lab for k in ("cl_f_L_per_hr", "t_half_hr")):
+        return {"cl": lab["cl_f_L_per_hr"], "t_half": lab["t_half_hr"], "pb": lab.get("protein_binding_pct"), "cv": lab.get("cl_cv_pct"),
+                "tau": None, "ic50": None, "nonlinear": lab.get("nonlinear", False)}, f"FDA 라벨 12.3({lab.get('brand')})"   # τ는 _tau()
+    cp = state.trial.study.investigational_product.clinical_pk
+    if cp and cp.cl_f_L_per_hr and cp.t_half_hr:
+        return {"cl": cp.cl_f_L_per_hr, "t_half": cp.t_half_hr, "pb": cp.protein_binding_pct, "cv": cp.cl_cv_pct,
+                "tau": cp.dosing_interval_hr, "ic50": cp.ic50_nM, "nonlinear": False}, "프로토콜 보고 PK"
+    return None, ""
 
 
 def run_exposure_dose(state: ReviewState, task: Task) -> None:
-    pk = state.scratch.get("label_pk")
+    pk, pk_src = _pk_inputs(state)
     struct = state.scratch.get("structure", {})
     chembl = state.scratch.get("chembl", {})
-    if not pk or not all(k in pk for k in ("cl_f_L_per_hr", "t_half_hr", "fu_label")):
+    mw = struct.get("properties", {}).get("MW")
+    ic50, ic50_src = chembl.get("cell_based_median_nM"), "ChEMBL 세포 기반 중앙값"
+    if not ic50 and pk and pk["ic50"]:
+        ic50, ic50_src = pk["ic50"], "프로토콜 보고 IC50"
+    missing = [n for n, v in (("CL/F·t½", pk), ("MW(구조)", mw), ("IC50", ic50)) if not v]
+    if missing:
         task.status = "abstained"
-        _ev(state, "calculation", "DoseVerdict", "노출-용량 관계를 계산할 PK 보고값(CL/F, t½, f_u)이 없다 → 용량군별 반복투여 PK 자료 요청. 판정 보류.", tier=3)
+        _ev(state, "calculation", "DoseVerdict", f"노출-용량 계산에 필요한 값({', '.join(missing)})이 라벨·프로토콜·DB 어디에도 없다 → 전형값으로 채우지 않고 판정 보류. "
+            "용량군별 반복투여 PK와 세포 효력값 자료를 요청한다.", tier=3)
         return
-    mw = struct.get("properties", {}).get("MW", 560.61)
-    ic50 = chembl.get("cell_based_median_nM")
-    ic50_src = "ChEMBL 세포 기반 중앙값"
-    if not ic50:
-        ic50, ic50_src = 30.0, "ChEMBL 미확보 → 기본값(소토라십 ChEMBL 세포 기반 중앙값, 2026-09 조회)"
+    if pk["pb"] is not None:
+        fu, fu_src = round(1 - pk["pb"] / 100, 3), f"단백결합 {pk['pb']}%({pk_src})"
+    else:
+        fu, fu_src = struct.get("fu_estimated"), "cLogP 기반 추정(자체 보정식, 실측 아님)"
+    tau, tau_src = _tau(state)
+    if not tau:
+        tau, tau_src = 24.0, "명시 없음 → 1일 1회 가정"
     doses = []
     for lvl in state.trial.design.dose_strategy.dose_levels:
         try:
@@ -133,25 +185,24 @@ def run_exposure_dose(state: ReviewState, task: Task) -> None:
             pass
     rows = []
     for dose in sorted(set(doses))[:8]:
-        r = pharmacology.tcr_three_metrics(dose, pk["cl_f_L_per_hr"], mw, pk["fu_label"], ic50, t_half_hr=pk["t_half_hr"])
-        cid = _log(state, "pharm.tcr_three_metrics", {"dose_mg": dose, "ic50_nM": ic50}, r)
+        r = pharmacology.tcr_three_metrics(dose, pk["cl"], mw, fu, ic50, t_half_hr=pk["t_half"], tau_hr=tau)
+        cid = _log(state, "pharm.tcr_three_metrics", {"dose_mg": dose, "ic50_nM": ic50, "tau_hr": tau}, r)
         if r.ok:
             rows.append((dose, r.data["TCR_max"], r.data["TCR_avg"], r.data["TCR_trough"], r.data["verdict"]))
     split = any(v == "abstain_metric_dependent" for *_, v in rows)
     table = "; ".join(f"{d:.0f} mg: Cmax {a:.1f}/Cavg {b:.1f}/Ctrough {c:.2f} → {v}" for d, a, b, c, v in rows)
-    _ev(state, "calculation", "DoseVerdict", f"TCR(선형 CL/F 가정, IC50 {ic50} nM — {ic50_src}, f_u {pk['fu_label']}, t½ {pk['t_half_hr']} h): {table}. "
+    _ev(state, "calculation", "DoseVerdict", f"TCR(선형 CL/F 가정, PK {pk_src}, IC50 {ic50} nM — {ic50_src}, f_u {fu} — {fu_src}, t½ {pk['t_half']} h, τ {tau} h — {tau_src}): {table}. "
         + ("판정이 지표(Cavg vs Ctrough)에 따라 갈리므로 '커버된다'는 결론을 만들지 않는다. " if split else "")
-        + "라벨이 비선형 PK를 보고하므로 선형 외삽은 라벨과 모순될 수 있다 → 두 가정을 병기하고 용량군별 반복투여 PK를 요청한다.", tier=3)
-    cv_pct = pk.get("cl_cv_pct")
-    cv_src = "라벨 12.3"
-    if not cv_pct:
-        cv_pct, cv_src = 76, "라벨 미기재 → 기본값(소토라십 라벨 CL/F CV)"
-    r2 = pharmacology.exposure_power(cv_pct / 100)
-    cid2 = _log(state, "pharm.exposure_power", {"cv": cv_pct / 100}, r2)
-    if r2.ok:
-        by = {x["n_per_arm"]: x for x in r2.data["rows"]}
-        _ev(state, "calculation", "DoseVerdict", f"CL/F CV {cv_pct}%({cv_src}) 기준 두 용량군 AUC 비 95% CI 폭: n=2 {by[2]['fold']}배, n=4 {by[4]['fold']}배, n=12 {by[12]['fold']}배. 증량 코호트 규모(2~4명)로는 노출 포화를 확정할 수 없다.", tool_call_id=cid2, tier=3)
+        + ("라벨이 비선형 PK를 보고하므로 선형 외삽은 라벨과 모순될 수 있다 → 두 가정을 병기하고 용량군별 반복투여 PK를 요청한다." if pk["nonlinear"]
+           else "선형 PK 가정의 1차 근사다 — 용량군별 반복투여 PK로 확인이 필요하다."), tier=3)
+    if pk["cv"]:
+        r2 = pharmacology.exposure_power(pk["cv"] / 100)
+        cid2 = _log(state, "pharm.exposure_power", {"cv": pk["cv"] / 100}, r2)
+        if r2.ok:
+            by = {x["n_per_arm"]: x for x in r2.data["rows"]}
+            _ev(state, "calculation", "DoseVerdict", f"CL/F CV {pk['cv']}%({pk_src}) 기준 두 용량군 AUC 비 95% CI 폭: n=2 {by[2]['fold']}배, n=4 {by[4]['fold']}배, n=12 {by[12]['fold']}배. 증량 코호트 규모(2~4명)로는 노출 포화를 확정할 수 없다.", tool_call_id=cid2, tier=3)
     state.scratch["tcr_split"] = split
+    state.scratch["tcr_source"] = pk_src
     task.status = "abstained" if split else "done"
 
 

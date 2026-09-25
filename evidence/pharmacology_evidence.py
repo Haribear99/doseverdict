@@ -161,6 +161,19 @@ def exposure_ratio_ci(cv, n_per_arm, z=1.96):
 
 
 # ---------------------------------------------------------------- 2. ChEMBL
+def chembl_lookup(name):
+    """
+    성분명 → ChEMBL 분자 ID. 검색 결과 중 pref_name이 이름과 **정확히 같은** 분자만 채택한다
+    (염 형태 'DIVARASIB ADIPATE'나 이름 없는 유사 구조를 고르지 않도록). 없으면 None.
+    """
+    q = urllib.parse.urlencode({"q": name, "limit": 10})
+    data = fetch_json(f"https://www.ebi.ac.uk/chembl/api/data/molecule/search.json?{q}")
+    for m in data.get("molecules", []):
+        if (m.get("pref_name") or "").strip().upper() == name.strip().upper():
+            return {"chembl_id": m["molecule_chembl_id"], "pref_name": m["pref_name"], "max_phase": m.get("max_phase")}
+    return None
+
+
 def chembl_potency(molecule_chembl_id, limit=1000):
     """
     해당 화합물의 IC50/Ki/Kd 활성값을 nM 단위로 모은다.

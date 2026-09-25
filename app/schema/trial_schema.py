@@ -46,6 +46,16 @@ class HumanStatus(str, Enum):
 
 
 # ----------------------------------------------------------------- 프로토콜 구조
+class ProtocolPK(BaseModel):
+    """프로토콜이 **직접 보고한** 사람 PK·효력값(미승인 후보물질은 라벨이 없다). 문서에 없는 값은 null — 전형값으로 채우지 않는다."""
+    cl_f_L_per_hr: Optional[float] = Field(None, description="apparent oral clearance CL/F in L/h, only if stated")
+    t_half_hr: Optional[float] = Field(None, description="elimination half-life in hours, only if stated")
+    protein_binding_pct: Optional[float] = Field(None, description="plasma protein binding %, only if stated")
+    cl_cv_pct: Optional[float] = Field(None, description="between-subject CV% of CL/F, only if stated")
+    dosing_interval_hr: Optional[float] = Field(None, description="dosing interval in hours (24 for once daily, 12 for twice daily), only if stated")
+    ic50_nM: Optional[float] = Field(None, description="cellular IC50 in nM reported by the protocol, only if stated")
+
+
 class InvestigationalProduct(BaseModel):
     name: Optional[str] = None
     modality: Optional[str] = None
@@ -53,6 +63,7 @@ class InvestigationalProduct(BaseModel):
     smiles: Optional[str] = Field(None, description="구조가 공개된 경우만. 없으면 RDKit·ChEMBL 호출 생략")
     chembl_id: Optional[str] = None
     drug_class_hint: Optional[str] = Field(None, description="프로토콜이 언급한 계열(예: KRAS G12C inhibitor)")
+    clinical_pk: Optional[ProtocolPK] = Field(None, description="human PK / potency values stated in the protocol (e.g., from first-in-human data); null if none")
 
 
 class Study(BaseModel):
