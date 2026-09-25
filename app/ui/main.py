@@ -12,6 +12,7 @@ import html
 import json
 import os
 import sys
+import threading
 import time
 from pathlib import Path
 
@@ -37,17 +38,23 @@ NODE_LABEL = {"compile": "Protocol\nCompiler", "plan": "Orchestrator\n(과제 DA
 st.set_page_config(page_title="DoseVerdict", page_icon="⚖️", layout="wide")
 
 
-@st.cache_resource(show_spinner="로컬 모델 예열 중(코퍼스 인덱스·NLI) — 최초 1회")
-def _warm_models() -> bool:
-    """컨테이너 기동 후 첫 검토가 모델 로드 시간(CPU에서 수십 초)을 물지 않도록 프로세스당 1회 미리 올린다."""
+def _warm() -> None:
     from app.corpus.index import CorpusIndex
     from app.verify.nli import NLI_MODEL_EN, _pipeline
     CorpusIndex.get()
     _pipeline(NLI_MODEL_EN)
-    return True
 
 
-_warm_models()
+@st.cache_resource(show_spinner=False)
+def _warm_thread() -> threading.Thread:
+    """컨테이너 기동 후 첫 검토가 모델 로드 시간(CPU에서 수십 초)을 물지 않도록 프로세스당 1회 미리 올린다.
+    백그라운드 스레드라 화면·저장된 결과 보기는 예열을 기다리지 않는다. 라이브 실행만 시작 전에 join한다."""
+    t = threading.Thread(target=_warm, name="dv-warm", daemon=True)
+    t.start()
+    return t
+
+
+_warm_thread()
 
 
 # ----------------------------------------------------------------- helpers
@@ -146,6 +153,8 @@ if run:
     status = timeline.status("에이전트 실행 중…", expanded=True)
 
     def on_step(node: str, upd: dict):
+        if node == "__interrupt__":   # Human Gate 진입 신호(tuple) — 노드가 아니므로 타임라인에 쓰지 않는다
+            return
         t = time.perf_counter() - st.session_state.run_started
         st.session_state.done.add(node)
         nxt = NODES[NODES.index(node) + 1] if node in NODES and NODES.index(node) + 1 < len(NODES) else None
@@ -169,7 +178,7 @@ if run:
             msg += f" — 검증 {sum(1 for f in fs if f.verifier_status == 'verified')}/{len(fs)}" + (f" · **⛔ 인용 기각 {rej}**" if rej else "")
         if node == "rewrite":
             msg += " — **🔁 재계획①: 기각 문장 재작성**"
-        fails = (upd.get("scratch") or {}).get("llm_failures")
+        fails = (upd.get("scratch") or {}).get("llm_failures") if isinstance(upd, dict) else None  # __interrupt__ 업데이트는 tuple
         if fails and node in ("plan", "arena", "findings", "rewrite"):
             msg += f" — **⚠️ LLM 출력 실패 {[f['node'] for f in fails]} → 해당 결과 불완전(결론 없음 처리)**"
         st.session_state.events.append(msg)
@@ -177,6 +186,9 @@ if run:
         graph_box.graphviz_chart(graph_dot(st.session_state.current, st.session_state.done), use_container_width=True)
 
     graph_box.graphviz_chart(graph_dot("compile", set()), use_container_width=True)
+    if _warm_thread().is_alive():
+        status.write("로컬 모델 예열이 끝나기를 기다리는 중(코퍼스 인덱스·NLI, 기동 후 최초 1회)…")
+        _warm_thread().join()
     try:
         g, cfg, rs = run_until_gate(text, on_step=on_step, reviewers=["regulatory", "site", "patient"] if three else ["regulatory"])
         st.session_state.update({"graph": g, "config": cfg, "review": rs, "current": "gate"})
@@ -214,7 +226,7 @@ with tabs[0]:
             st.markdown(f"**프로토콜 사실**: {f.protocol_fact or f.claim}")
             if f.evidence_fact:
                 st.markdown(f"**근거 사실**: {f.evidence_fact}")
-            st.caption(f"검증기: {f.verifier_note}  ·  span 원문 일치: {f.span_verified}")
+            st.caption(f"검증기: {f.verifier_note}  ·  span 원문 일치: {'검사 안 함' if f.span_verified is None else f.span_verified}")
             if f.reviewer_positions:
                 cols = st.columns(3)
                 for c, p in zip(cols, f.reviewer_positions):

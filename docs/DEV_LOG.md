@@ -243,3 +243,13 @@
   | demo2 수정본 | 37.1k(44.5k) | 7(9) | 6 | finding 감소 |
   | demo3 주입 | 29.5k(36.6k) | 7 | 7 | `prompt_injection_detected` 재계획, 지시 불이행 |
 - HF Space `Haribear99/doseverdict` 재배포(HEAD 1374eaa, git archive): BUILDING→RUNNING 102초, `/_stcore/health` 200(1.1초).
+
+### 2026-09-25 — UI: 예열 비차단, 라이브 실행 회귀 수정
+
+- **라이브 실행 회귀(09-23 도입)**: LLM 실패 표시 코드가 `graph.stream`의 `__interrupt__` 업데이트(tuple)에 `.get`을 호출했다. 그래서 라이브 검토가 Human Gate 직전에 `AttributeError`로 죽었다. 평가는 `on_step`을 쓰지 않아 드러나지 않았고, 09-24에 배포한 Space에도 이 버그가 있었다. `__interrupt__`는 타임라인에서 제외하고 dict일 때만 읽도록 고쳤다.
+- **예열 비차단**: `_warm_models()`가 화면을 그리기 전에 동기로 실행돼, 저장된 결과 보기(`?cached=1`)까지 bge-m3·NLI 로드를 기다렸다(PRD P0-1 함정). 이를 백그라운드 스레드(`_warm_thread`)로 옮기고, 라이브 실행만 시작 전에 join한다.
+- 결정론적 finding의 `span 원문 일치: None` 표기를 `검사 안 함`으로 바꿨다.
+- 로컬 Playwright e2e(예시 ①):
+  - 서버 기동 직후 캐시 화면이 열린다(Findings 10건, 기권 표시).
+  - 라이브 실행: compile 15s → plan 30s → tools 61s → arena 71s → findings 139s → verify 140s. 34.6k 토큰, 도구 17회, 검증 10/10.
+  - Human Gate 승인까지 정상.
