@@ -285,3 +285,7 @@
   - 외부 API(`fetch_json`: ChEMBL·openFDA)가 재시도 없이 실패했다. 5xx·연결·타임아웃은 2초·4초 백오프로 2회 재시도하도록 했다(`tests/test_fetch_retry.py` 3건).
 - 토큰 원장·파레토 그림에 09-23 이후 설정 6개를 추가했다. 확장 세트는 속 빈 사각형으로 구분한다. 감사로그 합계와 평가 결과의 토큰은 모든 설정에서 일치했다.
 - LangGraph 체크포인트 직렬화 허용 목록: `trial_schema`의 BaseModel·Enum 타입만 등록했다(`graph._serde()`, MemorySaver·SqliteSaver 공통). 적용 전에는 "미등록 타입 역직렬화" 경고가 났고, 차기 버전에서는 차단 예정이었다. `LANGGRAPH_STRICT_MSGPACK=true`에서 예시 ① 실행 → Human Gate(37.9k 토큰, finding 11) → 승인 재개 → `completed`까지 확인했다.
+- 배포본 재확인(HEAD 0de00a7), 예시 ③ 인젝션, autorun 링크 사용:
+  - 인젝션 탐지 표시, 33.3k 토큰, 도구 17회, finding 7건, 검증 7/7, 240 mg 기권
+  - 재빌드 직후 첫 접속에서 화면이 뜨기까지 약 50~60초가 걸렸다(모듈 import와 예열). 이후 compile 11s, plan 27s.
+  - 콜드 경로(재빌드·재기동 직후 첫 접속) 약 1분을 영상과 README 실행 방법에 적고, 심사위원용 기본 경로는 "저장된 결과 즉시 보기"로 안내한다.
