@@ -19,6 +19,7 @@ from pathlib import Path
 from typing import Any
 
 from langgraph.checkpoint.memory import MemorySaver
+from langgraph.checkpoint.serde.jsonplus import JsonPlusSerializer
 from langgraph.checkpoint.sqlite import SqliteSaver
 from langgraph.graph import END, START, StateGraph
 from langgraph.types import Command, interrupt
@@ -227,7 +228,20 @@ def build_graph(checkpointer=None):
     g.add_edge("rewrite", "verify")
     g.add_edge("gate", "finalize")
     g.add_edge("finalize", END)
-    return g.compile(checkpointer=checkpointer or MemorySaver())
+    return g.compile(checkpointer=checkpointer or MemorySaver(serde=_serde()))
+
+
+def _serde() -> JsonPlusSerializer:
+    """체크포인트 역직렬화 허용 목록 = 우리 스키마 타입만. 미등록 타입 역직렬화는 LangGraph 차기 버전에서 차단된다(경고로 예고됨)."""
+    import inspect
+    from enum import Enum
+
+    from pydantic import BaseModel
+
+    from app.schema import trial_schema as ts
+    allowed = [(ts.__name__, n) for n, c in inspect.getmembers(ts, inspect.isclass)
+               if c.__module__ == ts.__name__ and issubclass(c, (BaseModel, Enum))]
+    return JsonPlusSerializer(allowed_msgpack_modules=allowed)
 
 
 def new_state(protocol_text: str, run_id: str | None = None, token_budget: int | None = None) -> ReviewState:
@@ -242,7 +256,7 @@ def new_state(protocol_text: str, run_id: str | None = None, token_budget: int |
 def sqlite_checkpointer(path: str | None = None) -> SqliteSaver:
     p = path or str(ROOT / "logs" / "checkpoints.sqlite")
     Path(p).parent.mkdir(parents=True, exist_ok=True)
-    return SqliteSaver(sqlite3.connect(p, check_same_thread=False))
+    return SqliteSaver(sqlite3.connect(p, check_same_thread=False), serde=_serde())
 
 
 def run_until_gate(protocol_text: str, *, run_id: str | None = None, checkpointer=None, on_step=None, precompiled=None,

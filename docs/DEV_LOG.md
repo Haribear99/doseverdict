@@ -284,3 +284,4 @@
   - chembl.potency 호출 로그의 `chembl_id`가 해석 전 값(None)이었다. 실제로 호출한 ID를 기록하도록 고쳤다.
   - 외부 API(`fetch_json`: ChEMBL·openFDA)가 재시도 없이 실패했다. 5xx·연결·타임아웃은 2초·4초 백오프로 2회 재시도하도록 했다(`tests/test_fetch_retry.py` 3건).
 - 토큰 원장·파레토 그림에 09-23 이후 설정 6개를 추가했다. 확장 세트는 속 빈 사각형으로 구분한다. 감사로그 합계와 평가 결과의 토큰은 모든 설정에서 일치했다.
+- LangGraph 체크포인트 직렬화 허용 목록: `trial_schema`의 BaseModel·Enum 타입만 등록했다(`graph._serde()`, MemorySaver·SqliteSaver 공통). 적용 전에는 "미등록 타입 역직렬화" 경고가 났고, 차기 버전에서는 차단 예정이었다. `LANGGRAPH_STRICT_MSGPACK=true`에서 예시 ① 실행 → Human Gate(37.9k 토큰, finding 11) → 승인 재개 → `completed`까지 확인했다.
