@@ -73,7 +73,9 @@ def deterministic_tcr_finding(state: ReviewState) -> Finding | None:
     if not state.scratch.get("tcr_split"):
         return None
     ev_ids = [e.evidence_id for e in state.evidence.values() if e.kind == "calculation" and ("TCR" in (e.quote or "") or "AUC 비" in (e.quote or ""))]
-    ev_ids += [e.evidence_id for e in state.evidence.values() if e.kind == "label_statement" and "12.2/12.3" in (e.quote or "")][:1]
+    own_brand = (state.scratch.get("label_pk") or {}).get("brand")   # 시험약 자신의 라벨 PK 문장만 — 동일 표적 다른 약의 라벨은 근거가 아니다
+    ev_ids += [e.evidence_id for e in state.evidence.values()
+               if own_brand and e.kind == "label_statement" and (e.quote or "").startswith(f"{own_brand} 12.2/12.3")][:1]
     ds = state.trial.design.dose_strategy
     span = ds.rp2d_rule_text or ds.pk_sampling_plan or "dose table"
     pos = _reviewer_positions(state, next((t.task_id for t in state.tasks if t.kind == "exposure_dose_relationship"), ""))

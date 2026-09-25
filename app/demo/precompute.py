@@ -14,7 +14,7 @@ from pathlib import Path
 from app.agents.graph import run_until_gate
 
 ROOT = Path(__file__).resolve().parents[2]
-DEMO_FILES = ["sotorasib_synopsis.md", "sotorasib_synopsis_fixed.md", "sotorasib_synopsis_injection.md"]
+DEMO_FILES = ["sotorasib_synopsis.md", "sotorasib_synopsis_fixed.md", "sotorasib_synopsis_injection.md", "lorlatinib_synopsis_fixed.md", "dv505_synopsis_fixed.md"]
 OUT = ROOT / "app" / "demo" / "results"
 
 

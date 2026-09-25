@@ -25,11 +25,14 @@ os.environ.setdefault("HF_HUB_DISABLE_SYMLINKS_WARNING", "1")
 
 from app.agents.graph import gateway, resume_with_decision, run_until_gate  # noqa: E402
 from app.schema.trial_schema import ReviewState  # noqa: E402
+from app.report import render_memo  # noqa: E402
 
 DEMOS = {
     "① 소토라십 유사 시놉시스 — 'The MTD will be selected as the RP2D.'": ROOT / "app/demo/sotorasib_synopsis.md",
     "② 같은 시험, 용량 비교 계획·라벨 기준 모니터링을 갖춘 판": ROOT / "app/demo/sotorasib_synopsis_fixed.md",
     "③ 프롬프트 인젝션이 삽입된 판 (적대 테스트)": ROOT / "app/demo/sotorasib_synopsis_injection.md",
+    "④ 다른 약물: 로를라티닙(ALK) — 매핑 표 밖 약물, DB·라벨 자동 조회": ROOT / "app/demo/lorlatinib_synopsis_fixed.md",
+    "⑤ 미승인 후보 DV-505(가상) — 프로토콜 보고 PK로 계산": ROOT / "app/demo/dv505_synopsis_fixed.md",
 }
 NODES = ["compile", "plan", "tools", "arena", "findings", "verify", "rewrite", "gate", "finalize"]
 NODE_LABEL = {"compile": "Protocol\nCompiler", "plan": "Orchestrator\n(과제 DAG)", "tools": "도구 호출\nRDKit·ChEMBL·openFDA\n시뮬·코퍼스·CT.gov",
@@ -168,6 +171,9 @@ if run:
             msg += f" — 과제 {len(upd.get('tasks', []))}개, 근거 미확보 축 {len(upd.get('unavailable_axes', []))}개"
         if node == "tools":
             msg += f" — 도구 호출 {len(upd.get('tool_log', []))}회, 근거 {len(upd.get('evidence', {}))}건"
+            fb = [e for e in upd.get("replan_events", []) if e.get("trigger") == "tool_fallback"]
+            if fb:
+                msg += " · **🔀 대체 조회 " + " / ".join(e["tool"] for e in fb) + "**"
         if node == "findings":
             fs = upd.get("findings", [])
             rs_ev = [e for e in upd.get("replan_events", []) if e.get("trigger") == "evidence_reselected"]
@@ -176,6 +182,12 @@ if run:
             fs = upd.get("findings", [])
             rej = [f.finding_id for f in fs if f.verifier_status == "rejected"]
             msg += f" — 검증 {sum(1 for f in fs if f.verifier_status == 'verified')}/{len(fs)}" + (f" · **⛔ 인용 기각 {rej}**" if rej else "")
+            hr = [e for e in upd.get("replan_events", []) if e.get("trigger") == "held_research"]
+            if hr:
+                msg += f" · **🔎 보류 재검색 {len(hr)}건 → 검증 {sum(1 for e in hr if e.get('result') == 'verified')}건**"
+        bg = [e for e in (upd.get("replan_events") or []) if e.get("trigger") == "budget_guard" and e.get("node") == node] if isinstance(upd, dict) else []
+        if bg:
+            msg += f" — **💰 예산 가드: 남은 {bg[0]['remaining']:,} < 예상 {bg[0]['estimated']:,} → {bg[0]['action']}**"
         if node == "rewrite":
             msg += " — **🔁 재계획①: 기각 문장 재작성**"
         fails = (upd.get("scratch") or {}).get("llm_failures") if isinstance(upd, dict) else None  # __interrupt__ 업데이트는 tuple
@@ -289,5 +301,25 @@ with tabs[4]:
 with tabs[5]:
     tot = gateway().audit_totals()
     st.markdown(f"**run** `{rs.run_id}` · 토큰 {rs.budget.used_tokens:,}/{rs.budget.max_tokens:,} · 도구 {rs.budget.used_tool_calls}/{rs.budget.max_tool_calls} · 팀 잔여 쿼터(헤더) {tot.get('last_quota')}")
-    st.json({"models": rs.audit.models if rs.audit else {}, "corpus_manifest": rs.audit.corpus_manifest_id if rs.audit else None,
-             "prompt_hashes": rs.audit.prompt_hashes if rs.audit else [], "replan_events": rs.replan_events, "terminal_status": rs.terminal_status})
+    st.download_button("📄 검토 메모 내려받기(마크다운)", render_memo(rs).encode("utf-8"), file_name=f"doseverdict_{rs.run_id}.md", mime="text/markdown")
+    c1, c2 = st.columns(2)
+    with c1:
+        st.markdown("**노드별 토큰**(게이트웨이 usage.total_tokens, 호출 전 예산 가드 기준)")
+        if rs.budget.by_node:
+            st.bar_chart({"토큰": rs.budget.by_node}, horizontal=True)
+        else:
+            st.caption("이 결과는 노드별 원장 도입(09-26) 전에 저장됐다.")
+    with c2:
+        st.markdown("**도구 호출 요약**")
+        agg: dict[str, list[int]] = {}
+        for c in rs.tool_log:
+            agg.setdefault(c.tool, [0, 0])[0 if c.ok else 1] += 1
+        st.table([{"도구": k, "성공": v[0], "실패": v[1]} for k, v in sorted(agg.items())])
+    ev = [e for e in rs.replan_events if e.get("trigger")]
+    st.markdown(f"**재계획 이벤트 {len(ev)}건** — 에이전트가 스스로 경로를 바꾼 지점")
+    if ev:
+        st.table([{"트리거": e["trigger"], "대상": e.get("finding_id") or e.get("node") or ", ".join(e.get("tasks", [])) or "-",
+                   "내용": str(e.get("action") or e.get("result") or e.get("reason") or "")[:140]} for e in ev])
+    with st.expander("감사 메타(JSON)"):
+        st.json({"models": rs.audit.models if rs.audit else {}, "corpus_manifest": rs.audit.corpus_manifest_id if rs.audit else None,
+                 "prompt_hashes": rs.audit.prompt_hashes if rs.audit else [], "replan_events": rs.replan_events, "terminal_status": rs.terminal_status})

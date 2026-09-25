@@ -1,5 +1,5 @@
 """
-실행 방법 ③: CLI.  .venv/Scripts/python.exe -m app.cli review app/demo/sotorasib_synopsis.md [--approve-all] [--out result.json]
+실행 방법 ③: CLI.  .venv/Scripts/python.exe -m app.cli review app/demo/sotorasib_synopsis.md [--approve-all] [--out result.json] [--report memo.md]
 
 Human Gate는 --approve-all이 없으면 findings를 출력하고 '승인 대기'로 끝낸다(비대화식 환경에서는 사람이 JSON을 보고 결정).
 """
@@ -22,6 +22,7 @@ def main(argv: list[str] | None = None) -> int:
     r.add_argument("--approve-all", action="store_true", help="검증된 finding을 자동 승인(시연·평가용; 실제 검토에서는 쓰지 않는다)")
     r.add_argument("--approver", default=os.getenv("USER", "cli"))
     r.add_argument("--out", help="결과 JSON 경로")
+    r.add_argument("--report", help="검토 메모(마크다운) 경로 — UI 다운로드와 같은 내용")
     r.add_argument("--budget", type=int, default=int(os.getenv("DV_RUN_TOKEN_BUDGET", "150000")))
     a = ap.parse_args(argv)
 
@@ -42,6 +43,9 @@ def main(argv: list[str] | None = None) -> int:
     out = st.model_dump(mode="json")
     if a.out:
         Path(a.out).write_text(json.dumps(out, ensure_ascii=False, indent=2), encoding="utf-8")
+    if a.report:
+        from app.report import render_memo
+        Path(a.report).write_text(render_memo(st), encoding="utf-8")
     print(f"\nrun {st.run_id} · status {st.terminal_status} · tokens {st.budget.used_tokens:,} · tools {st.budget.used_tool_calls} · findings {len(st.findings)}")
     for f in st.scratch.get("llm_failures", []):
         print(f"  ! LLM 출력 실패 — node {f['node']}: {f.get('error')}")
