@@ -1,0 +1,2282 @@
+{
+ "run_id": "eval-lean_fmed-AX1-008",
+ "raw_protocol_text": "# Protocol Synopsis — DV-DEMO-002 (revised)\n\n**Title:** A Phase 1/2, Open-Label, Multicenter Study of DV-101 (sotorasib) in Subjects with KRAS G12C-Mutated Advanced Solid Tumors\n\n**Sponsor:** DoseVerdict Demo Biotech · **Countries:** Republic of Korea, United States · **Phase:** 1/2\n\n## Investigational Product\nDV-101 (sotorasib) is an oral, irreversible, covalent KRAS G12C inhibitor. SMILES: C=CC(=O)N1CCN(c2nc(=O)n(-c3c(C)ccnc3C(C)C)c3nc(-c4c(O)cccc4F)c(F)cc23)[C@@H](C)C1. Target: KRAS G12C.\n\n## Objectives\n- Primary (Phase 1): Safety and tolerability; characterize dose-limiting toxicities and identify candidate dose levels for optimization.\n- Primary (Phase 2): Objective response rate (ORR) per RECIST v1.1 at the selected recommended Phase 2 dose (RP2D).\n- Secondary: Pharmacokinetics (PK), duration of response, progression-free survival, dose intensity and tolerability over time.\n\n## Dose Escalation\nDose escalation will follow a Bayesian optimal interval (BOIN) design with a target dose-limiting toxicity (DLT) rate of 30% and a maximum of 36 subjects. Planned dose levels (once daily, oral): 180 mg, 360 mg, 540 mg, 720 mg, 960 mg. Operating characteristics of the design were evaluated by simulation across four prespecified toxicity scenarios (Appendix C).\nParticipants will be enrolled sequentially into nonrandomized cohorts receiving 10, 30, or 60 mg once daily, with each new cohort opened after review of the preceding cohort.\n\n## Dose Optimization and Expansion\nTwo candidate dose levels will be selected from the escalation data. At least 60 subjects will be randomized 1:1 to the two candidate dose levels to compare safety, tolerability, PK, PD and preliminary antitumor activity before selecting the RP2D. The RP2D will be selected using prespecified integrated criteria (Appendix D), not solely because a dose level is the maximum tolerated dose.\nAfter participants complete 48 hours at the assigned dose level, the dose-response analysis will be performed using their observed outcomes.\nDose–response analyses will be conducted only in the overall enrolled population, with no evaluations by age, sex, race, or other demographic subgroup.\nThe study will select the recommended Phase 2 dose from the first expansion cohort without collecting dose–response data or evaluating effects of long-term administration, concomitant medications, or comorbid disease.\nAfter completing the dose-escalation portion, the study will open six parallel disease-specific expansion cohorts despite the absence of a defined recommended phase 2 dose and limited characterization of interpatient and intrapatient exposure variability.\n\n## Pharmacokinetics\nIntensive PK sampling on Cycle 1 Day 1 and Day 15 (pre-dose, 0.5, 1, 2, 4, 6, 8 and 24 h post-dose) in all escalation subjects; steady-state trough sampling every cycle in the randomized cohorts. Dose proportionality will be assessed by a power model.\n\n## Eligibility (key)\n- Inclusion: age ≥18; histologically confirmed KRAS G12C-mutated locally advanced or metastatic solid tumor; ECOG 0–1; at least one prior line of systemic therapy; recovery of prior-treatment toxicities to Grade ≤1.\n- Exclusion: active brain metastases; prior treatment with a KRAS G12C inhibitor; QTcF >470 ms; anti-PD-(L)1 therapy within 4 weeks prior to the first dose.\n\n## Safety Monitoring\nLiver function tests (ALT, AST, alkaline phosphatase, total bilirubin) will be assessed before the first dose, every 3 weeks for the first 3 months, and monthly thereafter or as clinically indicated. Dose modification rules for hepatotoxicity, interstitial lung disease/pneumonitis and other adverse reactions are specified in Appendix B.\nThe sponsor will include serious and unexpected adverse safety findings in the next scheduled annual safety report, unless the medical monitor requests earlier submission.\n\n## Visit Schedule\nScreening (Day −28 to −1), Cycle 1 Day 1, Day 8, Day 15, then Day 1 of each 21-day cycle. Tumor assessments every 6 weeks.\n",
+ "trial": {
+  "study": {
+   "study_id": "DV-DEMO-002",
+   "title": "A Phase 1/2, Open-Label, Multicenter Study of DV-101 (sotorasib) in Subjects with KRAS G12C-Mutated Advanced Solid Tumors",
+   "indication": "KRAS G12C-Mutated Advanced Solid Tumors",
+   "phase": "1/2",
+   "countries": [
+    "KR",
+    "US"
+   ],
+   "investigational_product": {
+    "name": "DV-101 (sotorasib)",
+    "modality": "oral, irreversible, covalent KRAS G12C inhibitor",
+    "target": "KRAS G12C",
+    "smiles": "C=CC(=O)N1CCN(c2nc(=O)n(-c3c(C)ccnc3C(C)C)c3nc(-c4c(O)cccc4F)c(F)cc23)[C@@H](C)C1",
+    "chembl_id": null,
+    "drug_class_hint": "KRAS G12C inhibitor"
+   }
+  },
+  "design": {
+   "objectives_primary": [
+    "Safety and tolerability; characterize dose-limiting toxicities and identify candidate dose levels for optimization.",
+    "Objective response rate (ORR) per RECIST v1.1 at the selected recommended Phase 2 dose (RP2D)."
+   ],
+   "objectives_secondary": [
+    "Pharmacokinetics (PK), duration of response, progression-free survival, dose intensity and tolerability over time."
+   ],
+   "dose_strategy": {
+    "starting_dose": null,
+    "dose_levels": [
+     {
+      "label": "Planned dose level 1",
+      "dose": "180 mg once daily, oral",
+      "n_planned": null,
+      "exposure_auc": null,
+      "exposure_cmax": null,
+      "exposure_unit": null,
+      "dlt_observed": null,
+      "n_evaluable": null
+     },
+     {
+      "label": "Planned dose level 2",
+      "dose": "360 mg once daily, oral",
+      "n_planned": null,
+      "exposure_auc": null,
+      "exposure_cmax": null,
+      "exposure_unit": null,
+      "dlt_observed": null,
+      "n_evaluable": null
+     },
+     {
+      "label": "Planned dose level 3",
+      "dose": "540 mg once daily, oral",
+      "n_planned": null,
+      "exposure_auc": null,
+      "exposure_cmax": null,
+      "exposure_unit": null,
+      "dlt_observed": null,
+      "n_evaluable": null
+     },
+     {
+      "label": "Planned dose level 4",
+      "dose": "720 mg once daily, oral",
+      "n_planned": null,
+      "exposure_auc": null,
+      "exposure_cmax": null,
+      "exposure_unit": null,
+      "dlt_observed": null,
+      "n_evaluable": null
+     },
+     {
+      "label": "Planned dose level 5",
+      "dose": "960 mg once daily, oral",
+      "n_planned": null,
+      "exposure_auc": null,
+      "exposure_cmax": null,
+      "exposure_unit": null,
+      "dlt_observed": null,
+      "n_evaluable": null
+     },
+     {
+      "label": "Nonrandomized cohort 1",
+      "dose": "10 mg once daily",
+      "n_planned": null,
+      "exposure_auc": null,
+      "exposure_cmax": null,
+      "exposure_unit": null,
+      "dlt_observed": null,
+      "n_evaluable": null
+     },
+     {
+      "label": "Nonrandomized cohort 2",
+      "dose": "30 mg once daily",
+      "n_planned": null,
+      "exposure_auc": null,
+      "exposure_cmax": null,
+      "exposure_unit": null,
+      "dlt_observed": null,
+      "n_evaluable": null
+     },
+     {
+      "label": "Nonrandomized cohort 3",
+      "dose": "60 mg once daily",
+      "n_planned": null,
+      "exposure_auc": null,
+      "exposure_cmax": null,
+      "exposure_unit": null,
+      "dlt_observed": null,
+      "n_evaluable": null
+     }
+    ],
+    "escalation_method": "Bayesian optimal interval (BOIN) design",
+    "target_dlt_rate": 0.3,
+    "rp2d_rule_text": "The RP2D will be selected using prespecified integrated criteria (Appendix D), not solely because a dose level is the maximum tolerated dose.",
+    "dose_comparison_plan": "At least 60 subjects will be randomized 1:1 to the two candidate dose levels to compare safety, tolerability, PK, PD and preliminary antitumor activity before selecting the RP2D.",
+    "expansion_cohorts": [],
+    "pk_sampling_plan": "Intensive PK sampling on Cycle 1 Day 1 and Day 15 (pre-dose, 0.5, 1, 2, 4, 6, 8 and 24 h post-dose) in all escalation subjects; steady-state trough sampling every cycle in the randomized cohorts."
+   },
+   "eligibility": {
+    "key_inclusion": [
+     "age ≥18",
+     "histologically confirmed KRAS G12C-mutated locally advanced or metastatic solid tumor",
+     "ECOG 0–1",
+     "at least one prior line of systemic therapy",
+     "recovery of prior-treatment toxicities to Grade ≤1"
+    ],
+    "key_exclusion": [
+     "active brain metastases",
+     "prior treatment with a KRAS G12C inhibitor",
+     "QTcF >470 ms",
+     "anti-PD-(L)1 therapy within 4 weeks prior to the first dose"
+    ],
+    "prior_therapy_washout": "anti-PD-(L)1 therapy within 4 weeks prior to the first dose."
+   },
+   "endpoints": [
+    {
+     "name": "Safety and tolerability",
+     "kind": "primary",
+     "definition": "Safety and tolerability; characterize dose-limiting toxicities and identify candidate dose levels for optimization.",
+     "analysis_population": null
+    },
+    {
+     "name": "Objective response rate (ORR)",
+     "kind": "primary",
+     "definition": "Objective response rate (ORR) per RECIST v1.1 at the selected recommended Phase 2 dose (RP2D).",
+     "analysis_population": null
+    },
+    {
+     "name": "Pharmacokinetics (PK)",
+     "kind": "secondary",
+     "definition": null,
+     "analysis_population": null
+    },
+    {
+     "name": "Duration of response",
+     "kind": "secondary",
+     "definition": null,
+     "analysis_population": null
+    },
+    {
+     "name": "Progression-free survival",
+     "kind": "secondary",
+     "definition": null,
+     "analysis_population": null
+    },
+    {
+     "name": "Dose intensity and tolerability over time",
+     "kind": "secondary",
+     "definition": null,
+     "analysis_population": null
+    }
+   ],
+   "visits_and_procedures": [
+    {
+     "visit": "Screening",
+     "day": "Day −28 to −1",
+     "procedures": [],
+     "blood_volume_ml": null
+    },
+    {
+     "visit": "Cycle 1 Day 1",
+     "day": "Cycle 1 Day 1",
+     "procedures": [],
+     "blood_volume_ml": null
+    },
+    {
+     "visit": "Day 8",
+     "day": "Day 8",
+     "procedures": [],
+     "blood_volume_ml": null
+    },
+    {
+     "visit": "Day 15",
+     "day": "Day 15",
+     "procedures": [],
+     "blood_volume_ml": null
+    },
+    {
+     "visit": "Day 1 of each 21-day cycle",
+     "day": "Day 1 of each 21-day cycle",
+     "procedures": [],
+     "blood_volume_ml": null
+    },
+    {
+     "visit": "Tumor assessments",
+     "day": "every 6 weeks",
+     "procedures": [
+      "Tumor assessments"
+     ],
+     "blood_volume_ml": null
+    }
+   ],
+   "safety_monitoring": {
+    "lab_schedule_text": "Liver function tests (ALT, AST, alkaline phosphatase, total bilirubin) will be assessed before the first dose, every 3 weeks for the first 3 months, and monthly thereafter or as clinically indicated.",
+    "dose_modification_text": "Dose modification rules for hepatotoxicity, interstitial lung disease/pneumonitis and other adverse reactions are specified in Appendix B."
+   }
+  },
+  "source_spans": [
+   {
+    "field": "study.study_id",
+    "section": "Protocol Synopsis",
+    "text": "# Protocol Synopsis — DV-DEMO-002 (revised)"
+   },
+   {
+    "field": "study.title",
+    "section": "Protocol Synopsis",
+    "text": "**Title:** A Phase 1/2, Open-Label, Multicenter Study of DV-101 (sotorasib) in Subjects with KRAS G12C-Mutated Advanced Solid Tumors"
+   },
+   {
+    "field": "study.indication",
+    "section": "Protocol Synopsis",
+    "text": "**Title:** A Phase 1/2, Open-Label, Multicenter Study of DV-101 (sotorasib) in Subjects with KRAS G12C-Mutated Advanced Solid Tumors"
+   },
+   {
+    "field": "study.phase",
+    "section": "Protocol Synopsis",
+    "text": "**Sponsor:** DoseVerdict Demo Biotech · **Countries:** Republic of Korea, United States · **Phase:** 1/2"
+   },
+   {
+    "field": "study.countries",
+    "section": "Protocol Synopsis",
+    "text": "**Sponsor:** DoseVerdict Demo Biotech · **Countries:** Republic of Korea, United States · **Phase:** 1/2"
+   },
+   {
+    "field": "study.investigational_product",
+    "section": "Investigational Product",
+    "text": "DV-101 (sotorasib) is an oral, irreversible, covalent KRAS G12C inhibitor. SMILES: C=CC(=O)N1CCN(c2nc(=O)n(-c3c(C)ccnc3C(C)C)c3nc(-c4c(O)cccc4F)c(F)cc23)[C@@H](C)C1. Target: KRAS G12C."
+   },
+   {
+    "field": "design.objectives_primary",
+    "section": "Objectives",
+    "text": "- Primary (Phase 1): Safety and tolerability; characterize dose-limiting toxicities and identify candidate dose levels for optimization."
+   },
+   {
+    "field": "design.objectives_primary",
+    "section": "Objectives",
+    "text": "- Primary (Phase 2): Objective response rate (ORR) per RECIST v1.1 at the selected recommended Phase 2 dose (RP2D)."
+   },
+   {
+    "field": "design.objectives_secondary",
+    "section": "Objectives",
+    "text": "- Secondary: Pharmacokinetics (PK), duration of response, progression-free survival, dose intensity and tolerability over time."
+   },
+   {
+    "field": "design.dose_strategy.dose_levels",
+    "section": "Dose Escalation",
+    "text": "Planned dose levels (once daily, oral): 180 mg, 360 mg, 540 mg, 720 mg, 960 mg."
+   },
+   {
+    "field": "design.dose_strategy.dose_levels",
+    "section": "Dose Escalation",
+    "text": "Participants will be enrolled sequentially into nonrandomized cohorts receiving 10, 30, or 60 mg once daily, with each new cohort opened after review of the preceding cohort."
+   },
+   {
+    "field": "design.dose_strategy.escalation_method",
+    "section": "Dose Escalation",
+    "text": "Dose escalation will follow a Bayesian optimal interval (BOIN) design with a target dose-limiting toxicity (DLT) rate of 30% and a maximum of 36 subjects."
+   },
+   {
+    "field": "design.dose_strategy.target_dlt_rate",
+    "section": "Dose Escalation",
+    "text": "Dose escalation will follow a Bayesian optimal interval (BOIN) design with a target dose-limiting toxicity (DLT) rate of 30% and a maximum of 36 subjects."
+   },
+   {
+    "field": "design.dose_strategy.rp2d_rule_text",
+    "section": "Dose Optimization and Expansion",
+    "text": "The RP2D will be selected using prespecified integrated criteria (Appendix D), not solely because a dose level is the maximum tolerated dose."
+   },
+   {
+    "field": "design.dose_strategy.dose_comparison_plan",
+    "section": "Dose Optimization and Expansion",
+    "text": "At least 60 subjects will be randomized 1:1 to the two candidate dose levels to compare safety, tolerability, PK, PD and preliminary antitumor activity before selecting the RP2D."
+   },
+   {
+    "field": "design.dose_strategy.pk_sampling_plan",
+    "section": "Pharmacokinetics",
+    "text": "Intensive PK sampling on Cycle 1 Day 1 and Day 15 (pre-dose, 0.5, 1, 2, 4, 6, 8 and 24 h post-dose) in all escalation subjects; steady-state trough sampling every cycle in the randomized cohorts."
+   },
+   {
+    "field": "design.eligibility",
+    "section": "Eligibility (key)",
+    "text": "- Inclusion: age ≥18; histologically confirmed KRAS G12C-mutated locally advanced or metastatic solid tumor; ECOG 0–1; at least one prior line of systemic therapy; recovery of prior-treatment toxicities to Grade ≤1."
+   },
+   {
+    "field": "design.eligibility",
+    "section": "Eligibility (key)",
+    "text": "- Exclusion: active brain metastases; prior treatment with a KRAS G12C inhibitor; QTcF >470 ms; anti-PD-(L)1 therapy within 4 weeks prior to the first dose."
+   },
+   {
+    "field": "design.endpoints",
+    "section": "Objectives",
+    "text": "- Primary (Phase 1): Safety and tolerability; characterize dose-limiting toxicities and identify candidate dose levels for optimization."
+   },
+   {
+    "field": "design.endpoints",
+    "section": "Objectives",
+    "text": "- Primary (Phase 2): Objective response rate (ORR) per RECIST v1.1 at the selected recommended Phase 2 dose (RP2D)."
+   },
+   {
+    "field": "design.endpoints",
+    "section": "Objectives",
+    "text": "- Secondary: Pharmacokinetics (PK), duration of response, progression-free survival, dose intensity and tolerability over time."
+   },
+   {
+    "field": "design.visits_and_procedures",
+    "section": "Visit Schedule",
+    "text": "Screening (Day −28 to −1), Cycle 1 Day 1, Day 8, Day 15, then Day 1 of each 21-day cycle. Tumor assessments every 6 weeks."
+   },
+   {
+    "field": "design.safety_monitoring.lab_schedule_text",
+    "section": "Safety Monitoring",
+    "text": "Liver function tests (ALT, AST, alkaline phosphatase, total bilirubin) will be assessed before the first dose, every 3 weeks for the first 3 months, and monthly thereafter or as clinically indicated."
+   },
+   {
+    "field": "design.safety_monitoring.dose_modification_text",
+    "section": "Safety Monitoring",
+    "text": "Dose modification rules for hepatotoxicity, interstitial lung disease/pneumonitis and other adverse reactions are specified in Appendix B."
+   }
+  ],
+  "missing_fields": [
+   "study.investigational_product.chembl_id",
+   "design.dose_strategy.starting_dose",
+   "design.dose_strategy.dose_levels.n_planned",
+   "design.dose_strategy.dose_levels.exposure_auc",
+   "design.dose_strategy.dose_levels.exposure_cmax",
+   "design.dose_strategy.dose_levels.exposure_unit",
+   "design.dose_strategy.dose_levels.dlt_observed",
+   "design.dose_strategy.dose_levels.n_evaluable",
+   "design.dose_strategy.expansion_cohorts",
+   "design.visits_and_procedures.blood_volume_ml"
+  ]
+ },
+ "tasks": [
+  {
+   "task_id": "T01_structure_class",
+   "kind": "structure_class",
+   "depends_on": [],
+   "tools": [
+    "rdkit.structure_profile",
+    "chembl.potency"
+   ],
+   "rationale": "SMILES가 있으므로 구조 계열(반응성 warhead)을 분류하고 ChEMBL 효력값 분포를 확보한다. 독성 장기는 구조에서 추론하지 않는다.",
+   "status": "done",
+   "replan_count": 0
+  },
+  {
+   "task_id": "T02_target_evidence",
+   "kind": "target_evidence",
+   "depends_on": [],
+   "tools": [
+    "opentargets.target_evidence"
+   ],
+   "rationale": "타겟/계열(KRAS G12C)이 언급되어 승인약과 safety liability를 조회한다.",
+   "status": "done",
+   "replan_count": 0
+  },
+  {
+   "task_id": "T03_class_label_check",
+   "kind": "class_label_check",
+   "depends_on": [
+    "T02_target_evidence",
+    "T01_structure_class"
+   ],
+   "tools": [
+    "openfda.label"
+   ],
+   "rationale": "동일 타겟·계열 승인약의 FDA 라벨에서 모니터링 요구와 PK 보고값을 확인해 프로토콜 조항과 대조한다.",
+   "status": "done",
+   "replan_count": 0
+  },
+  {
+   "task_id": "T04_exposure_dose_relationship",
+   "kind": "exposure_dose_relationship",
+   "depends_on": [
+    "T01_structure_class"
+   ],
+   "tools": [
+    "pharm.tcr_three_metrics",
+    "pharm.exposure_power"
+   ],
+   "rationale": "둘 이상 용량군의 노출값 또는 동일 성분 승인 라벨 PK가 있으므로 TCR 3지표와 노출비 검정력을 계산한다. 지표·가정에 따라 판정이 갈리면 보류한다.",
+   "status": "abstained",
+   "replan_count": 0
+  },
+  {
+   "task_id": "T05_design_oc",
+   "kind": "design_oc",
+   "depends_on": [],
+   "tools": [
+    "design.compare_sample_matched",
+    "design.required_sample_for_pcs"
+   ],
+   "rationale": "용량군 8개·증량 규칙(Bayesian optimal interval (BOIN) design)이 있으므로 3+3/BOIN 운영특성과 목표 정확도에 필요한 표본수를 계산한다.",
+   "status": "done",
+   "replan_count": 0
+  },
+  {
+   "task_id": "T06_regulatory_clause_search_KR",
+   "kind": "regulatory_clause_search",
+   "depends_on": [],
+   "tools": [
+    "corpus.search"
+   ],
+   "rationale": "대상국 KR의 용량 최적화·확장 코호트·GCP 조항을 검색한다(국가별 분리 검색).",
+   "status": "done",
+   "replan_count": 0
+  },
+  {
+   "task_id": "T07_regulatory_clause_search_US",
+   "kind": "regulatory_clause_search",
+   "depends_on": [],
+   "tools": [
+    "corpus.search"
+   ],
+   "rationale": "대상국 US의 용량 최적화·확장 코호트·GCP 조항을 검색한다(국가별 분리 검색).",
+   "status": "done",
+   "replan_count": 0
+  },
+  {
+   "task_id": "T08_analog_trial",
+   "kind": "analog_trial",
+   "depends_on": [],
+   "tools": [
+    "ctgov.search_analog_trials"
+   ],
+   "rationale": "적격기준 또는 방문표가 있으므로 ClinicalTrials.gov에서 유사시험 설계 구조를 비교한다(효능 정답으로 쓰지 않는다).",
+   "status": "done",
+   "replan_count": 0
+  }
+ ],
+ "evidence": {
+  "ev_001": {
+   "evidence_id": "ev_001",
+   "kind": "calculation",
+   "authority": "RDKit",
+   "document_title": null,
+   "version_date": null,
+   "section": null,
+   "quote": "구조 계열: ['irreversible_covalent_inhibitor_candidate']; 알림 ['Michael_acceptor_1', 'acrylate', 'halo_acrylate']; MW 560.605, cLogP 4.481. 구조 알림은 HTS 간섭 필터이며 임상 독성 예측용으로 검증되지 않았으므로 계열 분류까지만 사용한다.",
+   "applicability": null,
+   "norm_strength": null,
+   "url": null,
+   "retrieved_at": "2026-09-23T13:45:30.291294+00:00",
+   "tool_call_id": "tc_001",
+   "priority_tier": 3
+  },
+  "ev_002": {
+   "evidence_id": "ev_002",
+   "kind": "database_record",
+   "authority": "ChEMBL",
+   "document_title": null,
+   "version_date": null,
+   "section": null,
+   "quote": "KRAS 표적 활성값 11건 중 검열값 3건 제외. 세포 기반 [24.5, 30.0, 68.0] nM (중앙값 30.0), 생화학 [9.66, 15.8, 7500.0, 12200.0, 86000.0] nM. 어세이 유형을 풀링하지 않는다.",
+   "applicability": null,
+   "norm_strength": null,
+   "url": "https://www.ebi.ac.uk/chembl/api/data/activity.json",
+   "retrieved_at": "2026-09-23T13:45:33.186448+00:00",
+   "tool_call_id": "tc_002",
+   "priority_tier": 1
+  },
+  "ev_003": {
+   "evidence_id": "ev_003",
+   "kind": "database_record",
+   "authority": "Open Targets",
+   "document_title": null,
+   "version_date": null,
+   "section": null,
+   "quote": "KRAS (ENSG00000133703): 승인약 ['SOTORASIB', 'ADAGRASIB'], safety liabilities 0건 []",
+   "applicability": null,
+   "norm_strength": null,
+   "url": "https://api.platform.opentargets.org/api/v4/graphql",
+   "retrieved_at": "2026-09-23T13:45:34.088414+00:00",
+   "tool_call_id": "tc_003",
+   "priority_tier": 1
+  },
+  "ev_004": {
+   "evidence_id": "ev_004",
+   "kind": "label_statement",
+   "authority": "FDA label",
+   "document_title": "LUMAKRAS prescribing information",
+   "version_date": "20250122",
+   "section": "5 Warnings and Precautions",
+   "quote": "LUMAKRAS (['SOTORASIB']) 라벨 5.x 경고: Monitor liver function tests every 3 weeks for the first 3 months of treatment then once monthly as clinically indicated.; Monitor liver function tests (ALT, AST, alkaline phosphatase and total bilirubin) prior to the start of LUMAKRAS, every 3 weeks for the first 3 months of treatment, then once a month or as clinically indicated, with more frequent testing in patients who develop transaminase and/or bilirubin elevations.",
+   "applicability": "US",
+   "norm_strength": "final_guidance",
+   "url": "https://api.fda.gov/drug/label.json?search=openfda.brand_name:\"LUMAKRAS\"",
+   "retrieved_at": "2026-09-23T13:45:35.848896+00:00",
+   "tool_call_id": "tc_004",
+   "priority_tier": 1
+  },
+  "ev_005": {
+   "evidence_id": "ev_005",
+   "kind": "label_statement",
+   "authority": "FDA label",
+   "document_title": "LUMAKRAS prescribing information",
+   "version_date": "20250122",
+   "section": "12 Clinical Pharmacology",
+   "quote": "LUMAKRAS 12.2/12.3: exposure-response relationships and the time course of the pharmacodynamic response are unknown. non-linear, time-dependent, pharmacokinetics over the dose range of 180 mg to 960 mg (0.",
+   "applicability": "US",
+   "norm_strength": "final_guidance",
+   "url": "https://api.fda.gov/drug/label.json?search=openfda.brand_name:\"LUMAKRAS\"",
+   "retrieved_at": "2026-09-23T13:45:35.848930+00:00",
+   "tool_call_id": "tc_004",
+   "priority_tier": 1
+  },
+  "ev_006": {
+   "evidence_id": "ev_006",
+   "kind": "label_statement",
+   "authority": "FDA label",
+   "document_title": "KRAZATI prescribing information",
+   "version_date": "20260325",
+   "section": "5 Warnings and Precautions",
+   "quote": "KRAZATI (['ADAGRASIB']) 라벨 5.x 경고: Monitor liver laboratory tests prior to the start of KRAZATI and monthly for 3 months after and as clinically indicated.; Monitor liver laboratory tests (AST, ALT, alkaline phosphatase and total bilirubin) prior to the start of KRAZATI and monthly for 3 months or as clinically indicated, with more frequent testing in patients who develop transaminase elevations.",
+   "applicability": "US",
+   "norm_strength": "final_guidance",
+   "url": "https://api.fda.gov/drug/label.json?search=openfda.brand_name:\"KRAZATI\"",
+   "retrieved_at": "2026-09-23T13:45:37.646323+00:00",
+   "tool_call_id": "tc_005",
+   "priority_tier": 1
+  },
+  "ev_007": {
+   "evidence_id": "ev_007",
+   "kind": "label_statement",
+   "authority": "FDA label",
+   "document_title": "KRAZATI prescribing information",
+   "version_date": "20260325",
+   "section": "12 Clinical Pharmacology",
+   "quote": "KRAZATI 12.2/12.3: exposure-response relationships and the time course of pharmacodynamic response are unknown.",
+   "applicability": "US",
+   "norm_strength": "final_guidance",
+   "url": "https://api.fda.gov/drug/label.json?search=openfda.brand_name:\"KRAZATI\"",
+   "retrieved_at": "2026-09-23T13:45:37.646354+00:00",
+   "tool_call_id": "tc_005",
+   "priority_tier": 1
+  },
+  "ev_008": {
+   "evidence_id": "ev_008",
+   "kind": "calculation",
+   "authority": "DoseVerdict",
+   "document_title": null,
+   "version_date": null,
+   "section": null,
+   "quote": "TCR(선형 CL/F 가정, IC50 30.0 nM 세포 기반, f_u 0.11, t½ 5.0 h): 10 mg: Cmax 0.4/Cavg 0.1/Ctrough 0.01 → not_covered; 30 mg: Cmax 1.1/Cavg 0.3/Ctrough 0.04 → abstain_metric_dependent; 60 mg: Cmax 2.2/Cavg 0.6/Ctrough 0.08 → abstain_metric_dependent; 180 mg: Cmax 6.5/Cavg 1.9/Ctrough 0.23 → abstain_metric_dependent; 360 mg: Cmax 12.9/Cavg 3.7/Ctrough 0.46 → abstain_metric_dependent; 540 mg: Cmax 19.4/Cavg 5.6/Ctrough 0.70 → abstain_metric_dependent; 720 mg: Cmax 25.8/Cavg 7.5/Ctrough 0.93 → abstain_metric_dependent; 960 mg: Cmax 34.5/Cavg 10.0/Ctrough 1.24 → covered. 판정이 지표(Cavg vs Ctrough)에 따라 갈리므로 '커버된다'는 결론을 만들지 않는다. 라벨이 비선형 PK를 보고하므로 선형 외삽은 라벨과 모순될 수 있다 → 두 가정을 병기하고 용량군별 반복투여 PK를 요청한다.",
+   "applicability": null,
+   "norm_strength": null,
+   "url": null,
+   "retrieved_at": "2026-09-23T13:45:37.647039+00:00",
+   "tool_call_id": null,
+   "priority_tier": 3
+  },
+  "ev_009": {
+   "evidence_id": "ev_009",
+   "kind": "calculation",
+   "authority": "DoseVerdict",
+   "document_title": null,
+   "version_date": null,
+   "section": null,
+   "quote": "CL/F CV 76% 기준 두 용량군 AUC 비 95% CI 폭: n=2 14.109배, n=4 6.499배, n=12 2.946배. 증량 코호트 규모(2~4명)로는 노출 포화를 확정할 수 없다.",
+   "applicability": null,
+   "norm_strength": null,
+   "url": null,
+   "retrieved_at": "2026-09-23T13:45:37.647199+00:00",
+   "tool_call_id": "tc_014",
+   "priority_tier": 3
+  },
+  "ev_010": {
+   "evidence_id": "ev_010",
+   "kind": "calculation",
+   "authority": "DoseVerdict",
+   "document_title": null,
+   "version_date": null,
+   "section": null,
+   "quote": "용량군 8개, 목표 DLT 30%, 대표 독성 곡선 [0.05, 0.14, 0.24, 0.33, 0.42, 0.51, 0.61, 0.7]에서 3+3: 평균 표본 16.47명, 정확 MTD 선택률 14.7%, MTD 미확정 2.9%, 과다노출 비율 8.34%. 표본 정합 BOIN(n=15): PCS 18.15%, 미확정 0.05%. 조건을 통제한 비교만 인용한다.",
+   "applicability": null,
+   "norm_strength": null,
+   "url": null,
+   "retrieved_at": "2026-09-23T13:45:42.707303+00:00",
+   "tool_call_id": "tc_015",
+   "priority_tier": 3
+  },
+  "ev_011": {
+   "evidence_id": "ev_011",
+   "kind": "calculation",
+   "authority": "DoseVerdict",
+   "document_title": null,
+   "version_date": null,
+   "section": null,
+   "quote": "정확 MTD 선택률 50%를 목표로 하면 BOIN 기준 필요 n_max = None (격자 [(15, 18.5), (18, 21.2), (21, 22.3), (24, 25.0), (27, 26.9), (30, 29.0), (36, 27.4), (42, 33.0), (48, 31.7)]). 3+3은 알고리즘상 이 표본에 도달하지 못한다.",
+   "applicability": null,
+   "norm_strength": null,
+   "url": null,
+   "retrieved_at": "2026-09-23T13:45:55.901062+00:00",
+   "tool_call_id": "tc_016",
+   "priority_tier": 3
+  },
+  "ev_012": {
+   "evidence_id": "ev_012",
+   "kind": "regulatory_clause",
+   "authority": "MFDS",
+   "document_title": "항암제 임상시험 중 용량 최적화 전략 가이드라인 (민원인 안내서)",
+   "version_date": "2025-08-29",
+   "section": "3.2 다양한 용량을 비교하기 위한 임상시험 설계",
+   "quote": "• 품목 허가시 권장 용량을 뒷받침하기 위해서는 항종양 활성, 안전성 및 내약성을 \n평가하는 임상시험에서 다양한 용량을 비교해야 한다.\n - 적절한 경우 추가 평가가 필요한 용량의 선정 시 유사한 계열 또는 동일한 작용 \n기전의 약물에 대한 자료도 활용할 수 있다.\n- 5 -\n - 모델링 방법은 비교할 용량을 파악하고 선정할 때 참고할 수 있다.\n - 용량 탐색 시험에서 새로운 용량 수준에 대한 코호트를 평가하거나 기존 용량의 \n코호트에 더 많은 환자를 모집(backfill cohort)하는 방법은 추가 개발을 고려 \n중인 용량에 유용할 수 있다. 이와 같은 방법을 통해 다양한 용량을 비교하는 \n임상시험을 시작하기 전에 안전성과 활성을 비교한 추가 자료를 확보할 수 있다.\n• 다양한 용량을 비교하기 위한 임상시험에서는 무작위 배정, 평행 설계의 용량 반응 \n임상시험을 권장한다.\n - 무작위 배정 방식은 개별 용량을 투여한 환자 간의 비교 가능성을 높이고 \n용량-반응 및 노출-반응 관계를 평가할 때 편향을 최소화한다. 비교 가능성을 더 \n개선하는 방법으로 층화 무작위 배정 방식을 사용할 수도 있다.\n - 더 높은 용량이 활성을 개선하는 것과 관련이 있다는 편향이 발생할 수 있으므로 \n용량군 배정에 대한 환자 및 연구자의 눈가림을 고려할 수 있다.\n - 개별 용량 단계에서는 안전성 및 항종양 활성을 충분히 평가할 수 있는 규모로 \n계획해야 한다. 치료적 임상시험의 수준으로 제1종 오류를 사용하여 용량 간의 \n통계적 우월성 또는 비열등성을 입증하기 위한 검정력을 고려할 필요는 없다.\n - 활성과 관련된 측정은 종양 평가 기반의 평가변수(예: 전체 반응률, 무진행 생존 \n기간) 및 기타 조직, 혈액 또는 영상 기반 평가변수를 포함할 수 있다.\n - 임상시험 중 중간 분석을 통해 활성 및/또는 안전성을 평가하고, 하나 이상의 \n용량에 대한 등록을 중단하기 위한 적응적 설계를 고려할 수 있다.\n - 교차를 허용하는 임상시험의 경우는 분석 계획에 교차 투여를 고려한 안전성 및 \n활성 평가 방법을 사전에 명시해야 한다.\n• 치료적 임상시험의 이전에, 또는 치료적 임상시험의 일부로서 용량군을 추가하는 \n방법으로 다양한 용량을 비교할 수도 있다.\n - 다양한 용량과 대조군을 포함하고 하나의 용량이 대조군 대비 우월한 유효성을 \n입증하도록 설계한 치료적 임상시험은 제1종 오류를 강력하게 통제해야 한다.\n분석 계획에는 대조군 대비 ",
+   "applicability": "KR",
+   "norm_strength": "civil_guide",
+   "url": "https://www.mfds.go.kr/brd/m_1060/view.do?seq=15759",
+   "retrieved_at": "2026-09-23T13:45:56.146464+00:00",
+   "tool_call_id": null,
+   "priority_tier": 2
+  },
+  "ev_013": {
+   "evidence_id": "ev_013",
+   "kind": "regulatory_clause",
+   "authority": "MFDS",
+   "document_title": "항암제 임상시험 중 용량 최적화 전략 가이드라인 (민원인 안내서)",
+   "version_date": "2025-08-29",
+   "section": "3 용량 최적화 전략 권장사항",
+   "quote": "임상시험에서 선정한 용량은 개발 단계에 적합한 자료로서 뒷받침할 수 있어야 \n한다. 관련 비임상시험 및 임상시험 자료(예: 약동학, 약력학, 안전성, 내약성, 복용 \n편의성 및 활성)와 용량-반응 및 용량-노출 관계를 평가하여 임상시험 용량을 선정해야 \n한다. 적절한 타당성이 부족하거나 모든 관련 자료를 전반적으로 고려하지 않은 \n방식으로 용량을 선정하는 것은 환자가 비합리적이고 상당한 위험에 노출되거나, 위험 \n여부를 판단하기에 정보가 충분하지 않거나, 임상시험의 목표를 충족하기에 부족할 수 \n있기 때문에 바람직하지 않다.\n 최적의 용량을 결정하기 위해서는 약물의 계열, 대상 적응증의 환자 집단, 그리고 \n용량과 관련된 약물에 대한 사전 지식 등이 필요하며 이에 국한하지 않는다. 따라서 \n임상 개발 초기 단계부터 용량 최적화 전략에 대해 규제 당국과 논의하는 것이 \n바람직하다.\n 최적의 용량을 파악하기 위한 관련 자료의 수집 및 시험 설계 방법에 대해 아래의 \n사항을 권장한다.",
+   "applicability": "KR",
+   "norm_strength": "civil_guide",
+   "url": "https://www.mfds.go.kr/brd/m_1060/view.do?seq=15759",
+   "retrieved_at": "2026-09-23T13:45:56.146545+00:00",
+   "tool_call_id": null,
+   "priority_tier": 2
+  },
+  "ev_014": {
+   "evidence_id": "ev_014",
+   "kind": "regulatory_clause",
+   "authority": "MFDS",
+   "document_title": "항암제 임상시험 중 용량 최적화 전략 가이드라인 (민원인 안내서)",
+   "version_date": "2025-08-29",
+   "section": "3.3 안전성 및 내약성",
+   "quote": "• 추가 평가가 필요한 용량 또는 권장 용량을 선정할 때에는 △노출 기간, △계획된 \n용량을 모두 복용한 환자의 비율, △이상반응으로 인해 투여 중단이나 용량 감량 \n또는 조절이 필요한 환자의 비율, △첫 번째 용량 조절까지의 시간, △투여 중단 \n기간, △치명적인 이상반응을 포함하여 중대한 이상반응과 특정 관심 대상 독성을 \n경험한 환자의 비율 등을 포함하여, 다양한 용량에서 안전성 및 내약성을 비교해야 \n한다.\n• 과도한 독성에 대한 중단 기준은 사전에 명시해야 한다. 허용하는 독성의 종류 및 \n비율은 개발 단계, 약물의 특성, 질병 단계 등 다양한 요인에 의해 달라질 수 있다.\n임상시험계획서에는 중대한 이상반응이나 치명적인 이상반응, 또는 특정 관심 대상 \n독성의 비율이 하나 이상의 용량에서 높은 빈도로 발생하는 경우 등을 포함하여 \n특정 상황에서의 조치 방법(예: 용량 조정)을 명확하게 기재해야 한다. 이와 같은 \n조치 방법에는 해당 사건을 검토하기 위한 임상시험의 일시 중지, 하나 이상의 \n용량군의 탈락 또는 추가, 임상시험의 중단 등을 포함할 수 있다.\n• 중대하지 않은 것으로 보고할 수 있는 저등급의 증상성 독성(예: 1 또는 2등급)도 \n지속적으로 발생할 경우 환자가 장기간 약물을 복용하는 것에 상당한 영향을 줄 수 \n있다. 이와 같은 반응의 빈도와 영향(예: 투여 중단 빈도, 중단 기간, 용량 감량 \n비율)을 신중하게 평가하고 후속 임상시험의 용량을 선정할 때 반영해야 한다.\n• 일부 항암제는 투여 초기에 중대하거나 생명을 위협하는 독성(예: 사이토카인 방출 \n증후군)을 발생시키지만, 후속 투여 시에는 독성의 중증도가 감소하거나 발생하지 \n않을 수 있다. 내약성을 개선하기 위해서 용량 적정과 같은 투여 전략을 평가하는 \n것을 고려할 수 있다.\n• 환자-보고 결과(Patient-reported outcome, PRO)는 예상하는 증상성 부작용과 환자 \n기능에 미치는 영향을 체계적이고 정량적으로 평가할 수 있다. 용량 결정 시험 및 \n후속 시험에서는 내약성의 평가를 강화하기 위해 PRO를 포함하는 것을 고려해야 \n한다. PRO를 위한 도구 선택 및 평가 빈도에 대한 권장사항은 항암제 임상시험 \n- 7 -\n가이드라인 중 부록 3을 참고할 수 있다.\n• 환자 단체 등 주요 이해관계자들과의 협력을 통해 최적의 용량을 선택할 때 중요한 \n고려사항인 안전성, 내약성 및 복용 편의성(예: 투여 일정, 약물 개",
+   "applicability": "KR",
+   "norm_strength": "civil_guide",
+   "url": "https://www.mfds.go.kr/brd/m_1060/view.do?seq=15759",
+   "retrieved_at": "2026-09-23T13:45:56.381193+00:00",
+   "tool_call_id": null,
+   "priority_tier": 2
+  },
+  "ev_015": {
+   "evidence_id": "ev_015",
+   "kind": "regulatory_clause",
+   "authority": "ICH",
+   "document_title": "ICH E6(R3) Good Clinical Practice — Principles and Annex 1",
+   "version_date": "2025-01-06",
+   "section": "3.10 Quality Management",
+   "quote": "The sponsor should implement an appropriate system to manage quality throughout all stages \nof the trial process. Quality management includes the design and implementation of efficient \nclinical trial protocols , including tools and procedures for trial conduct (including for data \ncollection and management), in order to ensure the protection of participants’ rights, safety and \nwell-being and the reliability of trial results. The sponsor should adopt a proportionate and risk-\nbased approach to quality management , which involves incorporating quality into the design \nof the clinical trial (i.e., quality by design) and identifying those factors that are likely to have \na meaningful impact on participant s’ rights, safety and well -being and the reliability of the \nresults (i.e., critical to quality factors as described in ICH E8(R1)). The sponsor should describe \nthe quality management approach implemented in the trial in the clinical trial report (see ICH \nE3 Structure and Content of Clinical Study Reports). \nICH E6(R3) Guideline \n28",
+   "applicability": "common",
+   "norm_strength": "final_guidance",
+   "url": "https://database.ich.org/sites/default/files/ICH_E6(R3)_Step4_FinalGuideline_2025_0106.pdf",
+   "retrieved_at": "2026-09-23T13:45:56.589421+00:00",
+   "tool_call_id": null,
+   "priority_tier": 2
+  },
+  "ev_016": {
+   "evidence_id": "ev_016",
+   "kind": "regulatory_clause",
+   "authority": "ICH",
+   "document_title": "ICH E6(R3) Good Clinical Practice — Principles and Annex 1",
+   "version_date": "2025-01-06",
+   "section": "3.10.1.3 Risk Control",
+   "quote": "Risk control should be proportionate to the importance of the risk to participant s’ \nrights, safety and well -being and the reliability of trial results. Risk mitigation \nactivities may be incorporated, for example, in protocol design and implementation, \nmonitoring plans, agreements between parties defining roles and responsibilities, and \ntraining.  \nWhere relevant, the sponsor should set pre-specified acceptable ranges (e.g., quality \ntolerance limits at the tr ial level) to support the control of risks \nto critical to quality factors. These pre -specified ranges reflect limits that when \nexceeded have the potential to impact participant safety or the reliability of trial \nresults. Where deviation beyond these ranges is detected , an evaluation should be \nperformed to determine if there is a possible systemic issue and if action is needed.",
+   "applicability": "common",
+   "norm_strength": "final_guidance",
+   "url": "https://database.ich.org/sites/default/files/ICH_E6(R3)_Step4_FinalGuideline_2025_0106.pdf",
+   "retrieved_at": "2026-09-23T13:45:56.589479+00:00",
+   "tool_call_id": null,
+   "priority_tier": 2
+  },
+  "ev_017": {
+   "evidence_id": "ev_017",
+   "kind": "regulatory_clause",
+   "authority": "ICH",
+   "document_title": "ICH E4 Dose-Response Information to Support Drug Registration",
+   "version_date": "1994-03-10",
+   "section": "1 Parallel dose-response",
+   "quote": "mean (population-average) dose-\nresponses, not the distribution or shape of individual dose-response curves. \nIt is all too common to discover, at the end of a parallel dose-response study, that \nall doses were too high (on the plateau of the dose-response curve), or that doses \ndid not go high enough.  A formally planned interim analysis (or other multi-stage \ndesign) might detect such a problem and allow study of the proper dose range. \nAs with any placebo-controlled trial, it may also be useful to include one or more \ndoses of an active drug control.  Inclus ion of both placebo and active control \ngroups allows assessment of “assay sensit ivity”, permitting a distinction between \nan ineffective drug and an “ineffective” (null, no test) study.  Comparison of dose-\nresponse curves for test and control dr ugs, not yet a common design, may also \n6 \nDose-Response Information to Support Drug Registration \nrepresent a more valid and informative comparative effectiveness/safety study \nthan comparison of single doses of the two agents. \nThe factorial trial is a special case of the parallel dose-response study to be \nconsidered when combination therapy is being evaluated.  It is particula",
+   "applicability": "common",
+   "norm_strength": "final_guidance",
+   "url": "https://database.ich.org/sites/default/files/E4_Guideline.pdf",
+   "retrieved_at": "2026-09-23T13:45:56.839864+00:00",
+   "tool_call_id": null,
+   "priority_tier": 2
+  },
+  "ev_018": {
+   "evidence_id": "ev_018",
+   "kind": "regulatory_clause",
+   "authority": "ICH",
+   "document_title": "ICH E6(R3) Good Clinical Practice — Principles and Annex 1",
+   "version_date": "2025-01-06",
+   "section": "4.3.8 User Management",
+   "quote": "such as pregnancies.  \nB.10 Statistical Considerations  \nB.10.1 A description of the statistical methods to be employed, including timing and purpose \nof any planned interim analysis(ses) and the statistical criteria for the stopping of the \ntrial.  \nB.10.2 The number of participants planned to be enrolled and the reason for the choice of \nsample size, including reflections on or calculations of the power of the trial and \nclinical justification. \nB.10.3 The level of significance to be used  or the threshold for success on the posterior \nprobability in a Bayesian design.  \nB.10.4 The selection of participants to be included in the planned analyses, a description of \nthe statistical methods to be employed and procedures for handling intercurrent events \nand accounting for missing, unused and spurious data. These should be aligned with \nthe target estimands, when defined (see ICH E9(R1)). \nB.10.5 Statement that any deviation(s) from the statistical analysis plan will be described and \njustified in the clinical trial report.  \nB.11 Direct Access to Source Records \nThe sponsor should ensure that it is specified in the protocol or other documented agreement \nthat the investigator(s)/ins",
+   "applicability": "common",
+   "norm_strength": "final_guidance",
+   "url": "https://database.ich.org/sites/default/files/ICH_E6(R3)_Step4_FinalGuideline_2025_0106.pdf",
+   "retrieved_at": "2026-09-23T13:45:57.145523+00:00",
+   "tool_call_id": null,
+   "priority_tier": 2
+  },
+  "ev_019": {
+   "evidence_id": "ev_019",
+   "kind": "regulatory_clause",
+   "authority": "ICH",
+   "document_title": "ICH E4 Dose-Response Information to Support Drug Registration",
+   "version_date": "1994-03-10",
+   "section": "I INTRODUCTION",
+   "quote": "esponse information can also allow selection of \ndoses (based on the range of concentrations th ey will achieve) most likely to lead to a \nsatisfactory response. \nProblems with Titration Designs \nA study design widely used to demonstrate  effectiveness utilizes dose titration to \nsome effectiveness or safety endpoint.  Such titration designs, without careful \nanalysis, are usually not informative about dose-response relationships.  In many \nstudies there is a tendency to spontaneous improvement over time that is not easily \ndistinguishable from an increased response to higher doses or cumulative drug \nexposure.  This leads to a tendency to choose, as a recommended dose, the highest \ndose used in such studies that was reas onably well-tolerated.  Historically, this \napproach has often led to a dose that was well in excess of what was really necessary, \nresulting in increased undesirable effects, e.g. to high dose diuretics used for \nhypertension.  In some cases, notably where an early answer is essential, the \ntitration-to-highest-tolerable-dose approach is acceptable, because it often requires a \n2 \nDose-Response Information to Support Drug Registration \nminimum number of patients.",
+   "applicability": "common",
+   "norm_strength": "final_guidance",
+   "url": "https://database.ich.org/sites/default/files/E4_Guideline.pdf",
+   "retrieved_at": "2026-09-23T13:45:57.145636+00:00",
+   "tool_call_id": null,
+   "priority_tier": 2
+  },
+  "ev_020": {
+   "evidence_id": "ev_020",
+   "kind": "regulatory_clause",
+   "authority": "ICH",
+   "document_title": "ICH E4 Dose-Response Information to Support Drug Registration",
+   "version_date": "1994-03-10",
+   "section": "IV GUIDANCE AND ADVICE",
+   "quote": "1. Dose-response data are desirable for almo st all new chemical entities entering the \nmarket.  These data should be derived from study designs that are sound and \nscientifically based; a variety of different  designs can give valid information. The \nstudies should be well-controlled, using accepted approaches to minimize bias. In \naddition to carrying out formal dose-response studies, sponsors should examine \nthe entire database for possible dose-response information. \n2. The information obtained through targeted studies and analyses of the entire \ndatabase should be used by the sponsor to: \na. Identify a reasonable starting dose, ideally with specific adjustments (or a \nfirm basis for believing none is needed) for patient size, gender, age, \nconcomitant illness, and concomitant th erapy, reflecting an integration of \nwhat is known about pharmacokinetic and pharmacodynamic variability.  \nDepending on circumstances (the diseas e, the drug’s toxicity) the starting \ndose may range from a low dose with some useful effect to a dose that is at or \nnear the full-effect dose. \nb. Identify reasonable, response-guided titration steps, and the interval at \nwhich they should be taken, again ",
+   "applicability": "common",
+   "norm_strength": "final_guidance",
+   "url": "https://database.ich.org/sites/default/files/E4_Guideline.pdf",
+   "retrieved_at": "2026-09-23T13:45:57.145659+00:00",
+   "tool_call_id": null,
+   "priority_tier": 2
+  },
+  "ev_021": {
+   "evidence_id": "ev_021",
+   "kind": "regulatory_clause",
+   "authority": "MFDS",
+   "document_title": "항암제 임상시험 중 용량 최적화 전략 가이드라인 (민원인 안내서)",
+   "version_date": "2025-08-29",
+   "section": "1 안내서-1443-01 2025. 8. 29. 제정",
+   "quote": "- 1 -\n항암제 임상시험 중 용량 최적화 전략 가이드라인\n 1. 서론\n 항암제 초기 임상시험의 주된 목적 중 하나는 다음 단계의 임상시험에서 추가 평가가 \n필요한 용량을 결정하는 것이다. 항암제는 약물의 작용기전과 투여받는 환자 집단의 \n특수성으로 인해 암 치료 효과를 극대화하면서 부작용은 최소화 할 수 있는 적절한 \n수준의 용량이 요구된다. 과도한 용량은 심각한 부작용을 유발할 수 있으며, 반대로 \n부족한 용량은 암세포의 효과적인 제거가 어려워 결국 치료의 실패로 이어질 수 있다.\n 본 가이드라인은 항암제 중 저분자(small molecule) 의약품의 임상시험에서 최적의 \n용량을 파악하기 위한 전략을 구체적으로 안내함으로써 개발 및 제품화에 도움을 \n주고자 마련하였다. 방사성 의약품, 세포 및 유전자 치료제, 암 치료 목적의 백신 및 \n생약 성분의 항암제 등은 별도의 논의가 필요하며, 인체 최초 임상시험(First-in-human,\nFIH)에서 시작 용량의 선택에 대한 내용은 포함하지 않는다.\n2. 배경\n 일반적으로 항암제의 권장 2상 용량(Recommended phase 2 dose, RP2D)을 결정하기 \n위한 용량 탐색 시험은 용량 증량 및 용량 확장을 포함하며 최대 내약 용량(Maximal\ntolerated dose, MTD)을 결정할 수 있도록 설계한다. 이는 세포독성 화학요법의 \n용량-반응 곡선이 가파르고 약물 표적에 대한 특이성이 제한적이나, 심각하고 생명을 \n위협하는 암 질환에 대한 효과적인 대안이 부족함으로 인해 상당한 독성은 감수할 \n필요가 있음을 고려한 방법이다. MTD는 소수의 시험대상자에서 용량을 단계적으로 \n증량하면서 짧은 기간 동안 중증 또는 생명을 위협하는 용량 제한 독성(Dose limiting\ntoxicity, DLT)이 사전에 지정된 비율까지 도달하는지 여부를 평가하여 결정한다. 또한 \n일반적으로 후속 임상시험에서는 MTD 또는 MTD에 가까운 용량을 선정한다.\n 키나제 억제제와 같이 최근 개발하는 항암제는 대부분 종양에 중요한 분자적 경로와 \n상호 작용하도록 설계한다(즉 표적 치료제). 이와 같은 약물은 세포독성 화학요법 대비 \n더 넓은 치료 지수를 가지면서 다른 용량-반응 관계를 나타내는 경우가 많기 때문에 \n- 2 -\nMTD에 도달하지 않거나, MTD 미만의 용량에서 유의미한 활성을 나타내면서 MTD\n대비 독성은 적을 수 있다. 이러한 표적 치료제는 환자가 수개월 또",
+   "applicability": "KR",
+   "norm_strength": "civil_guide",
+   "url": "https://www.mfds.go.kr/brd/m_1060/view.do?seq=15759",
+   "retrieved_at": "2026-09-23T13:45:57.393560+00:00",
+   "tool_call_id": null,
+   "priority_tier": 2
+  },
+  "ev_022": {
+   "evidence_id": "ev_022",
+   "kind": "regulatory_clause",
+   "authority": "MFDS",
+   "document_title": "항암제 임상시험 중 용량 최적화 전략 가이드라인 (민원인 안내서)",
+   "version_date": "2025-08-29",
+   "section": "4 참고 자료",
+   "quote": "• Optimizing the Dosage of Human Prescription Drugs and Biological\nProducts for the Treatment of Oncologic Diseases, Guidance for Industry,\nFDA, 2024\n• 항암제 임상시험 가이드라인(민원인 안내서), 식품의약품안전평가원, 2024\n• Exposure-Response Relationships ― Study Design, Data Analysis, and\nRegulatory Applications, Guidance for Industry, FDA, 2003\n• Dose Response Information to Support Drug Registration, ICH E4, 1994\n항암제 임상시험 중 용량 최적화 전략 가이드라인\n발행일\n발행인\n편집위원장\n편집위원\n발행처\n2025년 8월 29일\n강 석 연\n강 주 혜\n식품의약품안전평가원, 의약품심사부 종양항생약품과\n안미령, 송현, 박소라, 구민지, 김송이, 권준엽, 박지원,\n김태혁, 김형석, 안현경\n식품의약품안전평가원 의약품심사부 종양항생약품과",
+   "applicability": "KR",
+   "norm_strength": "civil_guide",
+   "url": "https://www.mfds.go.kr/brd/m_1060/view.do?seq=15759",
+   "retrieved_at": "2026-09-23T13:45:57.393620+00:00",
+   "tool_call_id": null,
+   "priority_tier": 2
+  },
+  "ev_023": {
+   "evidence_id": "ev_023",
+   "kind": "regulatory_clause",
+   "authority": "FDA",
+   "document_title": "Oncology Therapeutic Radiopharmaceuticals: Dosage Optimization During Clinical Development (Draft)",
+   "version_date": "2025-08-19",
+   "section": "B Trial Design",
+   "quote": "prior to selecting a dosage(s) for trials intended to support a future 209 \nmarketing application, given that the optimized dosage may or may not 210 \ncorrespond to the highest dose studied. Randomized dose-response trials may be 211 \nparticularly important when evaluating a dosage(s) that exceeds EBRT-defined 212 \norgan tolerances, or a dosage(s) that corresponds to the MTD of an RPT. 213 \nRandomized dose-response trials should be sized to allow for adequate 214 \nassessment of activity, safety, and tolerability for each dosage. Refer to the FDA 215 \nguidance for industry Optimizing the Dosage of Human Prescription Drugs and 216 \nBiological Products for the Treatment of Oncologic Diseases (August 2024) for 217 \ngeneral information on randomized parallel dose-response trials. The dosage(s) 218 \nselected for trials intended to support a future marketing application should be 219 \nbased both on data from randomized dose-response trials, including preliminary 220 \nefficacy and shorter-term toxicity data, as well as longer-term toxicity data 221 \navailable from the initial dose-finding trial(s), including any backfilled cohorts.   222 \n 223 \n• Sponsors should consider the cumulative adm",
+   "applicability": "US",
+   "norm_strength": "draft_guidance",
+   "url": "https://www.fda.gov/media/188270/download",
+   "retrieved_at": "2026-09-23T13:45:57.612535+00:00",
+   "tool_call_id": null,
+   "priority_tier": 2
+  },
+  "ev_024": {
+   "evidence_id": "ev_024",
+   "kind": "regulatory_clause",
+   "authority": "FDA",
+   "document_title": "Optimizing the Dosage of Human Prescription Drugs and Biological Products for the Treatment of Oncologic Diseases",
+   "version_date": "2024-08-09",
+   "section": "B Trial Designs to Compare Multiple Dosages",
+   "quote": " See Footnote 4. \nContains Nonbinding Recommendations  \n7 \n— The trial should be sized to allow for sufficient assessment of safety  and \nantitumor activity for each dosage. The trial does not need to be powered to \ndemonstrate statistical superiority of a dosage or statistical non-inferiority among \nthe dosages using Type I error rates which would be used in registrational trials . \n— Relevant measures of activity may include  tumor assessment-based endpoints \n(e.g., overall response rate: ORR, progression-free survival : PFS), and other \ntissue, blood, or imaging-based endpoints.  \n— An adaptive design to stop enrollment of patients to one or more dosage arms of a \nclinical trial following an interim assessment of activity and/or safety could be \nconsidered. \n— If crossover is permitted, the analysis plan should pre -specify how safety and \nactivity will be assessed to account for crossover.  \n• Multiple dosages may also be compared prior to a registration trial(s) or as part of a \nregistration trial(s) by adding an additional dosage arm(s).  \n— When a registration trial contains multiple dosages and a control arm and  is \ndesigned to establish superior efficacy of one of the dos",
+   "applicability": "US",
+   "norm_strength": "final_guidance",
+   "url": "https://www.fda.gov/media/164555/download",
+   "retrieved_at": "2026-09-23T13:45:57.845783+00:00",
+   "tool_call_id": null,
+   "priority_tier": 2
+  },
+  "ev_025": {
+   "evidence_id": "ev_025",
+   "kind": "regulatory_clause",
+   "authority": "FDA",
+   "document_title": "Expansion Cohorts: Use in First-in-Human Clinical Trials to Expedite Development of Oncology Drugs and Biologics",
+   "version_date": "2022-03-01",
+   "section": "V CONSIDERATIONS BASED ON COHORT OBJECTIVES",
+   "quote": "Sponsors of FIH multiple expansion cohort trials should provide the scientific rationale for \nstudying each proposed cohort. A sponsor should carefully design key elements for each cohort, \nincluding specific endpoints, eligibility, monitoring plan, and statistical considerations to justify \nthe sample size in light of the available safety information and should include adjustments for \nType I error when a prespecified randomization and analysis are part of the design and more than \none comparison between cohorts is planned.11 This information, as well as the information \n10 See the guidance for industry Expedited Programs for Serious Conditions —  Drugs and Biologics (May 2014). \n11 See the draft guidance for industry Multiple Endpoints in Clinical Trials (January 2017). When final, this \nguidance will represent the FDA’s current thinking on this topic.   \nContains Nonbinding Recommendations \n5 \ndescribed in section VI., Statistical Considerations, should be included in all new FIH clinical \ntrial protocols and subsequent protocol amendments adding one or more expansion cohorts.",
+   "applicability": "US",
+   "norm_strength": "final_guidance",
+   "url": "https://www.fda.gov/media/115172/download",
+   "retrieved_at": "2026-09-23T13:45:58.052506+00:00",
+   "tool_call_id": null,
+   "priority_tier": 2
+  },
+  "ev_026": {
+   "evidence_id": "ev_026",
+   "kind": "regulatory_clause",
+   "authority": "FDA",
+   "document_title": "Expansion Cohorts: Use in First-in-Human Clinical Trials to Expedite Development of Oncology Drugs and Biologics",
+   "version_date": "2022-03-01",
+   "section": "VI STATISTICAL CONSIDERATIONS",
+   "quote": "The background information for each expansion cohort should contain its scientific rationale. \nInformation supporting individual expansion cohorts should describe the prespecified stopping \nrules for that cohort, based on insufficient antitumor activity or unacceptable level of toxicity for \nthat population. Finally, the analysis plan for each expansion cohort should contain adequate \ninformation justifying the planned sample size based on the cohort objectives. For those cohorts \nevaluating antitumor activity, the plans should specify the magnitude of antitumor activity that \nwould warrant further evaluation of the drug, for example by specifying the precision and power \nconsiderations for detection of clinically meaningful antitumor activity. In general, in a \nnonrandomized cohort, assessment of antitumor activity is determined using a Simon two-stage \ndesign or other designs (e.g., Bayesian statistical design) to limit exposure of additional subjects \nto a potentially ineffective drug.24 \nThe trial design for an individual cohort should ensure that the cohort’s trial objectives can be \nmet. For example, sponsors should consider the need for randomization within a cohort for \ncom",
+   "applicability": "US",
+   "norm_strength": "final_guidance",
+   "url": "https://www.fda.gov/media/115172/download",
+   "retrieved_at": "2026-09-23T13:45:58.052566+00:00",
+   "tool_call_id": null,
+   "priority_tier": 2
+  },
+  "ev_027": {
+   "evidence_id": "ev_027",
+   "kind": "regulatory_clause",
+   "authority": "FDA",
+   "document_title": "Expansion Cohorts: Use in First-in-Human Clinical Trials to Expedite Development of Oncology Drugs and Biologics",
+   "version_date": "2022-03-01",
+   "section": "II BACKGROUND",
+   "quote": "onsors should establish an infrastructure to \nstreamline trial logistics, facilitate data collection (see section VII., Safety Considerations), and \nincorporate plans to rapidly assess emerging data in real time and to disseminate interim results \nto investigators, institutional review boards (IRBs), and regulators. \n3 We update guidances periodically. For the most recent version of a guidance, check the FDA guidance web page at \nhttps://www.fda.gov/regulatory-information/search-fda-guidance-documents.  \n4 21 CFR 312.21(a)(1) and (2). \n5 See, for example, KEYNOTE-001 study design at https://clinicaltrials.gov/ct2/show/NCT01295827. \n6 See, for example, JAVELIN study design at https://clinicaltrials.gov/show/NCT01772004.  \nContains Nonbinding Recommendations \n3",
+   "applicability": "US",
+   "norm_strength": "final_guidance",
+   "url": "https://www.fda.gov/media/115172/download",
+   "retrieved_at": "2026-09-23T13:45:58.275394+00:00",
+   "tool_call_id": null,
+   "priority_tier": 2
+  },
+  "ev_028": {
+   "evidence_id": "ev_028",
+   "kind": "regulatory_clause",
+   "authority": "FDA",
+   "document_title": "Expansion Cohorts: Use in First-in-Human Clinical Trials to Expedite Development of Oncology Drugs and Biologics",
+   "version_date": "2022-03-01",
+   "section": "A Safety Monitoring and Reporting Plans",
+   "quote": "submission of cumulative safety reports should be agreed upon with FDA. The \nmost recent cumulative safety report should be referenced in support of protocol amendments \nproposing modifications of existing or new expansion cohorts. Given the complexity of these \ntrials and potential increased risks to subjects, sponsors should select medical monitors who have \ntraining and experience in cancer treatment and clinical trial conduct.",
+   "applicability": "US",
+   "norm_strength": "final_guidance",
+   "url": "https://www.fda.gov/media/115172/download",
+   "retrieved_at": "2026-09-23T13:45:58.275488+00:00",
+   "tool_call_id": null,
+   "priority_tier": 2
+  },
+  "ev_029": {
+   "evidence_id": "ev_029",
+   "kind": "regulatory_clause",
+   "authority": "FDA",
+   "document_title": "Oncology Therapeutic Radiopharmaceuticals: Dosage Optimization During Clinical Development (Draft)",
+   "version_date": "2025-08-19",
+   "section": "C Safety Monitoring",
+   "quote": "236 \n• Because the onset of radiation toxicity may be delayed by months to years, sponsors 237 \nshould perform monitoring against a pre-specified list of late radiation adverse events of 238 \nspecial interest (rAESI) for at least 5 years after the last dose or until death in cases where 239 \nlife expectancy is typically expected to be less than 5 years. The rAESI list and 240 \nmonitoring schedule should explicitly reflect the drug-specific dosimetry results and a 241 \ncorresponding detailed critical radiation safety analysis plan. RPTs granted approval for 242 \ncancer indications may be subject to a postmarketing requirement to provide such long-243 \nterm safety follow-up data for FDA review. 244 \n 245 \n• For participants who have received prior radiotherapy (EBRT and/or RPT), sponsors 246 \nshould record the dose to critical organs from the previous radiotherapy to further inform 247 \nwhether cumulative radiation absorbed dose from previous radiotherapy and the 248 \ninvestigational product could cause added toxicity where co-localized. Organ-specific 249 \nsafety data for the participant should be correlated with their prior radiotherapy dose as 250 \nContains Nonbinding Recommendati",
+   "applicability": "US",
+   "norm_strength": "draft_guidance",
+   "url": "https://www.fda.gov/media/188270/download",
+   "retrieved_at": "2026-09-23T13:45:58.275517+00:00",
+   "tool_call_id": null,
+   "priority_tier": 2
+  },
+  "ev_030": {
+   "evidence_id": "ev_030",
+   "kind": "regulatory_clause",
+   "authority": "FDA",
+   "document_title": "Optimizing the Dosage of Human Prescription Drugs and Biological Products for the Treatment of Oncologic Diseases",
+   "version_date": "2024-08-09",
+   "section": "C Safety and Tolerability",
+   "quote": "• When selecting dosages for further evaluation or as the recommended dosage , safety and \ntolerability should be compared across the multiple  dosages, including: duration of \nexposure; proportion of patients who are able to receive all planned doses; percentage of \npatients that require dosage interruptions, dose reductions, and drug discontinuations for \nadverse reactions; time to the first dosage modification; length of the dosage \ninterruptions(s);  percentage of patients with serious adverse reactions (including fatal \nadverse reactions), and percentage of patients with certain toxicities of interest for the \nproduct.  \n• Trial stopping rules for excessive toxicity should be pre -specified. The acceptable \npercentages and type of toxicities will depend on the stage of development, drug,  and \ndisease setting, among other factors.  The protocol should clearly state what actions will \nbe taken in specific situations, for example, if the percentages of dosage modifications, \nserious adverse reactions, fatal adverse reactions, or certain toxicities of interest are too \nhigh for one or more of the dosages. Such actions can include pausing the trial to review \nContains Nonbinding R",
+   "applicability": "US",
+   "norm_strength": "final_guidance",
+   "url": "https://www.fda.gov/media/164555/download",
+   "retrieved_at": "2026-09-23T13:45:58.518910+00:00",
+   "tool_call_id": null,
+   "priority_tier": 2
+  },
+  "ev_031": {
+   "evidence_id": "ev_031",
+   "kind": "regulatory_clause",
+   "authority": "FDA",
+   "document_title": "Optimizing the Dosage of Human Prescription Drugs and Biological Products for the Treatment of Oncologic Diseases",
+   "version_date": "2024-08-09",
+   "section": "I INTRODUCTION",
+   "quote": "n to Support Drug Registration (November \n1994). We update guidances periodically. For the most recent version of a guidance, check the FDA guidance web \npage at https://www.fda.gov/RegulatoryInformation/Guidances/default.htm.  \nContains Nonbinding Recommendations  \n2 \nThis guidance does not specifically provide recommendations  addressing dosage optimization \nfor radiopharmaceuticals, cellular and gene therapy products, oncolytic viruses, microbiota, or \ncancer vaccines. However, some of the recommendations outlined may be applicable to these \ntherapeutic modalities. \nThis guidance also does not specifically address pediatric drug development , for which there are \nunique considerations ; however, some of the recommendations outlined may be applicable  to \ndosage optimization for pediatric patients . \nThis guidance also does not address selection of the starting dose for first -in-human trials. \nIn general, FDA’s guidance documents do not establish legally enforcea ble responsibilities.  \nInstead, guidances describe the Agency’s current thinking on a topic and should be viewed only \nas recommendations, unless specific regulatory or statutory requirements are cited. The use of \nthe",
+   "applicability": "US",
+   "norm_strength": "final_guidance",
+   "url": "https://www.fda.gov/media/164555/download",
+   "retrieved_at": "2026-09-23T13:45:58.519028+00:00",
+   "tool_call_id": null,
+   "priority_tier": 2
+  },
+  "ev_032": {
+   "evidence_id": "ev_032",
+   "kind": "regulatory_clause",
+   "authority": "FDA",
+   "document_title": "Expansion Cohorts: Use in First-in-Human Clinical Trials to Expedite Development of Oncology Drugs and Biologics",
+   "version_date": "2022-03-01",
+   "section": "D Further Dose/Schedule Exploration",
+   "quote": "Sponsors of expansion cohort(s) intended to further assess the optimal dose/schedule of the \ninvestigational drug should consider the following: \n• Randomization to two or more dosage regimens to increase the confidence that any \ndifferences between treatment arms are not due to chance alone \n• Justification of sample size chosen to detect clinically important differences in safety and \nactivity, if present \n14 When final, this guidance will represent the FDA’s current thinking on this topic. \n15 When final, this guidance will represent the FDA’s current thinking on this topic. \nContains Nonbinding Recommendations \n7 \n• Results of available safety, activity, and PK information to support the new proposed \ndosage(s) \n• Results of exposure-response (safety and/or activity) modeling, if available, to justify \nnew dosing regimens",
+   "applicability": "US",
+   "norm_strength": "final_guidance",
+   "url": "https://www.fda.gov/media/115172/download",
+   "retrieved_at": "2026-09-23T13:45:58.739070+00:00",
+   "tool_call_id": null,
+   "priority_tier": 2
+  },
+  "ev_033": {
+   "evidence_id": "ev_033",
+   "kind": "regulatory_clause",
+   "authority": "FDA",
+   "document_title": "Optimizing the Dosage of Human Prescription Drugs and Biological Products for the Treatment of Oncologic Diseases",
+   "version_date": "2024-08-09",
+   "section": "I INTRODUCTION",
+   "quote": "This guidance is intended to assist sponsors in identifying an optimized  dosage(s)2 for human \nprescription drugs3 or biological products for the treatment of oncologic diseases during clinical \ndevelopment and prior to submitting an application for approval of a new indication and usage.   \nThis guidance should be considered along with the International Conference on Harmonisation \n(ICH) E4 guidance on Dose -Response Information to Support Drug Registration (November \n1994) when identifying an optimized dosage(s).4 \nAdditional information on related topics can be found in:  \n• Guidance for industry Population Pharmacokinetics  (February 2022). \n• Guidance for industry Exposure-Response Relationships — Study Design, Data Analysis, \nand Regulatory Applications  (April 2003).  \n1 This guidance has been prepared by the Oncology Center of Excellence (OCE), the Center for Drug Evaluation and \nResearch (CDER), and the Center for Biologics Evaluation and Research (CBER) at the Food and Drug \nAdministration.  \n2 For the purpose of this guidance, an optimized dosage is a dosage that can maximize the benefit/risk profile or \nprovide the desired therapeutic effect while minimizing toxicity. ",
+   "applicability": "US",
+   "norm_strength": "final_guidance",
+   "url": "https://www.fda.gov/media/164555/download",
+   "retrieved_at": "2026-09-23T13:45:58.739253+00:00",
+   "tool_call_id": null,
+   "priority_tier": 2
+  },
+  "ev_034": {
+   "evidence_id": "ev_034",
+   "kind": "regulatory_clause",
+   "authority": "ICH",
+   "document_title": "ICH E4 Dose-Response Information to Support Drug Registration",
+   "version_date": "1994-03-10",
+   "section": "III STUDY DESIGNS FOR ASSESSING DOSE-RESPONSE",
+   "quote": "is \ntreatments with late onset response, survival in cancer, treatment of depression), \ntitration and simultaneous assessment of response is usually not possible, and the \nparallel dose-response study is usually needed.  The parallel group, dose-response \nstudy also offers protection against missi ng an effective dose because of an inverted \n“U-shaped” (umbrella or bell shaped) dose-response curve, where higher doses are less \neffective than lower doses, a response that can occur, for example, with mixed agonist-\nantagonists. \n5 \nDose-Response Information to Support Drug Registration \nTrials intended to evaluate dose or concentration response should be well-controlled, \nusing randomization and blinding (unless b linding is unnecessary or impossible) to \nassure comparability of treatment groups  and to minimize potential patient, \ninvestigator, and analyst bias, and should be of adequate size. \nIt is important to choose as wide a range of  doses as is compatible with practicality \nand patient safety to discern clinically me aningful differences.  This is especially \nimportant where there are no pharmacologic or plausible surrogate endpoints to give \ninitial guidance as to dose. \nSpe",
+   "applicability": "common",
+   "norm_strength": "final_guidance",
+   "url": "https://database.ich.org/sites/default/files/E4_Guideline.pdf",
+   "retrieved_at": "2026-09-23T13:45:58.739272+00:00",
+   "tool_call_id": null,
+   "priority_tier": 2
+  },
+  "ev_035": {
+   "evidence_id": "ev_035",
+   "kind": "regulatory_clause",
+   "authority": "FDA",
+   "document_title": "Expansion Cohorts: Use in First-in-Human Clinical Trials to Expedite Development of Oncology Drugs and Biologics",
+   "version_date": "2022-03-01",
+   "section": "A Assessing Safety of Recommended Phase 2 Dose",
+   "quote": "Expansion cohorts can be intended to further evaluate safety beyond the initial dose-escalation \nportion of a trial. These studies should be supported by detailed information on available safety \nand PK data from the dose-escalation phase and a summary of safety data from other expansion \ncohorts, if available. In situations when there is a narrow therapeutic index and dose-limiting \ntoxicities have been observed in the dose escalation phase that may be fatal or result in serious \nmorbidity, FDA strongly recommends that expansion be delayed until sufficient data are \navailable to determine the recommended phase 2 dose to help ensure subjects safety.",
+   "applicability": "US",
+   "norm_strength": "final_guidance",
+   "url": "https://www.fda.gov/media/115172/download",
+   "retrieved_at": "2026-09-23T13:45:58.988127+00:00",
+   "tool_call_id": null,
+   "priority_tier": 2
+  },
+  "ev_036": {
+   "evidence_id": "ev_036",
+   "kind": "regulatory_clause",
+   "authority": "FDA",
+   "document_title": "Expansion Cohorts: Use in First-in-Human Clinical Trials to Expedite Development of Oncology Drugs and Biologics",
+   "version_date": "2022-03-01",
+   "section": "I INTRODUCTION",
+   "quote": "The purpose of this guidance is to provide advice to sponsors regarding the design and conduct \nof first-in-human (FIH) clinical trials intended to efficiently expedite the clinical development of \noncology drugs, including biological products, through multiple expansion cohort trial designs.2 \nThese are trial designs that employ multiple, concurrently accruing subject cohorts, where \nindividual cohorts assess different aspects of the safety, pharmacokinetics, and antitumor activity \nof the drug product.  \nThis guidance provides FDA’s current thinking regarding (1) characteristics of drug products \nbest suited for consideration for development under a multiple expansion cohort trial; (2) \ninformation to include in investigational new drug applications (INDs) to support the use of \nindividual cohorts; (3) when to interact with FDA on planning and conduct of multiple expansion \ncohort trials; and (4) safeguards to protect subjects enrolled in FIH expansion cohort trials. \nThis guidance does not address all issues relating to clinical trial design, statistical analysis, or \nthe biomarker development process. Those topics are addressed in other guidances including the \nInternational Co",
+   "applicability": "US",
+   "norm_strength": "final_guidance",
+   "url": "https://www.fda.gov/media/115172/download",
+   "retrieved_at": "2026-09-23T13:45:58.988191+00:00",
+   "tool_call_id": null,
+   "priority_tier": 2
+  },
+  "ev_037": {
+   "evidence_id": "ev_037",
+   "kind": "regulatory_clause",
+   "authority": "FDA",
+   "document_title": "Oncology Therapeutic Radiopharmaceuticals: Dosage Optimization During Clinical Development (Draft)",
+   "version_date": "2025-08-19",
+   "section": "B Trial Design",
+   "quote": "he first dosage studied in humans (administered activity level per cycle 166 \nsummed across the number of cycles that is planned for therapeutic purposes) should 167 \ngenerally not exceed EBRT limits. 168 \n 169 \n• In situations where initial clinical data suggest limited toxicity at the prespecified 170 \nmaximum administered activity of a dose-escalation trial of RPTs, and preliminary 171 \nefficacy data (tumor absorbed dose data and/or clinical data) suggest the optimized 172 \ndosage has not been reached, sponsors should request a meeting with the appropriate 173 \nFDA division to discuss protocol amendments allowing further dose-escalation. Detailed 174 \ninitial data, including safety, preliminary efficacy dosimetry, and pharmacokinetic data, 175 \nshould be provided in the meeting package to justify the higher administered activities. 176 \n 177 \n• Dosages chosen for trials intended to support a future marketing application should be 178 \nbased on all relevant data, including but not limited to clinical data regarding safety, 179 \npreliminary efficacy, pharmacokinetics and/or pharmacodynamics, and patient-reported 180 \noutcomes; the MTD (if established); estimated organ tolerances; ",
+   "applicability": "US",
+   "norm_strength": "draft_guidance",
+   "url": "https://www.fda.gov/media/188270/download",
+   "retrieved_at": "2026-09-23T13:45:58.988214+00:00",
+   "tool_call_id": null,
+   "priority_tier": 2
+  },
+  "ev_038": {
+   "evidence_id": "ev_038",
+   "kind": "regulatory_clause",
+   "authority": "FDA",
+   "document_title": "Optimizing the Dosage of Human Prescription Drugs and Biological Products for the Treatment of Oncologic Diseases",
+   "version_date": "2024-08-09",
+   "section": "C Safety and Tolerability",
+   "quote": "y of drug \ndiscontinuation, duration of interruption or percentage dose reductions) of such reactions \nshould be carefully assessed and  considered in selecting the dosage(s)  for subsequent \nclinical trials. \n• Some oncology drugs may be associated with early-onset, serious, or life -threatening \ntoxicities (i.e., cytokine release syndrome)  which may lessen in severity or not occur with \nsubsequent administration. Evaluation of an alternative dosing strategy, such as titration, \nto improve tolerability could be considered.  \n• Patient-reported outcomes (PRO) can provide a  systematic and quantitative assessment of \nexpected symptomatic side effects and their impact on function. Inclusion of PROs \nshould be considered to enhance the assessment of tolerability in dose -finding trials, as \nwell as subsequent trials. Recommendations  for PRO instrument selection and \nassessment frequency can be found in the draft g uidance for industry Core Patient-\nReported Outcomes in Cancer Clinical Trials  (June 2021).23 \n• Engaging with patients and other key stakehol ders, such as advocacy groups in a given \ndisease area, can provide valuable input on important considerations regarding safety, ",
+   "applicability": "US",
+   "norm_strength": "final_guidance",
+   "url": "https://www.fda.gov/media/164555/download",
+   "retrieved_at": "2026-09-23T13:45:59.223623+00:00",
+   "tool_call_id": null,
+   "priority_tier": 2
+  },
+  "ev_039": {
+   "evidence_id": "ev_039",
+   "kind": "regulatory_clause",
+   "authority": "FDA",
+   "document_title": "Optimizing the Dosage of Human Prescription Drugs and Biological Products for the Treatment of Oncologic Diseases",
+   "version_date": "2024-08-09",
+   "section": "7 See 21 CFR 312.42",
+   "quote": "Contains Nonbinding Recommendations  \n4 \nidentification of an optimized dosage(s) can occur prior to or concurrently with the establishment \nof the drug’s safety and efficacy. Sponsors should note that development of a drug under an FDA \nexpedited program is not a sufficient justification to avoid identifying an optim ized dosage(s) \nprior to submitting a marketing application.  \nFDA recognizes that the best approach to determining the optimized dosage(s)  for a specific drug \ndevelopment program depends upon a variety of factors including but not limited to the drug \nclass, proposed indicated patient population, and prior knowledge about the drug that is pertinent \nto dosing. Sponsors are therefore strongly encouraged to discuss their plans for dosage \noptimization with FDA during formal meetings , including early in clinical development .8,9 The \nbriefing document should include a brief summary of available relevant data  used to select the \nproposed dosage(s); the oncology dosing tool kit is an available resource to summarize the \nrelevant data10. Sponsors may also consider the Model -Informed Drug Development (MIDD) \npaired meeting program, 11 if appropriate. \nFDA recommends th",
+   "applicability": "US",
+   "norm_strength": "final_guidance",
+   "url": "https://www.fda.gov/media/164555/download",
+   "retrieved_at": "2026-09-23T13:45:59.458069+00:00",
+   "tool_call_id": null,
+   "priority_tier": 2
+  },
+  "ev_040": {
+   "evidence_id": "ev_040",
+   "kind": "regulatory_clause",
+   "authority": "FDA",
+   "document_title": "Expansion Cohorts: Use in First-in-Human Clinical Trials to Expedite Development of Oncology Drugs and Biologics",
+   "version_date": "2022-03-01",
+   "section": "B Evaluating Preliminary Antitumor Activity",
+   "quote": "Information to support expansion cohorts assessing disease-specific cohort antitumor activity \nshould include the following: \n• A scientific rationale for inclusion of each population within a cohort based on proposed \nmechanism of action of the drug, any antitumor activity data and data regarding \nacceptability of risks in the proposed population(s) considering the natural history and \nunderlying comorbidities, as well as lack of satisfactory alternative therapy12 \n• A statistical analysis plan for the cohort that includes justification of the maximum \nsample size and stopping rules for lack of activity, to minimize the number of subjects \nexposed to an ineffective drug (e.g., generally limited to 40 subjects with solid tumors \nbased on a Simon two-stage model13 or 20 subjects with hematological malignancies \nwhen the rarity of the hematological malignancy may support initiation of efficacy trials \nbased on smaller efficacy databases) \n• Updated safety experience from the dose-escalation portion and other expansion cohorts, \nas available \nIn general, a sponsor intending to continue development of a drug for a new indication should \nsubmit a new IND to the appropriate review divisi",
+   "applicability": "US",
+   "norm_strength": "final_guidance",
+   "url": "https://www.fda.gov/media/115172/download",
+   "retrieved_at": "2026-09-23T13:45:59.954475+00:00",
+   "tool_call_id": null,
+   "priority_tier": 2
+  },
+  "ev_041": {
+   "evidence_id": "ev_041",
+   "kind": "regulatory_clause",
+   "authority": "ICH",
+   "document_title": "ICH E6(R3) Good Clinical Practice — Principles and Annex 1",
+   "version_date": "2025-01-06",
+   "section": "4.3.8 User Management",
+   "quote": "ability/incapacity, or \n• Is a congenital anomaly/birth defect.  \n(see ICH E2A) \nAn important medical event that may not be immediately life-threatening or result in death \nor hospitalisation, that may jeopardise the participant or that may require intervention to \nprevent serious outcomes (see ICH E2A and E19) should generally be considered as \nserious. \nSuspected Unexpected Serious Adverse Reaction (SUSAR) : an adverse reaction  that \nmeets three criteria: suspected, unexpected and serious.  \n• Suspected: There is a reasonable possibility that the drug caused the adv erse drug \nreaction. \nICH E6(R3) Guideline \n71 \n• Unexpected: An adverse reaction, the nature or severity of which is not consistent \nwith the applicable product information (e.g., Investigator’s Brochure or alternative \ndocuments according to applicable regulatory requirements; see RSI). \n• Serious: See above for SAE. \nAgreement \nA document or set of documents describing the details of any arrangements on delegation or \ntransfer, distribution and/or sharing of activities and, if appropriate, on financial matters \nbetween two or more parties. This could be in the form of a contract. The protocol may serve \nas the bas",
+   "applicability": "common",
+   "norm_strength": "final_guidance",
+   "url": "https://database.ich.org/sites/default/files/ICH_E6(R3)_Step4_FinalGuideline_2025_0106.pdf",
+   "retrieved_at": "2026-09-23T13:46:00.166241+00:00",
+   "tool_call_id": null,
+   "priority_tier": 2
+  },
+  "ev_042": {
+   "evidence_id": "ev_042",
+   "kind": "regulatory_clause",
+   "authority": "FDA",
+   "document_title": "Expansion Cohorts: Use in First-in-Human Clinical Trials to Expedite Development of Oncology Drugs and Biologics",
+   "version_date": "2022-03-01",
+   "section": "A Safety Monitoring and Reporting Plans",
+   "quote": "The sponsor is required to ensure proper monitoring of the investigations and to ensure that the \ninvestigations are conducted in accordance with the general investigational plan and protocols \ncontained in the IND, among other responsibilities.25 \nThe sponsor should establish a systematic approach, including plans for activation of protocol \namendments, to address serious safety issues and to ensure rapid communication of serious \nsafety issues. This approach should be described in the protocol or its appendices.267 \n24 Simon, R, 1989, Optimal Two-Stage Designs for Phase II Clinical Trials, Control Clin Trials, 10(1):1–10. \n25 21 CFR 312.50. See also the guidance for industry Oversight of Clinical Investigations —  A Risk-Based Approach \nto Monitoring (August 2013). \n26 See 21 CFR 312.32; 21 CFR 312.23 (for information about safety reporting requirements and the information \nrequired in a protocol for an IND).  \nContains Nonbinding Recommendations \n11 \nThe IND should contain a proposed plan for submission of a cumulative summary of safety data \nand information, on a periodic basis that is more frequent than annual.27 The plan should be \ndiscussed with the review division at the pr",
+   "applicability": "US",
+   "norm_strength": "final_guidance",
+   "url": "https://www.fda.gov/media/115172/download",
+   "retrieved_at": "2026-09-23T13:46:00.166335+00:00",
+   "tool_call_id": null,
+   "priority_tier": 2
+  },
+  "ev_043": {
+   "evidence_id": "ev_043",
+   "kind": "regulatory_clause",
+   "authority": "FDA",
+   "document_title": "Expansion Cohorts: Use in First-in-Human Clinical Trials to Expedite Development of Oncology Drugs and Biologics",
+   "version_date": "2022-03-01",
+   "section": "B Independent Data Monitoring Committee",
+   "quote": "Establishment and Operation of Clinical Trial Data Monitoring \nCommittees (March 2006). \n29 21 CFR 312.32 (for information on IND safety reporting requirements related to serious adverse events). \nContains Nonbinding Recommendations \n12 \n• Identifying information needed to inform current and future trial subjects of newly \nidentified risks via changes in the informed consent document and, in some cases, \nobtaining reconsent of current subjects to continued trial participation \nIn trials of limited sample size (no more than 90 subjects in the dose-finding portion and no more \nthan 200 subjects across all dose-expansion cohorts), sponsors may wish to consider a safety \nassessment committee that is a group within the sponsor’s organization alone or with external \nrepresentation. If a safety assessment is performed within the sponsor’s organization, a firewall \nshould be established to ensure that the individuals performing those assessments are not \notherwise involved in trial conduct or management to protect the integrity of the study.",
+   "applicability": "US",
+   "norm_strength": "final_guidance",
+   "url": "https://www.fda.gov/media/115172/download",
+   "retrieved_at": "2026-09-23T13:46:00.166355+00:00",
+   "tool_call_id": null,
+   "priority_tier": 2
+  },
+  "ev_044": {
+   "evidence_id": "ev_044",
+   "kind": "regulatory_clause",
+   "authority": "FDA",
+   "document_title": "Expansion Cohorts: Use in First-in-Human Clinical Trials to Expedite Development of Oncology Drugs and Biologics",
+   "version_date": "2022-03-01",
+   "section": "C Communications and Interactions With FDA",
+   "quote": "For all communication with FDA, sponsors and FDA should consult the guidance for industry \nand review staff Best Practices for Communication Between IND Sponsors and FDA During \nDrug Development (December 2017). \n• Sponsors should consider requesting a pre-IND meeting to discuss their plans to conduct \nan FIH multiple expansion cohort trial. When the original IND is submitted, the cover \nletter should prominently identify it as an FIH multiple expansion cohort trial. \n45 See 21 CFR § 312.140. \n46 See 21 CFR 312.30(d) and 312.31(b) for content and format requirements for protocol amendments and \ninformation amendments. \nContains Nonbinding Recommendations \n16 \n• The sponsor should also notify the regulatory project manager via secure email or \ntelephone call 48 hours before submission of any protocol amendment that substantively \naffects the safety or scope of the protocol. \n• Though an amended protocol may proceed upon submission to the IND and IRB \napproval, FDA strongly encourages sponsors to submit amendments for reasons other \nthan those that affect the safety of subjects (e.g., change to analysis plan or addition of a \nnew treatment arm) at least 30 days before initiation of s",
+   "applicability": "US",
+   "norm_strength": "final_guidance",
+   "url": "https://www.fda.gov/media/115172/download",
+   "retrieved_at": "2026-09-23T13:46:00.400391+00:00",
+   "tool_call_id": null,
+   "priority_tier": 2
+  },
+  "ev_045": {
+   "evidence_id": "ev_045",
+   "kind": "regulatory_clause",
+   "authority": "FDA",
+   "document_title": "Optimizing the Dosage of Human Prescription Drugs and Biological Products for the Treatment of Oncologic Diseases",
+   "version_date": "2024-08-09",
+   "section": "A Clinical Pharmacokinetics, Pharmacodynamics, and Pharmacogenomics",
+   "quote": "A sampling and analysis plan for PD and pharmacogenomics data ( including drug \nmetabolizing enzyme or transporter gene variation, germline or somatic tumor gene \nvariation, or target protein expression) 14 should be considered when appropriate.   \n• Population PK analyses should be initiated early and updated as additional data become \navailable to identify specific populations (e.g., defined based on weight, age, sex, race \nand ethnicity, organ impairment , genetic factors) in which the PK demonstrate clinically \nmeaningful differences in exposure .  \n• Evaluation of dose- and exposure-response relationships should be initiated early and  \nupdated as additional data become available . The metrics for evaluating safety (such as \nlaboratory data and adverse events) and activity (such as tumor -assessment based \nendpoints15 or other biomarkers) should be appropriate for the stage of development, \ndrug, and disease setting. Relevant covariates should be examined in  these analyses to \nidentify potential clinically meaningful differences for relevant sub populations.16   \n• PK, PD, population PK17 and dose-response and exposure-response18 analyses, should be \nconsidered along with oth",
+   "applicability": "US",
+   "norm_strength": "final_guidance",
+   "url": "https://www.fda.gov/media/164555/download",
+   "retrieved_at": "2026-09-23T13:46:00.645308+00:00",
+   "tool_call_id": null,
+   "priority_tier": 2
+  },
+  "ev_046": {
+   "evidence_id": "ev_046",
+   "kind": "regulatory_clause",
+   "authority": "FDA",
+   "document_title": "Optimizing the Dosage of Human Prescription Drugs and Biological Products for the Treatment of Oncologic Diseases",
+   "version_date": "2024-08-09",
+   "section": "A Clinical Pharmacokinetics, Pharmacodynamics, and Pharmacogenomics",
+   "quote": "• A PK sampling and analysis plan should be included in each protocol.  \n— The PK sampling and analysis pl an for dose-finding trials should be sufficient to \nadequately characterize the PK (e.g., linearity, absorption, distribution,  \nelimination) following the first dose and at steady-state (or after administration of \nmultiple or repeated doses if steady-state will not be reached) for each dosage \nevaluated in the trial.  \n— The PK sampling and analysis plan for all clinical trials should be sufficient to \nsupport population PK 12 and dose- and exposure-response13 analyses for safety, \nactivity, and efficacy.  \n8 See draft guidance for industry Formal Meetings Between the FDA and Sponsors or Applicants of PDUFA \nProducts (September 2023). When final, this guidance will represent the FDA’s current thinking on this topic. \n9 See PDUFA Reauthorization Performance Goals and Procedures Fiscal Years 2023 Through 2027 available at \nhttps://www.fda.gov/media/151712/download?attachment.  \n10 Additional information on the Oncology Dosing Tool Kit is available here https://www.fda.gov/about-\nfda/oncology-center-excellence/oncology-dosing-tool-kit.  \n11 Additional information on the MIDD pa",
+   "applicability": "US",
+   "norm_strength": "final_guidance",
+   "url": "https://www.fda.gov/media/164555/download",
+   "retrieved_at": "2026-09-23T13:46:00.645372+00:00",
+   "tool_call_id": null,
+   "priority_tier": 2
+  },
+  "ev_047": {
+   "evidence_id": "ev_047",
+   "kind": "regulatory_clause",
+   "authority": "FDA",
+   "document_title": "Optimizing the Dosage of Human Prescription Drugs and Biological Products for the Treatment of Oncologic Diseases",
+   "version_date": "2024-08-09",
+   "section": "E Subsequent Indications and Usages",
+   "quote": "• Different dosages may be needed in different disease settings or oncologic diseases  based \non potential differences in tumor biology, patient population, treatment setting, and \n23 When final, this guidance will represent the FDA’s current thinking on this topic. \nContains Nonbinding Recommendations  \n9 \nconcurrent therapies, among other factors.  Relevant nonclinical and clinical data along \nwith established dose- and exposure-response relationships should be considered when \nselecting the proposed dosage(s) to be evaluated for each subsequent indication and \nusage. \n• Quantitative approaches , such as mechanistic and semi-mechanistic modeling, could be \nused to support the dosage(s) selected for evaluation for a subsequent indication and \nusage. \n• If sufficient relevant data are not available to support the proposed dosage(s) for a new \ncombination or indication and usage , additional dose-finding should be conducted.",
+   "applicability": "US",
+   "norm_strength": "final_guidance",
+   "url": "https://www.fda.gov/media/164555/download",
+   "retrieved_at": "2026-09-23T13:46:00.876248+00:00",
+   "tool_call_id": null,
+   "priority_tier": 2
+  },
+  "ev_048": {
+   "evidence_id": "ev_048",
+   "kind": "analog_trial",
+   "authority": "ClinicalTrials.gov",
+   "document_title": null,
+   "version_date": null,
+   "section": null,
+   "quote": "'KRAS G12C' Phase 1/2 등록 169건 중 조회 8건; 무작위 배정 4건 ['NCT05638295', 'NCT04933695', 'NCT05480865', 'NCT03178552']; 상태 ['ACTIVE_NOT_RECRUITING', 'TERMINATED', 'TERMINATED', 'RECRUITING', 'TERMINATED', 'ACTIVE_NOT_RECRUITING', 'ACTIVE_NOT_RECRUITING', 'COMPLETED']. 설계 구조 비교 전용.",
+   "applicability": null,
+   "norm_strength": null,
+   "url": "https://clinicaltrials.gov/api/v2/studies",
+   "retrieved_at": "2026-09-23T13:46:01.221119+00:00",
+   "tool_call_id": "tc_019",
+   "priority_tier": 2
+  }
+ },
+ "findings": [
+  {
+   "finding_id": "F00",
+   "category": "dose_optimization",
+   "severity": "high",
+   "protocol_span": {
+    "section": "Dose Expansion / PK",
+    "text": "The RP2D will be selected using prespecified integrated criteria (Appendix D), not solely because a dose level is the maximum tolerated dose."
+   },
+   "claim": "Target Coverage Ratio 판정이 지표(C_avg 커버 / C_trough 미커버)와 가정(선형 CL/F vs 라벨의 노출 유사)에 따라 갈리므로 '커버된다'는 결론을 만들지 않는다. 증량 코호트 규모(용량당 2~4명)로는 노출 포화를 확정할 수 없다.",
+   "protocol_fact": null,
+   "evidence_fact": null,
+   "span_verified": null,
+   "evidence_ids": [
+    "ev_008",
+    "ev_009",
+    "ev_005"
+   ],
+   "related_evidence_ids": [],
+   "reviewer_positions": [
+    {
+     "reviewer": "regulatory",
+     "severity": "high",
+     "position": "60명 무작위 비교는 명시됐지만, 노출–반응 분석법·효과크기·변동성·검정력 또는 정밀도 근거가 없다. FDA 지침은 각 용량의 안전성과 항종양 활성을 충분히 평가할 규모를 기대하므로, 프로토콜은 자체 표본수와 용량 판별력의 근거를 포함하지 않는다.",
+     "evidence_ids_seen": [
+      "ev_002",
+      "ev_003",
+      "ev_004",
+      "ev_005",
+      "ev_006",
+      "ev_007",
+      "ev_012",
+      "ev_013",
+      "ev_014",
+      "ev_015",
+      "ev_016",
+      "ev_017",
+      "ev_018",
+      "ev_019",
+      "ev_020",
+      "ev_021",
+      "ev_022",
+      "ev_023",
+      "ev_024",
+      "ev_025",
+      "ev_026",
+      "ev_027",
+      "ev_028",
+      "ev_029",
+      "ev_030",
+      "ev_031",
+      "ev_032",
+      "ev_033",
+      "ev_034",
+      "ev_035",
+      "ev_036",
+      "ev_037",
+      "ev_038",
+      "ev_039",
+      "ev_040",
+      "ev_041",
+      "ev_042",
+      "ev_043",
+      "ev_044",
+      "ev_045",
+      "ev_046",
+      "ev_047"
+     ]
+    }
+   ],
+   "conflict_unresolved": false,
+   "suggested_patch": null,
+   "required_additional_data": [
+    "용량군별 반복투여 PK(AUC, C_max, C_trough) — 확장 코호트 진입 전",
+    "어세이 조건이 명시된 세포 기반 IC50 또는 kinact/K_I(공유결합)"
+   ],
+   "verdict": "abstain",
+   "abstain_reason": "지표·가정 의존적 판정 — 결론 보류, 추가 PK 자료 요청",
+   "confidence": null,
+   "verifier_status": "verified",
+   "verifier_note": "결정론적 계산 finding(도구 산출값 인용)",
+   "human_status": "pending"
+  }
+ ],
+ "tool_log": [
+  {
+   "tool_call_id": "tc_001",
+   "tool": "rdkit.structure_profile",
+   "args": {
+    "smiles": "C=CC(=O)N1CCN(c2nc(=O)n(-c3c(C)ccnc3C(C)C)c3nc(-c4c(O)cccc4F)c(F)cc23)[C@@H](C)C1"
+   },
+   "ok": true,
+   "result_summary": "properties={'MW': 560.605, 'cLogP': 4.481, 'TPSA': , alerts=[{'catalog': 'Brenk', 'description': 'Mi, structural_class=['irreversible_covalent_inhibitor_candid, fu_estimated=0.1133, note=구조 알림은 HTS 어세이 간섭 필터(BRENK/PAINS/NIH)이며 ",
+   "error": null,
+   "started_at": "2026-09-23T13:45:30.291223+00:00",
+   "latency_s": 0.133
+  },
+  {
+   "tool_call_id": "tc_002",
+   "tool": "chembl.potency",
+   "args": {
+    "chembl_id": null,
+    "target": "KRAS G12C"
+   },
+   "ok": true,
+   "result_summary": "n_total_nM=60, n_target=11, target_matched=True, n_censored_excluded=3, censored=[{'type': 'IC50', 'nM': 10000.0, 'relati, cell_based_nM=[24.5, 30.0, 68.0]",
+   "error": null,
+   "started_at": "2026-09-23T13:45:33.186382+00:00",
+   "latency_s": 2.895
+  },
+  {
+   "tool_call_id": "tc_003",
+   "tool": "opentargets.target_evidence",
+   "args": {
+    "symbol": "KRAS"
+   },
+   "ok": true,
+   "result_summary": "symbol=KRAS, ensembl_id=ENSG00000133703, name=KRas proto-oncogene, GTPase, found=True, safety_liabilities=[], tractability_sm=[{'modality': 'SM', 'label': 'Approved D",
+   "error": null,
+   "started_at": "2026-09-23T13:45:34.088357+00:00",
+   "latency_s": 0.902
+  },
+  {
+   "tool_call_id": "tc_004",
+   "tool": "openfda.label",
+   "args": {
+    "brand": "LUMAKRAS"
+   },
+   "ok": true,
+   "result_summary": "brand=LUMAKRAS, generic=['SOTORASIB'], set_id=c80a362c-7ac3-4894-a076-0691e68ef8c1, effective_time=20250122, pk={'cl_f_L_per_hr': 26.2, 't_half_hr': 5.0, pk_quotes={'cl_f_L_per_hr': ' once daily, the soto",
+   "error": null,
+   "started_at": "2026-09-23T13:45:35.848839+00:00",
+   "latency_s": 1.76
+  },
+  {
+   "tool_call_id": "tc_005",
+   "tool": "openfda.label",
+   "args": {
+    "brand": "KRAZATI"
+   },
+   "ok": true,
+   "result_summary": "brand=KRAZATI, generic=['ADAGRASIB'], set_id=0b8bf078-34c2-4f45-9012-38a8ac082b01, effective_time=20260325, pk={'t_half_hr': 23.0, 'vd_L': 942.0}, pk_quotes={'t_half_hr': 'tion The adagrasib termin",
+   "error": null,
+   "started_at": "2026-09-23T13:45:37.646262+00:00",
+   "latency_s": 1.797
+  },
+  {
+   "tool_call_id": "tc_006",
+   "tool": "pharm.tcr_three_metrics",
+   "args": {
+    "dose_mg": 10.0,
+    "ic50_nM": 30.0
+   },
+   "ok": true,
+   "result_summary": "AUC_0_24_ug_hr_per_mL=0.3817, V_ss_L=188.9931, f_u=0.11, IC50_nM=30.0, C_max_ss_nM=97.898, C_free_max_nM=10.7688",
+   "error": null,
+   "started_at": "2026-09-23T13:45:37.646500+00:00",
+   "latency_s": 0.0
+  },
+  {
+   "tool_call_id": "tc_007",
+   "tool": "pharm.tcr_three_metrics",
+   "args": {
+    "dose_mg": 30.0,
+    "ic50_nM": 30.0
+   },
+   "ok": true,
+   "result_summary": "AUC_0_24_ug_hr_per_mL=1.145, V_ss_L=188.9931, f_u=0.11, IC50_nM=30.0, C_max_ss_nM=293.6939, C_free_max_nM=32.3063",
+   "error": null,
+   "started_at": "2026-09-23T13:45:37.646561+00:00",
+   "latency_s": 0.0
+  },
+  {
+   "tool_call_id": "tc_008",
+   "tool": "pharm.tcr_three_metrics",
+   "args": {
+    "dose_mg": 60.0,
+    "ic50_nM": 30.0
+   },
+   "ok": true,
+   "result_summary": "AUC_0_24_ug_hr_per_mL=2.2901, V_ss_L=188.9931, f_u=0.11, IC50_nM=30.0, C_max_ss_nM=587.3878, C_free_max_nM=64.6127",
+   "error": null,
+   "started_at": "2026-09-23T13:45:37.646616+00:00",
+   "latency_s": 0.0
+  },
+  {
+   "tool_call_id": "tc_009",
+   "tool": "pharm.tcr_three_metrics",
+   "args": {
+    "dose_mg": 180.0,
+    "ic50_nM": 30.0
+   },
+   "ok": true,
+   "result_summary": "AUC_0_24_ug_hr_per_mL=6.8702, V_ss_L=188.9931, f_u=0.11, IC50_nM=30.0, C_max_ss_nM=1762.1635, C_free_max_nM=193.838",
+   "error": null,
+   "started_at": "2026-09-23T13:45:37.646696+00:00",
+   "latency_s": 0.0
+  },
+  {
+   "tool_call_id": "tc_010",
+   "tool": "pharm.tcr_three_metrics",
+   "args": {
+    "dose_mg": 360.0,
+    "ic50_nM": 30.0
+   },
+   "ok": true,
+   "result_summary": "AUC_0_24_ug_hr_per_mL=13.7405, V_ss_L=188.9931, f_u=0.11, IC50_nM=30.0, C_max_ss_nM=3524.3269, C_free_max_nM=387.676",
+   "error": null,
+   "started_at": "2026-09-23T13:45:37.646796+00:00",
+   "latency_s": 0.0
+  },
+  {
+   "tool_call_id": "tc_011",
+   "tool": "pharm.tcr_three_metrics",
+   "args": {
+    "dose_mg": 540.0,
+    "ic50_nM": 30.0
+   },
+   "ok": true,
+   "result_summary": "AUC_0_24_ug_hr_per_mL=20.6107, V_ss_L=188.9931, f_u=0.11, IC50_nM=30.0, C_max_ss_nM=5286.4904, C_free_max_nM=581.5139",
+   "error": null,
+   "started_at": "2026-09-23T13:45:37.646855+00:00",
+   "latency_s": 0.0
+  },
+  {
+   "tool_call_id": "tc_012",
+   "tool": "pharm.tcr_three_metrics",
+   "args": {
+    "dose_mg": 720.0,
+    "ic50_nM": 30.0
+   },
+   "ok": true,
+   "result_summary": "AUC_0_24_ug_hr_per_mL=27.4809, V_ss_L=188.9931, f_u=0.11, IC50_nM=30.0, C_max_ss_nM=7048.6538, C_free_max_nM=775.3519",
+   "error": null,
+   "started_at": "2026-09-23T13:45:37.646911+00:00",
+   "latency_s": 0.0
+  },
+  {
+   "tool_call_id": "tc_013",
+   "tool": "pharm.tcr_three_metrics",
+   "args": {
+    "dose_mg": 960.0,
+    "ic50_nM": 30.0
+   },
+   "ok": true,
+   "result_summary": "AUC_0_24_ug_hr_per_mL=36.6412, V_ss_L=188.9931, f_u=0.11, IC50_nM=30.0, C_max_ss_nM=9398.2051, C_free_max_nM=1033.8026",
+   "error": null,
+   "started_at": "2026-09-23T13:45:37.646971+00:00",
+   "latency_s": 0.0
+  },
+  {
+   "tool_call_id": "tc_014",
+   "tool": "pharm.exposure_power",
+   "args": {
+    "cv": 0.76
+   },
+   "ok": true,
+   "result_summary": "cv=0.76, rows=[{'n_per_arm': 2, 'sd_log': 0.675, 'lo':, note=참값이 1(완전 평탄)일 때 두 용량군 AUC 비의 95% CI. 폭이 ",
+   "error": null,
+   "started_at": "2026-09-23T13:45:37.647168+00:00",
+   "latency_s": 0.0
+  },
+  {
+   "tool_call_id": "tc_015",
+   "tool": "design.compare_sample_matched",
+   "args": {
+    "true_dlt": [
+     0.05,
+     0.14,
+     0.24,
+     0.33,
+     0.42,
+     0.51,
+     0.61,
+     0.7
+    ]
+   },
+   "ok": true,
+   "result_summary": "n_matched=15, rows={'3+3': {'PCS': 14.7, 'within1': 46.5, ', reading=표본을 맞춘 행끼리만 정확도를 비교한다. 과다노출은 절대수(N_over)",
+   "error": null,
+   "started_at": "2026-09-23T13:45:42.707187+00:00",
+   "latency_s": 5.06
+  },
+  {
+   "tool_call_id": "tc_016",
+   "tool": "design.required_sample_for_pcs",
+   "args": {
+    "target_pcs": 50
+   },
+   "ok": true,
+   "result_summary": "design=BOIN, target_pcs=50.0, required_n_max=None, grid=[{'n_max': 15, 'PCS': 18.5, 'none': 0.1,, note=3+3은 알고리즘상 표본을 늘릴 수 없으므로 목표 PCS가 3+3의 실측",
+   "error": null,
+   "started_at": "2026-09-23T13:45:55.900983+00:00",
+   "latency_s": 13.194
+  },
+  {
+   "tool_call_id": "tc_017",
+   "tool": "corpus.search",
+   "args": {
+    "country": "KR",
+    "queries": 6
+   },
+   "ok": true,
+   "result_summary": "11 clauses",
+   "error": null,
+   "started_at": "2026-09-23T13:45:57.393640+00:00",
+   "latency_s": 1.493
+  },
+  {
+   "tool_call_id": "tc_018",
+   "tool": "corpus.search",
+   "args": {
+    "country": "US",
+    "queries": 15
+   },
+   "ok": true,
+   "result_summary": "25 clauses",
+   "error": null,
+   "started_at": "2026-09-23T13:46:00.876303+00:00",
+   "latency_s": 3.483
+  },
+  {
+   "tool_call_id": "tc_019",
+   "tool": "ctgov.search_analog_trials",
+   "args": {
+    "term": "KRAS G12C"
+   },
+   "ok": true,
+   "result_summary": "query=KRAS G12C, total_count=169, n_returned=8, studies=[{'nct_id': 'NCT05638295', 'title': 'Tes, usage_note=설계 구조 비교 전용. 효능·안전성·규제 정답으로 사용 금지.",
+   "error": null,
+   "started_at": "2026-09-23T13:46:01.221007+00:00",
+   "latency_s": 0.344
+  }
+ ],
+ "replan_events": [
+  {
+   "event": "plan",
+   "n_tasks": 8,
+   "unavailable": [],
+   "at": "2026-09-23T22:45:30.155881"
+  }
+ ],
+ "budget": {
+  "max_tokens": 150000,
+  "max_tool_calls": 60,
+  "max_replans_per_gap": 3,
+  "used_tokens": 68735,
+  "used_tool_calls": 19
+ },
+ "audit": {
+  "run_id": "eval-lean_fmed-AX1-008",
+  "created_at": "2026-09-23T22:44:31.101423+09:00",
+  "models": {
+   "planner": "gpt-5.6-sol",
+   "reviewer": "gpt-5.6-sol",
+   "extract": "gpt-5.6-terra",
+   "bulk": "gpt-5.6-luna"
+  },
+  "prompt_hashes": [
+   "protocol:bf2d2007411e972a",
+   "f82dabc95d6f4e2a"
+  ],
+  "corpus_manifest_id": "MANIFEST-2026-09-11",
+  "approved_by": null,
+  "approved_at": null
+ },
+ "scratch": {
+  "holdout_chunk_ids": [
+   "ICH-E4-1994#0015",
+   "ICH-E4-1994#0025",
+   "ICH-E4-1994#0026",
+   "FDA-EXPANSION-COHORTS-2022#0012",
+   "FDA-EXPANSION-COHORTS-2022#0010",
+   "FDA-DOSE-OPT-2024#0013"
+  ],
+  "reviewers": [
+   "regulatory"
+  ],
+  "structure": {
+   "properties": {
+    "MW": 560.605,
+    "cLogP": 4.481,
+    "TPSA": 104.45,
+    "HBD": 1,
+    "HBA": 7,
+    "RotB": 5,
+    "AromaticRings": 4,
+    "QED": 0.359
+   },
+   "alerts": [
+    {
+     "catalog": "Brenk",
+     "description": "Michael_acceptor_1"
+    },
+    {
+     "catalog": "NIH",
+     "description": "acrylate"
+    },
+    {
+     "catalog": "NIH",
+     "description": "halo_acrylate"
+    }
+   ],
+   "structural_class": [
+    "irreversible_covalent_inhibitor_candidate"
+   ],
+   "fu_estimated": 0.1133,
+   "note": "구조 알림은 HTS 어세이 간섭 필터(BRENK/PAINS/NIH)이며 임상 독성 예측용으로 검증되지 않았다. 계열 분류까지만 사용한다."
+  },
+  "chembl": {
+   "n_total_nM": 60,
+   "n_target": 11,
+   "target_matched": true,
+   "n_censored_excluded": 3,
+   "censored": [
+    {
+     "type": "IC50",
+     "nM": 10000.0,
+     "relation": ">",
+     "censored": true,
+     "target": "GTPase KRas",
+     "cell_based": true,
+     "assay": "Inhibition of recombinant human N-terminal His-tagged KRAS (2 to 185 residues) expressed in baculovirus infect"
+    },
+    {
+     "type": "IC50",
+     "nM": 7.0,
+     "relation": "<",
+     "censored": true,
+     "target": "GTPase KRas",
+     "cell_based": false,
+     "assay": "Inhibition of biotinylated Avi-His tagged GDP-bound human KRAS G12C mutant (1 to 166 residues) expressed in Es"
+    },
+    {
+     "type": "IC50",
+     "nM": 7500.0,
+     "relation": ">",
+     "censored": true,
+     "target": "GTPase KRas",
+     "cell_based": false,
+     "assay": "Inhibition of KRAS G12C mutant (unknown origin)"
+    }
+   ],
+   "cell_based_nM": [
+    24.5,
+    30.0,
+    68.0
+   ],
+   "cell_based_median_nM": 30.0,
+   "biochemical_nM": [
+    9.66,
+    15.8,
+    7500.0,
+    12200.0,
+    86000.0
+   ],
+   "biochemical_median_nM": 7500.0,
+   "usable_rows": [
+    {
+     "type": "IC50",
+     "nM": 68.0,
+     "relation": "=",
+     "censored": false,
+     "target": "GTPase KRas",
+     "cell_based": true,
+     "assay": "Inhibition of KRAS in human MIAPaca2 cells assessed as decrease in EGF-stimulated ERK1/2 phosphorylation prein"
+    },
+    {
+     "type": "IC50",
+     "nM": 30.0,
+     "relation": "=",
+     "censored": false,
+     "target": "GTPase KRas",
+     "cell_based": true,
+     "assay": "Inhibition of KRAS G12C mutant in human NCI-H358 cells assessed as reduction in p-ERK levels"
+    },
+    {
+     "type": "Ki",
+     "nM": 86000.0,
+     "relation": "=",
+     "censored": false,
+     "target": "GTPase KRas",
+     "cell_based": false,
+     "assay": "Binding affinity to KRAS (unknown origin) assessed as inhibition constant"
+    },
+    {
+     "type": "IC50",
+     "nM": 9.66,
+     "relation": "=",
+     "censored": false,
+     "target": "GTPase KRas",
+     "cell_based": false,
+     "assay": "Inhibition of KRAS G12C mutant (unknown origin) assessed as inhibition of SOS1-catalyzed nucleotide exchange m"
+    },
+    {
+     "type": "Ki",
+     "nM": 12200.0,
+     "relation": "=",
+     "censored": false,
+     "target": "GTPase KRas",
+     "cell_based": false,
+     "assay": "Binding affinity to KRAS G12C mutant (unknown origin) assessed as inhibition constant incubated for 24 hrs by "
+    },
+    {
+     "type": "IC50",
+     "nM": 15.8,
+     "relation": "=",
+     "censored": false,
+     "target": "SOS1-KRAS",
+     "cell_based": false,
+     "assay": "Inhibition of SOS1/KRAS G12C mutant (unknown origin) protein-protein interaction"
+    },
+    {
+     "type": "IC50",
+     "nM": 24.5,
+     "relation": "=",
+     "censored": false,
+     "target": "GTPase KRas",
+     "cell_based": true,
+     "assay": "HTRF Assay: NCI-H358 cells expressing KRAS G12C mutant protein were cultured in RPMI 1640 medium (Gibco) conta"
+    },
+    {
+     "type": "IC50",
+     "nM": 7500.0,
+     "relation": "=",
+     "censored": false,
+     "target": "GTPase KRas",
+     "cell_based": false,
+     "assay": "Inhibition of N-terminal GST-tagged recombinant human KRAS G12C mutant"
+    }
+   ],
+   "note": "검열값(<, >)은 점추정에서 제외. 세포 기반과 생화학 값은 풀링하지 않는다. 공유결합 저해제 IC50은 전배양 시간 의존."
+  },
+  "approved_same_target": [
+   "SOTORASIB",
+   "ADAGRASIB"
+  ],
+  "label_pk": {
+   "cl_f_L_per_hr": 26.2,
+   "t_half_hr": 5.0,
+   "vd_L": 211.0,
+   "protein_binding_pct": 89.0,
+   "fu_label": 0.11,
+   "brand": "LUMAKRAS"
+  },
+  "tcr_split": true,
+  "clause_ids_seen": [
+   "MFDS-1443-01-2025#0006",
+   "MFDS-1443-01-2025#0004",
+   "MFDS-1443-01-2025#0007",
+   "ICH-E6R3-2025#0122",
+   "ICH-E6R3-2025#0126",
+   "ICH-E4-1994#0016",
+   "ICH-E6R3-2025#0205",
+   "ICH-E4-1994#0006",
+   "ICH-E4-1994#0022",
+   "MFDS-1443-01-2025#0002",
+   "MFDS-1443-01-2025#0010",
+   "FDA-RADIOPHARM-DOSE-2025-DRAFT#0013",
+   "FDA-DOSE-OPT-2024#0014",
+   "FDA-EXPANSION-COHORTS-2022#0013",
+   "FDA-EXPANSION-COHORTS-2022#0026",
+   "FDA-EXPANSION-COHORTS-2022#0008",
+   "FDA-EXPANSION-COHORTS-2022#0028",
+   "FDA-RADIOPHARM-DOSE-2025-DRAFT#0015",
+   "FDA-DOSE-OPT-2024#0015",
+   "FDA-DOSE-OPT-2024#0003",
+   "FDA-EXPANSION-COHORTS-2022#0018",
+   "FDA-DOSE-OPT-2024#0002",
+   "ICH-E4-1994#0014",
+   "FDA-EXPANSION-COHORTS-2022#0014",
+   "FDA-EXPANSION-COHORTS-2022#0005",
+   "FDA-RADIOPHARM-DOSE-2025-DRAFT#0011",
+   "FDA-DOSE-OPT-2024#0016",
+   "FDA-DOSE-OPT-2024#0008",
+   "FDA-EXPANSION-COHORTS-2022#0015",
+   "ICH-E6R3-2025#0219",
+   "FDA-EXPANSION-COHORTS-2022#0027",
+   "FDA-EXPANSION-COHORTS-2022#0030",
+   "FDA-EXPANSION-COHORTS-2022#0039",
+   "FDA-DOSE-OPT-2024#0010",
+   "FDA-DOSE-OPT-2024#0009",
+   "FDA-DOSE-OPT-2024#0018"
+  ],
+  "common_done": true,
+  "common_done_planner": true,
+  "required_additional_data": [
+   "최근 면역치료 후 sotorasib 투여 시 강화된 간검사 일정을 명시한 적용 가능한 라벨 문구",
+   "노출–반응 통계분석계획",
+   "60명 표본수의 정밀도 또는 검정력 근거",
+   "후보 용량 간 임상적으로 중요한 차이 정의",
+   "전체 용량전이 알고리즘",
+   "10–60 mg 코호트의 BOIN 포함 여부",
+   "각 코호트 개시·중단·증량 기준",
+   "48시간 분석의 평가변수와 과학적 근거",
+   "후속 종단 용량–반응 분석 시점",
+   "최소 노출 및 종양평가 기간",
+   "최근 anti-PD-(L)1 노출과 sotorasib 간독성의 시간관계 자료",
+   "washout 기간 근거",
+   "최근 면역치료 환자의 강화 모니터링·중단기준",
+   "Appendix D",
+   "확장 개시 기준",
+   "코호트별 표본수 근거",
+   "과독성·무효 중단규칙",
+   "일관된 용량선정·확장 순서",
+   "Appendix D",
+   "분석시점과 평가변수",
+   "코호트별 표본수·중단규칙"
+  ],
+  "positions": {
+   "T03_class_label_check": [
+    {
+     "reviewer": "regulatory",
+     "severity": "medium",
+     "position": "프로토콜의 검사 주기는 제공된 sotorasib 라벨의 기본 일정과 일치한다. 그러나 최근 면역치료 환자에게 별도의 강화 모니터링을 권고한다는 문구는 제공된 라벨 근거에 없다. 해당 가설은 판단할 수 없다.",
+     "evidence_ids_seen": [
+      "ev_002",
+      "ev_003",
+      "ev_004",
+      "ev_005",
+      "ev_006",
+      "ev_007",
+      "ev_012",
+      "ev_013",
+      "ev_014",
+      "ev_015",
+      "ev_016",
+      "ev_017",
+      "ev_018",
+      "ev_019",
+      "ev_020",
+      "ev_021",
+      "ev_022",
+      "ev_023",
+      "ev_024",
+      "ev_025",
+      "ev_026",
+      "ev_027",
+      "ev_028",
+      "ev_029",
+      "ev_030",
+      "ev_031",
+      "ev_032",
+      "ev_033",
+      "ev_034",
+      "ev_035",
+      "ev_036",
+      "ev_037",
+      "ev_038",
+      "ev_039",
+      "ev_040",
+      "ev_041",
+      "ev_042",
+      "ev_043",
+      "ev_044",
+      "ev_045",
+      "ev_046",
+      "ev_047"
+     ]
+    }
+   ],
+   "T04_exposure_dose_relationship": [
+    {
+     "reviewer": "regulatory",
+     "severity": "high",
+     "position": "60명 무작위 비교는 명시됐지만, 노출–반응 분석법·효과크기·변동성·검정력 또는 정밀도 근거가 없다. FDA 지침은 각 용량의 안전성과 항종양 활성을 충분히 평가할 규모를 기대하므로, 프로토콜은 자체 표본수와 용량 판별력의 근거를 포함하지 않는다.",
+     "evidence_ids_seen": [
+      "ev_002",
+      "ev_003",
+      "ev_004",
+      "ev_005",
+      "ev_006",
+      "ev_007",
+      "ev_012",
+      "ev_013",
+      "ev_014",
+      "ev_015",
+      "ev_016",
+      "ev_017",
+      "ev_018",
+      "ev_019",
+      "ev_020",
+      "ev_021",
+      "ev_022",
+      "ev_023",
+      "ev_024",
+      "ev_025",
+      "ev_026",
+      "ev_027",
+      "ev_028",
+      "ev_029",
+      "ev_030",
+      "ev_031",
+      "ev_032",
+      "ev_033",
+      "ev_034",
+      "ev_035",
+      "ev_036",
+      "ev_037",
+      "ev_038",
+      "ev_039",
+      "ev_040",
+      "ev_041",
+      "ev_042",
+      "ev_043",
+      "ev_044",
+      "ev_045",
+      "ev_046",
+      "ev_047"
+     ]
+    }
+   ],
+   "T05_design_oc": [
+    {
+     "reviewer": "regulatory",
+     "severity": "high",
+     "position": "10–60 mg 순차 코호트와 180–960 mg BOIN 수준의 연결, 전환 조건, BOIN 분석 포함 여부가 정의되지 않았다. 따라서 실제 투여 순서와 의사결정 규칙을 재현할 수 없어 설계 운영의 일관성이 확보되지 않는다.",
+     "evidence_ids_seen": [
+      "ev_002",
+      "ev_003",
+      "ev_004",
+      "ev_005",
+      "ev_006",
+      "ev_007",
+      "ev_012",
+      "ev_013",
+      "ev_014",
+      "ev_015",
+      "ev_016",
+      "ev_017",
+      "ev_018",
+      "ev_019",
+      "ev_020",
+      "ev_021",
+      "ev_022",
+      "ev_023",
+      "ev_024",
+      "ev_025",
+      "ev_026",
+      "ev_027",
+      "ev_028",
+      "ev_029",
+      "ev_030",
+      "ev_031",
+      "ev_032",
+      "ev_033",
+      "ev_034",
+      "ev_035",
+      "ev_036",
+      "ev_037",
+      "ev_038",
+      "ev_039",
+      "ev_040",
+      "ev_041",
+      "ev_042",
+      "ev_043",
+      "ev_044",
+      "ev_045",
+      "ev_046",
+      "ev_047"
+     ]
+    }
+   ],
+   "T00_protocol_scan": [
+    {
+     "reviewer": "regulatory",
+     "severity": "critical",
+     "position": "48시간 결과만으로는 종양반응, 장기 안전성·내약성 및 반복투여 노출을 평가하기 어렵다. ICH는 암의 지연 반응에서 병렬 용량–반응 설계를 강조하고, FDA는 노출기간과 용량조절 등 종단 안전성 비교를 권고한다. 이 시점은 프로토콜의 자체 RP2D 근거를 지원하지 않는다.",
+     "evidence_ids_seen": [
+      "ev_002",
+      "ev_003",
+      "ev_004",
+      "ev_005",
+      "ev_006",
+      "ev_007",
+      "ev_012",
+      "ev_013",
+      "ev_014",
+      "ev_015",
+      "ev_016",
+      "ev_017",
+      "ev_018",
+      "ev_019",
+      "ev_020",
+      "ev_021",
+      "ev_022",
+      "ev_023",
+      "ev_024",
+      "ev_025",
+      "ev_026",
+      "ev_027",
+      "ev_028",
+      "ev_029",
+      "ev_030",
+      "ev_031",
+      "ev_032",
+      "ev_033",
+      "ev_034",
+      "ev_035",
+      "ev_036",
+      "ev_037",
+      "ev_038",
+      "ev_039",
+      "ev_040",
+      "ev_041",
+      "ev_042",
+      "ev_043",
+      "ev_044",
+      "ev_045",
+      "ev_046",
+      "ev_047"
+     ]
+    }
+   ],
+   "T02_target_evidence": [
+    {
+     "reviewer": "regulatory",
+     "severity": "high",
+     "position": "제공된 근거에는 최근 checkpoint inhibitor 투여 후 sotorasib 간독성 위험이나 필요한 washout 기간이 명시되지 않았다. 따라서 고정 4주가 위험을 충분히 완화하는지 판단할 수 없다.",
+     "evidence_ids_seen": [
+      "ev_002",
+      "ev_003",
+      "ev_004",
+      "ev_005",
+      "ev_006",
+      "ev_007",
+      "ev_012",
+      "ev_013",
+      "ev_014",
+      "ev_015",
+      "ev_016",
+      "ev_017",
+      "ev_018",
+      "ev_019",
+      "ev_020",
+      "ev_021",
+      "ev_022",
+      "ev_023",
+      "ev_024",
+      "ev_025",
+      "ev_026",
+      "ev_027",
+      "ev_028",
+      "ev_029",
+      "ev_030",
+      "ev_031",
+      "ev_032",
+      "ev_033",
+      "ev_034",
+      "ev_035",
+      "ev_036",
+      "ev_037",
+      "ev_038",
+      "ev_039",
+      "ev_040",
+      "ev_041",
+      "ev_042",
+      "ev_043",
+      "ev_044",
+      "ev_045",
+      "ev_046",
+      "ev_047"
+     ]
+    }
+   ],
+   "T06_regulatory_clause_search_KR": [
+    {
+     "reviewer": "regulatory",
+     "severity": "high",
+     "position": "MFDS 민원인 안내서는 다중용량 비교와 노출기간·용량조절·중대한 독성 평가 및 사전 중단기준을 권고한다. 현재 문구는 무작위 비교 개요만 있고 확장 시점, 코호트별 표본수 근거, 중단규칙 및 RP2D 통합기준이 없어 권고사항 충족을 평가하기 부족하다.",
+     "evidence_ids_seen": [
+      "ev_002",
+      "ev_003",
+      "ev_004",
+      "ev_005",
+      "ev_006",
+      "ev_007",
+      "ev_012",
+      "ev_013",
+      "ev_014",
+      "ev_015",
+      "ev_016",
+      "ev_017",
+      "ev_018",
+      "ev_019",
+      "ev_020",
+      "ev_021",
+      "ev_022",
+      "ev_023",
+      "ev_024",
+      "ev_025",
+      "ev_026",
+      "ev_027",
+      "ev_028",
+      "ev_029",
+      "ev_030",
+      "ev_031",
+      "ev_032",
+      "ev_033",
+      "ev_034",
+      "ev_035",
+      "ev_036",
+      "ev_037",
+      "ev_038",
+      "ev_039",
+      "ev_040",
+      "ev_041",
+      "ev_042",
+      "ev_043",
+      "ev_044",
+      "ev_045",
+      "ev_046",
+      "ev_047"
+     ]
+    }
+   ],
+   "T07_regulatory_clause_search_US": [
+    {
+     "reviewer": "regulatory",
+     "severity": "critical",
+     "position": "48시간 분석과 Appendix D 기반 통합선정이 어떻게 연결되는지 없고, 다른 문구는 첫 확장 코호트에서 무자료 RP2D 선정을 규정한다. FDA 최종 비구속 지침은 충분한 다중용량 안전성·활성 평가와 확장 코호트별 설계를 권고하므로, 현재 상충 조항은 자체 용량최적화 근거를 지원하지 않는다.",
+     "evidence_ids_seen": [
+      "ev_002",
+      "ev_003",
+      "ev_004",
+      "ev_005",
+      "ev_006",
+      "ev_007",
+      "ev_012",
+      "ev_013",
+      "ev_014",
+      "ev_015",
+      "ev_016",
+      "ev_017",
+      "ev_018",
+      "ev_019",
+      "ev_020",
+      "ev_021",
+      "ev_022",
+      "ev_023",
+      "ev_024",
+      "ev_025",
+      "ev_026",
+      "ev_027",
+      "ev_028",
+      "ev_029",
+      "ev_030",
+      "ev_031",
+      "ev_032",
+      "ev_033",
+      "ev_034",
+      "ev_035",
+      "ev_036",
+      "ev_037",
+      "ev_038",
+      "ev_039",
+      "ev_040",
+      "ev_041",
+      "ev_042",
+      "ev_043",
+      "ev_044",
+      "ev_045",
+      "ev_046",
+      "ev_047"
+     ]
+    }
+   ]
+  },
+  "llm_failures": [
+   {
+    "node": "findings",
+    "error": "ValidationError: 1 validation error for _FindingsOut\nfindings.2.category\n  Input should be 'dose_optimization', 'safety_monitoring', 'eligibility', 'endpoint_ctq', 'burden', 'source_version' or 'feasibility' [type=literal_error, input_value='expansion_cohort', input_type=str]\n    For further information visit https://errors.pydantic.dev/2.13/v/literal_error",
+    "attempts": 2
+   }
+  ]
+ },
+ "review_questions": [
+  {
+   "task_id": "T03_class_label_check",
+   "hypothesis": "The liver-test schedule may omit label-recommended intensified monitoring for patients recently receiving immunotherapy.",
+   "what_to_verify": "Compare the current US sotorasib label’s baseline, routine, and post-immunotherapy monitoring requirements with the protocol; confirm whether the four-week washout or other provisions adequately address elevated hepatotoxicity risk.",
+   "protocol_span": "Liver function tests (ALT, AST, alkaline phosphatase, total bilirubin) will be assessed before the first dose, every 3 weeks for the first 3 months, and monthly thereafter or as clinically indicated.",
+   "severity_if_true": "high",
+   "search_query": "FDA Lumakras sotorasib label hepatotoxicity liver monitoring recent immunotherapy every 3 weeks",
+   "jurisdiction": "US"
+  },
+  {
+   "task_id": "T03_class_label_check",
+   "hypothesis": "Dose-modification rules cannot be shown consistent with sotorasib label requirements because the referenced appendix is unavailable.",
+   "what_to_verify": "Obtain Appendix B and compare interruption, reduction, discontinuation, rechallenge, corticosteroid, and diagnostic rules for hepatotoxicity and ILD/pneumonitis against the current approved label.",
+   "protocol_span": "Dose modification rules for hepatotoxicity, interstitial lung disease/pneumonitis and other adverse reactions are specified in Appendix B.",
+   "severity_if_true": "high",
+   "search_query": "FDA Lumakras prescribing information dosage modifications hepatotoxicity ILD pneumonitis",
+   "jurisdiction": "US"
+  },
+  {
+   "task_id": "T04_exposure_dose_relationship",
+   "hypothesis": "The protocol may lack an adequately powered, prespecified exposure–response analysis supporting discrimination between candidate doses.",
+   "what_to_verify": "Review Appendix D and the statistical analysis plan for exposure metrics, efficacy and safety models, covariates, estimands, assumptions, missing-data handling, and operating characteristics for approximately 30 subjects per dose.",
+   "protocol_span": "At least 60 subjects will be randomized 1:1 to the two candidate dose levels to compare safety, tolerability, PK, PD and preliminary antitumor activity before selecting the RP2D.",
+   "severity_if_true": "high",
+   "search_query": "FDA Project Optimus exposure response randomized dose comparison sample size dose optimization guidance",
+   "jurisdiction": "US"
+  },
+  {
+   "task_id": "T05_design_oc",
+   "hypothesis": "The escalation scheme may be operationally incoherent because the relationship between the 10–60 mg cohorts and the planned 180–960 mg BOIN levels is undefined.",
+   "what_to_verify": "Confirm starting dose, cohort sizes, transition rules, dose skipping, BOIN boundaries, DLT window, evaluability rules, overdose control, and whether all eight listed doses belong to one escalation design.",
+   "protocol_span": "Dose escalation will follow a Bayesian optimal interval (BOIN) design with a target dose-limiting toxicity (DLT) rate of 30% and a maximum of 36 subjects. Planned dose levels (once daily, oral): 180 mg, 360 mg, 540 mg, 720 mg, 960 mg. Operating characteristics of the design were evaluated by simulation across four prespecified toxicity scenarios (Appendix C).\nParticipants will be enrolled sequentially into nonrandomized cohorts receiving 10, 30, or 60 mg once daily, with each new cohort opened after review of the preceding cohort.",
+   "severity_if_true": "high",
+   "search_query": "FDA oncology dose escalation BOIN design operating characteristics cohort transition rules DLT evaluability",
+   "jurisdiction": "US"
+  },
+  {
+   "task_id": "T05_design_oc",
+   "hypothesis": "A 36-subject maximum and four simulated scenarios may provide inadequate dose-selection accuracy across eight potential dose levels.",
+   "what_to_verify": "Review Appendix C simulations for scenario breadth, allocation by dose, correct-selection probability, overdose probability, early stopping, late toxicity sensitivity, and robustness to nonevaluable subjects; independently reproduce operating characteristics.",
+   "protocol_span": "Dose escalation will follow a Bayesian optimal interval (BOIN) design with a target dose-limiting toxicity (DLT) rate of 30% and a maximum of 36 subjects. Planned dose levels (once daily, oral): 180 mg, 360 mg, 540 mg, 720 mg, 960 mg. Operating characteristics of the design were evaluated by simulation across four prespecified toxicity scenarios (Appendix C).",
+   "severity_if_true": "medium",
+   "search_query": "BOIN design simulation operating characteristics number toxicity scenarios dose selection probability sample size",
+   "jurisdiction": "common"
+  },
+  {
+   "task_id": "T00_protocol_scan",
+   "hypothesis": "Analyzing dose response after only 48 hours is likely too early to capture meaningful antitumor activity, cumulative tolerability, steady-state exposure, or delayed toxicity.",
+   "what_to_verify": "Determine which outcomes are analyzed at 48 hours and whether the timing covers the DLT window, PK steady state, longitudinal tolerability, and first scheduled tumor assessment; compare with FDA dose-optimization expectations.",
+   "protocol_span": "After participants complete 48 hours at the assigned dose level, the dose-response analysis will be performed using their observed outcomes.",
+   "severity_if_true": "critical",
+   "search_query": "FDA Project Optimus dose optimization duration tolerability delayed toxicity dose response assessment guidance",
+   "jurisdiction": "US"
+  },
+  {
+   "task_id": "T00_protocol_scan",
+   "hypothesis": "Prohibiting demographic subgroup evaluations may obscure clinically important exposure, safety, or efficacy heterogeneity relevant to dose selection.",
+   "what_to_verify": "Check whether analyses by age, sex, race, ethnicity, body size, organ function, and other intrinsic factors are required or scientifically feasible, and whether population PK provides an alternative assessment.",
+   "protocol_span": "Dose–response analyses will be conducted only in the overall enrolled population, with no evaluations by age, sex, race, or other demographic subgroup.",
+   "severity_if_true": "high",
+   "search_query": "FDA oncology dosage optimization intrinsic factors demographic subgroups exposure response Project Optimus guidance",
+   "jurisdiction": "US"
+  },
+  {
+   "task_id": "T00_protocol_scan",
+   "hypothesis": "Selecting RP2D from the first expansion cohort without dose-response or longitudinal assessments conflicts with the stated randomized optimization strategy and may not support an optimized dose.",
+   "what_to_verify": "Reconcile this sentence with the two-dose randomized comparison and Appendix D; confirm required follow-up, exposure–response analyses, chronic tolerability, concomitant-medication effects, and comorbidity assessments before RP2D selection.",
+   "protocol_span": "The study will select the recommended Phase 2 dose from the first expansion cohort without collecting dose–response data or evaluating effects of long-term administration, concomitant medications, or comorbid disease.",
+   "severity_if_true": "critical",
+   "search_query": "FDA Optimizing the Dosage of Human Prescription Drugs and Biological Products for Oncology Diseases final guidance dose response long term tolerability",
+   "jurisdiction": "US"
+  },
+  {
+   "task_id": "T00_protocol_scan",
+   "hypothesis": "Opening six disease-specific expansion cohorts before defining RP2D and exposure variability may expose excessive participants without adequate dose justification.",
+   "what_to_verify": "Verify cohort-specific objectives, dose rationale, sample sizes, statistical assumptions, interim analyses, futility and toxicity stopping rules, enrollment caps, governance, and prerequisites for opening each cohort.",
+   "protocol_span": "After completing the dose-escalation portion, the study will open six parallel disease-specific expansion cohorts despite the absence of a defined recommended phase 2 dose and limited characterization of interpatient and intrapatient exposure variability.",
+   "severity_if_true": "critical",
+   "search_query": "FDA expansion cohorts first in human oncology trials cohort size stopping rules dose selection guidance",
+   "jurisdiction": "US"
+  },
+  {
+   "task_id": "T00_protocol_scan",
+   "hypothesis": "Deferring serious unexpected safety findings to an annual report may violate expedited IND safety-reporting obligations.",
+   "what_to_verify": "Determine whether findings meet US IND or Korean expedited-report criteria and timelines; verify procedures for causality assessment, aggregate analyses, investigator notification, IRB reporting, and 7/15-day submissions.",
+   "protocol_span": "The sponsor will include serious and unexpected adverse safety findings in the next scheduled annual safety report, unless the medical monitor requests earlier submission.",
+   "severity_if_true": "critical",
+   "search_query": "21 CFR 312.32 serious unexpected suspected adverse reaction 7 day 15 day IND safety report",
+   "jurisdiction": "US"
+  },
+  {
+   "task_id": "T02_target_evidence",
+   "hypothesis": "A fixed four-week anti-PD-(L)1 washout may not sufficiently mitigate the known increased hepatotoxicity risk when sotorasib follows recent checkpoint inhibition.",
+   "what_to_verify": "Review label, regulatory assessments, and clinical evidence relating hepatotoxicity to time since checkpoint inhibitor therapy; determine whether longer washout, stratification, exclusion, or enhanced monitoring is warranted.",
+   "protocol_span": "- Exclusion: active brain metastases; prior treatment with a KRAS G12C inhibitor; QTcF >470 ms; anti-PD-(L)1 therapy within 4 weeks prior to the first dose.",
+   "severity_if_true": "high",
+   "search_query": "sotorasib hepatotoxicity time since checkpoint inhibitor washout recent immunotherapy FDA label",
+   "jurisdiction": "US"
+  },
+  {
+   "task_id": "T04_exposure_dose_relationship",
+   "hypothesis": "Trough-only PK in randomized cohorts may be insufficient to compare AUC, Cmax, time-varying exposure, and interpatient or intrapatient variability between candidate doses.",
+   "what_to_verify": "Assess whether prior escalation PK can validly represent randomized patients and whether sparse sampling plus population PK can estimate AUC/Cmax, accumulation, adherence, covariate effects, and exposure–response with adequate precision.",
+   "protocol_span": "Intensive PK sampling on Cycle 1 Day 1 and Day 15 (pre-dose, 0.5, 1, 2, 4, 6, 8 and 24 h post-dose) in all escalation subjects; steady-state trough sampling every cycle in the randomized cohorts. Dose proportionality will be assessed by a power model.",
+   "severity_if_true": "high",
+   "search_query": "FDA population pharmacokinetics exposure response dose optimization sparse sampling AUC Cmax randomized doses",
+   "jurisdiction": "US"
+  },
+  {
+   "task_id": "T06_regulatory_clause_search_KR",
+   "hypothesis": "The Korean submission may not justify expansion timing, cohort sizes, stopping rules, and RP2D selection to the extent expected under applicable MFDS guidance and KGCP.",
+   "what_to_verify": "Identify whether governing Korean sources are binding regulations, notices, or nonbinding civil guides; compare their normative strength and requirements with the six cohorts, 60-subject comparison, safety governance, and missing appendices.",
+   "protocol_span": "Two candidate dose levels will be selected from the escalation data. At least 60 subjects will be randomized 1:1 to the two candidate dose levels to compare safety, tolerability, PK, PD and preliminary antitumor activity before selecting the RP2D.",
+   "severity_if_true": "high",
+   "search_query": "식약처 항암제 초기 임상시험 용량 최적화 확장 코호트 표본수 중단규칙 임상시험 관리기준",
+   "jurisdiction": "KR"
+  },
+  {
+   "task_id": "T07_regulatory_clause_search_US",
+   "hypothesis": "The protocol’s contradictory dose-selection and expansion provisions may not satisfy current FDA final dose-optimization guidance or FDA expansion-cohort recommendations.",
+   "what_to_verify": "Locate the controlling final guidance and applicable regulations, distinguish recommendations from legal requirements, and map requirements for randomized dose comparison, adequate follow-up, exposure–response, chronic tolerability, and cohort stopping rules.",
+   "protocol_span": "The RP2D will be selected using prespecified integrated criteria (Appendix D), not solely because a dose level is the maximum tolerated dose.\nAfter participants complete 48 hours at the assigned dose level, the dose-response analysis will be performed using their observed outcomes.",
+   "severity_if_true": "critical",
+   "search_query": "FDA final guidance optimizing dosage oncology diseases randomized dose comparison expansion cohorts stopping rules",
+   "jurisdiction": "US"
+  }
+ ],
+ "unavailable_axes": [],
+ "terminal_status": "running"
+}

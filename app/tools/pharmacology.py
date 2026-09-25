@@ -91,7 +91,7 @@ _PK_PATTERNS = {
     "t_half_hr": r"half-life[^.]*?is\s+([\d.]+)\s*hours?",
     "vd_L": r"volume of distribution[^.]*?is\s+([\d.]+)\s*L\b",
     "protein_binding_pct": r"plasma protein binding is\s+([\d.]+)%",
-    "cl_cv_pct": r"apparent clearance[^.]*?\(CV:\s*([\d.]+)%\)",
+    "cl_cv_pct": r"apparent clearance[^()]*?\(CV:\s*([\d.]+)%\)",   # [^.]는 "26.2"의 소수점에서 멈춰 파싱이 실패했다(09-25)
 }
 _NONLINEAR = r"non-?linear[^.]*pharmacokinetics[^.]*\."
 _ER_UNKNOWN = r"exposure-response relationships?[^.]*unknown[^.]*\."

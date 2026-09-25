@@ -1,6 +1,6 @@
 # 토큰 원장 (리소스 효율 증빙)
 
-원천: `logs/*.jsonl` 감사로그의 `usage.total_tokens`(게이트웨이 쿼터와 1:1, 캐시 적중도 전액 차감 — `docs/gateway_probe.md` ⑩-b), 성과: `app/eval/data/results/<config>.json`. 생성: `py -m app.eval.ledger`.
+원천: 감사로그 공개 집계본 `app/eval/data/audit_usage.jsonl`(`python -m app.eval.audit_export`)의 `usage.total_tokens`(게이트웨이 쿼터와 1:1, 캐시 적중도 전액 차감 — `docs/gateway_probe.md` ⑩-b), 성과: `app/eval/data/results/<config>.json`. 생성: `py -m app.eval.ledger`.
 
 ## 1. 서빙 원장 — 설정별 케이스당 노드 토큰
 
@@ -36,4 +36,4 @@
 
 주의: n=20 설정 간 grounded 차이는 대부분 부트스트랩 CI가 겹친다 — 유의 여부는 `python -m app.eval.compare`의 쌍대 비교로만 주장한다. 토큰 차이는 호출 구조로 정해지므로 확정적이다.
 `*ext`는 확장 40케이스(AX1-021~060)로 원 20케이스와 분포가 달라 설정 간 비교는 같은 세트 안에서만 한다.
-캐시·Batch·Flex는 이 게이트웨이의 팀 쿼터를 줄이지 않으므로 절감 수단으로 계산하지 않았다.
+프롬프트 캐시는 적중해도 팀 쿼터 차감이 줄지 않아(⑩-b) 절감 수단으로 계산하지 않았다. Batch·Flex는 게이트웨이 지원을 확인하지 않았다.

@@ -58,7 +58,7 @@ def run_structure_class(state: ReviewState, task: Task) -> None:
         r2 = pharmacology.chembl_potency(chembl_id, target_keyword=(ip.target or "").split()[0] if ip.target else None)
         cid2 = _log(state, "chembl.potency", {"chembl_id": chembl_id, "target": ip.target}, r2)
         if r2.ok and r2.data.get("n_target"):
-            _ev(state, "database_record", "ChEMBL", f"KRAS 표적 활성값 {r2.data['n_target']}건 중 검열값 {r2.data['n_censored_excluded']}건 제외. 세포 기반 {r2.data['cell_based_nM']} nM (중앙값 {r2.data['cell_based_median_nM']}), 생화학 {r2.data['biochemical_nM'][:5]} nM. 어세이 유형을 풀링하지 않는다.",
+            _ev(state, "database_record", "ChEMBL", f"{(ip.target or '표적').split()[0]} 표적 활성값 {r2.data['n_target']}건 중 검열값 {r2.data['n_censored_excluded']}건 제외. 세포 기반 {r2.data['cell_based_nM']} nM (중앙값 {r2.data['cell_based_median_nM']}), 생화학 {r2.data['biochemical_nM'][:5]} nM. 어세이 유형을 풀링하지 않는다.",
                 url=r2.source.get("url"), tool_call_id=cid2, tier=1)
             state.scratch["chembl"] = r2.data
         elif not r2.ok:   # 재시도 후에도 실패 — 과제는 RDKit 결과로 계속하되 TCR의 IC50 대체를 기록한다
@@ -94,6 +94,9 @@ def run_class_label_check(state: ReviewState, task: Task) -> None:
         r = pharmacology.openfda_label(brand)
         cid = _log(state, "openfda.label", {"brand": brand}, r)
         if not r.ok:
+            if g == generic_name(ip).upper():   # 시험약 자체 라벨 실패 → PK 미확보로 TCR 기권 finding이 빠진다. 원인을 남긴다
+                state.replan_events.append({"trigger": "tool_failure", "tasks": [task.task_id], "tool": "openfda.label",
+                                            "action": f"{brand} 라벨 PK 미확보(재시도 후 실패) → 노출-용량 계산 불가, 근거 미확보로 표기"})
             continue
         checked += 1
         d = r.data
@@ -139,11 +142,15 @@ def run_exposure_dose(state: ReviewState, task: Task) -> None:
     _ev(state, "calculation", "DoseVerdict", f"TCR(선형 CL/F 가정, IC50 {ic50} nM — {ic50_src}, f_u {pk['fu_label']}, t½ {pk['t_half_hr']} h): {table}. "
         + ("판정이 지표(Cavg vs Ctrough)에 따라 갈리므로 '커버된다'는 결론을 만들지 않는다. " if split else "")
         + "라벨이 비선형 PK를 보고하므로 선형 외삽은 라벨과 모순될 수 있다 → 두 가정을 병기하고 용량군별 반복투여 PK를 요청한다.", tier=3)
-    r2 = pharmacology.exposure_power(pk.get("cl_cv_pct", 76) / 100)
-    cid2 = _log(state, "pharm.exposure_power", {"cv": pk.get("cl_cv_pct", 76) / 100}, r2)
+    cv_pct = pk.get("cl_cv_pct")
+    cv_src = "라벨 12.3"
+    if not cv_pct:
+        cv_pct, cv_src = 76, "라벨 미기재 → 기본값(소토라십 라벨 CL/F CV)"
+    r2 = pharmacology.exposure_power(cv_pct / 100)
+    cid2 = _log(state, "pharm.exposure_power", {"cv": cv_pct / 100}, r2)
     if r2.ok:
         by = {x["n_per_arm"]: x for x in r2.data["rows"]}
-        _ev(state, "calculation", "DoseVerdict", f"CL/F CV {pk.get('cl_cv_pct', 76)}% 기준 두 용량군 AUC 비 95% CI 폭: n=2 {by[2]['fold']}배, n=4 {by[4]['fold']}배, n=12 {by[12]['fold']}배. 증량 코호트 규모(2~4명)로는 노출 포화를 확정할 수 없다.", tool_call_id=cid2, tier=3)
+        _ev(state, "calculation", "DoseVerdict", f"CL/F CV {cv_pct}%({cv_src}) 기준 두 용량군 AUC 비 95% CI 폭: n=2 {by[2]['fold']}배, n=4 {by[4]['fold']}배, n=12 {by[12]['fold']}배. 증량 코호트 규모(2~4명)로는 노출 포화를 확정할 수 없다.", tool_call_id=cid2, tier=3)
     state.scratch["tcr_split"] = split
     task.status = "abstained" if split else "done"
 

@@ -119,12 +119,12 @@ with st.sidebar:
         if up:
             text = up.read().decode("utf-8", errors="replace")
     budget = st.number_input("run 토큰 상한", 20000, 300000, int(os.getenv("DV_RUN_TOKEN_BUDGET", "150000")), step=10000)
-    three = st.checkbox("Reviewer 3인(규제·시험기관·환자) — 토큰 약 2배", value=False,
+    three = st.checkbox("Reviewer 3인(규제·시험기관·환자) — 토큰 약 1.3배", value=False,
                         help="기본은 규제 Reviewer 1인. 본평가에서 3인은 토큰 48%를 쓰고 규범 결함 탐지 기여가 측정되지 않았다.")
     run = st.button("🔍 검토 실행", type="primary", disabled=not text.strip(), use_container_width=True)
     cached_path = (ROOT / "app/demo/results" / f"demo{demo_idx + 1}.json") if src == "예시 프로토콜" else None
     show_cached = st.button("⚡ 저장된 결과 즉시 보기 (LLM 호출 없음)", disabled=not (cached_path and cached_path.exists()), use_container_width=True,
-                            help="같은 예시를 기본 설정으로 실행해 둔 결과(app/demo/results). 배포본(CPU)에서 3분을 기다리지 않아도 된다. 실행 방법 ③.")
+                            help="같은 예시를 기본 설정으로 실행해 둔 결과(app/demo/results). 라이브 검토(배포본 CPU 약 1.5분)를 기다리지 않아도 된다.")
     if qp.get("cached") == "1" and cached_path and cached_path.exists() and st.session_state.get("review") is None and not st.session_state.get("cached_done"):
         st.session_state["cached_done"] = True
         show_cached = True
@@ -200,7 +200,7 @@ if run:
 rs: ReviewState | None = st.session_state.review
 if rs is None and not run:
     graph_box.graphviz_chart(graph_dot(None, set()), use_container_width=True)
-    st.info("왼쪽에서 예시 프로토콜을 고르고 **검토 실행**을 누르세요. 약 3분이 걸리고 25~35k 토큰을 씁니다(Reviewer 3인 옵션 시 약 2배).")
+    st.info("왼쪽에서 예시 프로토콜을 고르고 **검토 실행**을 누르세요. 배포본(CPU)에서 약 1.5분, 3~4만 토큰이 듭니다(Reviewer 3인 옵션 시 토큰 약 1.3배). 기다리지 않으려면 **⚡ 저장된 결과 즉시 보기**를 누르세요.")
     st.stop()
 if rs is None:
     st.stop()

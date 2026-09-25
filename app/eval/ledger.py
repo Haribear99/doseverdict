@@ -1,7 +1,7 @@
 """
 토큰 원장 — 리소스(크레딧) 활용 효율성 증빙 산출물(토큰 0, 감사로그·평가 결과만 읽는다).
 
-- 서빙 원장: 설정별 케이스당 노드 토큰(입력·출력·reasoning·캐시), 호출 수. 원천 = logs/*.jsonl의 usage.total_tokens
+- 서빙 원장: 설정별 케이스당 노드 토큰(입력·출력·reasoning·캐시), 호출 수. 원천 = app/eval/data/audit_usage.jsonl의 usage.total_tokens
   (게이트웨이 쿼터는 total_tokens 1:1 차감, 캐시 적중도 전액 차감 — docs/gateway_probe.md ⑩-b. 캐시 절감을 주장하지 않는다)
 - 성과 정규화: 케이스당 토큰 / 검증 통과 finding 수, grounded 적중 1건당 토큰 (app/eval/data/results/<config>.json)
 - Pareto 그림: 케이스당 토큰 vs grounded_recall (점추정 — n=20 CI 겹침은 표에 함께 적는다)
@@ -28,16 +28,12 @@ def _node(purpose: str) -> str:
 def audit_by_config(configs: list[str]) -> dict[str, dict]:
     """eval-<config>-AX1-xxx:<node> 호출을 모은다. 같은 run_id가 여러 번 실행됐으면 마지막 실행(마지막 compile 이후)만 센다."""
     calls: dict[str, list[dict]] = defaultdict(list)
-    for lp in sorted((ROOT / "logs").glob("*.jsonl")):
-        for line in lp.read_text(encoding="utf-8").splitlines():
-            if '"purpose": "eval-' not in line:
-                continue
-            try:
-                r = json.loads(line)
-            except json.JSONDecodeError:
-                continue
-            run_id = r["purpose"].split(":", 1)[0]
-            calls[run_id].append(r)
+    from app.eval.audit_export import iter_audit
+    for r in iter_audit():
+        if not (r.get("purpose") or "").startswith("eval-"):
+            continue
+        run_id = r["purpose"].split(":", 1)[0]
+        calls[run_id].append(r)
     out: dict[str, dict] = {}
     for cfg in configs:
         prefix = f"eval-{cfg}-AX1"
@@ -82,7 +78,7 @@ def main() -> None:
     cfgs = [c.strip() for c in a.configs.split(",") if c.strip()]
     led = audit_by_config(cfgs)
     lines = ["# 토큰 원장 (리소스 효율 증빙)", "",
-             "원천: `logs/*.jsonl` 감사로그의 `usage.total_tokens`(게이트웨이 쿼터와 1:1, 캐시 적중도 전액 차감 — `docs/gateway_probe.md` ⑩-b), "
+             "원천: 감사로그 공개 집계본 `app/eval/data/audit_usage.jsonl`(`python -m app.eval.audit_export`)의 `usage.total_tokens`(게이트웨이 쿼터와 1:1, 캐시 적중도 전액 차감 — `docs/gateway_probe.md` ⑩-b), "
              "성과: `app/eval/data/results/<config>.json`. 생성: `py -m app.eval.ledger`.", "",
              "## 1. 서빙 원장 — 설정별 케이스당 노드 토큰", "",
              "| 설정 | 감사로그 케이스 | " + " | ".join(NODES) + " | 합계/케이스 | reasoning 비중 |", "|---|---|" + "---|" * (len(NODES) + 2)]
@@ -105,7 +101,7 @@ def main() -> None:
         lines.append(f"| {cfg} | {o['n']} | {o['tokens_per_case']:,.0f} | {o['recall']:.3f} | {o['grounded_recall']:.3f} | {o['verified_rate']:.3f} | "
                      f"{o['tokens_per_verified_finding']:,.0f} | {o['tokens_per_grounded_hit']:,.0f} |")
     lines += ["", "주의: n=20 설정 간 grounded 차이는 대부분 부트스트랩 CI가 겹친다 — 유의 여부는 `python -m app.eval.compare`의 쌍대 비교로만 주장한다. 토큰 차이는 호출 구조로 정해지므로 확정적이다.", "`*ext`는 확장 40케이스(AX1-021~060)로 원 20케이스와 분포가 달라 설정 간 비교는 같은 세트 안에서만 한다.",
-              "캐시·Batch·Flex는 이 게이트웨이의 팀 쿼터를 줄이지 않으므로 절감 수단으로 계산하지 않았다."]
+              "프롬프트 캐시는 적중해도 팀 쿼터 차감이 줄지 않아(⑩-b) 절감 수단으로 계산하지 않았다. Batch·Flex는 게이트웨이 지원을 확인하지 않았다."]
     (ROOT / "docs" / "token_ledger.md").write_text("\n".join(lines) + "\n", encoding="utf-8")
     if pts:
         import matplotlib
