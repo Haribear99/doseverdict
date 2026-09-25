@@ -23,7 +23,7 @@ if str(ROOT) not in sys.path:
     sys.path.insert(0, str(ROOT))
 os.environ.setdefault("HF_HUB_DISABLE_SYMLINKS_WARNING", "1")
 
-from app.agents.graph import gateway, resume_with_decision, run_until_gate  # noqa: E402
+from app.agents.graph import resume_with_decision, run_until_gate  # noqa: E402
 from app.schema.trial_schema import ReviewState  # noqa: E402
 from app.report import render_memo  # noqa: E402
 
@@ -299,8 +299,8 @@ with tabs[4]:
     st.json(rs.trial.model_dump(exclude_none=True))
 
 with tabs[5]:
-    tot = gateway().audit_totals()
-    st.markdown(f"**run** `{rs.run_id}` · 토큰 {rs.budget.used_tokens:,}/{rs.budget.max_tokens:,} · 도구 {rs.budget.used_tool_calls}/{rs.budget.max_tool_calls} · 팀 잔여 쿼터(헤더) {tot.get('last_quota')}")
+    st.markdown(f"**run** `{rs.run_id}` · 토큰 {rs.budget.used_tokens:,}/{rs.budget.max_tokens:,} · 도구 {rs.budget.used_tool_calls}/{rs.budget.max_tool_calls}")
+    st.caption("팀 누적 사용량은 감사로그 합으로 집계한다(docs/numbers.md §4). 게이트웨이 쿼터 헤더는 09-22 한도 재설정 이후 값만 보여 누적과 대조할 수 없다.")
     st.download_button("📄 검토 메모 내려받기(마크다운)", render_memo(rs).encode("utf-8"), file_name=f"doseverdict_{rs.run_id}.md", mime="text/markdown")
     c1, c2 = st.columns(2)
     with c1:
