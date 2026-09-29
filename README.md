@@ -18,7 +18,7 @@ pinned: false
 
 ## 실행 방법 4종
 
-배포 URL: `https://huggingface.co/spaces/Haribear99/doseverdict` (앱 직접 주소 `https://haribear99-doseverdict.hf.space`). 제출 전 공개 전환 예정.
+배포 URL: `https://huggingface.co/spaces/Haribear99/doseverdict` (앱 직접 주소 `https://haribear99-doseverdict.hf.space`). 공개(2026-09-29 전환), 로그인 없이 접속된다. 코드: `https://github.com/Haribear99/doseverdict`.
 
 | 방법 | 절차 |
 |---|---|
