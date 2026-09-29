@@ -206,7 +206,7 @@ def oneshot_lines() -> list[str]:
                 "| 쪽 | 검사 가능 | 원문 일치 | 일치 또는 NLI 의역 | 둘 다 아님 |", "|---|---|---|---|---|",
                 f"| 에이전트 | {fa['checkable']} | {fa['exact']} ({pct(fa['exact'], fa['checkable'])}) | {fa['exact_or_nli']} ({pct(fa['exact_or_nli'], fa['checkable'])}) | {fa['unsupported']} ({pct(fa['unsupported'], fa['checkable'])}) |",
                 f"| 원샷 | {fo['checkable']} | {fo['exact']} ({pct(fo['exact'], fo['checkable'])}) | {fo['exact_or_nli']} ({pct(fo['exact_or_nli'], fo['checkable'])}) | {fo['unsupported']} ({pct(fo['unsupported'], fo['checkable'])}) |", "",
-                f"- 에이전트 근거 풀의 규제 조항 인용문(evidence.quote) {fe['verbatim']}/{fe['n']}건이 코퍼스 원문."]
+                f"- 에이전트 근거 풀의 규제 조항 인용문(evidence.quote) {fe['verbatim']}/{fe['n']}건이 코퍼스 원문(정규화한 앞 200자 포함 기준)."]
         for k, lab in (("exact", "원문 일치만"), ("nli", "일치 또는 NLI 의역")):
             d = sy[k]["diff"]
             out.append(f"- 대칭 필터({lab}) grounded: 에이전트 {sy[k]['agent']:.3f}, 원샷 {sy[k]['oneshot']:.3f}, 차이(원샷 − 에이전트) {d[0]:+.3f} [{d[1]:+.3f}, {d[2]:+.3f}]")

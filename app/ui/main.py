@@ -285,14 +285,15 @@ def render_oneshot() -> None:
                      "차이 [95% CI]": f"{g[0]:+.3f} [{g[1]:+.3f}, {g[2]:+.3f}]", "토큰/케이스 에이전트 / 비교": f"{a['tokens_agent']:,} / {a['tokens_arm']:,}",
                      "판정": a["verdict"] if name.startswith("oneshot") else "기술용(1회)"})
     st.table(rows)
-    q, qs = res.get("quote_fidelity", {}), res.get("post_hoc_quote_support") or {}
-    rates = [v["rate"] for k, v in q.items() if k.startswith("oneshot") and v.get("rate") is not None]
-    msg = "탐지율(span)은 원샷도 같은 수준이고 토큰은 약 8분의 1이다. 차이는 인용이다 — 에이전트의 인용문은 검색된 규제 조항 원문에서 온다."
-    if rates:
-        msg += f" 원샷이 기억으로 적은 가이던스 문장은 원문과 {min(rates):.0%} 일치했고"
-    if qs:
-        msg += f", 사후 NLI 재판정(충실한 의역 인정) 뒤에도 {qs['unsupported']}/{qs['checkable']}건({qs['unsupported'] / max(1, qs['checkable']):.1%})은 어느 조항으로도 뒷받침되지 않았다."
-    st.caption(msg + " 조건은 원샷에 유리하다(에이전트는 결함 출처 조항을 검색에서 뺀 채 평가).")
+    msg = "사전 등록 판정은 차이 없음 — 탐지율(span)은 원샷도 같은 수준이고 토큰은 약 8분의 1이다."
+    ph = res.get("post_hoc") or {}
+    if ph:
+        fa, fo, sy = ph["fidelity"]["agent"], ph["fidelity"]["oneshot"], ph["symmetric_grounded"]
+        pct = lambda n, d: f"{n / max(1, d):.1%}"
+        msg += (f" 사후 분석(같은 인용 판정기를 양쪽에): 근거 문장이 인용 문서의 조항으로 확인된 비율은 에이전트 {pct(fa['exact'], fa['checkable'])}–{pct(fa['exact_or_nli'], fa['checkable'])}, "
+                f"원샷 {pct(fo['exact'], fo['checkable'])}–{pct(fo['exact_or_nli'], fo['checkable'])}(원문 일치만–NLI 의역 포함). "
+                f"같은 필터를 건 grounded 차이(원샷 − 에이전트) 원문 일치만 {sy['exact']['diff'][0]:+.3f} / NLI 포함 {sy['nli']['diff'][0]:+.3f}. 판정 NLI가 에이전트 검증기와 같은 모델이라 에이전트에 유리한 비교다.")
+    st.caption(msg + " 반대로 hold-out 조건은 원샷에 유리하다(에이전트는 결함 출처 조항을 검색에서 뺀 채 평가).")
 
 
 def init_state():
