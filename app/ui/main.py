@@ -296,6 +296,20 @@ def render_oneshot() -> None:
     st.caption(msg + " 반대로 hold-out 조건은 원샷에 유리하다(에이전트는 결함 출처 조항을 검색에서 뺀 채 평가).")
 
 
+def render_abstain() -> None:
+    """기권 평가(사전 등록 docs/abstain_prereg.md) — app/eval/data/results/abstain.json이 있을 때만."""
+    res = _load_json("abstain.json")
+    if not res:
+        return
+    A, B = res["A"], res["B"]
+    st.markdown("**같은 모델에게 약리 판정을 물으면?** — 용량군 20개의 표적 커버리지를 도구 없이 같은 모델에게 3회씩 물었다(A: 시놉시스만, B: 도구가 쓴 PK 입력까지).")
+    st.table([{"지표": "판정 보류가 정답인 용량군에서 확정 판정(1차)", "A": f"{A['definite_on_indeterminate']['mean']:.3f}", "B": f"{B['definite_on_indeterminate']['mean']:.3f}"},
+              {"지표": "커버가 정답인 용량군에서 판단 보류", "A": f"{A['abstain_on_covered']['mean']:.3f}", "B": f"{B['abstain_on_covered']['mean']:.3f}"},
+              {"지표": "도구 판정 일치율", "A": f"{A['agreement']['mean']:.3f}", "B": f"{B['agreement']['mean']:.3f}"}])
+    st.caption("같은 모델도 결론을 지어내지 않고, 입력이 주어지면 도구만큼 계산한다. 차이는 자료다 — 시놉시스만으로는 PK가 라벨에만 있는 약 3종을 판정하지 못했고, "
+               "에이전트는 라벨 PK·ChEMBL IC50을 도구로 확보한다. 정답을 같은 도구로 만들어 에이전트 일치율은 정의상 1이다(순환성).")
+
+
 def init_state():
     for k, v in {"events": [], "done": set(), "current": None, "review": None, "graph": None, "config": None, "run_started": None}.items():
         st.session_state.setdefault(k, v)
@@ -450,6 +464,7 @@ if rs is None and not run:
     section("후향 검증")
     render_retro()
     render_oneshot()
+    render_abstain()
     st.stop()
 if rs is None:
     st.stop()
@@ -579,3 +594,4 @@ with tabs[5]:
 with tabs[6]:
     render_retro()
     render_oneshot()
+    render_abstain()
