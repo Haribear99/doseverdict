@@ -7,7 +7,7 @@ import urllib.parse
 from datetime import datetime, timezone
 from typing import Any
 
-from app.tools import ToolResult, run_tool
+from app.tools import ToolResult, asof_date, run_tool
 
 BASE = "https://clinicaltrials.gov/api/v2/studies"
 
@@ -44,15 +44,20 @@ def _design_summary(study: dict[str, Any]) -> dict[str, Any]:
 
 def search_analog_trials(query_term: str, phases: str = "PHASE1,PHASE2", page_size: int = 20) -> ToolResult:
     def _run(query_term: str, phases: str, page_size: int) -> dict[str, Any]:
+        adv = f"AREA[Phase]({' OR '.join(phases.split(','))})"
+        if asof_date():   # 후향 검증: 승인 시점 이후 시작된 시험(예: 승인 후 용량 비교 시험)은 보지 않는다
+            adv += f" AND AREA[StartDate]RANGE[MIN, {asof_date()}]"
         q = urllib.parse.urlencode({
             "query.term": query_term,
-            "filter.advanced": f"AREA[Phase]({' OR '.join(phases.split(','))})",
+            "filter.advanced": adv,
             "pageSize": page_size,
             "fields": "NCTId,BriefTitle,OverallStatus,WhyStopped,Phase,EnrollmentCount,EnrollmentType,DesignAllocation,ArmGroupLabel,InterventionName,EligibilityCriteria,StartDate,StudyFirstPostDate",
             "countTotal": "true",
         })
         data = _get(f"{BASE}?{q}")
         studies = [_design_summary(s) for s in data.get("studies", [])]
+        if asof_date():   # 서버 필터 이중 확인 — 시작일 없는 등록도 제외
+            studies = [s for s in studies if s.get("start_date") and s["start_date"] <= asof_date()]
         return {"query": query_term, "total_count": data.get("totalCount"), "n_returned": len(studies), "studies": studies,
                 "usage_note": "설계 구조 비교 전용. 효능·안전성·규제 정답으로 사용 금지."}
 

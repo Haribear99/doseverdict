@@ -11,13 +11,14 @@ Pharmacology Evidence 도구 — evidence/pharmacology_evidence.py 래퍼.
 from __future__ import annotations
 
 import re
+import urllib.error
 from datetime import datetime, timezone
 from statistics import median
 from typing import Any
 
 import pharmacology_evidence as pe  # evidence/ (sys.path는 __init__에서 추가)
 
-from app.tools import ToolResult, run_tool
+from app.tools import ToolResult, label_blinded, run_tool
 
 _WARHEAD_CLASSES = {
     # 구조 알림 → 계열 분류. 여기서 멈춘다. 독성은 동일 계열 승인 라벨을 조회해 확인한다.
@@ -193,6 +194,8 @@ def _openfda_fetch(query: str, key: str | None) -> dict[str, Any]:
 def openfda_label(brand: str | None = None, generic: str | None = None) -> ToolResult:
     """브랜드명이 없으면 성분명(openfda.generic_name)으로 찾는다 — 매핑 표에 없는 약의 대체 경로."""
     def _run(brand: str | None, generic: str | None) -> dict[str, Any]:
+        if label_blinded():   # 후향 검증: 라벨은 승인 후 문서 — 조회하지 않고 '라벨 없음'과 같게 처리
+            raise urllib.error.HTTPError("", 404, "label blinded (DV_BLIND_LABEL, as-of review)", {}, None)
         label = _openfda_label_raw(brand, generic)
         brand = brand or ((label.get("openfda") or {}).get("brand_name") or [generic])[0]
         text = " ".join(label.get("clinical_pharmacology", []) + label.get("pharmacokinetics", []) + label.get("description", []))

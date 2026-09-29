@@ -14,7 +14,7 @@ from typing import Any
 
 from app.schema.trial_schema import Evidence, ReviewState, Task, ToolCall, TrialSchema
 from app.agents.planner import generic_name
-from app.tools import ToolResult, analog_trial, design_sim, open_targets, pharmacology
+from app.tools import ToolResult, analog_trial, asof_date, design_sim, open_targets, pharmacology
 
 _CHEMBL_BY_GENERIC = {"sotorasib": "CHEMBL4535757", "adagrasib": "CHEMBL4594350", "osimertinib": "CHEMBL3353410"}
 
@@ -84,6 +84,8 @@ def run_target_evidence(state: ReviewState, task: Task) -> None:
     cid = _log(state, "opentargets.target_evidence", {"symbol": sym}, r)
     if r.ok and r.data.get("found"):
         drugs = [d for d in r.data["known_drugs"] if d.get("max_stage") == "APPROVAL"]
+        if asof_date():   # 후향 검증: 승인 상태는 현재 시점 정보(검토 대상 약 자신이 포함될 수 있다) — 쓰지 않는다
+            drugs = []
         _ev(state, "database_record", "Open Targets", f"{r.data['symbol']} ({r.data['ensembl_id']}): 승인약 {[d['drug'] for d in drugs]}, safety liabilities {len(r.data['safety_liabilities'])}건 {[s['event'] for s in r.data['safety_liabilities']][:5]}",
             url=r.source.get("url"), tool_call_id=cid, tier=1)
         state.scratch["approved_same_target"] = [d["drug"] for d in drugs]
