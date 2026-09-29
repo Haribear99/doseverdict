@@ -213,7 +213,8 @@ def eval_tiles() -> list[tuple[str, str, str]]:
 
 
 RETRO_DESC = {"S1": "1차: 검증된 용량최적화 finding 수", "S2": "2차: 용량최적화 finding 중증도 가중합(검증+보류)", "B1": "키워드 규칙(초록, LLM 없음)",
-              "B2": "승인연도(시대 교란 점검)", "B3": "축③ 라벨 규칙(승인 후 라벨 — 참고용, 누설 있음)"}
+              "B2": "승인연도(시대 교란 점검)", "B3": "축③ 라벨 규칙(승인 후 라벨 — 참고용, 누설 있음)",
+              "B4": "사후 대조군: 약 이름을 준 모델 기억(도구 없음)"}
 
 
 def render_retro() -> None:
@@ -233,7 +234,7 @@ def render_retro() -> None:
     st.markdown(f"**판정(사전 규칙)**: {res.get('verdict', '—')}")
     table = [{"점수": k, "설명": RETRO_DESC[k] + (f" (n={m[k]['n']})" if "n" in m[k] else ""), "AUROC": f"{m[k]['auroc']:.3f}",
               "95% CI": f"[{m[k]['ci'][0]:.3f}, {m[k]['ci'][1]:.3f}]", "PR-AUC": f"{m[k]['pr_auc']:.3f}" if m[k].get("pr_auc") is not None else "—"}
-             for k in ("S1", "S2", "B1", "B2", "B3") if k in m]
+             for k in ("S1", "S2", "B1", "B2", "B3", "B4") if k in m]
     if table:
         st.table(table)
     notes = [f"S1−{k} AUROC 차이 95% CI [{m[f'S1-{k}']['ci'][0]:.3f}, {m[f'S1-{k}']['ci'][1]:.3f}]" for k in ("B1", "B2") if f"S1-{k}" in m]
@@ -244,6 +245,14 @@ def render_retro() -> None:
         notes.append(f"PR-AUC 무작위 기준 = 양성 비율 {res.get('n_pos', 0) / res['n']:.3f}")
     if notes:
         st.caption(" · ".join(notes) + " — 차이 CI는 기술용이며 표본이 작아 유의성 주장에 쓰지 않는다.")
+    d, post = res.get("descriptive_post_hoc") or {}, res.get("reidentification_post_hoc") or {}
+    if d:
+        st.markdown(f"**해석(사후 기술)** — 에이전트는 {d.get('flagged_S1_ge1')}/{res.get('n')}건 모두에서 검증된 용량최적화 결함을 지적했다"
+                    f"(평균 S1 양성 {d.get('mean_S1_pos')} · 음성 {d.get('mean_S1_neg')}). 근거 사슬의 결측을 찾는 검토자이지, FDA가 어느 약에 PMR을 부과할지 "
+                    f"맞히는 예측기가 아니다. F00은 {d.get('f00_abstain')}/{res.get('n')}건 기권(라벨 차단·IC50 미확보 → 전형값 없이 멈춤).")
+    if post or d.get("spearman_S1_B4"):
+        st.caption(f"기억 오염: 사후 탐침에서 SMILES 제거 {post.get('nosmiles')}, SMILES·표적·기전 제거 {post.get('noid')}로 재식별된다 — 출판 초록은 모델 기억과 분리할 수 없다. "
+                   f"S1과 기억 대조군(B4)의 Spearman ρ {(d.get('spearman_S1_B4') or ['—'])[0]}: 에이전트 점수가 기억 신호를 따라가지 않았다(배제의 증거는 아님).")
     rows = res.get("rows", [])
     if rows:
         st.markdown("**케이스별**")

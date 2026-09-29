@@ -1,0 +1,88 @@
+{
+ "agent": "lean_v3+lean_v3b",
+ "arms": {
+  "oneshot(2회 평균)": {
+   "n": 20,
+   "grounded_agent": 0.483,
+   "grounded_arm": 0.392,
+   "grounded_diff": [
+    -0.092,
+    -0.208,
+    0.025
+   ],
+   "span_diff": [
+    0.017,
+    -0.021,
+    0.058
+   ],
+   "precision_diff": [
+    0.0,
+    -0.057,
+    0.063
+   ],
+   "tokens_agent": 39701,
+   "tokens_arm": 5023,
+   "verdict": "차이 확인 안 됨"
+  },
+  "single_rag6(1회)": {
+   "n": 20,
+   "grounded_agent": 0.483,
+   "grounded_arm": 0.1,
+   "grounded_diff": [
+    -0.383,
+    -0.442,
+    -0.329
+   ],
+   "span_diff": [
+    -0.621,
+    -0.675,
+    -0.567
+   ],
+   "precision_diff": [
+    0.179,
+    0.075,
+    0.28
+   ],
+   "tokens_agent": 39701,
+   "tokens_arm": 2819,
+   "verdict": "에이전트 우위"
+  }
+ },
+ "quote_fidelity": {
+  "oneshot": {
+   "n_quotes": 194,
+   "matched": 99,
+   "rate": 0.51,
+   "unknown_doc_id": 18,
+   "rate_checkable": 0.562
+  },
+  "oneshot_r2": {
+   "n_quotes": 192,
+   "matched": 98,
+   "rate": 0.51,
+   "unknown_doc_id": 8,
+   "rate_checkable": 0.533
+  },
+  "single_rag6": {
+   "n_quotes": 51,
+   "matched": 43,
+   "rate": 0.843,
+   "unknown_doc_id": 8,
+   "rate_checkable": 1.0
+  }
+ },
+ "post_hoc_verifiable_grounded": {
+  "oneshot": 0.25,
+  "diff": [
+   -0.233,
+   -0.35,
+   -0.121
+  ]
+ },
+ "post_hoc_quote_support": {
+  "checkable": 360,
+  "exact": 197,
+  "nli_paraphrase": 79,
+  "unsupported": 84
+ }
+}

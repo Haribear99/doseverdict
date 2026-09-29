@@ -1,0 +1,785 @@
+{
+  "config": "single_rag6",
+  "n_cases": 20,
+  "aggregate": {
+    "recall": 0.342,
+    "weighted_recall": 0.361,
+    "grounded_recall": 0.1,
+    "grounded_weighted_recall": 0.111,
+    "precision_proxy": 0.808,
+    "tokens": 2819.2,
+    "elapsed_s": 6.83,
+    "verified_rate": 0.0
+  },
+  "rows": [
+    {
+      "case_id": "AX1-001",
+      "config": "single_rag6",
+      "tokens": 2758,
+      "elapsed_s": 32.1,
+      "verified_rate": null,
+      "n_defects": 6,
+      "n_hit": 3,
+      "n_grounded": 0,
+      "recall": 0.5,
+      "weighted_recall": 0.556,
+      "grounded_recall": 0.0,
+      "grounded_weighted_recall": 0.0,
+      "n_findings": 3,
+      "precision_proxy": 1.0,
+      "baseline_findings": [
+        {
+          "span": "All participants will receive the fixed 200 mg dose supplied in a single capsule strength throughout the study, with no alternative strengths available for dose evaluation.",
+          "category": "Dose optimization",
+          "severity": "High",
+          "claim": "The fixed-dose plan prevents the stated comparison of two candidate dose levels.",
+          "cited_doc_id": "FDA-EXPANSION-COHORTS-2022",
+          "guidance_quote": "Randomization to two or more dosage regimens to increase the confidence that any differences between treatment arms are not due to chance alone"
+        },
+        {
+          "span": "After the recommended Phase 2 dose is selected from tolerability data, all subsequent participants will receive that dose without any randomized comparison of alternative dose levels or formal dose-response analysis.",
+          "category": "Dose selection",
+          "severity": "Moderate",
+          "claim": "The protocol says the RP2D will be selected from tolerability data, rather than describing how available safety and PK data will support the expansion dose.",
+          "cited_doc_id": "FDA-EXPANSION-COHORTS-2022",
+          "guidance_quote": "These studies should be supported by detailed information on available safety and PK data from the dose-escalation phase and a summary of safety data from other expansion cohorts, if available."
+        },
+        {
+          "span": "The study team will review emerging adverse-event data periodically and decide during the trial whether enrollment or dosing should be halted for unacceptable toxicity.",
+          "category": "Independent safety oversight",
+          "severity": "High",
+          "claim": "The synopsis assigns safety review to the study team but does not establish an independent entity for this multiple-expansion-cohort protocol.",
+          "cited_doc_id": "FDA-EXPANSION-COHORTS-2022",
+          "guidance_quote": "An independent data monitoring committee (IDMC)28 or other appropriate independent entity structured to assess safety in addition to efficacy should be established for all FIH multiple expansion cohort protocols, given that the complexity of these trials (with regard to different cohort objectives, trial populations, and dosages evaluated simultaneously) can lead to potential increased risks to subjects."
+        }
+      ]
+    },
+    {
+      "case_id": "AX1-002",
+      "config": "single_rag6",
+      "tokens": 2964,
+      "elapsed_s": 6.1,
+      "verified_rate": null,
+      "n_defects": 6,
+      "n_hit": 2,
+      "n_grounded": 1,
+      "recall": 0.333,
+      "weighted_recall": 0.381,
+      "grounded_recall": 0.167,
+      "grounded_weighted_recall": 0.19,
+      "n_findings": 3,
+      "precision_proxy": 0.667,
+      "baseline_findings": [
+        {
+          "span": "The combination expansion cohort will open after the first six participants complete cycle 1 of the investigational antibody plus pembrolizumab, without requiring prior monotherapy evaluation of the antibody at its recommended phase 2 dose.",
+          "category": "Combination-cohort safety",
+          "severity": "High",
+          "claim": "The combination cohort may open without characterizing the investigational antibody’s single-agent safety profile at its recommended phase 2 dose.",
+          "cited_doc_id": "FDA-EXPANSION-COHORTS-2022 · G Evaluating More Than One Therapeutic Drug",
+          "guidance_quote": "Expansion cohort trials evaluating an investigational drug administered with an approved drug or another investigational drug should be initiated only after the preliminary safety profile is characterized for each investigational drug as a single agent at the recommended phase 2 dose."
+        },
+        {
+          "span": "The sponsor will issue a single cumulative safety update to investigators and the IRB at the end of each calendar year, with any interim adverse-event findings reserved for the next scheduled annual review.",
+          "category": "Independent safety oversight",
+          "severity": "High",
+          "claim": "The synopsis provides only annual review of adverse-event findings and does not establish an independent entity to review incoming expedited reports and cumulative adverse events for this multiple-expansion-cohort trial.",
+          "cited_doc_id": "FDA-EXPANSION-COHORTS-2022 · B Independent Data Monitoring Committee",
+          "guidance_quote": "An independent data monitoring committee (IDMC)28 or other appropriate independent entity structured to assess safety in addition to efficacy should be established for all FIH multiple expansion cohort protocols, given that the complexity of these trials (with regard to different cohort objectives, trial populations, and dosages evaluated simultaneously) can lead to potential increased risks to subjects."
+        },
+        {
+          "span": "At least 60 subjects will be randomized 1:1 to the two candidate dose levels to compare safety, tolerability, PK, PD and preliminary antitumor activity before selecting the RP2D.",
+          "category": "Dose-optimization sample size",
+          "severity": "Moderate",
+          "claim": "The synopsis specifies a sample size for comparing doses but provides no justification that it can detect clinically important differences in safety and activity.",
+          "cited_doc_id": "FDA-EXPANSION-COHORTS-2022 · D Further Dose/Schedule Exploration",
+          "guidance_quote": "• Justification of sample size chosen to detect clinically important differences in safety and \nactivity, if present"
+        }
+      ]
+    },
+    {
+      "case_id": "AX1-003",
+      "config": "single_rag6",
+      "tokens": 2792,
+      "elapsed_s": 5.1,
+      "verified_rate": null,
+      "n_defects": 6,
+      "n_hit": 3,
+      "n_grounded": 0,
+      "recall": 0.5,
+      "weighted_recall": 0.556,
+      "grounded_recall": 0.0,
+      "grounded_weighted_recall": 0.0,
+      "n_findings": 3,
+      "precision_proxy": 1.0,
+      "baseline_findings": [
+        {
+          "span": "The recommended Phase 2 dose will be the highest dose at which no more than 30% of participants permanently discontinue treatment because of drug-related toxicity.",
+          "category": "RP2D selection",
+          "severity": "major",
+          "claim": "This rule selects the RP2D using permanent discontinuations alone, without incorporating the available safety and PK information needed to support expansion.",
+          "cited_doc_id": "FDA-EXPANSION-COHORTS-2022",
+          "guidance_quote": "These studies should be supported by detailed information on available safety and PK data from the dose-escalation phase and a summary of safety data from other expansion cohorts, if available."
+        },
+        {
+          "span": "After the safety lead-in, all participants will receive 240 mg twice daily; no alternate dose will be evaluated for antitumor activity, safety, or tolerability before selecting the recommended dose for further development.",
+          "category": "Dose/schedule exploration",
+          "severity": "major",
+          "claim": "The fixed-dose plan contradicts the stated randomized comparison of two candidate doses and omits that comparison before selecting a dose for further development.",
+          "cited_doc_id": "FDA-EXPANSION-COHORTS-2022",
+          "guidance_quote": "Randomization to two or more dosage regimens to increase the confidence that any differences between treatment arms are not due to chance alone"
+        },
+        {
+          "span": "The study team will review emerging adverse-event data periodically and decide during the trial whether enrollment or dosing should be halted for unacceptable toxicity.",
+          "category": "Independent safety oversight",
+          "severity": "major",
+          "claim": "Safety review is assigned to the study team rather than an IDMC or other appropriate independent entity; the synopsis specifies no independent safety oversight.",
+          "cited_doc_id": "FDA-EXPANSION-COHORTS-2022",
+          "guidance_quote": "An independent data monitoring committee (IDMC)28 or other appropriate independent entity structured to assess safety in addition to efficacy should be established for all FIH multiple expansion cohort protocols, given that the complexity of these trials (with regard to different cohort objectives, trial populations, and dosages evaluated simultaneously) can lead to potential increased risks to subjects."
+        }
+      ]
+    },
+    {
+      "case_id": "AX1-004",
+      "config": "single_rag6",
+      "tokens": 2873,
+      "elapsed_s": 5.9,
+      "verified_rate": null,
+      "n_defects": 6,
+      "n_hit": 2,
+      "n_grounded": 0,
+      "recall": 0.333,
+      "weighted_recall": 0.333,
+      "grounded_recall": 0.0,
+      "grounded_weighted_recall": 0.0,
+      "n_findings": 3,
+      "precision_proxy": 0.667,
+      "baseline_findings": [
+        {
+          "span": "확장 코호트에서는 선행 임상자료나 노출·반응 분석과 무관하게 모든 환자에게 임상적으로 사용되는 표준 용량 200 mg을 투여한다.",
+          "category": "Expansion-dose justification",
+          "severity": "Major",
+          "claim": "The expansion dose is set without regard to preceding clinical data, rather than being supported by available dose-escalation safety and PK data.",
+          "cited_doc_id": "FDA-EXPANSION-COHORTS-2022",
+          "guidance_quote": "These studies should be supported by detailed information on available safety and PK data from the dose-escalation phase and a summary of safety data from other expansion cohorts, if available."
+        },
+        {
+          "span": "Dose selection for expansion will be based solely on observed tumor response rates, without adjustment for treatment adherence, concomitant medications, organ-function changes, or measured drug exposure.",
+          "category": "Expansion-dose justification",
+          "severity": "Major",
+          "claim": "Selecting the expansion dose solely by tumor response excludes available safety and PK information.",
+          "cited_doc_id": "FDA-EXPANSION-COHORTS-2022",
+          "guidance_quote": "These studies should be supported by detailed information on available safety and PK data from the dose-escalation phase and a summary of safety data from other expansion cohorts, if available."
+        },
+        {
+          "span": "## Safety Monitoring\nLiver function tests (ALT, AST, alkaline phosphatase, total bilirubin) will be assessed before the first dose, every 3 weeks for the first 3 months, and monthly thereafter or as clinically indicated. Dose modification rules for hepatotoxicity, interstitial lung disease/pneumonitis and other adverse reactions are specified in Appendix B.",
+          "category": "Independent safety oversight",
+          "severity": "Major",
+          "claim": "The synopsis describes safety monitoring but does not provide for an IDMC or other appropriate independent entity for this first-in-human multiple-expansion-cohort protocol.",
+          "cited_doc_id": "FDA-EXPANSION-COHORTS-2022",
+          "guidance_quote": "An independent data monitoring committee (IDMC)28 or other appropriate independent entity structured to assess safety in addition to efficacy should be established for all FIH multiple expansion cohort protocols, given that the complexity of these trials (with regard to different cohort objectives, trial populations, and dosages evaluated simultaneously) can lead to potential increased risks to subjects."
+        }
+      ]
+    },
+    {
+      "case_id": "AX1-005",
+      "config": "single_rag6",
+      "tokens": 2684,
+      "elapsed_s": 4.8,
+      "verified_rate": null,
+      "n_defects": 6,
+      "n_hit": 2,
+      "n_grounded": 1,
+      "recall": 0.333,
+      "weighted_recall": 0.35,
+      "grounded_recall": 0.167,
+      "grounded_weighted_recall": 0.15,
+      "n_findings": 2,
+      "precision_proxy": 1.0,
+      "baseline_findings": [
+        {
+          "span": "The study team will review emerging adverse-event data periodically and decide during the trial whether enrollment or dosing should be halted for unacceptable toxicity.",
+          "category": "Independent safety oversight",
+          "severity": "High",
+          "claim": "The protocol assigns safety review to the study team rather than establishing an independent data monitoring committee or other appropriate independent entity for this multiple-expansion-cohort trial.",
+          "cited_doc_id": "FDA-EXPANSION-COHORTS-2022",
+          "guidance_quote": "An independent data monitoring committee (IDMC)28 or other appropriate independent entity structured to assess safety in addition to efficacy should be established for all FIH multiple expansion cohort protocols, given that the complexity of these trials (with regard to different cohort objectives, trial populations, and dosages evaluated simultaneously) can lead to potential increased risks to subjects."
+        },
+        {
+          "span": "This amendment adds a higher-dose expansion cohort based on preliminary efficacy findings; the safety rationale will be provided in the next annual report.",
+          "category": "Expansion-cohort safety justification",
+          "severity": "High",
+          "claim": "The higher-dose expansion is added without the available escalation-phase safety and PK information needed to support it; its safety rationale is deferred until a later report.",
+          "cited_doc_id": "FDA-EXPANSION-COHORTS-2022",
+          "guidance_quote": "These studies should be supported by detailed information on available safety and PK data from the dose-escalation phase and a summary of safety data from other expansion cohorts, if available."
+        }
+      ]
+    },
+    {
+      "case_id": "AX1-006",
+      "config": "single_rag6",
+      "tokens": 2777,
+      "elapsed_s": 4.8,
+      "verified_rate": null,
+      "n_defects": 6,
+      "n_hit": 2,
+      "n_grounded": 1,
+      "recall": 0.333,
+      "weighted_recall": 0.333,
+      "grounded_recall": 0.167,
+      "grounded_weighted_recall": 0.167,
+      "n_findings": 2,
+      "precision_proxy": 1.0,
+      "baseline_findings": [
+        {
+          "span": "The Phase 2 expansion dose will be fixed at 200 mg twice daily based solely on the recommended Phase 1 dose, without incorporating pharmacokinetic, pharmacodynamic, efficacy, tolerability, or exposure-response findings.",
+          "category": "Expansion-dose justification",
+          "severity": "Major",
+          "claim": "The expansion dose is fixed without incorporating available safety and PK information from dose escalation.",
+          "cited_doc_id": "FDA-EXPANSION-COHORTS-2022",
+          "guidance_quote": "These studies should be supported by detailed information on available safety and PK data from the dose-escalation phase and a summary of safety data from other expansion cohorts, if available."
+        },
+        {
+          "span": "The sponsor will compile aggregate safety data internally and submit cumulative reports to FDA at its discretion, without prior agreement on the reporting schedule or format.",
+          "category": "Independent safety oversight",
+          "severity": "Major",
+          "claim": "The stated safety-review arrangement relies on internal sponsor review and does not provide for an independent entity to assess safety and efficacy in this multiple-expansion-cohort protocol.",
+          "cited_doc_id": "FDA-EXPANSION-COHORTS-2022",
+          "guidance_quote": "An independent data monitoring committee (IDMC)28 or other appropriate independent entity structured to assess safety in addition to efficacy should be established for all FIH multiple expansion cohort protocols, given that the complexity of these trials (with regard to different cohort objectives, trial populations, and dosages evaluated simultaneously) can lead to potential increased risks to subjects."
+        }
+      ]
+    },
+    {
+      "case_id": "AX1-007",
+      "config": "single_rag6",
+      "tokens": 3041,
+      "elapsed_s": 6.7,
+      "verified_rate": null,
+      "n_defects": 6,
+      "n_hit": 2,
+      "n_grounded": 0,
+      "recall": 0.333,
+      "weighted_recall": 0.316,
+      "grounded_recall": 0.0,
+      "grounded_weighted_recall": 0.0,
+      "n_findings": 4,
+      "precision_proxy": 0.5,
+      "baseline_findings": [
+        {
+          "span": "For the new pembrolizumab–investigational-agent combination in metastatic colorectal cancer, the study will proceed directly to the expansion cohort at 200 mg every three weeks without evaluating alternative dose levels.",
+          "category": "Combination expansion safety",
+          "severity": "high",
+          "claim": "The protocol proceeds directly to combination expansion without establishing that each investigational drug’s preliminary single-agent safety profile has been characterized at its recommended Phase 2 dose.",
+          "cited_doc_id": "FDA-EXPANSION-COHORTS-2022",
+          "guidance_quote": "Expansion cohort trials evaluating an investigational drug administered with an approved drug or another investigational drug should be initiated only after the preliminary safety profile is characterized for each investigational drug as a single agent at the recommended phase 2 dose."
+        },
+        {
+          "span": "For the new pembrolizumab–investigational-agent combination in metastatic colorectal cancer, the study will proceed directly to the expansion cohort at 200 mg every three weeks without evaluating alternative dose levels.",
+          "category": "Combination rationale and safety monitoring",
+          "severity": "high",
+          "claim": "The combination expansion description provides no scientific rationale for combining the drugs or safety monitoring plan addressing overlapping and potentially synergistic toxicities.",
+          "cited_doc_id": "FDA-EXPANSION-COHORTS-2022",
+          "guidance_quote": "The protocol for the expansion cohort trial should include the justification and scientific rationale for combining these drugs and a safety monitoring plan with attention to overlapping and potential synergistic toxicities."
+        },
+        {
+          "span": "확장 코호트에서는 선행 임상자료나 노출·반응 분석과 무관하게 모든 환자에게 임상적으로 사용되는 표준 용량 200 mg을 투여한다.",
+          "category": "Expansion dose support",
+          "severity": "high",
+          "claim": "The expansion cohort assigns a standard dose regardless of prior clinical data, rather than supporting expansion with available dose-escalation safety and PK data.",
+          "cited_doc_id": "FDA-EXPANSION-COHORTS-2022",
+          "guidance_quote": "These studies should be supported by detailed information on available safety and PK data from the dose-escalation phase and a summary of safety data from other expansion cohorts, if available."
+        },
+        {
+          "span": "Interim safety and efficacy findings will be reviewed only after database lock at the end of the expansion phase",
+          "category": "Independent safety oversight",
+          "severity": "high",
+          "claim": "Deferring review until the end of expansion is inconsistent with independent oversight of incoming safety reports and cumulative adverse events in a first-in-human multiple-expansion-cohort trial.",
+          "cited_doc_id": "FDA-EXPANSION-COHORTS-2022",
+          "guidance_quote": "Responsibilities of the IDMC should include, but not be limited to, analysis of incoming expedited safety reports, review of cumulative summaries of all adverse events, and making recommendations to the IND sponsor regarding protocol modifications to reduce risks to subjects enrolled"
+        }
+      ]
+    },
+    {
+      "case_id": "AX1-008",
+      "config": "single_rag6",
+      "tokens": 2739,
+      "elapsed_s": 4.7,
+      "verified_rate": null,
+      "n_defects": 6,
+      "n_hit": 1,
+      "n_grounded": 1,
+      "recall": 0.167,
+      "weighted_recall": 0.211,
+      "grounded_recall": 0.167,
+      "grounded_weighted_recall": 0.211,
+      "n_findings": 2,
+      "precision_proxy": 0.5,
+      "baseline_findings": [
+        {
+          "span": "After completing the dose-escalation portion, the study will open six parallel disease-specific expansion cohorts despite the absence of a defined recommended phase 2 dose and limited characterization of interpatient and intrapatient exposure variability.",
+          "category": "Premature expansion",
+          "severity": "High",
+          "claim": "The protocol plans parallel expansion before defining an RP2D, despite limited characterization of exposure variability. The guidance identifies large inter- and intra-patient PK variability as a concern unless adequate data support an RP2D.",
+          "cited_doc_id": "FDA-EXPANSION-COHORTS-2022",
+          "guidance_quote": "Examples of characteristics of investigational drug products that are not suitable for study in clinical trials with multiple expansion cohorts because of increased risks of drug-related toxicity include those drug products with steep toxicity indices and large inter- and intra-patient variability (i.e., coefficient of variability greater than or equal to 100 percent) in pharmacokinetics unless there is adequate data to determine a recommended phase 2 dose."
+        },
+        {
+          "span": "After completing the dose-escalation portion, the study will open six parallel disease-specific expansion cohorts",
+          "category": "Independent safety oversight",
+          "severity": "High",
+          "claim": "The synopsis describes multiple parallel expansion cohorts but does not specify an IDMC or other appropriate independent entity to assess safety and efficacy.",
+          "cited_doc_id": "FDA-EXPANSION-COHORTS-2022",
+          "guidance_quote": "An independent data monitoring committee (IDMC)28 or other appropriate independent entity structured to assess safety in addition to efficacy should be established for all FIH multiple expansion cohort protocols, given that the complexity of these trials (with regard to different cohort objectives, trial populations, and dosages evaluated simultaneously) can lead to potential increased risks to subjects."
+        }
+      ]
+    },
+    {
+      "case_id": "AX1-009",
+      "config": "single_rag6",
+      "tokens": 2913,
+      "elapsed_s": 6.5,
+      "verified_rate": null,
+      "n_defects": 6,
+      "n_hit": 2,
+      "n_grounded": 0,
+      "recall": 0.333,
+      "weighted_recall": 0.333,
+      "grounded_recall": 0.0,
+      "grounded_weighted_recall": 0.0,
+      "n_findings": 2,
+      "precision_proxy": 1.0,
+      "baseline_findings": [
+        {
+          "span": "The Phase 1 portion will escalate cohorts until the highest dose with an acceptable toxicity profile is identified, and this maximum tolerated dose will be declared the sole dose for all Phase 2 patients.",
+          "category": "Dose-selection inconsistency",
+          "severity": "major",
+          "claim": "Declaring the maximum tolerated dose the sole Phase 2 dose conflicts with the protocol’s planned randomized comparison of two candidate doses before RP2D selection.",
+          "cited_doc_id": "FDA-EXPANSION-COHORTS-2022 · D Further Dose/Schedule Exploration",
+          "guidance_quote": "Sponsors of expansion cohort(s) intended to further assess the optimal dose/schedule of the investigational drug should consider the following: \n• Randomization to two or more dosage regimens to increase the confidence that any \ndifferences between treatment arms are not due to chance alone"
+        },
+        {
+          "span": "The medical monitor may be any licensed physician with general inpatient-care experience; prior oncology practice or clinical-trial oversight is not required.",
+          "category": "Independent safety oversight",
+          "severity": "major",
+          "claim": "The safety-monitoring plan describes a medical monitor but does not establish an independent data monitoring committee or other appropriate independent entity for this multiple-expansion-cohort protocol.",
+          "cited_doc_id": "FDA-EXPANSION-COHORTS-2022 · B Independent Data Monitoring Committee",
+          "guidance_quote": "An independent data monitoring committee (IDMC)28 or other appropriate independent entity \nstructured to assess safety in addition to efficacy should be established for all FIH multiple \nexpansion cohort protocols, given that the complexity of these trials (with regard to different \ncohort objectives, trial populations, and dosages evaluated simultaneously) can lead to potential \nincreased risks to subjects."
+        }
+      ]
+    },
+    {
+      "case_id": "AX1-010",
+      "config": "single_rag6",
+      "tokens": 2762,
+      "elapsed_s": 5.9,
+      "verified_rate": null,
+      "n_defects": 6,
+      "n_hit": 2,
+      "n_grounded": 1,
+      "recall": 0.333,
+      "weighted_recall": 0.333,
+      "grounded_recall": 0.167,
+      "grounded_weighted_recall": 0.167,
+      "n_findings": 2,
+      "precision_proxy": 1.0,
+      "baseline_findings": [
+        {
+          "span": "The recommended Phase 2 dose will be selected solely from dose-limiting toxicity rates observed during Cycle 1, without evaluating exposure, pharmacokinetic population parameters, or dose–response relationships.",
+          "category": "Dose selection",
+          "severity": "Major",
+          "claim": "The RP2D selection excludes available PK information, although safety and PK data from escalation should support expansion.",
+          "cited_doc_id": "FDA-EXPANSION-COHORTS-2022",
+          "guidance_quote": "These studies should be supported by detailed information on available safety and PK data from the dose-escalation phase and a summary of safety data from other expansion cohorts, if available."
+        },
+        {
+          "span": "In the pediatric expansion cohort, safety will be assessed only by recording adverse events at scheduled clinic visits; no protocol-specific toxicity surveillance or additional laboratory monitoring is required.",
+          "category": "Safety monitoring",
+          "severity": "Major",
+          "claim": "The pediatric expansion restricts safety assessment to adverse-event recording, without the broader independent safety assessment recommended for FIH multiple expansion cohort protocols.",
+          "cited_doc_id": "FDA-EXPANSION-COHORTS-2022",
+          "guidance_quote": "An independent data monitoring committee (IDMC)28 or other appropriate independent entity structured to assess safety in addition to efficacy should be established for all FIH multiple expansion cohort protocols, given that the complexity of these trials (with regard to different cohort objectives, trial populations, and dosages evaluated simultaneously) can lead to potential increased risks to subjects."
+        }
+      ]
+    },
+    {
+      "case_id": "AX1-011",
+      "config": "single_rag6",
+      "tokens": 2664,
+      "elapsed_s": 5.2,
+      "verified_rate": null,
+      "n_defects": 6,
+      "n_hit": 1,
+      "n_grounded": 1,
+      "recall": 0.167,
+      "weighted_recall": 0.15,
+      "grounded_recall": 0.167,
+      "grounded_weighted_recall": 0.15,
+      "n_findings": 2,
+      "precision_proxy": 0.5,
+      "baseline_findings": [
+        {
+          "span": "Patients in the expansion cohort will receive the investigator-selected dose of either 80 mg or 120 mg once daily",
+          "category": "Expansion-dose support",
+          "severity": "high",
+          "claim": "The expansion doses are below every planned dose-escalation level (180–960 mg), so the described escalation safety and PK data would not directly support the expansion doses.",
+          "cited_doc_id": "FDA-EXPANSION-COHORTS-2022",
+          "guidance_quote": "These studies should be supported by detailed information on available safety and PK data from the dose-escalation phase and a summary of safety data from other expansion cohorts, if available."
+        },
+        {
+          "span": "treatment assignment will not be randomized, and efficacy outcomes will be summarized descriptively across the two dose groups",
+          "category": "Dose/schedule exploration",
+          "severity": "moderate",
+          "claim": "The expansion compares two doses without randomization, limiting confidence that observed differences are attributable to dose rather than chance.",
+          "cited_doc_id": "FDA-EXPANSION-COHORTS-2022",
+          "guidance_quote": "Randomization to two or more dosage regimens to increase the confidence that any differences between treatment arms are not due to chance alone"
+        }
+      ]
+    },
+    {
+      "case_id": "AX1-012",
+      "config": "single_rag6",
+      "tokens": 2830,
+      "elapsed_s": 5.6,
+      "verified_rate": null,
+      "n_defects": 6,
+      "n_hit": 3,
+      "n_grounded": 2,
+      "recall": 0.5,
+      "weighted_recall": 0.556,
+      "grounded_recall": 0.333,
+      "grounded_weighted_recall": 0.389,
+      "n_findings": 3,
+      "precision_proxy": 1.0,
+      "baseline_findings": [
+        {
+          "span": "Blood samples will be collected for exploratory biomarker testing, but no pharmacokinetic sampling schedule or analytical method is defined.",
+          "category": "Expansion-cohort supporting data",
+          "severity": "major",
+          "claim": "The statement that no PK sampling schedule is defined conflicts with the specified intensive PK schedule and leaves the PK basis for expansion unclear.",
+          "cited_doc_id": "FDA-EXPANSION-COHORTS-2022",
+          "guidance_quote": "These studies should be supported by detailed information on available safety and PK data from the dose-escalation phase and a summary of safety data from other expansion cohorts, if available."
+        },
+        {
+          "span": "Enrollment in the pediatric expansion cohort will be open to children with newly diagnosed or relapsed solid tumors, regardless of target-expression testing or availability of standard therapy.",
+          "category": "Pediatric expansion eligibility",
+          "severity": "major",
+          "claim": "Pediatric enrollment is permitted even when satisfactory standard therapy is available, contrary to a stated condition for considering pediatric expansion cohorts.",
+          "cited_doc_id": "FDA-EXPANSION-COHORTS-2022",
+          "guidance_quote": "A sponsor should consider expansion cohorts for evaluating pediatric populations22 if the drug has potential relevance for the treatment of one or more pediatric cancers based on the drug’s mechanism of action, there is safety and dosing information in adults, and there is a lack of satisfactory alternative therapies for the pediatric population."
+        },
+        {
+          "span": "Interim safety and efficacy findings will be reviewed only after database lock at the end of the expansion phase, and no planned interim reports will be distributed to participating investigators, IRBs, or health authorities.",
+          "category": "Independent safety monitoring",
+          "severity": "critical",
+          "claim": "Deferring review until the expansion phase ends does not provide for an independent entity to assess incoming safety information and recommend risk-reducing protocol modifications while subjects are enrolled.",
+          "cited_doc_id": "FDA-EXPANSION-COHORTS-2022",
+          "guidance_quote": "Responsibilities of the IDMC should include, but not be limited to, analysis of incoming expedited safety reports, review of cumulative summaries of all adverse events, and making recommendations to the IND sponsor regarding protocol modifications to reduce risks to subjects enrolled"
+        }
+      ]
+    },
+    {
+      "case_id": "AX1-013",
+      "config": "single_rag6",
+      "tokens": 2826,
+      "elapsed_s": 5.9,
+      "verified_rate": null,
+      "n_defects": 6,
+      "n_hit": 2,
+      "n_grounded": 1,
+      "recall": 0.333,
+      "weighted_recall": 0.35,
+      "grounded_recall": 0.167,
+      "grounded_weighted_recall": 0.2,
+      "n_findings": 3,
+      "precision_proxy": 0.667,
+      "baseline_findings": [
+        {
+          "span": "After enrolling the initial three participants at 10 mg, the study will proceed directly to a fixed 10 mg expansion cohort without evaluating higher dose levels or determining a tolerated dose ceiling.",
+          "category": "Expansion dose selection",
+          "severity": "High",
+          "claim": "The protocol commits to expansion after only three participants at one dose, without establishing that sufficient dose-escalation safety and PK data will be available to support the expansion.",
+          "cited_doc_id": "FDA-EXPANSION-COHORTS-2022",
+          "guidance_quote": "These studies should be supported by detailed information on available safety and PK data from the dose-escalation phase and a summary of safety data from other expansion cohorts, if available."
+        },
+        {
+          "span": "Enrollment in the pediatric expansion cohort will be open to children with newly diagnosed or relapsed solid tumors, regardless of target-expression testing or availability of standard therapy.",
+          "category": "Pediatric expansion eligibility",
+          "severity": "High",
+          "claim": "Pediatric enrollment is allowed even when satisfactory alternative therapies are available, contrary to a stated condition for considering pediatric expansion cohorts.",
+          "cited_doc_id": "FDA-EXPANSION-COHORTS-2022",
+          "guidance_quote": "A sponsor should consider expansion cohorts for evaluating pediatric populations22 if the drug has potential relevance for the treatment of one or more pediatric cancers based on the drug’s mechanism of action, there is safety and dosing information in adults, and there is a lack of satisfactory alternative therapies for the pediatric population."
+        },
+        {
+          "span": "During this first-in-human study, safety will be assessed only by participant-reported symptoms",
+          "category": "Independent safety oversight",
+          "severity": "High",
+          "claim": "Safety assessment limited to participant-reported symptoms does not provide for the independent review of expedited safety reports and cumulative adverse-event summaries recommended for first-in-human multiple-expansion-cohort protocols.",
+          "cited_doc_id": "FDA-EXPANSION-COHORTS-2022",
+          "guidance_quote": "Responsibilities of the IDMC should include, but not be limited to, analysis of incoming expedited safety reports, review of cumulative summaries of all adverse events, and making recommendations to the IND sponsor regarding protocol modifications to reduce risks to subjects enrolled"
+        }
+      ]
+    },
+    {
+      "case_id": "AX1-014",
+      "config": "single_rag6",
+      "tokens": 2783,
+      "elapsed_s": 5.4,
+      "verified_rate": null,
+      "n_defects": 6,
+      "n_hit": 2,
+      "n_grounded": 2,
+      "recall": 0.333,
+      "weighted_recall": 0.381,
+      "grounded_recall": 0.333,
+      "grounded_weighted_recall": 0.381,
+      "n_findings": 2,
+      "precision_proxy": 1.0,
+      "baseline_findings": [
+        {
+          "span": "After identification of a potentially fatal dose-limiting toxicity during escalation, the study will open all planned expansion cohorts at the highest tested dose while the recommended phase 2 dose remains under review.",
+          "category": "Premature expansion",
+          "severity": "Critical",
+          "claim": "The protocol opens expansion cohorts after a potentially fatal dose-limiting toxicity, before sufficient data establish the recommended phase 2 dose.",
+          "cited_doc_id": "FDA-EXPANSION-COHORTS-2022",
+          "guidance_quote": "In situations when there is a narrow therapeutic index and dose-limiting toxicities have been observed in the dose escalation phase that may be fatal or result in serious morbidity, FDA strongly recommends that expansion be delayed until sufficient data are available to determine the recommended phase 2 dose to help ensure subjects safety."
+        },
+        {
+          "span": "The sponsor will issue a single cumulative safety update to investigators and the IRB at the end of each calendar year, with any interim adverse-event findings reserved for the next scheduled annual review.",
+          "category": "Safety oversight",
+          "severity": "High",
+          "claim": "Reserving interim adverse-event findings for annual review is inconsistent with independent review of incoming expedited safety reports and cumulative adverse events in a first-in-human multiple-expansion-cohort protocol.",
+          "cited_doc_id": "FDA-EXPANSION-COHORTS-2022",
+          "guidance_quote": "Responsibilities of the IDMC should include, but not be limited to, analysis of incoming expedited safety reports, review of cumulative summaries of all adverse events, and making recommendations to the IND sponsor regarding protocol modifications to reduce risks to subjects enrolled"
+        }
+      ]
+    },
+    {
+      "case_id": "AX1-015",
+      "config": "single_rag6",
+      "tokens": 2860,
+      "elapsed_s": 4.9,
+      "verified_rate": null,
+      "n_defects": 6,
+      "n_hit": 3,
+      "n_grounded": 1,
+      "recall": 0.5,
+      "weighted_recall": 0.526,
+      "grounded_recall": 0.167,
+      "grounded_weighted_recall": 0.211,
+      "n_findings": 3,
+      "precision_proxy": 1.0,
+      "baseline_findings": [
+        {
+          "span": "The combination expansion cohort will open after the first six participants complete cycle 1 of the investigational antibody plus pembrolizumab, without requiring prior monotherapy evaluation of the antibody at its recommended phase 2 dose.",
+          "category": "Combination-cohort initiation",
+          "severity": "High",
+          "claim": "The combination cohort may open before the investigational antibody’s single-agent safety profile has been characterized at its recommended Phase 2 dose.",
+          "cited_doc_id": "FDA-EXPANSION-COHORTS-2022",
+          "guidance_quote": "Expansion cohort trials evaluating an investigational drug administered with an approved drug or another investigational drug should be initiated only after the preliminary safety profile is characterized for each investigational drug as a single agent at the recommended phase 2 dose."
+        },
+        {
+          "span": "The recommended Phase 2 dose will be selected solely from dose-limiting toxicity rates observed during Cycle 1, without evaluating exposure, pharmacokinetic population parameters, or dose–response relationships.",
+          "category": "RP2D selection",
+          "severity": "Moderate",
+          "claim": "The stated RP2D selection rule excludes available PK information that should support safety evaluation in expansion.",
+          "cited_doc_id": "FDA-EXPANSION-COHORTS-2022",
+          "guidance_quote": "These studies should be supported by detailed information on available safety and PK data from the dose-escalation phase and a summary of safety data from other expansion cohorts, if available."
+        },
+        {
+          "span": "After the recommended starting dose is established, all subsequent participants will receive the same fixed dose throughout the Phase 1/2 study, with no lower- or higher-dose cohorts planned.",
+          "category": "Dose-optimization design",
+          "severity": "Moderate",
+          "claim": "This fixed-dose rule conflicts with the stated plan to randomize participants between two candidate doses for dose optimization.",
+          "cited_doc_id": "FDA-EXPANSION-COHORTS-2022",
+          "guidance_quote": "Randomization to two or more dosage regimens to increase the confidence that any differences between treatment arms are not due to chance alone"
+        }
+      ]
+    },
+    {
+      "case_id": "AX1-016",
+      "config": "single_rag6",
+      "tokens": 2815,
+      "elapsed_s": 5.6,
+      "verified_rate": null,
+      "n_defects": 6,
+      "n_hit": 1,
+      "n_grounded": 0,
+      "recall": 0.167,
+      "weighted_recall": 0.176,
+      "grounded_recall": 0.0,
+      "grounded_weighted_recall": 0.0,
+      "n_findings": 2,
+      "precision_proxy": 0.5,
+      "baseline_findings": [
+        {
+          "span": "After identifying the first tolerable dose, all subsequent participants will receive only that dose, with no concurrent or sequential comparison of alternative dose levels.",
+          "category": "Dose/schedule exploration",
+          "severity": "Major",
+          "claim": "This rule precludes comparison of dose levels after the first tolerable dose and conflicts with the later plan to randomize participants between two candidate doses. For expansion cohorts intended to assess the optimal dose or schedule, the guidance recommends considering randomization to multiple regimens.",
+          "cited_doc_id": "FDA-EXPANSION-COHORTS-2022",
+          "guidance_quote": "Randomization to two or more dosage regimens to increase the confidence that any differences between treatment arms are not due to chance alone"
+        },
+        {
+          "span": "Two candidate dose levels will be selected from the escalation data. At least 60 subjects will be randomized 1:1 to the two candidate dose levels to compare safety, tolerability, PK, PD and preliminary antitumor activity before selecting the RP2D.",
+          "category": "Independent safety oversight",
+          "severity": "Major",
+          "claim": "The synopsis describes a first-in-human study with multiple expansion cohorts but does not specify an independent data monitoring committee or other appropriate independent entity to assess safety and efficacy.",
+          "cited_doc_id": "FDA-EXPANSION-COHORTS-2022",
+          "guidance_quote": "An independent data monitoring committee (IDMC)28 or other appropriate independent entity structured to assess safety in addition to efficacy should be established for all FIH multiple expansion cohort protocols, given that the complexity of these trials (with regard to different cohort objectives, trial populations, and dosages evaluated simultaneously) can lead to potential increased risks to subjects."
+        }
+      ]
+    },
+    {
+      "case_id": "AX1-017",
+      "config": "single_rag6",
+      "tokens": 2780,
+      "elapsed_s": 5.6,
+      "verified_rate": null,
+      "n_defects": 6,
+      "n_hit": 2,
+      "n_grounded": 0,
+      "recall": 0.333,
+      "weighted_recall": 0.316,
+      "grounded_recall": 0.0,
+      "grounded_weighted_recall": 0.0,
+      "n_findings": 2,
+      "precision_proxy": 1.0,
+      "baseline_findings": [
+        {
+          "span": "The study will select the recommended Phase 2 dose from the first dose level that meets the preliminary response threshold, without evaluating exposure, dose-response relationships, or comparative tolerability across dose levels.",
+          "category": "RP2D selection",
+          "severity": "major",
+          "claim": "The stated dose-selection rule excludes evaluation of exposure and comparative tolerability, despite the guidance calling for available safety and PK data to support expansion.",
+          "cited_doc_id": "FDA-EXPANSION-COHORTS-2022",
+          "guidance_quote": "These studies should be supported by detailed information on available safety and PK data from the dose-escalation phase and a summary of safety data from other expansion cohorts, if available."
+        },
+        {
+          "span": "The recommended Phase 2 dose will be the highest dose tested with acceptable early laboratory findings, even if persistent grade 2 fatigue, nausea, and reduced daily activity cause substantial treatment interruptions or discontinuations.",
+          "category": "RP2D safety assessment",
+          "severity": "major",
+          "claim": "The stated rule would select a dose despite clinically consequential tolerability findings, rather than using the available safety data to support expansion.",
+          "cited_doc_id": "FDA-EXPANSION-COHORTS-2022",
+          "guidance_quote": "These studies should be supported by detailed information on available safety and PK data from the dose-escalation phase and a summary of safety data from other expansion cohorts, if available."
+        }
+      ]
+    },
+    {
+      "case_id": "AX1-018",
+      "config": "single_rag6",
+      "tokens": 2883,
+      "elapsed_s": 5.4,
+      "verified_rate": null,
+      "n_defects": 6,
+      "n_hit": 3,
+      "n_grounded": 0,
+      "recall": 0.5,
+      "weighted_recall": 0.5,
+      "grounded_recall": 0.0,
+      "grounded_weighted_recall": 0.0,
+      "n_findings": 3,
+      "precision_proxy": 1.0,
+      "baseline_findings": [
+        {
+          "span": "The recommended Phase 2 dose will be selected solely from dose-limiting toxicity rates observed during Cycle 1, without evaluating exposure, pharmacokinetic population parameters, or dose–response relationships.",
+          "category": "RP2D selection",
+          "severity": "high",
+          "claim": "The protocol excludes available PK information from RP2D selection, despite guidance calling for safety and PK data to support expansion intended to assess dose safety.",
+          "cited_doc_id": "FDA-EXPANSION-COHORTS-2022",
+          "guidance_quote": "These studies should be supported by detailed information on available safety and PK data from the dose-escalation phase and a summary of safety data from other expansion cohorts, if available."
+        },
+        {
+          "span": "After the safety lead-in, all participants will receive 240 mg twice daily; no alternate dose will be evaluated for antitumor activity, safety, or tolerability before selecting the recommended dose for further development.",
+          "category": "Dose/schedule exploration",
+          "severity": "moderate",
+          "claim": "This plan rules out comparing dosage regimens before dose selection, contrary to the guidance’s recommendation for expansion cohorts intended to assess optimal dose or schedule. It also conflicts with the synopsis’s stated plan to randomize subjects to two candidate doses.",
+          "cited_doc_id": "FDA-EXPANSION-COHORTS-2022",
+          "guidance_quote": "Sponsors of expansion cohort(s) intended to further assess the optimal dose/schedule of the investigational drug should consider the following: \n• Randomization to two or more dosage regimens to increase the confidence that any \ndifferences between treatment arms are not due to chance alone"
+        },
+        {
+          "span": "The recommended Phase 2 dose will be the highest dose tested with acceptable early laboratory findings, even if persistent grade 2 fatigue, nausea, and reduced daily activity cause substantial treatment interruptions or discontinuations.",
+          "category": "RP2D safety assessment",
+          "severity": "high",
+          "claim": "The selection rule permits substantial ongoing tolerability problems to be disregarded when choosing the dose for expansion, despite guidance calling for available safety data to support expansion.",
+          "cited_doc_id": "FDA-EXPANSION-COHORTS-2022",
+          "guidance_quote": "These studies should be supported by detailed information on available safety and PK data from the dose-escalation phase and a summary of safety data from other expansion cohorts, if available."
+        }
+      ]
+    },
+    {
+      "case_id": "AX1-019",
+      "config": "single_rag6",
+      "tokens": 2782,
+      "elapsed_s": 5.2,
+      "verified_rate": null,
+      "n_defects": 6,
+      "n_hit": 1,
+      "n_grounded": 0,
+      "recall": 0.167,
+      "weighted_recall": 0.167,
+      "grounded_recall": 0.0,
+      "grounded_weighted_recall": 0.0,
+      "n_findings": 2,
+      "precision_proxy": 0.5,
+      "baseline_findings": [
+        {
+          "span": "After enrolling the initial three participants at 10 mg, the study will proceed directly to a fixed 10 mg expansion cohort without evaluating higher dose levels or determining a tolerated dose ceiling.",
+          "category": "Expansion-cohort safety support",
+          "severity": "high",
+          "claim": "The protocol commits to expansion after only three participants and does not require review of available dose-escalation safety and PK data before expansion.",
+          "cited_doc_id": "FDA-EXPANSION-COHORTS-2022",
+          "guidance_quote": "These studies should be supported by detailed information on available safety and PK data from the dose-escalation phase and a summary of safety data from other expansion cohorts, if available."
+        },
+        {
+          "span": "## Safety Monitoring\nLiver function tests (ALT, AST, alkaline phosphatase, total bilirubin) will be assessed before the first dose, every 3 weeks for the first 3 months, and monthly thereafter or as clinically indicated. Dose modification rules for hepatotoxicity, interstitial lung disease/pneumonitis and other adverse reactions are specified in Appendix B.",
+          "category": "Independent safety oversight",
+          "severity": "high",
+          "claim": "The safety-monitoring description does not establish an IDMC or other appropriate independent entity for the multiple expansion cohorts described in the synopsis.",
+          "cited_doc_id": "FDA-EXPANSION-COHORTS-2022",
+          "guidance_quote": "An independent data monitoring committee (IDMC)28 or other appropriate independent entity structured to assess safety in addition to efficacy should be established for all FIH multiple expansion cohort protocols, given that the complexity of these trials (with regard to different cohort objectives, trial populations, and dosages evaluated simultaneously) can lead to potential increased risks to subjects."
+        }
+      ]
+    },
+    {
+      "case_id": "AX1-020",
+      "config": "single_rag6",
+      "tokens": 2858,
+      "elapsed_s": 5.2,
+      "verified_rate": null,
+      "n_defects": 6,
+      "n_hit": 2,
+      "n_grounded": 0,
+      "recall": 0.333,
+      "weighted_recall": 0.4,
+      "grounded_recall": 0.0,
+      "grounded_weighted_recall": 0.0,
+      "n_findings": 3,
+      "precision_proxy": 0.667,
+      "baseline_findings": [
+        {
+          "span": "The expansion cohort will enroll 80 patients at 200 mg twice daily immediately after the first three participants complete cycle 1, without requiring review of dose-limiting toxicities, exposure data, pharmacodynamic activity, or cumulative safety findings.",
+          "category": "Premature expansion without safety and PK review",
+          "severity": "High",
+          "claim": "Expansion is authorized without reviewing available dose-escalation safety and PK data to support the cohort.",
+          "cited_doc_id": "FDA-EXPANSION-COHORTS-2022 · A Assessing Safety of Recommended Phase 2 Dose",
+          "guidance_quote": "These studies should be supported by detailed information on available safety and PK data from the dose-escalation phase and a summary of safety data from other expansion cohorts, if available."
+        },
+        {
+          "span": "The expansion cohort will enroll 80 patients at 200 mg twice daily immediately after the first three participants complete cycle 1",
+          "category": "Expansion dose not supported by dose-escalation data",
+          "severity": "High",
+          "claim": "The specified twice-daily expansion regimen is not among the planned once-daily escalation dose levels, and the protocol does not make its use contingent on supporting safety and PK data.",
+          "cited_doc_id": "FDA-EXPANSION-COHORTS-2022 · A Assessing Safety of Recommended Phase 2 Dose",
+          "guidance_quote": "These studies should be supported by detailed information on available safety and PK data from the dose-escalation phase and a summary of safety data from other expansion cohorts, if available."
+        },
+        {
+          "span": "The study team will review emerging adverse-event data periodically and decide during the trial whether enrollment or dosing should be halted for unacceptable toxicity.",
+          "category": "Missing independent safety oversight",
+          "severity": "High",
+          "claim": "The synopsis assigns safety review to the study team but does not establish an independent data monitoring committee or other appropriate independent entity for this multiple-expansion-cohort protocol.",
+          "cited_doc_id": "FDA-EXPANSION-COHORTS-2022 · B Independent Data Monitoring Committee",
+          "guidance_quote": "An independent data monitoring committee (IDMC)28 or other appropriate independent entity structured to assess safety in addition to efficacy should be established for all FIH multiple expansion cohort protocols, given that the complexity of these trials (with regard to different cohort objectives, trial populations, and dosages evaluated simultaneously) can lead to potential increased risks to subjects."
+        }
+      ]
+    }
+  ],
+  "at": "2026-09-29T06:10:44.679625+00:00"
+}

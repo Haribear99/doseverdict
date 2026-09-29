@@ -1,0 +1,1913 @@
+{
+  "config": "oneshot_r2",
+  "n_cases": 20,
+  "aggregate": {
+    "recall": 0.992,
+    "weighted_recall": 0.99,
+    "grounded_recall": 0.408,
+    "grounded_weighted_recall": 0.4,
+    "precision_proxy": 0.642,
+    "tokens": 4876.4,
+    "elapsed_s": 25.39,
+    "verified_rate": 0.0
+  },
+  "rows": [
+    {
+      "case_id": "AX1-001",
+      "config": "oneshot_r2",
+      "tokens": 4928,
+      "elapsed_s": 29.1,
+      "verified_rate": null,
+      "n_defects": 6,
+      "n_hit": 6,
+      "n_grounded": 3,
+      "recall": 1.0,
+      "weighted_recall": 1.0,
+      "grounded_recall": 0.5,
+      "grounded_weighted_recall": 0.5,
+      "n_findings": 9,
+      "precision_proxy": 0.667,
+      "baseline_findings": [
+        {
+          "span": "All participants will receive the fixed 200 mg dose supplied in a single capsule strength throughout the study, with no alternative strengths available for dose evaluation.",
+          "category": "dose_optimization",
+          "severity": "critical",
+          "claim": "A fixed 200 mg dose cannot implement the five planned escalation doses or the randomized comparison of two candidate doses. The dosing and supply plan must be reconciled before the study can evaluate dose.",
+          "cited_doc_id": "FDA-DOSE-OPT-2024",
+          "guidance_quote": "Dosage optimization should identify a dosage or dosages that maximize the benefit-risk profile of the drug."
+        },
+        {
+          "span": "The formulation-bridging expansion cohort will enroll participants receiving the new tablet or legacy capsule, with safety and pharmacokinetic results summarized descriptively and no prespecified comparison objectives or analysis methods.",
+          "category": "endpoint_ctq",
+          "severity": "high",
+          "claim": "The cohort has no prespecified method to determine whether exposure and safety are comparable across formulations. This leaves the interpretation of dose-selection data after a formulation change unresolved.",
+          "cited_doc_id": "FDA-EXPANSION-COHORTS-2022",
+          "guidance_quote": "The objectives and analysis plans for each expansion cohort should be prespecified in the protocol."
+        },
+        {
+          "span": "After the recommended Phase 2 dose is selected from tolerability data, all subsequent participants will receive that dose without any randomized comparison of alternative dose levels or formal dose-response analysis.",
+          "category": "dose_optimization",
+          "severity": "high",
+          "claim": "Although the preceding paragraph promises a randomized two-dose assessment using PK, PD, safety, and activity, this sentence describes selection from tolerability data and disclaims formal dose-response analysis. The protocol should reconcile these plans and prespecify how the comparative data will establish the selected dose’s benefit-risk profile; randomization need not continue after selection.",
+          "cited_doc_id": "FDA-DOSE-OPT-2024",
+          "guidance_quote": "Sponsors should consider the totality of the data, including pharmacokinetic, pharmacodynamic, safety, and efficacy data, when selecting a dosage for further development."
+        },
+        {
+          "span": "Patients with moderate hepatic impairment and the CYP2C19 poor-metabolizer genotype will be enrolled in the same dose-escalation cohort without separate PK, PD, safety, or efficacy analyses.",
+          "category": "safety_monitoring",
+          "severity": "high",
+          "claim": "Pooling these participants without a prespecified assessment could obscure clinically important exposure or toxicity differences, particularly for hepatic impairment. The protocol should justify the pooling and specify how these characteristics will be evaluated; it should not presume that CYP2C19 genotype affects sotorasib exposure without supporting evidence.",
+          "cited_doc_id": "FDA-DOSE-OPT-2024",
+          "guidance_quote": "Sponsors should evaluate the effect of intrinsic and extrinsic factors on exposure and the exposure-response relationships for safety and efficacy."
+        },
+        {
+          "span": "Dose–response analyses will be conducted only in the overall enrolled population, with no evaluations by age, sex, race, or other demographic subgroup.",
+          "category": "dose_optimization",
+          "severity": "medium",
+          "claim": "The plan cannot assess whether the selected dose’s exposure-response or tolerability differs across relevant demographic groups, or explain why such evaluations are infeasible.",
+          "cited_doc_id": "FDA-DOSE-OPT-2024",
+          "guidance_quote": "Sponsors should evaluate exposure-response relationships for efficacy and safety in relevant patient subgroups."
+        },
+        {
+          "span": "The study team will review emerging adverse-event data periodically and decide during the trial whether enrollment or dosing should be halted for unacceptable toxicity.",
+          "category": "safety_monitoring",
+          "severity": "high",
+          "claim": "The sentence leaves study-level enrollment and dosing holds to an unspecified decision made during the trial. It provides no prospective triggers, review frequency, decision authority, or restart criteria, distinct from the individual dose-modification rules said to be in Appendix B.",
+          "cited_doc_id": "ICH-E6R3-2025",
+          "guidance_quote": "The sponsor should identify, evaluate and control risks to critical to quality factors before the trial is initiated and throughout its conduct."
+        },
+        {
+          "span": "Primary (Phase 2): Objective response rate (ORR) per RECIST v1.1 at the selected recommended Phase 2 dose (RP2D).",
+          "category": "endpoint_ctq",
+          "severity": "medium",
+          "claim": "The phase 2 ORR objective is stated for a basket of different solid tumors without a specified tumor-type analysis or interpretation plan. Differences in baseline response prospects could make a pooled ORR misleading.",
+          "cited_doc_id": "CTTI-QBD",
+          "guidance_quote": "Identify factors that are critical to the quality of the trial and proactively manage risks to those factors."
+        },
+        {
+          "span": "- Inclusion: age ≥18; histologically confirmed KRAS G12C-mutated locally advanced or metastatic solid tumor; ECOG 0–1; at least one prior line of systemic therapy; recovery of prior-treatment toxicities to Grade ≤1.",
+          "category": "eligibility",
+          "severity": "high",
+          "claim": "The key eligibility criteria do not require measurable disease, although ORR under RECIST v1.1 is the phase 2 primary endpoint. Without that requirement or a stated separate phase 2 eligibility rule, participants could be enrolled who cannot contribute an evaluable objective response.",
+          "cited_doc_id": "ICH-E6R3-2025",
+          "guidance_quote": "Trial design should be fit for purpose and ensure that the data generated are sufficient to address the trial objectives."
+        },
+        {
+          "span": "Intensive PK sampling on Cycle 1 Day 1 and Day 15 (pre-dose, 0.5, 1, 2, 4, 6, 8 and 24 h post-dose) in all escalation subjects; steady-state trough sampling every cycle in the randomized cohorts.",
+          "category": "burden",
+          "severity": "low",
+          "claim": "Two 24-hour, eight-timepoint profiles for every escalation participant create substantial visit and blood-draw burden. The synopsis gives no rationale for requiring complete profiles from all participants rather than a risk-adapted sampling plan.",
+          "cited_doc_id": "ICH-E6R3-2025",
+          "guidance_quote": "Trial processes, measures and approaches should be proportionate to the risks to participants and to the importance of the data collected."
+        }
+      ]
+    },
+    {
+      "case_id": "AX1-002",
+      "config": "oneshot_r2",
+      "tokens": 5786,
+      "elapsed_s": 32.1,
+      "verified_rate": null,
+      "n_defects": 6,
+      "n_hit": 6,
+      "n_grounded": 3,
+      "recall": 1.0,
+      "weighted_recall": 1.0,
+      "grounded_recall": 0.5,
+      "grounded_weighted_recall": 0.476,
+      "n_findings": 10,
+      "precision_proxy": 0.6,
+      "baseline_findings": [
+        {
+          "span": "The recommended Phase 2 dose will be the highest dose at which no more than 30% of participants permanently discontinue treatment because of drug-related toxicity.",
+          "category": "dose_optimization",
+          "severity": "high",
+          "claim": "This makes permanent discontinuation the controlling RP2D rule, potentially selecting a dose that one in three participants cannot continue. It also conflicts with the stated plan to use integrated safety, tolerability, PK, PD and activity criteria.",
+          "cited_doc_id": "FDA-DOSE-OPT-2024",
+          "guidance_quote": "Dosage selection should be based on an assessment of the totality of the data, including safety, tolerability, efficacy, pharmacokinetics, and pharmacodynamics."
+        },
+        {
+          "span": "Patients with moderate hepatic impairment and the CYP2C19 poor-metabolizer genotype will be enrolled in the same dose-escalation cohort without separate PK, PD, safety, or efficacy analyses.",
+          "category": "dose_optimization",
+          "severity": "high",
+          "claim": "Pooling these patients without planned analyses can conceal clinically important exposure or toxicity differences and leaves no basis for determining whether they need different dosages.",
+          "cited_doc_id": "FDA-DOSE-OPT-2024",
+          "guidance_quote": "Sponsors should consider the impact of intrinsic and extrinsic factors on the pharmacokinetics, safety, and efficacy of the drug when optimizing the dosage."
+        },
+        {
+          "span": "The combination expansion cohort will open after the first six participants complete cycle 1 of the investigational antibody plus pembrolizumab, without requiring prior monotherapy evaluation of the antibody at its recommended phase 2 dose.",
+          "category": "safety_monitoring",
+          "severity": "high",
+          "claim": "Completion of one cycle by six combination-treated participants does not establish the antibody's monotherapy dose or characterize delayed and cumulative toxicity before expansion.",
+          "cited_doc_id": "FDA-EXPANSION-COHORTS-2022",
+          "guidance_quote": "Before initiating an expansion cohort, sponsors should have sufficient information about the safety, tolerability, and dosage of the investigational drug to support the proposed cohort."
+        },
+        {
+          "span": "The combination expansion cohort will open after the first six participants complete cycle 1 of the investigational antibody plus pembrolizumab, without requiring prior monotherapy evaluation of the antibody at its recommended phase 2 dose.",
+          "category": "feasibility",
+          "severity": "high",
+          "claim": "The proposed antibody–pembrolizumab cohort is disconnected from the stated DV-101 (sotorasib) objectives. The synopsis does not identify the antibody or its regimen, making the cohort's intervention and contribution to the study uninterpretable.",
+          "cited_doc_id": "ICH-E6R3-2025",
+          "guidance_quote": "Clinical trials should be scientifically sound and designed and conducted in ways that ensure the reliability of results."
+        },
+        {
+          "span": "Results from the expansion cohort will serve as the primary efficacy package for the planned marketing application, and the sponsor will proceed without a formal FDA meeting regarding the cohort design, development plan, or submission requirements.",
+          "category": "feasibility",
+          "severity": "high",
+          "claim": "Using an expansion cohort as the principal registration evidence while expressly forgoing discussion of its design and development plan creates a substantial risk that the evidence will not meet submission needs.",
+          "cited_doc_id": "FDA-EXPANSION-COHORTS-2022",
+          "guidance_quote": "Sponsors should discuss with FDA the development plan before initiating an expansion cohort intended to support a marketing application."
+        },
+        {
+          "span": "The expansion cohort will support the marketing application using investigator-assessed tumor responses at the selected dose; statistical analyses and data-review procedures will be developed after enrollment is complete.",
+          "category": "endpoint_ctq",
+          "severity": "critical",
+          "claim": "Deferring statistical analyses and data-review procedures until after enrollment permits decisions to be influenced by accumulating outcomes and jeopardizes the credibility of the proposed primary efficacy evidence.",
+          "cited_doc_id": "ICH-E6R3-2025",
+          "guidance_quote": "The statistical methods to be employed should be described in the protocol, including the timing of any planned interim analyses."
+        },
+        {
+          "span": "The expansion cohort will support the marketing application using investigator-assessed tumor responses at the selected dose; statistical analyses and data-review procedures will be developed after enrollment is complete.",
+          "category": "endpoint_ctq",
+          "severity": "high",
+          "claim": "Investigator-assessed responses in an open-label study are vulnerable to assessment bias. No prospective independent review or other procedure to protect the reliability of this registration-critical endpoint is specified.",
+          "cited_doc_id": "CTTI-QBD",
+          "guidance_quote": "Identify factors that are critical to quality and focus efforts on preventing errors that matter to the reliability of trial results."
+        },
+        {
+          "span": "Primary (Phase 2): Objective response rate (ORR) per RECIST v1.1 at the selected recommended Phase 2 dose (RP2D).",
+          "category": "endpoint_ctq",
+          "severity": "high",
+          "claim": "For a proposed marketing efficacy package spanning advanced solid tumors, this endpoint does not define the indication-specific population or how responses across tumor types will be analyzed. An aggregate ORR could mask materially different effects by cancer type.",
+          "cited_doc_id": "FDA-EXPANSION-COHORTS-2022",
+          "guidance_quote": "The protocol should specify the objectives, patient population, endpoints, sample size, and statistical analysis plan for each expansion cohort."
+        },
+        {
+          "span": "The sponsor will issue a single cumulative safety update to investigators and the IRB at the end of each calendar year, with any interim adverse-event findings reserved for the next scheduled annual review.",
+          "category": "safety_monitoring",
+          "severity": "critical",
+          "claim": "The express decision to withhold consequential interim safety findings until an annual review prevents timely protection of participants and timely reassessment by investigators and the IRB.",
+          "cited_doc_id": "ICH-E6R3-2025",
+          "guidance_quote": "The sponsor should communicate information that may affect the safety of trial participants or the conduct of the trial to investigators and, where applicable, to IRBs/IECs and regulatory authorities in a timely manner."
+        },
+        {
+          "span": "Intensive PK sampling on Cycle 1 Day 1 and Day 15 (pre-dose, 0.5, 1, 2, 4, 6, 8 and 24 h post-dose) in all escalation subjects; steady-state trough sampling every cycle in the randomized cohorts.",
+          "category": "burden",
+          "severity": "medium",
+          "claim": "The synopsis requires two 24-hour, nine-time-point PK profiles from every escalation participant without explaining why universal intensive sampling is necessary rather than a less burdensome sampling strategy.",
+          "cited_doc_id": "ICH-E6R3-2025",
+          "guidance_quote": "Clinical trial processes, measures and approaches should be proportionate to the risks to participants and the importance of the data collected and should avoid unnecessary burden on participants and investigators."
+        }
+      ]
+    },
+    {
+      "case_id": "AX1-003",
+      "config": "oneshot_r2",
+      "tokens": 5359,
+      "elapsed_s": 29.2,
+      "verified_rate": null,
+      "n_defects": 6,
+      "n_hit": 6,
+      "n_grounded": 3,
+      "recall": 1.0,
+      "weighted_recall": 1.0,
+      "grounded_recall": 0.5,
+      "grounded_weighted_recall": 0.444,
+      "n_findings": 12,
+      "precision_proxy": 0.5,
+      "baseline_findings": [
+        {
+          "span": "The recommended Phase 2 dose will be the highest dose at which no more than 30% of participants permanently discontinue treatment because of drug-related toxicity.",
+          "category": "dose_optimization",
+          "severity": "critical",
+          "claim": "This rule selects the highest qualifying dose using one toxicity outcome, rather than the prespecified integrated assessment of efficacy, PK, PD, safety, and tolerability. It also conflicts with the subsequent RP2D selection rule.",
+          "cited_doc_id": "FDA-DOSE-OPT-2024",
+          "guidance_quote": "Dosage selection should be based on the totality of the data, including pharmacokinetic, pharmacodynamic, efficacy, safety, and tolerability data."
+        },
+        {
+          "span": "After the safety lead-in, all participants will receive 240 mg twice daily; no alternate dose will be evaluated for antitumor activity, safety, or tolerability before selecting the recommended dose for further development.",
+          "category": "dose_optimization",
+          "severity": "critical",
+          "claim": "This expressly eliminates the planned randomized comparison of two candidate doses. It also introduces a twice-daily regimen not among the once-daily escalation dose levels, without an explained basis for selecting it.",
+          "cited_doc_id": "FDA-DOSE-OPT-2024",
+          "guidance_quote": "Sponsors should consider evaluating more than one dosage to compare efficacy, safety, and tolerability before selecting a dosage for further development."
+        },
+        {
+          "span": "For the randomized Phase 2 portion, each of the three active-dose arms will be compared independently with placebo using an unadjusted two-sided α=0.05 test, with the study considered positive if any single dose comparison reaches nominal significance.",
+          "category": "feasibility",
+          "severity": "critical",
+          "claim": "Three active-dose arms plus placebo cannot be reconciled with the stated 1:1 randomization to two candidate doses or with the instruction to give all participants 240 mg twice daily. The trial has no executable, consistent Phase 2 allocation plan.",
+          "cited_doc_id": "ICH-E6R3-2025",
+          "guidance_quote": "Clinical trials should be designed and conducted in ways that ensure the rights, safety and well-being of participants and the reliability of trial results."
+        },
+        {
+          "span": "For the randomized Phase 2 portion, each of the three active-dose arms will be compared independently with placebo using an unadjusted two-sided α=0.05 test, with the study considered positive if any single dose comparison reaches nominal significance.",
+          "category": "endpoint_ctq",
+          "severity": "high",
+          "claim": "Calling the study positive after any of three unadjusted tests does not control the study-wise false-positive probability at 0.05. The endpoint, multiplicity strategy, and decision rule need to be aligned.",
+          "cited_doc_id": "ICH-E6R3-2025",
+          "guidance_quote": "Factors critical to the quality of the trial should be identified prospectively."
+        },
+        {
+          "span": "Primary (Phase 2): Objective response rate (ORR) per RECIST v1.1 at the selected recommended Phase 2 dose (RP2D).",
+          "category": "endpoint_ctq",
+          "severity": "high",
+          "claim": "The primary objective describes ORR at one selected dose, whereas the Phase 2 success rule is based on three dose-versus-placebo significance tests. It does not define which analysis establishes the primary objective or when dose selection occurs relative to testing.",
+          "cited_doc_id": "ICH-E6R3-2025",
+          "guidance_quote": "Factors critical to the quality of the trial should be identified prospectively."
+        },
+        {
+          "span": "Inclusion: age ≥18; histologically confirmed KRAS G12C-mutated locally advanced or metastatic solid tumor; ECOG 0–1; at least one prior line of systemic therapy; recovery of prior-treatment toxicities to Grade ≤1.",
+          "category": "endpoint_ctq",
+          "severity": "high",
+          "claim": "A single ORR objective across all advanced solid-tumor histologies lacks a stated tumor-type stratification or analysis plan. Differences in tumor mix between dose groups could confound both activity comparisons and dose selection.",
+          "cited_doc_id": "ICH-E6R3-2025",
+          "guidance_quote": "The quality and amount of the information generated in a clinical trial should be fit for purpose and sufficient to support good decision making."
+        },
+        {
+          "span": "Concomitant medications will be recorded at enrollment, but no interaction studies or dedicated pharmacokinetic analyses will be conducted before selecting the recommended Phase 3 dose.",
+          "category": "dose_optimization",
+          "severity": "high",
+          "claim": "Recording medications only at enrollment and ruling out interaction evaluation leaves potentially important effects of concomitant therapy on exposure, safety, and the recommended dose unassessed.",
+          "cited_doc_id": "FDA-DOSE-OPT-2024",
+          "guidance_quote": "Dosage selection should be based on the totality of the data, including pharmacokinetic, pharmacodynamic, efficacy, safety, and tolerability data."
+        },
+        {
+          "span": "The study team will review emerging adverse-event data periodically and decide during the trial whether enrollment or dosing should be halted for unacceptable toxicity.",
+          "category": "safety_monitoring",
+          "severity": "high",
+          "claim": "Neither the review interval nor prospective toxicity thresholds, decision authority, and actions for pausing enrollment or dosing are specified. Those critical safety decisions are deferred until after toxicity emerges.",
+          "cited_doc_id": "ICH-E6R3-2025",
+          "guidance_quote": "Factors critical to the quality of the trial should be identified prospectively."
+        },
+        {
+          "span": "Exclusion: active brain metastases; prior treatment with a KRAS G12C inhibitor; QTcF >470 ms; anti-PD-(L)1 therapy within 4 weeks prior to the first dose.",
+          "category": "safety_monitoring",
+          "severity": "high",
+          "claim": "Allowing anti-PD-(L)1 treatment as recently as four weeks before dosing, while specifying no additional hepatic-risk surveillance for these participants, leaves a foreseeable toxicity subgroup without a tailored monitoring plan.",
+          "cited_doc_id": "ICH-E6R3-2025",
+          "guidance_quote": "The rights, safety and well-being of trial participants are the most important considerations and should prevail over the interests of science and society."
+        },
+        {
+          "span": "Liver function tests (ALT, AST, alkaline phosphatase, total bilirubin) will be assessed before the first dose, every 3 weeks for the first 3 months, and monthly thereafter or as clinically indicated.",
+          "category": "safety_monitoring",
+          "severity": "medium",
+          "claim": "The routine schedule does not itself specify more frequent testing for participants who develop liver-test abnormalities or have elevated hepatic risk; the protocol should make that escalation operational rather than leave it implicit in 'as clinically indicated.'",
+          "cited_doc_id": "ICH-E6R3-2025",
+          "guidance_quote": "Factors critical to the quality of the trial should be identified prospectively."
+        },
+        {
+          "span": "Intensive PK sampling on Cycle 1 Day 1 and Day 15 (pre-dose, 0.5, 1, 2, 4, 6, 8 and 24 h post-dose) in all escalation subjects; steady-state trough sampling every cycle in the randomized cohorts.",
+          "category": "burden",
+          "severity": "medium",
+          "claim": "Requiring two eight-sample PK days from every escalation participant and troughs every cycle has no stated justification that the resulting information is needed from every participant, despite the burden of repeated sampling in advanced cancer.",
+          "cited_doc_id": "ICH-E6R3-2025",
+          "guidance_quote": "Trial processes should be proportionate to the risks to participants and to the importance of the data being collected."
+        },
+        {
+          "span": "All recommendations in FDA-DOSE-OPT-2024 shall be implemented without deviation, and any investigator request to adapt them requires prior FDA approval.",
+          "category": "source_version",
+          "severity": "medium",
+          "claim": "The protocol incorrectly treats nonbinding FDA guidance recommendations as mandatory requirements and asserts a blanket prior-approval requirement for departures from them. Citing the current 2024 guidance is not itself an outdated-version defect.",
+          "cited_doc_id": "FDA-DOSE-OPT-2024",
+          "guidance_quote": "Guidance documents do not establish legally enforceable responsibilities; the use of the word should means that something is suggested or recommended, but not required."
+        }
+      ]
+    },
+    {
+      "case_id": "AX1-004",
+      "config": "oneshot_r2",
+      "tokens": 5422,
+      "elapsed_s": 26.8,
+      "verified_rate": null,
+      "n_defects": 6,
+      "n_hit": 6,
+      "n_grounded": 0,
+      "recall": 1.0,
+      "weighted_recall": 1.0,
+      "grounded_recall": 0.0,
+      "grounded_weighted_recall": 0.0,
+      "n_findings": 11,
+      "precision_proxy": 0.545,
+      "baseline_findings": [
+        {
+          "span": "Participants will be enrolled sequentially into nonrandomized cohorts receiving 10, 30, or 60 mg once daily, with each new cohort opened after review of the preceding cohort.",
+          "category": "feasibility",
+          "severity": "critical",
+          "claim": "The stated enrollment doses contradict the preceding BOIN dose levels of 180, 360, 540, 720, and 960 mg. Sites cannot determine which escalation schedule governs treatment.",
+          "cited_doc_id": "ICH-E6R3-2025",
+          "guidance_quote": "Clinical trials should be described in a clear, concise, scientifically sound and operationally feasible protocol."
+        },
+        {
+          "span": "The dose-escalation and expansion cohorts will follow the same general treatment plan, with cohort-specific dose levels and modification instructions provided only in separate pharmacy worksheets.",
+          "category": "safety_monitoring",
+          "severity": "high",
+          "claim": "Critical dose levels and modification instructions are left outside the protocol in separate worksheets, making the governing treatment rules unclear and difficult to control consistently across sites.",
+          "cited_doc_id": "ICH-E6R3-2025",
+          "guidance_quote": "Clinical trials should be described in a clear, concise, scientifically sound and operationally feasible protocol."
+        },
+        {
+          "span": "The randomized Phase 2 portion will compare three active dose levels with placebo, and each dose-versus-placebo efficacy test will be evaluated at a two-sided 0.05 significance level without multiplicity adjustment.",
+          "category": "dose_optimization",
+          "severity": "critical",
+          "claim": "This four-arm design conflicts with the specified 1:1 comparison of two candidate doses before RP2D selection. The protocol does not establish how three active doses or placebo fit that selection plan.",
+          "cited_doc_id": "FDA-DOSE-OPT-2024",
+          "guidance_quote": "Randomized trials comparing multiple dosages can help characterize the exposure-response relationships for efficacy and safety and support selection of an optimized dosage."
+        },
+        {
+          "span": "The randomized Phase 2 portion will compare three active dose levels with placebo, and each dose-versus-placebo efficacy test will be evaluated at a two-sided 0.05 significance level without multiplicity adjustment.",
+          "category": "endpoint_ctq",
+          "severity": "high",
+          "claim": "Testing three efficacy comparisons at an unadjusted two-sided 0.05 inflates the chance of a false-positive conclusion; no multiplicity strategy is specified.",
+          "cited_doc_id": "CTTI-QBD",
+          "guidance_quote": "Critical to quality factors are factors that are fundamental to the protection of trial participants and/or the reliability of trial results."
+        },
+        {
+          "span": "The randomized Phase 2 portion will compare three active dose levels with placebo, and each dose-versus-placebo efficacy test will be evaluated at a two-sided 0.05 significance level without multiplicity adjustment.",
+          "category": "eligibility",
+          "severity": "high",
+          "claim": "A placebo arm is introduced for participants with advanced cancer without specifying background treatment, rescue provisions, or why withholding active treatment is acceptable across the eligible tumor types.",
+          "cited_doc_id": "ICH-E6R3-2025",
+          "guidance_quote": "The rights, safety and well-being of trial participants are the most important considerations and should prevail over interests of science and society."
+        },
+        {
+          "span": "All doses will be prepared as a fixed 0.5 mg/mL intravenous solution, including doses requiring infusion volumes of up to 400 mL.",
+          "category": "feasibility",
+          "severity": "critical",
+          "claim": "Intravenous preparation contradicts the investigational product's oral administration and the once-daily oral dose schedule. The volume limit is also incompatible with the stated escalation doses: 960 mg at 0.5 mg/mL requires 1,920 mL.",
+          "cited_doc_id": "ICH-E6R3-2025",
+          "guidance_quote": "Clinical trials should be described in a clear, concise, scientifically sound and operationally feasible protocol."
+        },
+        {
+          "span": "확장 코호트에서는 선행 임상자료나 노출·반응 분석과 무관하게 모든 환자에게 임상적으로 사용되는 표준 용량 200 mg을 투여한다.",
+          "category": "dose_optimization",
+          "severity": "critical",
+          "claim": "The expansion cohort mandates 200 mg regardless of preceding clinical or exposure-response data, contradicting the planned randomized dose comparison and prespecified integrated RP2D selection. The asserted ‘standard’ dose is not substantiated in the protocol.",
+          "cited_doc_id": "FDA-DOSE-OPT-2024",
+          "guidance_quote": "Dosage selection should be based on the totality of available data, including safety, tolerability, pharmacokinetics, pharmacodynamics, and antitumor activity."
+        },
+        {
+          "span": "Dose selection for expansion will be based solely on observed tumor response rates, without adjustment for treatment adherence, concomitant medications, organ-function changes, or measured drug exposure.",
+          "category": "dose_optimization",
+          "severity": "high",
+          "claim": "Selecting a dose solely from response rates discards exposure, safety, tolerability, and factors affecting exposure. It also contradicts the stated integrated RP2D criteria.",
+          "cited_doc_id": "FDA-DOSE-OPT-2024",
+          "guidance_quote": "Dosage selection should be based on the totality of available data, including safety, tolerability, pharmacokinetics, pharmacodynamics, and antitumor activity."
+        },
+        {
+          "span": "Intensive PK sampling on Cycle 1 Day 1 and Day 15 (pre-dose, 0.5, 1, 2, 4, 6, 8 and 24 h post-dose) in all escalation subjects; steady-state trough sampling every cycle in the randomized cohorts.",
+          "category": "burden",
+          "severity": "medium",
+          "claim": "Two intensive profiles, each extending to 24 hours, are imposed on every escalation participant, with continuing trough draws in randomized cohorts. The synopsis gives no rationale for why this full schedule is needed from all participants rather than a proportionate sampling strategy.",
+          "cited_doc_id": "ICH-E6R3-2025",
+          "guidance_quote": "Trial processes should be proportionate to the risks inherent in the trial and the importance of the information collected."
+        },
+        {
+          "span": "Primary (Phase 2): Objective response rate (ORR) per RECIST v1.1 at the selected recommended Phase 2 dose (RP2D).",
+          "category": "endpoint_ctq",
+          "severity": "high",
+          "claim": "The primary endpoint is specified at one selected RP2D, while the later Phase 2 plan tests three active doses against placebo. The primary analysis population, dose, and comparison are therefore not coherent.",
+          "cited_doc_id": "CTTI-QBD",
+          "guidance_quote": "Critical to quality factors are factors that are fundamental to the protection of trial participants and/or the reliability of trial results."
+        },
+        {
+          "span": "histologically confirmed KRAS G12C-mutated locally advanced or metastatic solid tumor",
+          "category": "endpoint_ctq",
+          "severity": "medium",
+          "claim": "Eligibility pools different solid-tumor types, but the Phase 2 ORR plan specifies no tumor-type cohorts, stratification, or tumor-specific analysis. Differences in response across cancers could make a pooled result difficult to interpret.",
+          "cited_doc_id": "CTTI-QBD",
+          "guidance_quote": "Critical to quality factors are factors that are fundamental to the protection of trial participants and/or the reliability of trial results."
+        }
+      ]
+    },
+    {
+      "case_id": "AX1-005",
+      "config": "oneshot_r2",
+      "tokens": 5537,
+      "elapsed_s": 31.9,
+      "verified_rate": null,
+      "n_defects": 6,
+      "n_hit": 6,
+      "n_grounded": 2,
+      "recall": 1.0,
+      "weighted_recall": 1.0,
+      "grounded_recall": 0.333,
+      "grounded_weighted_recall": 0.35,
+      "n_findings": 10,
+      "precision_proxy": 0.6,
+      "baseline_findings": [
+        {
+          "span": "The study will be conducted under the sponsor's internal approval without submission of the final protocol to regulatory authorities in the European Union, Japan, or the United States.",
+          "category": "feasibility",
+          "severity": "critical",
+          "claim": "Sponsor approval does not replace applicable regulatory submissions. The protocol expressly rules out submission in the United States, where the study will be conducted.",
+          "cited_doc_id": "ICH-E6R3-2025",
+          "guidance_quote": "Clinical trials should be conducted in accordance with ethical principles that have their origin in the Declaration of Helsinki and that are consistent with GCP and applicable regulatory requirement(s)."
+        },
+        {
+          "span": "The expansion cohort will support the marketing application using investigator-assessed tumor responses at the selected dose; statistical analyses and data-review procedures will be developed after enrollment is complete.",
+          "category": "endpoint_ctq",
+          "severity": "critical",
+          "claim": "Developing the statistical analysis and data-review procedures after enrollment permits post hoc decisions about evidence intended to support a marketing application. These procedures should be prespecified.",
+          "cited_doc_id": "FDA-EXPANSION-COHORTS-2022",
+          "guidance_quote": "The protocol should include a statistical analysis plan for each expansion cohort, including prespecified endpoints and the methods for analyzing the data."
+        },
+        {
+          "span": "The expansion cohort will support the marketing application using investigator-assessed tumor responses at the selected dose; statistical analyses and data-review procedures will be developed after enrollment is complete.",
+          "category": "endpoint_ctq",
+          "severity": "high",
+          "claim": "Investigator assessment alone leaves an open-label, response-based marketing claim vulnerable to assessment bias; the protocol gives no plan for independent review of tumor responses.",
+          "cited_doc_id": "FDA-EXPANSION-COHORTS-2022",
+          "guidance_quote": "When an expansion cohort is intended to support a marketing application, sponsors should consider blinded independent central review of tumor-response assessments."
+        },
+        {
+          "span": "Inclusion: age ≥18; histologically confirmed KRAS G12C-mutated locally advanced or metastatic solid tumor; ECOG 0–1; at least one prior line of systemic therapy; recovery of prior-treatment toxicities to Grade ≤1.",
+          "category": "eligibility",
+          "severity": "high",
+          "claim": "The minimum age of 18 makes the separately specified pediatric expansion cohort ineligible to enroll unless cohort-specific eligibility criteria are added.",
+          "cited_doc_id": "ICH-E6R3-2025",
+          "guidance_quote": "The protocol should describe the inclusion and exclusion criteria for participants."
+        },
+        {
+          "span": "Primary (Phase 2): Objective response rate (ORR) per RECIST v1.1 at the selected recommended Phase 2 dose (RP2D).",
+          "category": "endpoint_ctq",
+          "severity": "medium",
+          "claim": "A single Phase 2 ORR is specified for an advanced-solid-tumor population spanning different histologies, without a stated histology-specific cohort or analysis plan. That limits the interpretability of a response result intended to support marketing.",
+          "cited_doc_id": "FDA-EXPANSION-COHORTS-2022",
+          "guidance_quote": "Each expansion cohort should have a specific objective, defined patient population, and prespecified endpoints and analysis plan."
+        },
+        {
+          "span": "No pharmacodynamic or pharmacogenomic specimens will be collected, and the study will not evaluate genetic determinants of drug metabolism, tumor alterations, or target-protein expression.",
+          "category": "dose_optimization",
+          "severity": "high",
+          "claim": "The randomized cohorts are expressly intended to compare pharmacodynamics, but the protocol rules out collecting pharmacodynamic specimens. This removes a planned source of evidence for selecting between doses.",
+          "cited_doc_id": "FDA-DOSE-OPT-2024",
+          "guidance_quote": "Dosage optimization should be based on a thorough evaluation of available data, including pharmacokinetics, pharmacodynamics, safety, tolerability, and antitumor activity."
+        },
+        {
+          "span": "The study team will review emerging adverse-event data periodically and decide during the trial whether enrollment or dosing should be halted for unacceptable toxicity.",
+          "category": "safety_monitoring",
+          "severity": "high",
+          "claim": "The protocol leaves trial-level enrollment and dosing holds to an undefined later decision rather than specifying prospective toxicity thresholds, review timing, and stopping rules.",
+          "cited_doc_id": "ICH-E6R3-2025",
+          "guidance_quote": "The protocol should describe stopping rules or discontinuation criteria for individual participants, parts of the trial, and the entire trial."
+        },
+        {
+          "span": "In the pediatric expansion cohort, safety will be assessed only by recording adverse events at scheduled clinic visits; no protocol-specific toxicity surveillance or additional laboratory monitoring is required.",
+          "category": "safety_monitoring",
+          "severity": "critical",
+          "claim": "Adverse-event recording only at scheduled visits, without protocol-specific laboratory or toxicity surveillance, is inadequate for a higher-risk pediatric oncology cohort receiving this investigational regimen.",
+          "cited_doc_id": "ICH-E6R3-2025",
+          "guidance_quote": "The rights, safety, and well-being of trial participants are the most important considerations and should prevail over interests of science and society."
+        },
+        {
+          "span": "This amendment adds a higher-dose expansion cohort based on preliminary efficacy findings; the safety rationale will be provided in the next annual report.",
+          "category": "safety_monitoring",
+          "severity": "critical",
+          "claim": "The amendment defers its safety justification until after the higher-dose cohort is added. The risk–benefit rationale should be evaluated before participants are exposed at that dose.",
+          "cited_doc_id": "ICH-E6R3-2025",
+          "guidance_quote": "A clinical trial should be initiated and continued only if the anticipated benefits justify the known and anticipated risks and inconveniences."
+        },
+        {
+          "span": "Intensive PK sampling on Cycle 1 Day 1 and Day 15 (pre-dose, 0.5, 1, 2, 4, 6, 8 and 24 h post-dose) in all escalation subjects; steady-state trough sampling every cycle in the randomized cohorts.",
+          "category": "burden",
+          "severity": "medium",
+          "claim": "Two 24-hour, eight-sample PK profiles for every escalation participant impose substantial visit and sampling burden. The synopsis does not justify why intensive sampling is needed in every participant rather than a proportionate sampling plan.",
+          "cited_doc_id": "ICH-E6R3-2025",
+          "guidance_quote": "Trial processes, measures and approaches should be proportionate to the risks to participants and to the importance of the data collected, and avoid unnecessary burden on participants and investigators."
+        }
+      ]
+    },
+    {
+      "case_id": "AX1-006",
+      "config": "oneshot_r2",
+      "tokens": 4289,
+      "elapsed_s": 20.3,
+      "verified_rate": null,
+      "n_defects": 6,
+      "n_hit": 6,
+      "n_grounded": 4,
+      "recall": 1.0,
+      "weighted_recall": 1.0,
+      "grounded_recall": 0.667,
+      "grounded_weighted_recall": 0.667,
+      "n_findings": 7,
+      "precision_proxy": 0.857,
+      "baseline_findings": [
+        {
+          "span": "Results from the expansion cohort will serve as the primary efficacy package for the planned marketing application, and the sponsor will proceed without a formal FDA meeting regarding the cohort design, development plan, or submission requirements.",
+          "category": "feasibility",
+          "severity": "high",
+          "claim": "The sponsor plans to rely on expansion-cohort efficacy data for a marketing application without first discussing whether the cohort design and resulting evidence will meet FDA expectations.",
+          "cited_doc_id": "FDA-EXPANSION-COHORTS-2022",
+          "guidance_quote": "Sponsors considering the use of expansion cohort data to support a marketing application should discuss their development plans with FDA."
+        },
+        {
+          "span": "The recommended Phase 2 dose will be the highest dose tested with acceptable early laboratory findings, even if persistent grade 2 fatigue, nausea, and reduced daily activity cause substantial treatment interruptions or discontinuations.",
+          "category": "dose_optimization",
+          "severity": "high",
+          "claim": "The selection rule disregards persistent symptomatic toxicity, impaired daily functioning, and interruptions or discontinuations in favor of the highest dose with acceptable early laboratory results.",
+          "cited_doc_id": "FDA-DOSE-OPT-2024",
+          "guidance_quote": "Persistent low-grade adverse reactions can affect tolerability and lead to dosage modifications or treatment discontinuation."
+        },
+        {
+          "span": "Participants who cross over to the alternate dose will be included in the overall safety and response analyses without any separate crossover adjustment or prespecified handling rules.",
+          "category": "endpoint_ctq",
+          "severity": "high",
+          "claim": "Pooling outcomes after crossover without prespecified attribution or analysis rules can obscure the comparative safety and activity of the two doses—the randomized comparison's critical purpose.",
+          "cited_doc_id": "ICH-E6R3-2025",
+          "guidance_quote": "The protocol should describe the statistical methods to be employed, including the timing of any planned interim analysis(es), and the number of participants planned to be enrolled."
+        },
+        {
+          "span": "The Phase 2 expansion dose will be fixed at 200 mg twice daily based solely on the recommended Phase 1 dose, without incorporating pharmacokinetic, pharmacodynamic, efficacy, tolerability, or exposure-response findings.",
+          "category": "dose_optimization",
+          "severity": "critical",
+          "claim": "This predetermines the expansion regimen while expressly excluding the evidence collected for dose optimization. Its 200 mg twice-daily schedule is also absent from the listed once-daily escalation levels and conflicts with selecting an RP2D after the randomized comparison.",
+          "cited_doc_id": "FDA-DOSE-OPT-2024",
+          "guidance_quote": "Dosage optimization should consider the totality of data, including efficacy, safety, tolerability, pharmacokinetic, and pharmacodynamic data."
+        },
+        {
+          "span": "The study will enroll adults with untreated low-risk indolent lymphoma for whom standard curative therapy is available and recommended.",
+          "category": "eligibility",
+          "severity": "critical",
+          "claim": "This exposes people with an available recommended curative treatment to an investigational study and contradicts the stated requirements for a KRAS G12C-mutated advanced or metastatic tumor and at least one prior systemic therapy.",
+          "cited_doc_id": "ICH-E6R3-2025",
+          "guidance_quote": "The rights, safety and well-being of trial participants are the most important considerations and should prevail over interests of science and society."
+        },
+        {
+          "span": "The sponsor will compile aggregate safety data internally and submit cumulative reports to FDA at its discretion, without prior agreement on the reporting schedule or format.",
+          "category": "safety_monitoring",
+          "severity": "high",
+          "claim": "Making cumulative safety reporting discretionary, without an agreed reporting plan, undermines regulatory oversight of accumulating expansion-cohort risk; applicable mandatory safety-reporting obligations cannot be displaced by sponsor discretion.",
+          "cited_doc_id": "FDA-EXPANSION-COHORTS-2022",
+          "guidance_quote": "Sponsors should discuss with FDA the plans for submitting cumulative safety data from expansion cohorts, including the frequency and format of the submissions."
+        },
+        {
+          "span": "Primary (Phase 2): Objective response rate (ORR) per RECIST v1.1 at the selected recommended Phase 2 dose (RP2D).",
+          "category": "endpoint_ctq",
+          "severity": "medium",
+          "claim": "For an expansion cohort intended as the primary marketing efficacy package across advanced solid-tumor types, the synopsis does not define tumor-type-specific cohorts or how heterogeneous response rates will be interpreted.",
+          "cited_doc_id": "FDA-EXPANSION-COHORTS-2022",
+          "guidance_quote": "Each expansion cohort should have a specific objective and a prespecified analysis plan."
+        }
+      ]
+    },
+    {
+      "case_id": "AX1-007",
+      "config": "oneshot_r2",
+      "tokens": 4496,
+      "elapsed_s": 23.4,
+      "verified_rate": null,
+      "n_defects": 6,
+      "n_hit": 6,
+      "n_grounded": 2,
+      "recall": 1.0,
+      "weighted_recall": 1.0,
+      "grounded_recall": 0.333,
+      "grounded_weighted_recall": 0.368,
+      "n_findings": 9,
+      "precision_proxy": 0.667,
+      "baseline_findings": [
+        {
+          "span": "The starting dose and subsequent escalation levels will be selected solely by investigator consensus, without requiring supporting nonclinical, pharmacologic, or prior clinical data.",
+          "category": "dose_optimization",
+          "severity": "critical",
+          "claim": "The starting dose and escalation plan have no required evidentiary basis, despite the potential consequences of an unsuitable starting dose or dose increments.",
+          "cited_doc_id": "FDA-DOSE-OPT-2024",
+          "guidance_quote": "The starting dosage and subsequent dosages evaluated should be informed by available nonclinical and clinical data, including pharmacokinetic, pharmacodynamic, and safety data."
+        },
+        {
+          "span": "For the new pembrolizumab–investigational-agent combination in metastatic colorectal cancer, the study will proceed directly to the expansion cohort at 200 mg every three weeks without evaluating alternative dose levels.",
+          "category": "dose_optimization",
+          "severity": "critical",
+          "claim": "A new combination proceeds to expansion without evaluating its safety and tolerability across doses or identifying a supported investigational-agent dose.",
+          "cited_doc_id": "FDA-EXPANSION-COHORTS-2022",
+          "guidance_quote": "Before initiating an expansion cohort for a drug combination, the safety and tolerability of the combination should be evaluated in dose escalation."
+        },
+        {
+          "span": "For the new pembrolizumab–investigational-agent combination in metastatic colorectal cancer, the study will proceed directly to the expansion cohort at 200 mg every three weeks without evaluating alternative dose levels.",
+          "category": "feasibility",
+          "severity": "high",
+          "claim": "The stated 200 mg every-three-week regimen does not identify which agent receives that dose or specify a DV-101 regimen for the combination. It also conflicts with the once-daily oral DV-101 dose levels described for escalation.",
+          "cited_doc_id": "ICH-E6R3-2025",
+          "guidance_quote": "The protocol should describe the investigational product(s) and the dosage, dosage regimen, and route or mode of administration."
+        },
+        {
+          "span": "확장 코호트에서는 선행 임상자료나 노출·반응 분석과 무관하게 모든 환자에게 임상적으로 사용되는 표준 용량 200 mg을 투여한다.",
+          "category": "dose_optimization",
+          "severity": "high",
+          "claim": "The expansion dose is fixed at a purported standard 200 mg irrespective of preceding clinical evidence or exposure–response findings, rather than justified for this investigational regimen.",
+          "cited_doc_id": "FDA-DOSE-OPT-2024",
+          "guidance_quote": "Dosage selection should be based on the totality of available data, including safety, tolerability, efficacy, pharmacokinetic, pharmacodynamic, and exposure-response data."
+        },
+        {
+          "span": "The formulation-bridging expansion cohort will enroll participants receiving the new tablet or legacy capsule, with safety and pharmacokinetic results summarized descriptively and no prespecified comparison objectives or analysis methods.",
+          "category": "endpoint_ctq",
+          "severity": "high",
+          "claim": "The cohort cannot reliably establish whether the formulation change affects exposure or safety because it has no prespecified comparison objective or analysis method.",
+          "cited_doc_id": "ICH-E6R3-2025",
+          "guidance_quote": "Factors critical to the quality of the trial should be identified prospectively; these factors are fundamental to the protection of participants and the reliability and interpretability of trial results."
+        },
+        {
+          "span": "After the recommended Phase 2 dose is selected from tolerability data, all subsequent participants will receive that dose without any randomized comparison of alternative dose levels or formal dose-response analysis.",
+          "category": "dose_optimization",
+          "severity": "high",
+          "claim": "Selection from tolerability data alone, without a formal analysis of dose response, conflicts with the preceding commitment to compare two randomized doses using integrated safety, PK, PD, and activity criteria. Giving later participants the selected dose is not itself the defect.",
+          "cited_doc_id": "FDA-DOSE-OPT-2024",
+          "guidance_quote": "The recommended dosage should be selected based on a comprehensive assessment of the available safety, tolerability, efficacy, pharmacokinetic, pharmacodynamic, and exposure-response data, rather than solely on the maximum tolerated dose."
+        },
+        {
+          "span": "Interim safety and efficacy findings will be reviewed only after database lock at the end of the expansion phase, and no planned interim reports will be distributed to participating investigators, IRBs, or health authorities.",
+          "category": "safety_monitoring",
+          "severity": "critical",
+          "claim": "Deferring review until after expansion prevents timely detection of emerging risks and timely decisions to modify or stop enrollment or dosing.",
+          "cited_doc_id": "FDA-EXPANSION-COHORTS-2022",
+          "guidance_quote": "Sponsors should have a plan for periodic review of accumulating safety data during the trial to identify emerging safety signals and determine whether changes to the trial are needed."
+        },
+        {
+          "span": "Interim safety and efficacy findings will be reviewed only after database lock at the end of the expansion phase, and no planned interim reports will be distributed to participating investigators, IRBs, or health authorities.",
+          "category": "safety_monitoring",
+          "severity": "critical",
+          "claim": "The blanket plan not to distribute interim findings lacks an exception for findings that require prompt communication to investigators, ethics committees, or regulators to protect participants.",
+          "cited_doc_id": "ICH-E6R3-2025",
+          "guidance_quote": "The sponsor should promptly communicate findings that could adversely affect the safety of trial participants or the conduct of the trial to investigators, IRBs/IECs, and regulatory authorities, as applicable."
+        },
+        {
+          "span": "Intensive PK sampling on Cycle 1 Day 1 and Day 15 (pre-dose, 0.5, 1, 2, 4, 6, 8 and 24 h post-dose) in all escalation subjects; steady-state trough sampling every cycle in the randomized cohorts.",
+          "category": "burden",
+          "severity": "medium",
+          "claim": "Two nine-sample, approximately 24-hour PK profiles for every escalation participant create substantial visit and sampling burden without a stated reason that this intensity is needed in all participants.",
+          "cited_doc_id": "ICH-E6R3-2025",
+          "guidance_quote": "The burden on participants and investigators should be considered, and unnecessary complexity and procedures should be avoided."
+        }
+      ]
+    },
+    {
+      "case_id": "AX1-008",
+      "config": "oneshot_r2",
+      "tokens": 4607,
+      "elapsed_s": 21.9,
+      "verified_rate": null,
+      "n_defects": 6,
+      "n_hit": 6,
+      "n_grounded": 1,
+      "recall": 1.0,
+      "weighted_recall": 1.0,
+      "grounded_recall": 0.167,
+      "grounded_weighted_recall": 0.211,
+      "n_findings": 12,
+      "precision_proxy": 0.5,
+      "baseline_findings": [
+        {
+          "span": "Planned dose levels (once daily, oral): 180 mg, 360 mg, 540 mg, 720 mg, 960 mg.",
+          "category": "dose_optimization",
+          "severity": "critical",
+          "claim": "The planned escalation levels conflict with the subsequent statement that participants will receive 10, 30, or 60 mg. The protocol does not establish which doses the BOIN design and its simulations govern.",
+          "cited_doc_id": "ICH-E6R3-2025",
+          "guidance_quote": "The protocol should be clear, concise and operationally feasible."
+        },
+        {
+          "span": "Participants will be enrolled sequentially into nonrandomized cohorts receiving 10, 30, or 60 mg once daily, with each new cohort opened after review of the preceding cohort.",
+          "category": "dose_optimization",
+          "severity": "critical",
+          "claim": "These cohort doses contradict the five planned dose levels and leave the administered doses, escalation decisions, and applicability of the BOIN operating characteristics indeterminate.",
+          "cited_doc_id": "ICH-E6R3-2025",
+          "guidance_quote": "The protocol should be clear, concise and operationally feasible."
+        },
+        {
+          "span": "After participants complete 48 hours at the assigned dose level, the dose-response analysis will be performed using their observed outcomes.",
+          "category": "dose_optimization",
+          "severity": "critical",
+          "claim": "Forty-eight hours cannot characterize the planned DLT assessment, repeated-dose PK, delayed adverse reactions, or antitumor response needed to compare doses and select an RP2D.",
+          "cited_doc_id": "FDA-DOSE-OPT-2024",
+          "guidance_quote": "Safety and tolerability should be evaluated beyond the DLT observation period and over the duration of treatment."
+        },
+        {
+          "span": "Dose–response analyses will be conducted only in the overall enrolled population, with no evaluations by age, sex, race, or other demographic subgroup.",
+          "category": "dose_optimization",
+          "severity": "high",
+          "claim": "The plan expressly omits evaluation of potentially important demographic differences in exposure, safety, tolerability, and response when selecting a dose.",
+          "cited_doc_id": "FDA-DOSE-OPT-2024",
+          "guidance_quote": "The effect of patient characteristics, such as age, sex, race, and organ function, on exposure, safety, and efficacy should be considered during dosage optimization."
+        },
+        {
+          "span": "The study will select the recommended Phase 2 dose from the first expansion cohort without collecting dose–response data or evaluating effects of long-term administration, concomitant medications, or comorbid disease.",
+          "category": "dose_optimization",
+          "severity": "critical",
+          "claim": "RP2D selection is expressly disconnected from dose–response evidence and from longer-term tolerability and patient factors, despite the stated randomized dose-comparison plan.",
+          "cited_doc_id": "FDA-DOSE-OPT-2024",
+          "guidance_quote": "Selection of a dosage for further development should be based on an integrated assessment of efficacy, safety, tolerability, pharmacokinetics, and pharmacodynamics."
+        },
+        {
+          "span": "After completing the dose-escalation portion, the study will open six parallel disease-specific expansion cohorts despite the absence of a defined recommended phase 2 dose and limited characterization of interpatient and intrapatient exposure variability.",
+          "category": "dose_optimization",
+          "severity": "high",
+          "claim": "Opening activity-focused expansions before resolving the dose and exposure variability risks exposing substantial numbers of participants to inadequately characterized doses and generating difficult-to-interpret cohort results.",
+          "cited_doc_id": "FDA-EXPANSION-COHORTS-2022",
+          "guidance_quote": "The recommended phase 2 dose should be supported by an adequate understanding of the drug’s safety, tolerability, pharmacokinetics, and pharmacodynamics."
+        },
+        {
+          "span": "After completing the dose-escalation portion, the study will open six parallel disease-specific expansion cohorts despite the absence of a defined recommended phase 2 dose and limited characterization of interpatient and intrapatient exposure variability.",
+          "category": "feasibility",
+          "severity": "high",
+          "claim": "Six simultaneous disease-specific cohorts add substantial enrollment and operational demands before a dose is established; the synopsis gives no cohort-specific sizes, opening criteria, or decision rules with which to assess feasibility.",
+          "cited_doc_id": "FDA-EXPANSION-COHORTS-2022",
+          "guidance_quote": "The protocol should clearly specify the objectives, design, and planned analyses for each expansion cohort."
+        },
+        {
+          "span": "Primary (Phase 2): Objective response rate (ORR) per RECIST v1.1 at the selected recommended Phase 2 dose (RP2D).",
+          "category": "endpoint_ctq",
+          "severity": "high",
+          "claim": "A single Phase 2 ORR objective is not tied to a specified tumor type or disease-specific analysis, although eligibility covers advanced solid tumors and six disease-specific cohorts are planned. Pooling heterogeneous tumors could make the primary result uninterpretable.",
+          "cited_doc_id": "FDA-EXPANSION-COHORTS-2022",
+          "guidance_quote": "The objectives and endpoints for each expansion cohort should be prespecified in the protocol."
+        },
+        {
+          "span": "The sponsor will include serious and unexpected adverse safety findings in the next scheduled annual safety report, unless the medical monitor requests earlier submission.",
+          "category": "safety_monitoring",
+          "severity": "critical",
+          "claim": "Deferring serious, unexpected safety findings to an annual report, with earlier submission dependent on a discretionary request, does not provide for timely evaluation and expedited reporting when required.",
+          "cited_doc_id": "ICH-E6R3-2025",
+          "guidance_quote": "The sponsor should expedite the reporting to the regulatory authority(ies) of all suspected unexpected serious adverse reactions in accordance with applicable regulatory requirement(s)."
+        },
+        {
+          "span": "Exclusion: active brain metastases; prior treatment with a KRAS G12C inhibitor; QTcF >470 ms; anti-PD-(L)1 therapy within 4 weeks prior to the first dose.",
+          "category": "safety_monitoring",
+          "severity": "high",
+          "claim": "The four-week immunotherapy exclusion does not itself define enhanced hepatic surveillance or risk-management rules for participants with recent anti-PD-(L)1 exposure, despite the protocol’s explicit concern with hepatotoxicity.",
+          "cited_doc_id": "FDA-DOSE-OPT-2024",
+          "guidance_quote": "Safety and tolerability assessments should consider the effects of concomitant medications and other patient-specific factors."
+        },
+        {
+          "span": "Inclusion: age ≥18; histologically confirmed KRAS G12C-mutated locally advanced or metastatic solid tumor; ECOG 0–1; at least one prior line of systemic therapy; recovery of prior-treatment toxicities to Grade ≤1.",
+          "category": "eligibility",
+          "severity": "medium",
+          "claim": "The Grade ≤1 requirement has no exception for stable, clinically insignificant or irreversible prior-treatment effects. It may unnecessarily exclude otherwise suitable patients and impair accrual and applicability.",
+          "cited_doc_id": "ICH-E6R3-2025",
+          "guidance_quote": "Trial processes and measures should be proportionate to the risks to participants and to the importance of the data collected."
+        },
+        {
+          "span": "Intensive PK sampling on Cycle 1 Day 1 and Day 15 (pre-dose, 0.5, 1, 2, 4, 6, 8 and 24 h post-dose) in all escalation subjects; steady-state trough sampling every cycle in the randomized cohorts.",
+          "category": "burden",
+          "severity": "medium",
+          "claim": "Two eight-time-point profiles for every escalation participant, including a 24-hour sample, impose substantial visit and sampling burden without a stated justification for requiring intensive sampling in all such participants rather than a subset.",
+          "cited_doc_id": "ICH-E6R3-2025",
+          "guidance_quote": "Trial processes and measures should be proportionate to the risks to participants and to the importance of the data collected."
+        }
+      ]
+    },
+    {
+      "case_id": "AX1-009",
+      "config": "oneshot_r2",
+      "tokens": 5574,
+      "elapsed_s": 32.0,
+      "verified_rate": null,
+      "n_defects": 6,
+      "n_hit": 6,
+      "n_grounded": 2,
+      "recall": 1.0,
+      "weighted_recall": 1.0,
+      "grounded_recall": 0.333,
+      "grounded_weighted_recall": 0.333,
+      "n_findings": 9,
+      "precision_proxy": 0.667,
+      "baseline_findings": [
+        {
+          "span": "The sponsor will finalize the dose-comparison design and proceed directly to patient enrollment without seeking regulatory input until after the Phase 2 expansion is completed.",
+          "category": "dose_optimization",
+          "severity": "medium",
+          "claim": "Deferring regulatory discussion until after expansion forfeits the opportunity to obtain feedback on the dose-comparison design and selection plan before they are implemented.",
+          "cited_doc_id": "FDA-DOSE-OPT-2024",
+          "guidance_quote": "Sponsors are encouraged to discuss their dosage optimization plans with FDA early in clinical development."
+        },
+        {
+          "span": "The Phase 1 portion will escalate cohorts until the highest dose with an acceptable toxicity profile is identified, and this maximum tolerated dose will be declared the sole dose for all Phase 2 patients.",
+          "category": "dose_optimization",
+          "severity": "critical",
+          "claim": "Declaring the maximum tolerated dose the sole Phase 2 dose contradicts the subsequent two-dose randomized comparison and bypasses the stated integrated RP2D selection criteria. The maximum tolerated dose need not have the best benefit–risk profile.",
+          "cited_doc_id": "FDA-DOSE-OPT-2024",
+          "guidance_quote": "The maximum tolerated dose may not be the optimal dosage, particularly for targeted therapies."
+        },
+        {
+          "span": "After the sponsor transfers production to a new manufacturing site and changes the formulation, the study will continue into expansion without any bridging pharmacokinetic, safety, or efficacy assessment.",
+          "category": "dose_optimization",
+          "severity": "high",
+          "claim": "An unassessed formulation and manufacturing change could alter exposure. Without a comparability assessment, escalation data may not support interpretation of the expansion dose or its safety and activity.",
+          "cited_doc_id": "FDA-DOSE-OPT-2024",
+          "guidance_quote": "Changes in formulation during development may affect drug exposure and should be considered when selecting a dosage."
+        },
+        {
+          "span": "For every participant, the dose-escalation algorithm will identify that individual’s optimal dose from observed efficacy and toxicity, without using population-level exposure–response analyses.",
+          "category": "dose_optimization",
+          "severity": "high",
+          "claim": "The protocol promises a validated individual optimum from limited within-person observations while explicitly omitting population exposure–response analysis needed to inform and assess dosage selection.",
+          "cited_doc_id": "FDA-DOSE-OPT-2024",
+          "guidance_quote": "Exposure–response analyses for efficacy and safety can inform the selection of dosages for further evaluation."
+        },
+        {
+          "span": "Participants may take the study tablets with or without meals and may continue all clinically indicated concomitant medications; no dedicated food-effect or concomitant-drug interaction assessment will be performed before expansion dose selection.",
+          "category": "safety_monitoring",
+          "severity": "high",
+          "claim": "Unrestricted concomitant medication use, without an interaction assessment or specified controls, can alter exposure and compromise both safety and dose comparisons. The changed formulation also makes an unsupported assumption that prior food-effect information remains applicable.",
+          "cited_doc_id": "FDA-DOSE-OPT-2024",
+          "guidance_quote": "The effects of food and concomitant medications on pharmacokinetics should be considered when selecting a dosage."
+        },
+        {
+          "span": "The medical monitor may be any licensed physician with general inpatient-care experience; prior oncology practice or clinical-trial oversight is not required.",
+          "category": "safety_monitoring",
+          "severity": "high",
+          "claim": "The qualification rule does not ensure that oncology and trial-specific medical expertise will be available to interpret toxicities and advise on dose and participant-safety decisions.",
+          "cited_doc_id": "ICH-E6R3-2025",
+          "guidance_quote": "The sponsor should have medical expertise readily available to advise on trial-related medical questions or problems."
+        },
+        {
+          "span": "anti-PD-(L)1 therapy within 4 weeks prior to the first dose.",
+          "category": "safety_monitoring",
+          "severity": "medium",
+          "claim": "The four-week exclusion permits enrollment soon after checkpoint-inhibitor therapy, but the synopsis specifies no risk-adapted hepatic surveillance or analysis for these participants despite the potential for overlapping hepatotoxicity. The adequacy of that interval and monitoring should be justified.",
+          "cited_doc_id": "ICH-E6R3-2025",
+          "guidance_quote": "The risks to participants should be evaluated and managed in proportion to their importance."
+        },
+        {
+          "span": "Primary (Phase 2): Objective response rate (ORR) per RECIST v1.1 at the selected recommended Phase 2 dose (RP2D).",
+          "category": "endpoint_ctq",
+          "severity": "high",
+          "claim": "A single Phase 2 ORR objective is specified for a population spanning advanced solid-tumor types, without tumor-type cohorts or a prespecified approach to interpreting response across them. Differences in tumor biology and prior therapy could make the pooled result difficult to interpret.",
+          "cited_doc_id": "FDA-EXPANSION-COHORTS-2022",
+          "guidance_quote": "Each expansion cohort should have a clearly defined objective and a prespecified patient population."
+        },
+        {
+          "span": "Intensive PK sampling on Cycle 1 Day 1 and Day 15 (pre-dose, 0.5, 1, 2, 4, 6, 8 and 24 h post-dose) in all escalation subjects; steady-state trough sampling every cycle in the randomized cohorts.",
+          "category": "burden",
+          "severity": "medium",
+          "claim": "Two full, 24-hour sampling profiles for every escalation participant impose substantial burden on patients with advanced cancer. The synopsis gives no rationale for sampling everyone or for a less burdensome approach that would still answer the PK questions.",
+          "cited_doc_id": "ICH-E6R3-2025",
+          "guidance_quote": "Trial processes, measures and approaches should be proportionate to the risks to participants and the importance of the data collected and should avoid unnecessary burden on participants and investigators."
+        }
+      ]
+    },
+    {
+      "case_id": "AX1-010",
+      "config": "oneshot_r2",
+      "tokens": 5054,
+      "elapsed_s": 27.8,
+      "verified_rate": null,
+      "n_defects": 6,
+      "n_hit": 6,
+      "n_grounded": 2,
+      "recall": 1.0,
+      "weighted_recall": 1.0,
+      "grounded_recall": 0.333,
+      "grounded_weighted_recall": 0.333,
+      "n_findings": 8,
+      "precision_proxy": 0.75,
+      "baseline_findings": [
+        {
+          "span": "Participants assigned to the control arm may cross over to the investigational therapy after progression; safety and efficacy analyses will follow the standard primary-analysis methods without any separate handling of post-crossover data.",
+          "category": "endpoint_ctq",
+          "severity": "high",
+          "claim": "No control arm is defined in the described two-dose randomization, and the analysis does not specify how outcomes and adverse events after crossover will be attributed or interpreted.",
+          "cited_doc_id": "ICH-E6R3-2025",
+          "guidance_quote": "The protocol should describe the statistical methods to be employed, including the timing of any planned interim analysis(es)."
+        },
+        {
+          "span": "The pediatric expansion cohort will proceed under the adult development plan, with pediatric assessments documented separately and added to the pediatric study plan after the cohort is completed.",
+          "category": "feasibility",
+          "severity": "high",
+          "claim": "The pediatric cohort would begin before its assessments and study plan are established. Its objectives, dosing rationale and assessments need to be planned before enrollment.",
+          "cited_doc_id": "FDA-EXPANSION-COHORTS-2022",
+          "guidance_quote": "The protocol should clearly describe the objectives, design, eligibility criteria, and endpoints for each expansion cohort."
+        },
+        {
+          "span": "Dose selection for expansion will be based solely on the prespecified primary endpoint from the escalation cohort; no exploratory analyses of existing or newly accrued clinical databases will be conducted.",
+          "category": "dose_optimization",
+          "severity": "high",
+          "claim": "This bars use of available and emerging safety, tolerability, exposure, pharmacodynamic and activity data to choose expansion doses. It also conflicts with the stated randomized, integrated dose comparison.",
+          "cited_doc_id": "FDA-DOSE-OPT-2024",
+          "guidance_quote": "Dosage selection should be based on the totality of the data, including safety, tolerability, pharmacokinetics, pharmacodynamics, and efficacy."
+        },
+        {
+          "span": "The recommended Phase 2 dose will be selected solely from dose-limiting toxicity rates observed during Cycle 1, without evaluating exposure, pharmacokinetic population parameters, or dose–response relationships.",
+          "category": "dose_optimization",
+          "severity": "critical",
+          "claim": "A Cycle 1 DLT-only rule excludes longer-term tolerability and exposure–response evidence from RP2D selection and directly contradicts the prespecified integrated-selection approach.",
+          "cited_doc_id": "FDA-DOSE-OPT-2024",
+          "guidance_quote": "The maximum tolerated dosage may not be the optimal dosage; dosage optimization should consider safety, tolerability, pharmacokinetics, pharmacodynamics, and efficacy across dosages."
+        },
+        {
+          "span": "Inclusion: age ≥18; histologically confirmed KRAS G12C-mutated locally advanced or metastatic solid tumor; ECOG 0–1; at least one prior line of systemic therapy; recovery of prior-treatment toxicities to Grade ≤1.",
+          "category": "eligibility",
+          "severity": "high",
+          "claim": "The age minimum excludes every prospective participant in the stated pediatric expansion cohort. Cohort-specific pediatric eligibility criteria are required before that cohort can enroll.",
+          "cited_doc_id": "FDA-EXPANSION-COHORTS-2022",
+          "guidance_quote": "The protocol should specify the eligibility criteria for each expansion cohort."
+        },
+        {
+          "span": "In the pediatric expansion cohort, safety will be assessed only by recording adverse events at scheduled clinic visits; no protocol-specific toxicity surveillance or additional laboratory monitoring is required.",
+          "category": "safety_monitoring",
+          "severity": "critical",
+          "claim": "Adverse-event recording alone cannot reliably detect laboratory-defined toxicity, including hepatotoxicity, in children. Pediatric safety surveillance must be prospectively specified; the adult liver-test schedule cannot be assumed to apply when this sentence expressly dispenses with additional monitoring.",
+          "cited_doc_id": "ICH-E6R3-2025",
+          "guidance_quote": "The rights, safety, and well-being of trial participants are the most important considerations and should prevail over interests of science and society."
+        },
+        {
+          "span": "The medical monitor may be any licensed physician with general inpatient-care experience; prior oncology practice or clinical-trial oversight is not required.",
+          "category": "safety_monitoring",
+          "severity": "high",
+          "claim": "Licensure and general inpatient experience alone do not establish the oncology and trial-specific medical expertise needed to assess emerging toxicities and advise investigators.",
+          "cited_doc_id": "ICH-E6R3-2025",
+          "guidance_quote": "The sponsor should have appropriately qualified medical personnel readily available to advise on trial-related medical questions or problems."
+        },
+        {
+          "span": "Primary (Phase 2): Objective response rate (ORR) per RECIST v1.1 at the selected recommended Phase 2 dose (RP2D).",
+          "category": "endpoint_ctq",
+          "severity": "medium",
+          "claim": "The primary ORR is specified for a study enrolling multiple solid-tumor types, but no indication-specific cohort objectives or analysis strategy is stated. A pooled ORR could conceal materially different activity across tumor types.",
+          "cited_doc_id": "FDA-EXPANSION-COHORTS-2022",
+          "guidance_quote": "The objectives and endpoints for each expansion cohort should be clearly specified in the protocol."
+        }
+      ]
+    },
+    {
+      "case_id": "AX1-011",
+      "config": "oneshot_r2",
+      "tokens": 5633,
+      "elapsed_s": 27.8,
+      "verified_rate": null,
+      "n_defects": 6,
+      "n_hit": 6,
+      "n_grounded": 2,
+      "recall": 1.0,
+      "weighted_recall": 1.0,
+      "grounded_recall": 0.333,
+      "grounded_weighted_recall": 0.3,
+      "n_findings": 14,
+      "precision_proxy": 0.429,
+      "baseline_findings": [
+        {
+          "span": "The study will assess treatment activity using weekly change in body weight and evaluate safety primarily through investigator-recorded tumor response, without requiring disease-specific imaging or routine laboratory monitoring.",
+          "category": "endpoint_ctq",
+          "severity": "critical",
+          "claim": "Weekly weight change is not a valid substitute for assessing antitumor activity. The stated approach also conflicts with the RECIST v1.1 ORR endpoint and the later requirement for tumor assessments.",
+          "cited_doc_id": "ICH-E6R3-2025",
+          "guidance_quote": "Trial processes and data should be fit for purpose and sufficiently robust to ensure the reliability of trial results."
+        },
+        {
+          "span": "The study will assess treatment activity using weekly change in body weight and evaluate safety primarily through investigator-recorded tumor response, without requiring disease-specific imaging or routine laboratory monitoring.",
+          "category": "safety_monitoring",
+          "severity": "critical",
+          "claim": "Tumor response cannot serve as the primary safety assessment. The statement that routine laboratory monitoring is unnecessary also conflicts with the specified liver-test schedule and leaves other routine safety assessments undefined.",
+          "cited_doc_id": "ICH-E6R3-2025",
+          "guidance_quote": "The rights, safety and well-being of trial participants are the most important considerations and should prevail over interests of science and society."
+        },
+        {
+          "span": "Patients in the expansion cohort will receive the investigator-selected dose of either 80 mg or 120 mg once daily; treatment assignment will not be randomized, and efficacy outcomes will be summarized descriptively across the two dose groups.",
+          "category": "dose_optimization",
+          "severity": "critical",
+          "claim": "The expansion doses, 80 mg and 120 mg, are outside the stated 180–960 mg escalation range. No assessment of these lower doses is described to support their selection for expansion.",
+          "cited_doc_id": "FDA-DOSE-OPT-2024",
+          "guidance_quote": "The dosage selected for further development should be based on an overall assessment of the available data, including safety, tolerability, efficacy, and pharmacokinetic and pharmacodynamic data."
+        },
+        {
+          "span": "Patients in the expansion cohort will receive the investigator-selected dose of either 80 mg or 120 mg once daily; treatment assignment will not be randomized, and efficacy outcomes will be summarized descriptively across the two dose groups.",
+          "category": "dose_optimization",
+          "severity": "high",
+          "claim": "Investigator-selected, nonrandomized assignment conflicts with the preceding commitment to randomize patients 1:1 between candidate doses. Descriptive outcomes from the nonrandomized groups would be vulnerable to selection bias when comparing doses.",
+          "cited_doc_id": "FDA-DOSE-OPT-2024",
+          "guidance_quote": "FDA recommends that sponsors evaluate a range of dosages in randomized, parallel-dose response trials."
+        },
+        {
+          "span": "Primary (Phase 2): Objective response rate (ORR) per RECIST v1.1 at the selected recommended Phase 2 dose (RP2D).",
+          "category": "endpoint_ctq",
+          "severity": "high",
+          "claim": "The Phase 2 endpoint is specified at a selected RP2D, but the expansion plan instead assigns patients to investigator-selected 80 mg or 120 mg doses. The synopsis does not reconcile which population will estimate ORR at the RP2D.",
+          "cited_doc_id": "ICH-E6R3-2025",
+          "guidance_quote": "Trial processes and data should be fit for purpose and sufficiently robust to ensure the reliability of trial results."
+        },
+        {
+          "span": "Patients with moderate hepatic impairment and the CYP2C19 poor-metabolizer genotype will be enrolled in the same dose-escalation cohort without separate PK, PD, safety, or efficacy analyses.",
+          "category": "dose_optimization",
+          "severity": "high",
+          "claim": "The protocol explicitly forgoes evaluation of whether these clinically relevant characteristics alter exposure or the benefit–risk assessment, despite enrolling affected patients during dose escalation.",
+          "cited_doc_id": "FDA-DOSE-OPT-2024",
+          "guidance_quote": "The dosage selected for further development should be based on an overall assessment of the available data, including safety, tolerability, efficacy, and pharmacokinetic and pharmacodynamic data."
+        },
+        {
+          "span": "Pharmacokinetic analyses will use pooled data without examining covariates or reporting results by clinically relevant patient subgroups.",
+          "category": "dose_optimization",
+          "severity": "high",
+          "claim": "Pooled-only PK analyses cannot assess exposure differences in clinically relevant subgroups or determine whether those differences warrant a different dosage.",
+          "cited_doc_id": "FDA-DOSE-OPT-2024",
+          "guidance_quote": "Sponsors should consider the effect of intrinsic and extrinsic factors on exposure when selecting a dosage for further development."
+        },
+        {
+          "span": "Inclusion: age ≥18; histologically confirmed KRAS G12C-mutated locally advanced or metastatic solid tumor; ECOG 0–1; at least one prior line of systemic therapy; recovery of prior-treatment toxicities to Grade ≤1.",
+          "category": "endpoint_ctq",
+          "severity": "high",
+          "claim": "Measurable disease is not required, although the Phase 2 primary endpoint is ORR by RECIST v1.1. Patients without measurable disease could therefore be enrolled without being evaluable for that endpoint.",
+          "cited_doc_id": "ICH-E6R3-2025",
+          "guidance_quote": "Trial processes and data should be fit for purpose and sufficiently robust to ensure the reliability of trial results."
+        },
+        {
+          "span": "Inclusion: age ≥18; histologically confirmed KRAS G12C-mutated locally advanced or metastatic solid tumor; ECOG 0–1; at least one prior line of systemic therapy; recovery of prior-treatment toxicities to Grade ≤1.",
+          "category": "eligibility",
+          "severity": "medium",
+          "claim": "Requiring every prior-treatment toxicity to resolve to Grade 1 or lower may exclude patients with stable, clinically insignificant residual effects. No exception or rationale is stated.",
+          "cited_doc_id": "FDA-EXPANSION-COHORTS-2022",
+          "guidance_quote": "Sponsors should consider broadening eligibility criteria when appropriate to avoid unnecessarily excluding patients who might benefit from the investigational drug."
+        },
+        {
+          "span": "Exclusion: active brain metastases; prior treatment with a KRAS G12C inhibitor; QTcF >470 ms; anti-PD-(L)1 therapy within 4 weeks prior to the first dose.",
+          "category": "eligibility",
+          "severity": "medium",
+          "claim": "The blanket exclusion of active brain metastases gives no provision or rationale for patients whose central nervous system disease could be treated and stabilized before enrollment, limiting representativeness.",
+          "cited_doc_id": "FDA-EXPANSION-COHORTS-2022",
+          "guidance_quote": "Sponsors should consider broadening eligibility criteria when appropriate to avoid unnecessarily excluding patients who might benefit from the investigational drug."
+        },
+        {
+          "span": "The sponsor will include serious and unexpected adverse safety findings in the next scheduled annual safety report, unless the medical monitor requests earlier submission.",
+          "category": "safety_monitoring",
+          "severity": "critical",
+          "claim": "An annual report cannot replace required expedited reporting of serious and unexpected suspected adverse reactions; earlier submission cannot depend solely on a medical monitor's request.",
+          "cited_doc_id": "ICH-E6R3-2025",
+          "guidance_quote": "The sponsor should expedite the reporting to the regulatory authority(ies) of adverse reactions that are both serious and unexpected."
+        },
+        {
+          "span": "Protocol deviations will be reviewed individually by the study team, with importance assigned after database lock and without predefined classification criteria.",
+          "category": "endpoint_ctq",
+          "severity": "high",
+          "claim": "Deferring importance classification until after database lock, without prespecified criteria, prevents timely identification and management of deviations that threaten participant safety or critical data.",
+          "cited_doc_id": "ICH-E6R3-2025",
+          "guidance_quote": "The sponsor should identify factors that are critical to quality and manage risks to those factors throughout the trial."
+        },
+        {
+          "span": "Intensive PK sampling on Cycle 1 Day 1 and Day 15 (pre-dose, 0.5, 1, 2, 4, 6, 8 and 24 h post-dose) in all escalation subjects; steady-state trough sampling every cycle in the randomized cohorts.",
+          "category": "burden",
+          "severity": "medium",
+          "claim": "Requiring two eight-sample, 24-hour PK profiles from every escalation participant creates substantial travel or overnight-stay burden. The synopsis gives no rationale for sampling every participant rather than a justified subset.",
+          "cited_doc_id": "ICH-E6R3-2025",
+          "guidance_quote": "The burden of trial participation should be considered and steps taken to reduce the burden where possible."
+        },
+        {
+          "span": "Screening (Day −28 to −1), Cycle 1 Day 1, Day 8, Day 15, then Day 1 of each 21-day cycle. Tumor assessments every 6 weeks.",
+          "category": "feasibility",
+          "severity": "medium",
+          "claim": "The visit schedule does not account for the required 24-hour post-dose PK collections after Cycle 1 Day 1 and Day 15, leaving the additional visits or overnight arrangements unspecified.",
+          "cited_doc_id": "ICH-E6R3-2025",
+          "guidance_quote": "Trial procedures and processes should be operationally feasible and avoid unnecessary complexity and burden."
+        }
+      ]
+    },
+    {
+      "case_id": "AX1-012",
+      "config": "oneshot_r2",
+      "tokens": 4160,
+      "elapsed_s": 20.0,
+      "verified_rate": null,
+      "n_defects": 6,
+      "n_hit": 6,
+      "n_grounded": 3,
+      "recall": 1.0,
+      "weighted_recall": 1.0,
+      "grounded_recall": 0.5,
+      "grounded_weighted_recall": 0.444,
+      "n_findings": 7,
+      "precision_proxy": 0.857,
+      "baseline_findings": [
+        {
+          "span": "This first-in-human dose-escalation study will enroll participants using an ad hoc design selected for operational convenience, without a prespecified rationale for dose levels, cohort size, or analysis of the resulting data.",
+          "category": "dose_optimization",
+          "severity": "high",
+          "claim": "This sentence contradicts the specified BOIN design, 36-subject maximum, and simulated operating characteristics. If the ad hoc plan governs enrollment, the protocol lacks a defensible, prespecified escalation and analysis plan.",
+          "cited_doc_id": "FDA-EXPANSION-COHORTS-2022",
+          "guidance_quote": "The protocol should include a prespecified plan for evaluating safety data and making decisions about dose escalation and expansion."
+        },
+        {
+          "span": "This first-in-human dose-escalation study will enroll participants using an ad hoc design selected for operational convenience, without a prespecified rationale for dose levels, cohort size, or analysis of the resulting data.",
+          "category": "feasibility",
+          "severity": "medium",
+          "claim": "Calling this a first-in-human study is inconsistent with the identification of DV-101 as sotorasib, a drug already administered to humans. The sponsor must clarify what is investigational and whether this is actually first-in-human.",
+          "cited_doc_id": "FDA-EXPANSION-COHORTS-2022",
+          "guidance_quote": "A first-in-human trial is the first clinical trial in which an investigational drug is administered to human subjects."
+        },
+        {
+          "span": "Blood samples will be collected for exploratory biomarker testing, but no pharmacokinetic sampling schedule or analytical method is defined.",
+          "category": "dose_optimization",
+          "severity": "high",
+          "claim": "The assertion that no PK schedule exists contradicts the intensive and trough PK schedule immediately above it. The conflicting instructions, and the stated absence of an analytical method, undermine the planned PK comparison and dose selection.",
+          "cited_doc_id": "FDA-DOSE-OPT-2024",
+          "guidance_quote": "Dosage selection should be based on the totality of the data, including efficacy, safety, tolerability, pharmacokinetic, and pharmacodynamic data."
+        },
+        {
+          "span": "The study will enroll adults with untreated low-risk indolent lymphoma for whom standard curative therapy is available and recommended.",
+          "category": "eligibility",
+          "severity": "critical",
+          "claim": "Lymphoma is not a solid tumor, and untreated patients do not meet the stated requirement for at least one prior systemic therapy. Enrolling patients for whom recommended curative therapy is available also raises a serious risk–benefit concern.",
+          "cited_doc_id": "ICH-E6R3-2025",
+          "guidance_quote": "The rights, safety and well-being of trial participants are the most important considerations and should prevail over interests of science and society."
+        },
+        {
+          "span": "Enrollment in the pediatric expansion cohort will be open to children with newly diagnosed or relapsed solid tumors, regardless of target-expression testing or availability of standard therapy.",
+          "category": "eligibility",
+          "severity": "critical",
+          "claim": "This opens enrollment to children without establishing the protocol’s KRAS G12C target and to newly diagnosed children who may have standard treatment. It also conflicts with the stated adult-only, previously treated eligibility criteria.",
+          "cited_doc_id": "ICH-E6R3-2025",
+          "guidance_quote": "The rights, safety and well-being of trial participants are the most important considerations and should prevail over interests of science and society."
+        },
+        {
+          "span": "Interim safety and efficacy findings will be reviewed only after database lock at the end of the expansion phase, and no planned interim reports will be distributed to participating investigators, IRBs, or health authorities.",
+          "category": "safety_monitoring",
+          "severity": "critical",
+          "claim": "Deferring review until the end of expansion prevents emerging risks from informing ongoing enrollment and treatment; the categorical refusal to provide planned updates also impedes timely oversight.",
+          "cited_doc_id": "FDA-EXPANSION-COHORTS-2022",
+          "guidance_quote": "As new safety information becomes available during the trial, it should be communicated to investigators, institutional review boards, and FDA in a timely manner."
+        },
+        {
+          "span": "Tolerability will be assessed exclusively through investigator-recorded adverse events and laboratory findings; no patient-reported outcome questionnaires will be administered during dose escalation or expansion.",
+          "category": "dose_optimization",
+          "severity": "medium",
+          "claim": "The exclusive reliance on investigator reports and laboratory findings omits patients’ direct assessment of symptomatic toxicity and treatment burden from the comparison used to select the RP2D.",
+          "cited_doc_id": "FDA-DOSE-OPT-2024",
+          "guidance_quote": "Sponsors should consider using patient-reported outcome measures to assess tolerability, including symptomatic adverse reactions and their impact on patients' daily lives."
+        }
+      ]
+    },
+    {
+      "case_id": "AX1-013",
+      "config": "oneshot_r2",
+      "tokens": 4397,
+      "elapsed_s": 20.4,
+      "verified_rate": null,
+      "n_defects": 6,
+      "n_hit": 6,
+      "n_grounded": 1,
+      "recall": 1.0,
+      "weighted_recall": 1.0,
+      "grounded_recall": 0.167,
+      "grounded_weighted_recall": 0.15,
+      "n_findings": 11,
+      "precision_proxy": 0.545,
+      "baseline_findings": [
+        {
+          "span": "The sponsor will finalize the dose-comparison design and proceed directly to patient enrollment without seeking regulatory input until after the Phase 2 expansion is completed.",
+          "category": "dose_optimization",
+          "severity": "medium",
+          "claim": "The sponsor plans to defer regulatory discussion of the dose-comparison design until after it has been used to select a Phase 2 dose.",
+          "cited_doc_id": "FDA-DOSE-OPT-2024",
+          "guidance_quote": "Sponsors are encouraged to discuss their plans for dosage optimization with FDA early in drug development."
+        },
+        {
+          "span": "After enrolling the initial three participants at 10 mg, the study will proceed directly to a fixed 10 mg expansion cohort without evaluating higher dose levels or determining a tolerated dose ceiling.",
+          "category": "dose_optimization",
+          "severity": "critical",
+          "claim": "A fixed expansion after three participants bypasses the planned escalation and randomized dose comparison, leaving no adequate basis to select an optimized dose.",
+          "cited_doc_id": "FDA-DOSE-OPT-2024",
+          "guidance_quote": "Dosage optimization should be initiated as early as possible in the development program and continue throughout development, as appropriate."
+        },
+        {
+          "span": "After enrolling the initial three participants at 10 mg, the study will proceed directly to a fixed 10 mg expansion cohort without evaluating higher dose levels or determining a tolerated dose ceiling.",
+          "category": "feasibility",
+          "severity": "high",
+          "claim": "The stated 10 mg starting and expansion dose conflicts with the specified BOIN dose levels of 180–960 mg and the plan to select two candidate doses from escalation data; the study cannot be run as written.",
+          "cited_doc_id": "ICH-E6R3-2025",
+          "guidance_quote": "The design, conduct and analysis of a clinical trial should be based on a clear, concise and operationally feasible protocol."
+        },
+        {
+          "span": "Patients with moderate hepatic impairment and carriers of the ABCB1 variant will be enrolled only in the expansion cohort, with no separate pharmacokinetic, pharmacodynamic, safety, or efficacy analyses planned.",
+          "category": "dose_optimization",
+          "severity": "high",
+          "claim": "The protocol includes groups that may have different exposure or benefit–risk without planning analyses to determine whether the selected dose is appropriate for them.",
+          "cited_doc_id": "FDA-DOSE-OPT-2024",
+          "guidance_quote": "Sponsors should consider the effects of intrinsic and extrinsic factors on exposure, safety, and efficacy when optimizing a dosage."
+        },
+        {
+          "span": "Enrollment in the pediatric expansion cohort will be open to children with newly diagnosed or relapsed solid tumors, regardless of target-expression testing or availability of standard therapy.",
+          "category": "eligibility",
+          "severity": "critical",
+          "claim": "Children can enter without confirmation of the molecular target and even when standard treatment is available, undermining both the rationale for treatment and the justification for exposing them to risk.",
+          "cited_doc_id": "ICH-E6R3-2025",
+          "guidance_quote": "The rights, safety and well-being of trial participants are the most important considerations and should prevail over interests of science and society."
+        },
+        {
+          "span": "Enrollment in the pediatric expansion cohort will be open to children with newly diagnosed or relapsed solid tumors, regardless of target-expression testing or availability of standard therapy.",
+          "category": "feasibility",
+          "severity": "high",
+          "claim": "The pediatric cohort conflicts with the stated inclusion criteria requiring age ≥18, a KRAS G12C-mutated advanced solid tumor, and at least one prior systemic-therapy line.",
+          "cited_doc_id": "ICH-E6R3-2025",
+          "guidance_quote": "The design, conduct and analysis of a clinical trial should be based on a clear, concise and operationally feasible protocol."
+        },
+        {
+          "span": "The study will enroll adults with untreated low-risk indolent lymphoma for whom standard curative therapy is available and recommended.",
+          "category": "eligibility",
+          "severity": "critical",
+          "claim": "Enrolling untreated patients for whom recommended curative therapy is available exposes them to investigational treatment without a stated justification for foregoing that care.",
+          "cited_doc_id": "ICH-E6R3-2025",
+          "guidance_quote": "The rights, safety and well-being of trial participants are the most important considerations and should prevail over interests of science and society."
+        },
+        {
+          "span": "The study will enroll adults with untreated low-risk indolent lymphoma for whom standard curative therapy is available and recommended.",
+          "category": "feasibility",
+          "severity": "high",
+          "claim": "Untreated indolent lymphoma does not meet the stated advanced-solid-tumor and prior-systemic-therapy entry criteria, so eligibility is internally contradictory.",
+          "cited_doc_id": "ICH-E6R3-2025",
+          "guidance_quote": "The design, conduct and analysis of a clinical trial should be based on a clear, concise and operationally feasible protocol."
+        },
+        {
+          "span": "During this first-in-human study, safety will be assessed only by participant-reported symptoms, and treatment activity will be evaluated solely by changes in a nonspecific serum biomarker without tumor imaging or objective disease-response criteria.",
+          "category": "safety_monitoring",
+          "severity": "critical",
+          "claim": "Symptoms alone cannot detect laboratory abnormalities or otherwise support the stated DLT, hepatotoxicity, and safety assessments; the sentence also contradicts the scheduled liver tests.",
+          "cited_doc_id": "ICH-E6R3-2025",
+          "guidance_quote": "The rights, safety and well-being of trial participants are the most important considerations and should prevail over interests of science and society."
+        },
+        {
+          "span": "During this first-in-human study, safety will be assessed only by participant-reported symptoms, and treatment activity will be evaluated solely by changes in a nonspecific serum biomarker without tumor imaging or objective disease-response criteria.",
+          "category": "endpoint_ctq",
+          "severity": "critical",
+          "claim": "A nonspecific biomarker cannot establish the stated Phase 2 RECIST v1.1 objective response rate; omitting imaging and objective response criteria also contradicts the scheduled tumor assessments.",
+          "cited_doc_id": "CTTI-QBD",
+          "guidance_quote": "Factors that are critical to quality should be identified prospectively and should be the focus of efforts to ensure quality."
+        },
+        {
+          "span": "During this first-in-human study, safety will be assessed only by participant-reported symptoms, and treatment activity will be evaluated solely by changes in a nonspecific serum biomarker without tumor imaging or objective disease-response criteria.",
+          "category": "feasibility",
+          "severity": "medium",
+          "claim": "Calling this a first-in-human study is inconsistent with identifying DV-101 as sotorasib, an already clinically developed drug; the sponsor should clarify whether this is a new product or a study of sotorasib.",
+          "cited_doc_id": "ICH-E6R3-2025",
+          "guidance_quote": "Clinical trials should be scientifically sound for their intended purpose and based on adequate and current scientific knowledge and approaches."
+        }
+      ]
+    },
+    {
+      "case_id": "AX1-014",
+      "config": "oneshot_r2",
+      "tokens": 4758,
+      "elapsed_s": 24.8,
+      "verified_rate": null,
+      "n_defects": 6,
+      "n_hit": 5,
+      "n_grounded": 1,
+      "recall": 0.833,
+      "weighted_recall": 0.81,
+      "grounded_recall": 0.167,
+      "grounded_weighted_recall": 0.143,
+      "n_findings": 6,
+      "precision_proxy": 0.833,
+      "baseline_findings": [
+        {
+          "span": "For every participant, the dose-escalation algorithm will identify that individual’s optimal dose from observed efficacy and toxicity, without using population-level exposure–response analyses.",
+          "category": "dose_optimization",
+          "severity": "high",
+          "claim": "The described BOIN escalation algorithm targets a cohort-level DLT rate; it does not establish each participant’s efficacy–toxicity optimum. Excluding population-level exposure–response analyses also removes evidence needed to support dose selection.",
+          "cited_doc_id": "FDA-DOSE-OPT-2024",
+          "guidance_quote": "Dosage optimization is a process that seeks to identify a dosage(s) that maximizes the efficacy and/or safety and tolerability of a drug."
+        },
+        {
+          "span": "After identification of a potentially fatal dose-limiting toxicity during escalation, the study will open all planned expansion cohorts at the highest tested dose while the recommended phase 2 dose remains under review.",
+          "category": "safety_monitoring",
+          "severity": "critical",
+          "claim": "A potentially fatal DLT calls for an immediate safety assessment, not automatic expansion of exposure at the highest tested dose before a suitable expansion dose is established.",
+          "cited_doc_id": "ICH-E6R3-2025",
+          "guidance_quote": "The rights, safety and well-being of trial participants are the most important considerations and should prevail over interests of science and society."
+        },
+        {
+          "span": "The recommended Phase 2 dose will be selected using tumor response and exposure data only; treatment discontinuations, interruptions, and dose reductions caused by adverse reactions will not affect dose selection.",
+          "category": "dose_optimization",
+          "severity": "high",
+          "claim": "Excluding adverse-reaction-driven discontinuations, interruptions, and reductions prevents the RP2D decision from accounting for tolerability over time.",
+          "cited_doc_id": "FDA-DOSE-OPT-2024",
+          "guidance_quote": "Dosage selection should be based on the totality of data, including safety, tolerability, pharmacokinetics, pharmacodynamics, and efficacy."
+        },
+        {
+          "span": "Pharmacokinetic blood samples will be collected only before dosing and at 1 hour after the first administration; no samples will be obtained after repeat dosing or during the expected accumulation period.",
+          "category": "dose_optimization",
+          "severity": "high",
+          "claim": "This directly contradicts the specified Day 1 and Day 15 intensive sampling and every-cycle trough sampling. If followed, it would also preclude the planned characterization of repeat-dose exposure and accumulation needed for dose comparison.",
+          "cited_doc_id": "FDA-DOSE-OPT-2024",
+          "guidance_quote": "Exposure–response relationships for both efficacy and safety should be evaluated to inform dosage selection."
+        },
+        {
+          "span": "The sponsor will issue a single cumulative safety update to investigators and the IRB at the end of each calendar year, with any interim adverse-event findings reserved for the next scheduled annual review.",
+          "category": "safety_monitoring",
+          "severity": "critical",
+          "claim": "Deferring all interim adverse-event findings to an annual review would delay communication of emerging risks that require prompt reporting or action.",
+          "cited_doc_id": "ICH-E6R3-2025",
+          "guidance_quote": "The sponsor should promptly notify the investigator(s)/institution(s) and the regulatory authority(ies) of findings that could adversely affect the safety of trial participants, impact the conduct of the trial, or alter the IRB/IEC’s approval/favourable opinion to continue the trial."
+        },
+        {
+          "span": "Screening (Day −28 to −1), Cycle 1 Day 1, Day 8, Day 15, then Day 1 of each 21-day cycle.",
+          "category": "feasibility",
+          "severity": "medium",
+          "claim": "The visit schedule does not provide for the specified 24-hour post-dose PK collections after Cycle 1 Days 1 and 15. Day 2 and Day 16 collection arrangements must be made explicit for those samples to be obtained.",
+          "cited_doc_id": "ICH-E6R3-2025",
+          "guidance_quote": "Clinical trials should be designed to be operationally feasible and avoid unnecessary complexity."
+        }
+      ]
+    },
+    {
+      "case_id": "AX1-015",
+      "config": "oneshot_r2",
+      "tokens": 4088,
+      "elapsed_s": 18.8,
+      "verified_rate": null,
+      "n_defects": 6,
+      "n_hit": 6,
+      "n_grounded": 3,
+      "recall": 1.0,
+      "weighted_recall": 1.0,
+      "grounded_recall": 0.5,
+      "grounded_weighted_recall": 0.526,
+      "n_findings": 10,
+      "precision_proxy": 0.6,
+      "baseline_findings": [
+        {
+          "span": "After the recommended starting dose is established, all subsequent participants will receive the same fixed dose throughout the Phase 1/2 study, with no lower- or higher-dose cohorts planned.",
+          "category": "dose_optimization",
+          "severity": "critical",
+          "claim": "A single fixed dose precludes the planned BOIN escalation and contradicts the subsequent randomization between two candidate doses. The dosing plan cannot be implemented as written.",
+          "cited_doc_id": "FDA-DOSE-OPT-2024",
+          "guidance_quote": "Sponsors should evaluate a range of dosages to identify a dosage that is optimal for a given indication."
+        },
+        {
+          "span": "This first-in-human dose-escalation study will enroll participants using an ad hoc design selected for operational convenience, without a prespecified rationale for dose levels, cohort size, or analysis of the resulting data.",
+          "category": "feasibility",
+          "severity": "critical",
+          "claim": "This sentence contradicts the prespecified BOIN design, dose levels, enrollment limit, and simulated operating characteristics. It leaves investigators with incompatible escalation instructions.",
+          "cited_doc_id": "FDA-EXPANSION-COHORTS-2022",
+          "guidance_quote": "The protocol should include a detailed description of the dose-escalation plan, including the criteria for dose escalation and de-escalation."
+        },
+        {
+          "span": "This first-in-human dose-escalation study will enroll participants using an ad hoc design selected for operational convenience, without a prespecified rationale for dose levels, cohort size, or analysis of the resulting data.",
+          "category": "feasibility",
+          "severity": "high",
+          "claim": "Calling a study of an investigational product explicitly identified as sotorasib ‘first-in-human’ is inconsistent with sotorasib's established human use. The sponsor must clarify whether this is a new product or formulation and justify the proposed development design accordingly.",
+          "cited_doc_id": "FDA-EXPANSION-COHORTS-2022",
+          "guidance_quote": "First-in-human trials are the initial studies in which an investigational drug or biologic is administered to humans."
+        },
+        {
+          "span": "The recommended Phase 2 dose will be selected solely from dose-limiting toxicity rates observed during Cycle 1, without evaluating exposure, pharmacokinetic population parameters, or dose–response relationships.",
+          "category": "dose_optimization",
+          "severity": "critical",
+          "claim": "Cycle 1 DLT rates alone cannot establish an optimized RP2D. This also contradicts the stated randomized comparison and integrated selection criteria.",
+          "cited_doc_id": "FDA-DOSE-OPT-2024",
+          "guidance_quote": "Dosage selection should be based on a comprehensive evaluation of the available data, including pharmacokinetics, pharmacodynamics, safety, tolerability, and efficacy."
+        },
+        {
+          "span": "Dose selection for expansion will be based solely on observed tumor response rates, without adjustment for treatment adherence, concomitant medications, organ-function changes, or measured drug exposure.",
+          "category": "dose_optimization",
+          "severity": "high",
+          "claim": "Response rates alone cannot distinguish a dose effect from differences in exposure or factors affecting it. The proposed rule conflicts with the planned PK and integrated dose comparison.",
+          "cited_doc_id": "FDA-DOSE-OPT-2024",
+          "guidance_quote": "Sponsors should consider the impact of intrinsic and extrinsic factors on exposure, safety, and efficacy when selecting a dosage."
+        },
+        {
+          "span": "The biomarker-selected expansion cohort will enroll 30 participants, with no assumptions, precision targets, hypothesis, or other statistical rationale provided for this sample size.",
+          "category": "endpoint_ctq",
+          "severity": "high",
+          "claim": "Without a stated objective and sample-size rationale, it is unclear what the expansion cohort's response estimate can establish or how its results will inform development.",
+          "cited_doc_id": "FDA-EXPANSION-COHORTS-2022",
+          "guidance_quote": "The protocol should include the objectives and statistical analysis plan for each expansion cohort, including a justification for the proposed sample size."
+        },
+        {
+          "span": "The combination expansion cohort will open after the first six participants complete cycle 1 of the investigational antibody plus pembrolizumab, without requiring prior monotherapy evaluation of the antibody at its recommended phase 2 dose.",
+          "category": "safety_monitoring",
+          "severity": "high",
+          "claim": "Opening a combination expansion after only six participants' first-cycle observations, without the stated monotherapy evaluation, provides an insufficiently justified basis for assessing the antibody's contribution and distinguishing its toxicity from combination toxicity.",
+          "cited_doc_id": "FDA-EXPANSION-COHORTS-2022",
+          "guidance_quote": "For combination expansion cohorts, the protocol should provide a scientific rationale for the combination and sufficient information to assess the safety of the drugs administered together."
+        },
+        {
+          "span": "Primary (Phase 2): Objective response rate (ORR) per RECIST v1.1 at the selected recommended Phase 2 dose (RP2D).",
+          "category": "endpoint_ctq",
+          "severity": "medium",
+          "claim": "The primary ORR objective does not specify how responses across the eligible, potentially heterogeneous solid-tumor types will be analyzed or interpreted. A defined analysis population and approach are needed for an interpretable expansion result.",
+          "cited_doc_id": "ICH-E6R3-2025",
+          "guidance_quote": "The trial should be designed to produce reliable results that are meaningful for the questions it aims to answer."
+        },
+        {
+          "span": "Inclusion: age ≥18; histologically confirmed KRAS G12C-mutated locally advanced or metastatic solid tumor; ECOG 0–1; at least one prior line of systemic therapy; recovery of prior-treatment toxicities to Grade ≤1.",
+          "category": "endpoint_ctq",
+          "severity": "medium",
+          "claim": "Biomarker status determines entry, but the synopsis does not identify the accepted mutation assay, specimen requirements, or verification process. These are critical-to-quality elements for a biomarker-selected cohort.",
+          "cited_doc_id": "ICH-E6R3-2025",
+          "guidance_quote": "Factors critical to the quality of the trial should be identified prospectively."
+        },
+        {
+          "span": "Intensive PK sampling on Cycle 1 Day 1 and Day 15 (pre-dose, 0.5, 1, 2, 4, 6, 8 and 24 h post-dose) in all escalation subjects; steady-state trough sampling every cycle in the randomized cohorts.",
+          "category": "burden",
+          "severity": "medium",
+          "claim": "Two nine-sample, 24-hour profiles for every escalation participant impose substantial visit and blood-draw burden. The synopsis gives no rationale for requiring both full profiles in all participants rather than a less burdensome strategy that still meets the PK objectives.",
+          "cited_doc_id": "CTTI-QBD",
+          "guidance_quote": "Avoid unnecessary procedures and data collection that add burden without contributing meaningfully to the trial objectives."
+        }
+      ]
+    },
+    {
+      "case_id": "AX1-016",
+      "config": "oneshot_r2",
+      "tokens": 5257,
+      "elapsed_s": 27.4,
+      "verified_rate": null,
+      "n_defects": 6,
+      "n_hit": 6,
+      "n_grounded": 3,
+      "recall": 1.0,
+      "weighted_recall": 1.0,
+      "grounded_recall": 0.5,
+      "grounded_weighted_recall": 0.471,
+      "n_findings": 10,
+      "precision_proxy": 0.6,
+      "baseline_findings": [
+        {
+          "span": "All recommendations in FDA-DOSE-OPT-2024 shall be implemented without deviation, and any investigator request to adapt them requires prior FDA approval.",
+          "category": "source_version",
+          "severity": "medium",
+          "claim": "This misstates the status of FDA guidance as binding and implies that every alternative approach requires prior FDA approval. The protocol should state its own requirements separately from guidance recommendations.",
+          "cited_doc_id": "FDA-DOSE-OPT-2024",
+          "guidance_quote": "This guidance does not establish any rights for any person and is not binding on FDA or the public. You can use an alternative approach if it satisfies the requirements of the applicable statutes and regulations."
+        },
+        {
+          "span": "After identifying the first tolerable dose, all subsequent participants will receive only that dose, with no concurrent or sequential comparison of alternative dose levels.",
+          "category": "dose_optimization",
+          "severity": "critical",
+          "claim": "This precludes the later planned randomization between two candidate doses and would select a dose on initial tolerability rather than comparative optimization. The escalation and expansion instructions are irreconcilable.",
+          "cited_doc_id": "FDA-DOSE-OPT-2024",
+          "guidance_quote": "Sponsors should evaluate a range of dosages to identify an optimized dosage that maximizes efficacy, safety, and tolerability."
+        },
+        {
+          "span": "The study will select the recommended Phase 2 dose from the first expansion cohort without collecting dose–response data or evaluating effects of long-term administration, concomitant medications, or comorbid disease.",
+          "category": "dose_optimization",
+          "severity": "critical",
+          "claim": "Selection without dose–response data contradicts the stated randomized two-dose comparison and leaves the RP2D unsupported by comparative exposure, activity, and toxicity evidence.",
+          "cited_doc_id": "FDA-DOSE-OPT-2024",
+          "guidance_quote": "The selection of an optimized dosage should be based on the totality of the data, including dose- and exposure-response relationships for efficacy and safety, pharmacokinetic and pharmacodynamic data, and tolerability."
+        },
+        {
+          "span": "The study will select the recommended Phase 2 dose from the first expansion cohort without collecting dose–response data or evaluating effects of long-term administration, concomitant medications, or comorbid disease.",
+          "category": "safety_monitoring",
+          "severity": "high",
+          "claim": "For a continuously administered oral drug, the stated omission of longer-term tolerability and the effects of concomitant medications and comorbidity undermines assessment of whether the chosen dose remains usable in the intended population.",
+          "cited_doc_id": "FDA-DOSE-OPT-2024",
+          "guidance_quote": "Safety and tolerability assessments should consider adverse reactions that may emerge with longer-term administration and the need for dose interruptions, reductions, or discontinuations."
+        },
+        {
+          "span": "The formulation-bridging expansion cohort will enroll participants receiving the new tablet or legacy capsule, with safety and pharmacokinetic results summarized descriptively and no prespecified comparison objectives or analysis methods.",
+          "category": "endpoint_ctq",
+          "severity": "high",
+          "claim": "A formulation-bridging cohort cannot answer its bridging question reliably without a prespecified comparison objective and analysis of the relevant PK and safety measures.",
+          "cited_doc_id": "FDA-EXPANSION-COHORTS-2022",
+          "guidance_quote": "The protocol should clearly describe the objectives, endpoints, and statistical analysis plan for each expansion cohort."
+        },
+        {
+          "span": "For this intravenous oncology study, the 500 mg dose will be prepared as a 50 mg/mL solution, requiring administration of 10 mL over 5 minutes regardless of infusion-site tolerance or participant body size.",
+          "category": "feasibility",
+          "severity": "critical",
+          "claim": "The investigational product and all planned dose levels are oral, whereas this instruction specifies intravenous administration at an unlisted 500 mg dose. Sites cannot implement a coherent dosing and formulation plan.",
+          "cited_doc_id": "ICH-E6R3-2025",
+          "guidance_quote": "Clinical trials should be scientifically sound for their intended purpose, and based on adequate and current scientific knowledge and approaches."
+        },
+        {
+          "span": "For this intravenous oncology study, the 500 mg dose will be prepared as a 50 mg/mL solution, requiring administration of 10 mL over 5 minutes regardless of infusion-site tolerance or participant body size.",
+          "category": "safety_monitoring",
+          "severity": "high",
+          "claim": "If intravenous dosing were intended, mandating a fixed administration rate regardless of infusion-site tolerance provides no means to respond to a participant-specific safety concern.",
+          "cited_doc_id": "ICH-E6R3-2025",
+          "guidance_quote": "The rights, safety and well-being of trial participants are the most important considerations and should prevail over interests of science and society."
+        },
+        {
+          "span": "The disease-specific expansion cohort will enroll up to 60 participants without interim futility monitoring or prespecified criteria for discontinuing enrollment for inadequate response.",
+          "category": "endpoint_ctq",
+          "severity": "high",
+          "claim": "Without a prespecified inadequate-activity stopping rule, the cohort may continue exposing participants and using trial capacity after the response objective is unlikely to be met.",
+          "cited_doc_id": "FDA-EXPANSION-COHORTS-2022",
+          "guidance_quote": "Protocols should include prespecified criteria for stopping an expansion cohort for lack of efficacy or unacceptable toxicity."
+        },
+        {
+          "span": "Intensive PK sampling on Cycle 1 Day 1 and Day 15 (pre-dose, 0.5, 1, 2, 4, 6, 8 and 24 h post-dose) in all escalation subjects; steady-state trough sampling every cycle in the randomized cohorts.",
+          "category": "feasibility",
+          "severity": "medium",
+          "claim": "The two 24-hour post-dose collections require Cycle 1 Day 2 and Day 16 attendance or another specified collection arrangement, but neither day appears in the visit schedule. This creates an unresolved participant and site burden.",
+          "cited_doc_id": "ICH-E6R3-2025",
+          "guidance_quote": "The trial should be designed to be operationally feasible and should avoid unnecessary complexity, procedures and data collection."
+        },
+        {
+          "span": "Primary (Phase 2): Objective response rate (ORR) per RECIST v1.1 at the selected recommended Phase 2 dose (RP2D).",
+          "category": "endpoint_ctq",
+          "severity": "high",
+          "claim": "The population spans KRAS G12C-mutated advanced solid tumors, but the Phase 2 ORR objective does not specify whether response will be evaluated by tumor type or pooled, or how differing tumor-type response rates will be handled. That limits interpretability of the primary endpoint.",
+          "cited_doc_id": "FDA-EXPANSION-COHORTS-2022",
+          "guidance_quote": "The protocol should clearly specify the objectives and endpoints for each expansion cohort and the statistical methods that will be used to analyze the data."
+        }
+      ]
+    },
+    {
+      "case_id": "AX1-017",
+      "config": "oneshot_r2",
+      "tokens": 4273,
+      "elapsed_s": 20.9,
+      "verified_rate": null,
+      "n_defects": 6,
+      "n_hit": 6,
+      "n_grounded": 4,
+      "recall": 1.0,
+      "weighted_recall": 1.0,
+      "grounded_recall": 0.667,
+      "grounded_weighted_recall": 0.632,
+      "n_findings": 8,
+      "precision_proxy": 0.75,
+      "baseline_findings": [
+        {
+          "span": "The study will assess treatment activity using weekly change in body weight and evaluate safety primarily through investigator-recorded tumor response, without requiring disease-specific imaging or routine laboratory monitoring.",
+          "category": "endpoint_ctq",
+          "severity": "critical",
+          "claim": "Weekly weight change is not an adequate measure of antitumor activity. Omitting disease-specific imaging also conflicts with the stated RECIST v1.1 ORR endpoint and the scheduled tumor assessments.",
+          "cited_doc_id": "ICH-E6R3-2025",
+          "guidance_quote": "Factors that are critical to quality are those that are likely to affect the rights, safety and well-being of trial participants or the reliability of the trial results."
+        },
+        {
+          "span": "The study will assess treatment activity using weekly change in body weight and evaluate safety primarily through investigator-recorded tumor response, without requiring disease-specific imaging or routine laboratory monitoring.",
+          "category": "safety_monitoring",
+          "severity": "critical",
+          "claim": "Tumor response is an efficacy measure, not a primary means of detecting treatment toxicity. The stated absence of routine laboratory monitoring would leave important toxicities inadequately assessed and contradicts the scheduled liver tests.",
+          "cited_doc_id": "ICH-E6R3-2025",
+          "guidance_quote": "The rights, safety and well-being of trial participants should be protected."
+        },
+        {
+          "span": "The study will select the recommended Phase 2 dose from the first dose level that meets the preliminary response threshold, without evaluating exposure, dose-response relationships, or comparative tolerability across dose levels.",
+          "category": "dose_optimization",
+          "severity": "critical",
+          "claim": "The first dose to cross a preliminary response threshold cannot be selected as the RP2D without evaluating exposure, dose-response and comparative tolerability. This rule also contradicts the preceding randomized two-dose comparison and integrated selection criteria.",
+          "cited_doc_id": "FDA-DOSE-OPT-2024",
+          "guidance_quote": "Dosage optimization should consider the totality of the data, including efficacy, safety, tolerability, pharmacokinetic, and pharmacodynamic data."
+        },
+        {
+          "span": "The recommended Phase 2 dose will be the highest dose tested with acceptable early laboratory findings, even if persistent grade 2 fatigue, nausea, and reduced daily activity cause substantial treatment interruptions or discontinuations.",
+          "category": "dose_optimization",
+          "severity": "high",
+          "claim": "Selecting the highest dose on early laboratory findings disregards persistent symptomatic toxicity, impaired daily functioning, interruptions and discontinuations—key evidence that a lower dose may be more tolerable.",
+          "cited_doc_id": "FDA-DOSE-OPT-2024",
+          "guidance_quote": "Sponsors should consider adverse reactions of any grade that affect tolerability, including those that result in dosage modifications or treatment discontinuations."
+        },
+        {
+          "span": "Dose selection for expansion will be based solely on the prespecified primary endpoint from the escalation cohort; no exploratory analyses of existing or newly accrued clinical databases will be conducted.",
+          "category": "dose_optimization",
+          "severity": "high",
+          "claim": "An escalation-cohort primary endpoint alone does not support the stated integrated RP2D decision. The rule excludes available safety, PK, PD and emerging randomized-cohort evidence; exploratory database analyses are not necessarily required, but relevant available data should not be categorically disregarded.",
+          "cited_doc_id": "FDA-DOSE-OPT-2024",
+          "guidance_quote": "Sponsors should use the totality of available data to inform dosage selection and optimization."
+        },
+        {
+          "span": "The protocol will continue enrollment in each expansion cohort until the planned sample size is reached, without cohort-specific criteria for discontinuation based on efficacy or toxicity.",
+          "category": "safety_monitoring",
+          "severity": "high",
+          "claim": "Expansion cohorts lack prospective stopping criteria for unacceptable toxicity or insufficient activity, permitting continued exposure and enrollment after a cohort is no longer justified.",
+          "cited_doc_id": "FDA-EXPANSION-COHORTS-2022",
+          "guidance_quote": "The protocol should include criteria for stopping an expansion cohort for lack of efficacy or unacceptable toxicity."
+        },
+        {
+          "span": "Population pharmacokinetic analyses will be performed only after database lock using the final pooled dataset, with no interim evaluation by demographic, body-size, organ-function, or genetic subgroup.",
+          "category": "dose_optimization",
+          "severity": "medium",
+          "claim": "Deferring all population-PK and subgroup evaluation until database lock prevents emerging exposure differences from informing dose selection or risk mitigation during enrollment.",
+          "cited_doc_id": "FDA-DOSE-OPT-2024",
+          "guidance_quote": "Sponsors should evaluate the effects of intrinsic and extrinsic factors on drug exposure to inform dosage optimization."
+        },
+        {
+          "span": "Intensive PK sampling on Cycle 1 Day 1 and Day 15 (pre-dose, 0.5, 1, 2, 4, 6, 8 and 24 h post-dose) in all escalation subjects; steady-state trough sampling every cycle in the randomized cohorts.",
+          "category": "burden",
+          "severity": "medium",
+          "claim": "Requiring two nine-time-point profiles, including 24-hour samples, from every escalation participant creates substantial visit and sampling burden without a stated justification for why intensive profiles are needed in all participants rather than a subset.",
+          "cited_doc_id": "ICH-E6R3-2025",
+          "guidance_quote": "Clinical trial processes, measures and approaches should be proportionate to the risks to participants and to the importance of the data being collected."
+        }
+      ]
+    },
+    {
+      "case_id": "AX1-018",
+      "config": "oneshot_r2",
+      "tokens": 4398,
+      "elapsed_s": 23.1,
+      "verified_rate": null,
+      "n_defects": 6,
+      "n_hit": 6,
+      "n_grounded": 4,
+      "recall": 1.0,
+      "weighted_recall": 1.0,
+      "grounded_recall": 0.667,
+      "grounded_weighted_recall": 0.667,
+      "n_findings": 11,
+      "precision_proxy": 0.545,
+      "baseline_findings": [
+        {
+          "span": "All participants will receive 80 mg orally twice daily from Cycle 1 Day 1, with no intra-patient dose escalation or tolerability-based titration planned.",
+          "category": "feasibility",
+          "severity": "critical",
+          "claim": "The mandatory 80 mg twice-daily regimen contradicts the five planned once-daily escalation levels. The protocol does not establish which doses escalation participants will actually receive.",
+          "cited_doc_id": "ICH-E6R3-2025",
+          "guidance_quote": "The trial design should be operationally feasible and avoid unnecessary complexity, procedures and data collection."
+        },
+        {
+          "span": "After the recommended Phase 2 dose is selected, no additional dose-optimization or comparative dose evaluation will be conducted before the pivotal efficacy analysis or regulatory submission.",
+          "category": "dose_optimization",
+          "severity": "high",
+          "claim": "This forecloses further comparison even if the planned randomized cohorts leave material uncertainty about the selected dose. The protocol needs a decision rule for when additional evaluation is warranted before a pivotal analysis.",
+          "cited_doc_id": "FDA-DOSE-OPT-2024",
+          "guidance_quote": "The dosage selected for a registration trial should be optimized before initiating the trial."
+        },
+        {
+          "span": "The recommended Phase 2 dose will be selected solely from dose-limiting toxicity rates observed during Cycle 1, without evaluating exposure, pharmacokinetic population parameters, or dose–response relationships.",
+          "category": "dose_optimization",
+          "severity": "critical",
+          "claim": "This rule contradicts the prespecified integrated selection criteria and discards PK and dose–response evidence, including data the protocol plans to collect.",
+          "cited_doc_id": "FDA-DOSE-OPT-2024",
+          "guidance_quote": "Sponsors should select dosages for further evaluation based on a comprehensive assessment of the totality of data, including safety, tolerability, pharmacokinetics, pharmacodynamics, and efficacy."
+        },
+        {
+          "span": "After the safety lead-in, all participants will receive 240 mg twice daily; no alternate dose will be evaluated for antitumor activity, safety, or tolerability before selecting the recommended dose for further development.",
+          "category": "dose_optimization",
+          "severity": "critical",
+          "claim": "This fixed regimen contradicts both the planned once-daily dose levels and the randomized comparison of two candidate doses. It would prevent the stated comparative optimization.",
+          "cited_doc_id": "FDA-DOSE-OPT-2024",
+          "guidance_quote": "Sponsors should evaluate multiple dosages to characterize the relationship between dosage and efficacy, safety, and tolerability."
+        },
+        {
+          "span": "The recommended Phase 2 dose will be the highest dose tested with acceptable early laboratory findings, even if persistent grade 2 fatigue, nausea, and reduced daily activity cause substantial treatment interruptions or discontinuations.",
+          "category": "dose_optimization",
+          "severity": "critical",
+          "claim": "Selecting the highest dose despite persistent symptomatic toxicity and treatment disruption substitutes early laboratory findings for an assessment of longer-term tolerability.",
+          "cited_doc_id": "FDA-DOSE-OPT-2024",
+          "guidance_quote": "Safety and tolerability assessments should consider adverse reactions that may not be dose-limiting toxicities but can affect a patient's ability to remain on treatment."
+        },
+        {
+          "span": "The recommended Phase 2 dose will be selected solely from dose-limiting toxicity rates observed during Cycle 1, without evaluating exposure, pharmacokinetic population parameters, or dose–response relationships.",
+          "category": "safety_monitoring",
+          "severity": "high",
+          "claim": "A Cycle 1-only selection rule does not account for later-onset or cumulative adverse reactions, despite planned follow-up and dose-intensity assessments.",
+          "cited_doc_id": "FDA-DOSE-OPT-2024",
+          "guidance_quote": "The DLT observation period may not capture adverse reactions that occur later in treatment or with prolonged exposure."
+        },
+        {
+          "span": "Participants who cross over to the alternate dose will be included in the overall safety and response analyses without any separate crossover adjustment or prespecified handling rules.",
+          "category": "endpoint_ctq",
+          "severity": "high",
+          "claim": "Pooling post-crossover outcomes without dose-attribution or endpoint-handling rules makes the randomized dose comparisons difficult to interpret.",
+          "cited_doc_id": "ICH-E6R3-2025",
+          "guidance_quote": "Critical to quality factors are attributes of a study that are fundamental to the protection of participants, the reliability and interpretability of the study results, and the decisions made based on the study results."
+        },
+        {
+          "span": "Primary (Phase 2): Objective response rate (ORR) per RECIST v1.1 at the selected recommended Phase 2 dose (RP2D).",
+          "category": "endpoint_ctq",
+          "severity": "medium",
+          "claim": "For an open-label primary response endpoint, the synopsis does not specify who assesses response or how assessment bias and discrepancies will be handled.",
+          "cited_doc_id": "ICH-E6R3-2025",
+          "guidance_quote": "Critical to quality factors are attributes of a study that are fundamental to the protection of participants, the reliability and interpretability of the study results, and the decisions made based on the study results."
+        },
+        {
+          "span": "Inclusion: age ≥18; histologically confirmed KRAS G12C-mutated locally advanced or metastatic solid tumor; ECOG 0–1; at least one prior line of systemic therapy; recovery of prior-treatment toxicities to Grade ≤1.",
+          "category": "endpoint_ctq",
+          "severity": "medium",
+          "claim": "The Phase 2 population spans tumor types and prior therapies, but the stated primary ORR endpoint does not define tumor-specific cohorts or how that heterogeneity will be handled in the efficacy analysis.",
+          "cited_doc_id": "FDA-EXPANSION-COHORTS-2022",
+          "guidance_quote": "Each expansion cohort should have a specific objective and a prospectively defined population and analysis plan."
+        },
+        {
+          "span": "Inclusion: age ≥18; histologically confirmed KRAS G12C-mutated locally advanced or metastatic solid tumor; ECOG 0–1; at least one prior line of systemic therapy; recovery of prior-treatment toxicities to Grade ≤1.",
+          "category": "eligibility",
+          "severity": "medium",
+          "claim": "Requiring ECOG 0–1 and resolution of all prior-treatment toxicities to Grade ≤1 may exclude patients with stable functional limitations or chronic low-grade toxicity. The synopsis gives no rationale for how these restrictions support the intended-use population.",
+          "cited_doc_id": "FDA-DOSE-OPT-2024",
+          "guidance_quote": "The population studied in dosage optimization trials should be representative of the population expected to use the drug if approved."
+        },
+        {
+          "span": "Intensive PK sampling on Cycle 1 Day 1 and Day 15 (pre-dose, 0.5, 1, 2, 4, 6, 8 and 24 h post-dose) in all escalation subjects; steady-state trough sampling every cycle in the randomized cohorts.",
+          "category": "burden",
+          "severity": "medium",
+          "claim": "Two eight-time-point profiles, including 24-hour samples, are required of every escalation participant. The synopsis does not justify why this intensity is necessary for all participants rather than a PK subset.",
+          "cited_doc_id": "ICH-E6R3-2025",
+          "guidance_quote": "The approaches implemented to ensure the quality of the trial should be proportionate to the risks inherent in the trial and the importance of the information being collected."
+        }
+      ]
+    },
+    {
+      "case_id": "AX1-019",
+      "config": "oneshot_r2",
+      "tokens": 5129,
+      "elapsed_s": 27.9,
+      "verified_rate": null,
+      "n_defects": 6,
+      "n_hit": 6,
+      "n_grounded": 2,
+      "recall": 1.0,
+      "weighted_recall": 1.0,
+      "grounded_recall": 0.333,
+      "grounded_weighted_recall": 0.333,
+      "n_findings": 9,
+      "precision_proxy": 0.667,
+      "baseline_findings": [
+        {
+          "span": "In this open-label, single-arm Phase 1/2 study, treatment activity will be assessed against historical response rates without a concurrent control group or blinded independent review.",
+          "category": "endpoint_ctq",
+          "severity": "high",
+          "claim": "Historical response rates may differ by tumor type, prior therapy, and assessment practices. They cannot provide a reliable concurrent comparison for the planned efficacy claim.",
+          "cited_doc_id": "FDA-EXPANSION-COHORTS-2022",
+          "guidance_quote": "The strength of evidence needed to support an application depends on the trial design, the magnitude of the treatment effect, and the ability to rule out bias and confounding."
+        },
+        {
+          "span": "In this open-label, single-arm Phase 1/2 study, treatment activity will be assessed against historical response rates without a concurrent control group or blinded independent review.",
+          "category": "endpoint_ctq",
+          "severity": "medium",
+          "claim": "The primary Phase 2 endpoint is ORR, but the protocol provides no blinded independent review to mitigate assessment bias in this open-label study.",
+          "cited_doc_id": "ICH-E6R3-2025",
+          "guidance_quote": "Clinical trials should be designed and conducted in ways that ensure the rights, safety and well-being of participants and the reliability of results."
+        },
+        {
+          "span": "Results from the expansion cohort will serve as the primary efficacy package for the planned marketing application, and the sponsor will proceed without a formal FDA meeting regarding the cohort design, development plan, or submission requirements.",
+          "category": "feasibility",
+          "severity": "high",
+          "claim": "The protocol presumes that a single-arm expansion cohort will be sufficient as the primary efficacy package for marketing, without establishing that its design can support that conclusion.",
+          "cited_doc_id": "FDA-EXPANSION-COHORTS-2022",
+          "guidance_quote": "Expansion cohorts intended to support a marketing application should be designed to provide adequate evidence of safety and effectiveness."
+        },
+        {
+          "span": "Results from the expansion cohort will serve as the primary efficacy package for the planned marketing application, and the sponsor will proceed without a formal FDA meeting regarding the cohort design, development plan, or submission requirements.",
+          "category": "feasibility",
+          "severity": "high",
+          "claim": "Proceeding without FDA discussion leaves the proposed expansion-cohort design and its suitability for the intended submission unresolved.",
+          "cited_doc_id": "FDA-EXPANSION-COHORTS-2022",
+          "guidance_quote": "Sponsors should discuss plans for expansion cohorts with FDA before initiating the cohorts, particularly when the data may be intended to support a marketing application."
+        },
+        {
+          "span": "After enrolling the initial three participants at 10 mg, the study will proceed directly to a fixed 10 mg expansion cohort without evaluating higher dose levels or determining a tolerated dose ceiling.",
+          "category": "dose_optimization",
+          "severity": "critical",
+          "claim": "This instruction contradicts the stated 180–960 mg escalation plan and the randomized comparison of two candidate doses. Three participants at 10 mg cannot establish the planned dose-response, tolerability, or RP2D evidence.",
+          "cited_doc_id": "FDA-DOSE-OPT-2024",
+          "guidance_quote": "Sponsors should evaluate a range of dosages to identify a dosage that provides a favorable balance of efficacy, safety, and tolerability."
+        },
+        {
+          "span": "After the recommended Phase 2 dose is selected from tolerability data, all subsequent participants will receive that dose without any randomized comparison of alternative dose levels or formal dose-response analysis.",
+          "category": "dose_optimization",
+          "severity": "critical",
+          "claim": "This contradicts the preceding commitment to randomize at least 60 participants between two candidate doses and to select the RP2D using integrated criteria. Tolerability alone does not establish an optimized dose.",
+          "cited_doc_id": "FDA-DOSE-OPT-2024",
+          "guidance_quote": "Dosage selection should be based on the totality of evidence, including efficacy, safety, tolerability, pharmacokinetic, and pharmacodynamic data."
+        },
+        {
+          "span": "Dose-response analyses will be limited to the randomized expansion cohort, and data from dose-escalation participants and other nonrandomized cohorts will not be included.",
+          "category": "dose_optimization",
+          "severity": "medium",
+          "claim": "The categorical exclusion discards relevant exposure, safety, tolerability, and activity information from escalation and other cohorts rather than integrating it, with appropriate attention to its limitations, into dose selection.",
+          "cited_doc_id": "FDA-DOSE-OPT-2024",
+          "guidance_quote": "Sponsors should consider the totality of available data when selecting the dosage for further development."
+        },
+        {
+          "span": "All participants will receive the fixed 200 mg dose supplied in a single capsule strength throughout the study, with no alternative strengths available for dose evaluation.",
+          "category": "dose_optimization",
+          "severity": "critical",
+          "claim": "A universal 200 mg dose is incompatible with the stated 10 mg cohort, the five planned escalation doses, and the two-dose randomized comparison. A single capsule strength with no means of evaluating alternatives also makes the proposed dose-optimization design infeasible.",
+          "cited_doc_id": "FDA-DOSE-OPT-2024",
+          "guidance_quote": "Sponsors should evaluate a range of dosages to identify a dosage that provides a favorable balance of efficacy, safety, and tolerability."
+        },
+        {
+          "span": "Primary (Phase 2): Objective response rate (ORR) per RECIST v1.1 at the selected recommended Phase 2 dose (RP2D).",
+          "category": "endpoint_ctq",
+          "severity": "medium",
+          "claim": "A single ORR result is proposed for eligibility spanning KRAS G12C-mutated advanced solid tumors, without a stated tumor-type-specific analysis or method for interpreting materially different baseline response rates.",
+          "cited_doc_id": "CTTI-QBD",
+          "guidance_quote": "Critical to quality factors are attributes of a study whose integrity is fundamental to the protection of study participants, the reliability and interpretability of the study results, and the decisions made based on those results."
+        }
+      ]
+    },
+    {
+      "case_id": "AX1-020",
+      "config": "oneshot_r2",
+      "tokens": 4383,
+      "elapsed_s": 22.2,
+      "verified_rate": null,
+      "n_defects": 6,
+      "n_hit": 6,
+      "n_grounded": 4,
+      "recall": 1.0,
+      "weighted_recall": 1.0,
+      "grounded_recall": 0.667,
+      "grounded_weighted_recall": 0.65,
+      "n_findings": 9,
+      "precision_proxy": 0.667,
+      "baseline_findings": [
+        {
+          "span": "Patients with moderate hepatic impairment and the CYP2C19 poor-metabolizer genotype will be enrolled in the same dose-escalation cohort without separate PK, PD, safety, or efficacy analyses.",
+          "category": "dose_optimization",
+          "severity": "high",
+          "claim": "The protocol enrolls potentially exposure-altering subgroups but does not plan analyses to determine whether they need different dosages or precautions.",
+          "cited_doc_id": "FDA-DOSE-OPT-2024",
+          "guidance_quote": "Dosage optimization should include an evaluation of the effects of intrinsic and extrinsic factors on the pharmacokinetics, safety, and efficacy of the drug."
+        },
+        {
+          "span": "The expansion cohort will enroll 80 patients at 200 mg twice daily immediately after the first three participants complete cycle 1, without requiring review of dose-limiting toxicities, exposure data, pharmacodynamic activity, or cumulative safety findings.",
+          "category": "safety_monitoring",
+          "severity": "critical",
+          "claim": "Expansion can begin before the available DLT and cumulative safety findings are reviewed, exposing 80 additional patients without a documented safety decision.",
+          "cited_doc_id": "FDA-EXPANSION-COHORTS-2022",
+          "guidance_quote": "Before opening an expansion cohort, sponsors should review available safety data from the dose-escalation portion of the trial."
+        },
+        {
+          "span": "The expansion cohort will enroll 80 patients at 200 mg twice daily immediately after the first three participants complete cycle 1, without requiring review of dose-limiting toxicities, exposure data, pharmacodynamic activity, or cumulative safety findings.",
+          "category": "dose_optimization",
+          "severity": "critical",
+          "claim": "The fixed 200 mg twice-daily expansion regimen is not one of the planned once-daily candidate dose levels and can open before the randomized dose comparison or RP2D selection. The protocol does not explain how expansion findings will establish efficacy at the selected RP2D.",
+          "cited_doc_id": "FDA-DOSE-OPT-2024",
+          "guidance_quote": "The recommended dosage should be based on an integrated assessment of efficacy, safety, tolerability, pharmacokinetic, and pharmacodynamic data."
+        },
+        {
+          "span": "The recommended Phase 2 dose will be selected solely from the highest tolerated dose in the escalation cohort, without incorporating pharmacokinetic, pharmacodynamic, exposure-response, activity, convenience, or covariate-based subgroup analyses.",
+          "category": "dose_optimization",
+          "severity": "critical",
+          "claim": "This rule contradicts the stated randomized comparison and prespecified integrated selection criteria, and makes tolerability in escalation the sole basis for RP2D selection.",
+          "cited_doc_id": "FDA-DOSE-OPT-2024",
+          "guidance_quote": "The recommended dosage should be based on an integrated assessment of efficacy, safety, tolerability, pharmacokinetic, and pharmacodynamic data."
+        },
+        {
+          "span": "Blood samples will be collected for exploratory biomarker testing, but no pharmacokinetic sampling schedule or analytical method is defined.",
+          "category": "endpoint_ctq",
+          "severity": "high",
+          "claim": "The assertion that no PK sampling schedule is defined conflicts with the preceding intensive and trough schedules. The absent analytical method also leaves a key dose-selection measurement insufficiently specified.",
+          "cited_doc_id": "ICH-E6R3-2025",
+          "guidance_quote": "The protocol should be clear, concise, scientifically sound and operationally feasible."
+        },
+        {
+          "span": "The study team will review emerging adverse-event data periodically and decide during the trial whether enrollment or dosing should be halted for unacceptable toxicity.",
+          "category": "safety_monitoring",
+          "severity": "high",
+          "claim": "The protocol does not prespecify review frequency, decision authority, or actionable enrollment and dosing-halt criteria; these would instead be decided after toxicity emerges.",
+          "cited_doc_id": "ICH-E6R3-2025",
+          "guidance_quote": "The protocol should describe stopping rules or discontinuation criteria for individual participants, parts of the trial, and the entire trial."
+        },
+        {
+          "span": "Results from the expansion cohort will serve as the primary efficacy package for the planned marketing application, and the sponsor will proceed without a formal FDA meeting regarding the cohort design, development plan, or submission requirements.",
+          "category": "feasibility",
+          "severity": "high",
+          "claim": "The sponsor plans to rely on expansion-cohort efficacy for a marketing application without obtaining FDA feedback on whether the cohort design and evidence package can support that use.",
+          "cited_doc_id": "FDA-EXPANSION-COHORTS-2022",
+          "guidance_quote": "Sponsors intending to use data from expansion cohorts to support a marketing application should discuss the trial design and development plan with FDA."
+        },
+        {
+          "span": "Primary (Phase 2): Objective response rate (ORR) per RECIST v1.1 at the selected recommended Phase 2 dose (RP2D).",
+          "category": "endpoint_ctq",
+          "severity": "high",
+          "claim": "The primary endpoint requires assessment at the selected RP2D, whereas the specified 80-patient expansion cohort receives a fixed regimen selected before the RP2D decision. The protocol therefore does not establish which patients supply the primary efficacy estimate.",
+          "cited_doc_id": "ICH-E6R3-2025",
+          "guidance_quote": "Critical to quality factors are attributes of a trial that are fundamental to the protection of participants and the reliability and interpretability of the trial results."
+        },
+        {
+          "span": "Intensive PK sampling on Cycle 1 Day 1 and Day 15 (pre-dose, 0.5, 1, 2, 4, 6, 8 and 24 h post-dose) in all escalation subjects; steady-state trough sampling every cycle in the randomized cohorts.",
+          "category": "burden",
+          "severity": "medium",
+          "claim": "Sixteen timed samples per escalation participant, including a 24-hour sample on two days, plus every-cycle troughs impose substantial visit and sampling demands; the protocol gives no rationale for requiring this schedule of every participant rather than using a proportionate sampling strategy.",
+          "cited_doc_id": "ICH-E6R3-2025",
+          "guidance_quote": "Trial processes should be proportionate to the risks to participants and the importance of the data being collected."
+        }
+      ]
+    }
+  ],
+  "at": "2026-09-29T06:08:22.164643+00:00"
+}
