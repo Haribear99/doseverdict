@@ -21,7 +21,7 @@ A-2는 시놉시스 본문과만 대조하므로, 조건 B에서는 제공한 pk
 - 조건 B: 판정한 용량군 비율 1.000(판정한 약: adagrasib, dv505, lorlatinib, sotorasib), 판정 60건 중 도구 판정과 불일치 0건, 반복 3회 판정 일관성 1.000(PK가 라벨에만 있는 약 3종만 1.000)
 - 사후 A′(기억·추정 권장): 판정한 용량군 비율 1.000(판정한 약: adagrasib, dv505, lorlatinib, sotorasib), 판정 60건 중 도구 판정과 불일치 17건, 반복 3회 판정 일관성 0.450(PK가 라벨에만 있는 약 3종만 0.267)
 - 사후 A′ 도구 판정과 불일치 분해: 정답 covered → 모델 indeterminate 9건, 정답 indeterminate → 모델 covered 6건, 정답 indeterminate → 모델 not_covered 2건
-- 사후 A′ 회차별 IC50(모델이 고른 값, 대부분 source=assumption): sotorasib 30 nM / 6 nM / 0.09 µM; adagrasib 10 nM / 50 nM / 25 nM; lorlatinib 30 / 80 nM / 10 — 기억한 라벨 PK(예: 소토라십 Cmax 7.50 µg/mL)는 회차 간 거의 같았고, 판정 흔들림의 주원인은 IC50과 용량 외삽 가정의 재선택이다.
+- 사후 A′ 회차별 IC50(모델이 고른 값, 대부분 source=assumption): sotorasib 30 nM / 6 nM / 0.09 µM; adagrasib 10 nM / 50 nM / 25 nM; lorlatinib 30 / 80 nM / 10 — 소토라십·로를라티닙의 기억한 라벨 PK는 회차 간 거의 같았고(아다그라십은 Cmax 약 2배 차이), 판정 흔들림의 주원인은 IC50(3~9배)과 용량 외삽 가정의 재선택이다.
 - 반복 일관성 1.000은 조건 A(전부 판단 불가)·B(입력·규칙 제공)에서는 자명한 값이다.
 - 벌점 채점(Kalai 등 Nature 2026의 open rubric)은 적용하지 않았다. 그 방식은 벌점을 프롬프트에 고지해야 하는데 이번 프롬프트는 고지하지 않았다.
 

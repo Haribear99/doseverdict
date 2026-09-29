@@ -138,7 +138,7 @@ def post_hoc_lines(per: dict, its: dict) -> list[str]:
         for r_ in per["A_mem"]:
             ic.setdefault(r_["drug"], []).append(r_.get("ic50") or "—")
         out.append("- 사후 A′ 회차별 IC50(모델이 고른 값, 대부분 source=assumption): " + "; ".join(f"{k} {' / '.join(v)}" for k, v in ic.items() if k != "dv505")
-                   + " — 기억한 라벨 PK(예: 소토라십 Cmax 7.50 µg/mL)는 회차 간 거의 같았고, 판정 흔들림의 주원인은 IC50과 용량 외삽 가정의 재선택이다.")
+                   + " — 소토라십·로를라티닙의 기억한 라벨 PK는 회차 간 거의 같았고(아다그라십은 Cmax 약 2배 차이), 판정 흔들림의 주원인은 IC50(3~9배)과 용량 외삽 가정의 재선택이다.")
     out.append("- 반복 일관성 1.000은 조건 A(전부 판단 불가)·B(입력·규칙 제공)에서는 자명한 값이다.")
     out.append("- 벌점 채점(Kalai 등 Nature 2026의 open rubric)은 적용하지 않았다. 그 방식은 벌점을 프롬프트에 고지해야 하는데 이번 프롬프트는 고지하지 않았다.")
     return out
