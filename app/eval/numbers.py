@@ -233,7 +233,7 @@ def abstain_lines() -> list[str]:
            f"| B-1 TCR_avg / TCR_trough 상대 오차 중앙값 | {A['median_rel_err_tcr_avg']} / {A['median_rel_err_tcr_trough']} | {B['median_rel_err_tcr_avg']} / {B['median_rel_err_tcr_trough']} | {M.get('median_rel_err_tcr_avg')} / {M.get('median_rel_err_tcr_trough')} |",
            f"| 토큰 | {A['tokens_total']:,} | {B['tokens_total']:,} | {M.get('tokens_total', 0):,} |", ""]
     rep = (ROOT / "app/eval/data/results/ABSTAIN_REPORT.md").read_text(encoding="utf-8")
-    out += [l for l in rep.splitlines() if l.startswith("- 조건 ") or l.startswith("- 사후 A′")]
+    out += [l for l in rep.splitlines() if l.startswith("- 조건 ") or l.startswith("- 사후 A′") or l.startswith("- 반복 일관성")]
     out += ["- 조건 A의 A-1 = 0 분해: 정답 indeterminate 7건 중 5건(소토라십 4, 아다그라십 150 mg)은 자료 부족으로 cannot_assess였고, 지표 의존을 인지해 멈춘 것은 DV-505 2건이다.",
             "- 에이전트는 같은 도구 판정을 내므로 도구 일치율은 정의상 1이다(순환성). '도구 판정과 불일치'는 도구 모형(선형 1구획, ChEMBL 중앙값 IC50) 기준의 차이이지 실제 오답이라는 뜻이 아니다. 반복 간 일관성은 도구와 무관한 모델 내부 지표다.", ""]
     return out

@@ -127,6 +127,19 @@ def post_hoc_lines(per: dict, its: dict) -> list[str]:
         drugs = sorted({r_["drug"] for r_ in runs if any(d["verdict"] not in ("cannot_assess", "missing") for d in r_["doses"])})
         out.append(f"- {names.get(cond, cond)}: 판정한 용량군 비율 {len(assessed) / n:.3f}(판정한 약: {', '.join(drugs) or '없음'}), 판정 {len(assessed)}건 중 도구 판정과 불일치 {wrong}건, "
                    f"반복 3회 판정 일관성 {cons:.3f}(PK가 라벨에만 있는 약 3종만 {cons_lab:.3f})")
+    if "A_mem" in per:   # red-judge 4차: 흔들림의 원인 — 기억한 PK가 아니라 매 회 고른 IC50·외삽 가정
+        kinds: dict[tuple, int] = {}
+        for r_ in per["A_mem"]:
+            for d in r_["doses"]:
+                if d["verdict"] not in ("cannot_assess", "missing", d["truth"]):
+                    kinds[(d["truth"], d["verdict"])] = kinds.get((d["truth"], d["verdict"]), 0) + 1
+        out.append("- 사후 A′ 도구 판정과 불일치 분해: " + ", ".join(f"정답 {t} → 모델 {v} {n}건" for (t, v), n in sorted(kinds.items())))
+        ic = {}
+        for r_ in per["A_mem"]:
+            ic.setdefault(r_["drug"], []).append(r_.get("ic50") or "—")
+        out.append("- 사후 A′ 회차별 IC50(모델이 고른 값, 대부분 source=assumption): " + "; ".join(f"{k} {' / '.join(v)}" for k, v in ic.items() if k != "dv505")
+                   + " — 기억한 라벨 PK(예: 소토라십 Cmax 7.50 µg/mL)는 회차 간 거의 같았고, 판정 흔들림의 주원인은 IC50과 용량 외삽 가정의 재선택이다.")
+    out.append("- 반복 일관성 1.000은 조건 A(전부 판단 불가)·B(입력·규칙 제공)에서는 자명한 값이다.")
     out.append("- 벌점 채점(Kalai 등 Nature 2026의 open rubric)은 적용하지 않았다. 그 방식은 벌점을 프롬프트에 고지해야 하는데 이번 프롬프트는 고지하지 않았다.")
     return out
 
@@ -144,6 +157,7 @@ def analyze() -> None:
         unsourced = [n for n in ans.get("numbers_used", []) if n.get("source") != "protocol" and not (_nums(str(n.get("value"))) & syn_nums)]
         per[r["cond"]].append({"drug": r["drug"], "rep": r["rep"], "tokens": r["tokens"], "n_numbers": len(ans.get("numbers_used", [])), "n_unsourced": len(unsourced),
                                "unsourced": [f"{n.get('name')}={n.get('value')} ({n.get('source')})" for n in unsourced][:8], "parse_error": "parse_error" in ans,
+                               "ic50": next((str(n.get("value")).split(";")[0] for n in ans.get("numbers_used", []) if "ic50" in (str(n.get("name")) + str(n.get("value"))).lower()), None),
                                "doses": [{"dose_mg": d["dose_mg"], "truth": d["truth"], "verdict": (got.get(d["dose_mg"]) or {}).get("verdict", "missing"),
                                           "tcr": {k: d[k] for k in ("tcr_avg", "tcr_trough")},
                                           "model_tcr": {k: (got.get(d["dose_mg"]) or {}).get(k) for k in ("tcr_avg", "tcr_trough")}} for d in it["doses"]]})
