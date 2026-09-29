@@ -474,7 +474,7 @@ st.markdown('<div class="dv-kpis">' + "".join(
     + '<p class="dv-note">검증·보류·기각은 기권(F00 등 결론을 만들지 않은 항목)을 뺀 finding의 검증기 상태다.</p>', unsafe_allow_html=True)
 
 # ----------------------------------------------------------------- tabs
-tabs = st.tabs(["Findings", "Human Gate", "Evidence Cards", "도구 호출", "Trial Schema", "Audit", "후향 검증"])
+tabs = st.tabs(["Findings", "Human Gate", "근거", "도구 호출", "스키마", "Audit", "후향 검증"])   # 7개가 한 줄에 들어가도록 짧게(1366px에서 마지막 탭이 잘리던 문제)
 
 with tabs[0]:
     st.subheader(f"Findings {len(rs.findings)}건 — 검증 {_n['verified']} / 보류 {_n['held']} / 기각 {_n['rejected']} / 기권 {_n['abstain']}")

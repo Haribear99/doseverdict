@@ -22,7 +22,7 @@ pinned: false
 
 | 방법 | 절차 |
 |---|---|
-| ① 웹 UI | 배포 URL 접속 → 왼쪽 **예시 프로토콜** 선택 → **검토 실행** (배포본 CPU 웜 상태 약 1.5분, 3~4만 토큰; 기본 Reviewer 1인, 체크박스로 3인). Findings·Evidence Card·Patch Diff·Human Gate 탭 확인 |
+| ① 웹 UI | 배포 URL 접속 → 왼쪽 **예시 프로토콜** 선택 → **검토 실행** (배포본 CPU 웜 상태 약 1.5분, 3~4만 토큰; 기본 Reviewer 1인, 체크박스로 3인). Findings(Patch Diff)·Human Gate·근거·도구 호출·Audit·후향 검증 탭 확인 |
 | ② 원클릭 링크(라이브) | `<배포URL>/?demo=1&autorun=1` (①), `?demo=2` (용량 비교 계획을 갖춘 판), `?demo=3` (프롬프트 인젝션 적대 테스트) |
 | ②′ 저장 결과 즉시 보기 | `<배포URL>/?demo=1&cached=1` (또는 사이드바 **⚡ 저장된 결과 즉시 보기**). 같은 예시를 기본 설정으로 실행해 둔 결과(`app/demo/results/`)를 LLM 호출 없이 바로 표시 — 라이브 검토를 기다리지 않아도 된다(권장 동선) |
 | ③ CLI / 직접 입력 | `python -m app.cli review app/demo/sotorasib_synopsis.md --approve-all --out result.json` 또는 UI에서 **직접 붙여넣기 / 파일 업로드** |
