@@ -1,4 +1,4 @@
-# 자율성·도구 활용 집계 (자동 생성 2026-09-29 11:03, `python -m app.eval.agency`)
+# 자율성·도구 활용 집계 (자동 생성 2026-09-29 11:21, `python -m app.eval.agency`)
 
 원천: `app/eval/data/results/states/{lean_v3,lean_v3b,lean_mdrug3}/*.json` (70케이스, 최종 코드 c7dc0be — 원 20 2회 반복 + 다약물 30) · 데모: `app/demo/results/demo*.json`. 단위 규칙은 스크립트 머리말 참조.
 
@@ -31,7 +31,7 @@
 |---|---|---|---|---|
 | `citation_held` | 인용 근거 불충분 → finding 보류(held) | 2 | 2 | 2 |
 | `citation_rejected` | 인용 기각 → 문장 재작성(재계획①) | 0 | 0 | — |
-| `evidence_reselected` | 근거 재선택(로컬 NLI, GPU 있을 때만) | 1 | 1 | — |
+| `evidence_reselected` | 근거 재선택(로컬 NLI, GPU 있을 때만) | 2 | 2 | — |
 | `invariant_tcr_claim` | LLM finding이 TCR 판정을 담음 → 보류(held), 수치 판정은 도구 finding만 | 0 | 0 | — |
 | `invariant_conflict_abstain` | Reviewer 간 상충 미해소 → 기권(Reviewer 3인 옵션에서만 동작) | 0 | 0 | — |
 | `prompt_injection_detected` | 문서 내 지시문 탐지 → 데이터로만 처리 | 1 | 1 | — |

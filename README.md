@@ -43,7 +43,7 @@ uv venv --python 3.13 .venv && uv pip install --python .venv/Scripts/python.exe 
 1. Space 생성: **Docker** SDK, CPU basic. 배포는 `python -m app.deploy_space`로만 한다(커밋된 파일을 git archive로 올리고, Space용 `.gitattributes`에 LFS 규칙을 넣는다 — 이 규칙이 없으면 코퍼스 인덱스가 LFS 포인터로 들어가 규제 검색이 실패한다). 포트 7860, 이 README 프런트매터가 Space 설정.
 2. **Settings → Variables and secrets**에 `OPENAI_API_KEY`(팀 키, Secret)와 `OPENAI_BASE_URL`(데이콘 게이트웨이, Variable)을 넣는다. 키는 저장소 어디에도 두지 않는다.
 3. 선택 변수: `DV_REVIEWERS`(기본 `regulatory`), `DV_EVIDENCE_RERANK`(기본 `auto` = GPU에서만), `DV_RUN_TOKEN_BUDGET`(기본 150000), `OPENFDA_API_KEY`.
-4. 실측(2026-09-25, HF cpu-basic): 라이브 검토 웜 상태 83~93초. 재빌드·재기동 직후 첫 접속은 모듈 로드와 모델 예열로 약 1분. 모델 예열은 백그라운드 스레드라 **저장 결과 즉시 보기**(`?demo=N&cached=1`)는 예열을 기다리지 않는다.
+4. 실측(2026-09-25, HF cpu-basic): 라이브 검토 웜 상태 83초(검색 결함 수정 후 1회, 수정 전 93초). 재빌드·재기동 직후 첫 접속은 모듈 로드와 모델 예열로 약 1분. 모델 예열은 백그라운드 스레드라 **저장 결과 즉시 보기**(`?demo=N&cached=1`)는 예열을 기다리지 않는다.
 5. 배포 확인은 health가 아니라 라이브 1회 실행 후 **도구 호출 탭의 실패 여부와 근거 건수**(예시 ① 약 50건)로 한다.
 
 ## 구조

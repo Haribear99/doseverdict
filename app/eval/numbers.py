@@ -116,6 +116,31 @@ def pair_lines() -> list[str]:
     return out + ["", "쌍대 부트스트랩 5,000회(`app/eval/compare.py`, seed 0). 사전 규칙: 기각 = 토큰 +2% 초과 또는 grounded·검증 점추정 −5pp 초과 하락, 채택 = 토큰 −15% 이하 또는 grounded CI 하한 > 0, 그 외 보류.", ""]
 
 
+MEAN_PAIRS = [  # (기준, [같은 설정 반복 실행들], 설명) — 반복 실행의 케이스별 평균을 한 팔로 비교한다
+    ("lean", ["lean_v3", "lean_v3b"], "09-11 배포 기본 → 최종 코드 2회 평균(원 20)"),
+    ("lean_combo", ["lean_v3", "lean_v3b"], "09-25 기본 → 최종 코드 2회 평균(원 20)"),
+]
+
+
+def mean_pair_lines() -> list[str]:
+    """같은 설정을 여러 번 돌린 실행의 케이스별 평균을 한 팔로 삼는다. 기준선은 1회 실행이므로 기준선 쪽 실행 변동은 여전히 CI에 들어가지 않는다."""
+    from app.eval.compare import load, paired
+    out = ["| 비교 | n | 토큰 비율 | grounded [95% CI] | 검증 [95% CI] |", "|---|---|---|---|---|"]
+    for b, arms, desc in MEAN_PAIRS:
+        if not all((RES / f"{c}.json").exists() for c in [b, *arms]):
+            continue
+        base, runs = load(b), [load(a) for a in arms]
+        cases = [c for c in base if all(c in r for r in runs)]
+        arm = {c: {k: sum(r[c][k] for r in runs) / len(runs) for k in ("grounded_recall", "verified_rate", "tokens")} for c in cases}
+        rel = sum(arm[c]["tokens"] for c in cases) / sum(base[c]["tokens"] for c in cases) - 1
+        cells = []
+        for k in ("grounded_recall", "verified_rate"):
+            m, lo, hi, _ = paired(base, arm, k)
+            cells.append(f"{m:+.3f} [{lo:+.3f}, {hi:+.3f}]")
+        out.append(f"| {desc} (`{b}`→`{'+'.join(arms)}`) | {len(cases)} | {rel:+.1%} | " + " | ".join(cells) + " |")
+    return out + ["", "케이스 단위 부트스트랩 CI는 실행 간 변동을 담지 못한다. 같은 설정 반복(`lean_v3`→`lean_v3b`)에서 grounded +0.067 [−0.000, +0.133]이 나왔으므로, 1회 실행 grounded 차이는 CI가 0을 벗어나도 점추정으로만 해석한다.", ""]
+
+
 def usage_lines() -> list[str]:
     """원천 = 감사로그 공개 집계본(`app/eval/data/audit_usage.jsonl`, `python -m app.eval.audit_export`로 갱신). 쿼터 헤더는 09-22 한도 재설정 이후 값만 보여 누적 사용량과 대조할 수 없다."""
     from collections import Counter
@@ -150,7 +175,7 @@ def main() -> None:
              "제출물(기술서·발표·영상·README·데모 화면)의 모든 수치는 이 표에서만 가져온다. 점추정 간 차이는 n=20에서 대부분 신뢰구간이 겹친다 — 유의 여부는 `python -m app.eval.compare`로 확인한 것만 주장한다.", "",
              "## 1. 평가(축① Silver Set — 원·확장 세트는 기준 시놉시스 DV-DEMO-002, 다약물 세트는 아다그라십·로를라티닙·DV-505(가상) 시놉시스의 결함 주입 변형)", ""] + config_rows(cfgs) + [
              "", "## 1-1. 다약물 세트 약물별(`lean_mdrug3`, 최종 코드)", ""] + multidrug_lines() + [
-             "", "## 1-2. 쌍대 비교(같은 케이스끼리)", ""] + pair_lines() + [
+             "", "## 1-2. 쌍대 비교(같은 케이스끼리)", ""] + pair_lines() + ["## 1-3. 반복 실행 평균 비교", ""] + mean_pair_lines() + [
              "## 2. 소토라십 240 mg TCR (`evidence/tcr_240mg.json`)", "",
              "| 가정 | C_max | C_avg | C_trough | 판정 |", "|---|---|---|---|---|"]
     for r in tcr["rows"]:
