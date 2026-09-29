@@ -54,19 +54,46 @@ def run(resume: bool, suffix: str) -> None:
                           "dose_verified": sum(f.verdict == "defect" and f.verifier_status == "verified" for f in dose)}, ensure_ascii=False), flush=True)
 
 
-def probe() -> None:
+def strip_input(text: str, variant: str) -> str:
+    """사후 분석(사전 등록 밖): 재식별 단서 제거 변형. nosmiles = SMILES 삭제, noid = SMILES·표적·기전 삭제."""
+    if variant in ("nosmiles", "noid"):
+        text = re.sub(r" SMILES: [^ ]+\.", "", text)
+    if variant == "noid":
+        text = re.sub(r"\(([^)]*)\)\. Target: [^.\n]*\.", "(small-molecule targeted agent). Target: masked.", text)
+    return text
+
+
+def probe(variant: str = "") -> None:
     from app.agents.graph import gateway
     gc, rows = gateway(), []
     man = {m["case_id"]: m for m in _load("retro_manifest.jsonl")}
     for c in _load("retro_cases.jsonl"):
-        resp, rec = gc.respond("planner", c["synopsis"], purpose=f"retro_probe:{c['case_id']}",
+        c = dict(c, synopsis=strip_input(c["synopsis"], variant))
+        resp, rec = gc.respond("planner", c["synopsis"], purpose=f"retro_probe{variant}:{c['case_id']}",
                                instructions="The drug name in this document is masked. Give your single best guess of the drug's generic (INN) name. Answer with the name only.",
                                reasoning_effort="low", max_output_tokens=400)
         guess = (resp.output_text or "").strip().lower()
         g = man[c["case_id"]]["generic"]
         rows.append({"case_id": c["case_id"], "guess": guess[:60], "correct": g in guess, "tokens": int((rec.usage or {}).get("total_tokens") or 0)})
         print(json.dumps(rows[-1], ensure_ascii=False), flush=True)
-    (OUT / "retro_probe.json").write_text(json.dumps(rows, ensure_ascii=False, indent=1), encoding="utf-8")
+    (OUT / f"retro_probe{('_' + variant) if variant else ''}.json").write_text(json.dumps(rows, ensure_ascii=False, indent=1), encoding="utf-8")
+
+
+def memory_probe() -> None:
+    """사후 대조군(사전 등록 밖): 약 이름을 그대로 주고 모델 기억만으로 PMR 부과 여부를 0~100 확률로 답하게 한다.
+    기억만으로 정답을 맞힌다면, 재식별 가능한 입력(탐침 42~43/43)에서 나온 에이전트 점수는 기억에 오염됐을 수 있다."""
+    from app.agents.graph import gateway
+    gc, rows = gateway(), []
+    for m in _load("retro_manifest.jsonl"):
+        q = (f"Drug: {m['generic']} (brand {m['brand']}), initial FDA approval {m['asof']}. In the initial FDA approval letter, did FDA issue a "
+             "postmarketing requirement or commitment to compare or evaluate a different (e.g. lower) dosage in the general indicated population "
+             "(dose optimization)? Answer only with an integer 0-100: your probability that it did.")
+        resp, rec = gc.respond("planner", q, purpose=f"retro_memory:{m['case_id']}", instructions="Answer from memory only. Integer only.",
+                               reasoning_effort="low", max_output_tokens=400)
+        mm = re.search(r"\d{1,3}", resp.output_text or "")
+        rows.append({"case_id": m["case_id"], "p": int(mm.group(0)) if mm else None, "tokens": int((rec.usage or {}).get("total_tokens") or 0)})
+        print(json.dumps(rows[-1]), flush=True)
+    (OUT / "retro_memory.json").write_text(json.dumps(rows, indent=1), encoding="utf-8")
 
 
 def _boot_auc(scores: list[float], y: list[int], n: int = 5000, seed: int = 0) -> tuple[float, float]:
@@ -108,6 +135,13 @@ def analyze(suffix: str) -> None:
         for r in _load("oncology_labels.jsonl"):
             labels[(r.get("generic_name") or "").lower()] = r
     probe_rows = {r["case_id"]: r for r in json.loads((OUT / "retro_probe.json").read_text(encoding="utf-8"))} if (OUT / "retro_probe.json").exists() else {}
+    mem = {r["case_id"]: r["p"] for r in json.loads((OUT / "retro_memory.json").read_text(encoding="utf-8"))} if (OUT / "retro_memory.json").exists() else {}
+    probes_post = {}
+    for v in ("nosmiles", "noid"):   # 사후: 단서 제거 변형 재식별률
+        fp = OUT / f"retro_probe_{v}.json"
+        if fp.exists():
+            pr = json.loads(fp.read_text(encoding="utf-8"))
+            probes_post[v] = round(sum(bool(r["correct"]) for r in pr) / len(pr), 3)
     rows = []
     for cid, c in cases.items():
         sp = _state_dir(suffix) / f"{cid}.json"
@@ -121,7 +155,8 @@ def analyze(suffix: str) -> None:
         lab = labels.get(m["generic"])
         rows.append({"case_id": cid, "generic": m["generic"], "year": m["approval_year"], "y": c["y"], "S1": s1, "S2": s2,
                      "B1": b1_score(c["synopsis"]), "B2": m["approval_year"], "B3": risk_score(lab)[0] if lab else None,
-                     "n_findings": len(st.findings), "tokens": st.budget.used_tokens,
+                     "B4": mem.get(cid), "n_findings": len(st.findings),
+                     "protocol_pk": bool((cp := st.trial.study.investigational_product.clinical_pk) and any(v is not None for v in cp.model_dump().values())), "tokens": st.budget.used_tokens,
                      "f00": next((f.verdict for f in st.findings if f.finding_id == "F00"), None),
                      "reidentified": (probe_rows.get(cid) or {}).get("correct"),
                      "dose_findings": [{"id": f.finding_id, "status": f.verifier_status, "severity": str(getattr(f.severity, "value", f.severity)),
@@ -135,6 +170,12 @@ def analyze(suffix: str) -> None:
     if b3 and 0 < sum(r["y"] for r in b3) < len(b3):
         sc, yy = [r["B3"] for r in b3], [r["y"] for r in b3]
         res["metrics"]["B3"] = {"auroc": round(auroc(sc, yy), 3), "ci": _boot_auc(sc, yy), "pr_auc": round(pr_auc(sc, yy), 3), "n": len(b3)}
+    b4 = [r for r in rows if r["B4"] is not None]
+    if b4 and 0 < sum(r["y"] for r in b4) < len(b4):   # 사후 대조군: 모델 기억만으로 PMR 여부
+        sc, yy = [float(r["B4"]) for r in b4], [r["y"] for r in b4]
+        res["metrics"]["B4"] = {"auroc": round(auroc(sc, yy), 3), "ci": _boot_auc(sc, yy), "pr_auc": round(pr_auc(sc, yy), 3), "n": len(b4)}
+    if probes_post:
+        res["reidentification_post_hoc"] = probes_post
     s1 = [float(r["S1"]) for r in rows]
     for k in ("B1", "B2"):
         res["metrics"][f"S1-{k}"] = {"ci": _boot_diff(s1, [float(r[k]) for r in rows], y)}
@@ -144,6 +185,15 @@ def analyze(suffix: str) -> None:
         res["metrics"]["S1_not_reidentified"] = {"auroc": round(auroc(sc, yy), 3), "ci": _boot_auc(sc, yy), "n": len(sub), "n_pos": sum(yy)}
     if probe_rows:
         res["reidentification_rate"] = round(sum(bool(r["correct"]) for r in probe_rows.values()) / len(probe_rows), 3)
+    from scipy.stats import spearmanr   # 사후 기술통계(사전 등록 밖)
+    pos, neg = [r for r in rows if r["y"]], [r for r in rows if not r["y"]]
+    rho = spearmanr([r["S1"] for r in b4], [r["B4"] for r in b4]) if b4 else None
+    res["descriptive_post_hoc"] = {
+        "flagged_S1_ge1": sum(r["S1"] >= 1 for r in rows), "f00_abstain": sum(r["f00"] == "abstain" for r in rows),
+        "mean_S1_pos": round(sum(r["S1"] for r in pos) / max(1, len(pos)), 2), "mean_S1_neg": round(sum(r["S1"] for r in neg) / max(1, len(neg)), 2),
+        "spearman_S1_B4": [round(float(rho.statistic), 3), round(float(rho.pvalue), 3)] if rho else None,
+        "protocol_pk_cases": sum(r["protocol_pk"] for r in rows),
+        "tokens_total": sum(r["tokens"] for r in rows), "tokens_per_case": round(sum(r["tokens"] for r in rows) / max(1, len(rows)))}
     lo = res["metrics"]["S1"]["ci"][0]
     res["verdict"] = "신호 있음(S1 AUROC CI 하한 > 0.5)" if lo > 0.5 else "신호 확인 안 됨(null) — S1 AUROC CI가 0.5를 포함"
     res["rows"] = rows
@@ -156,18 +206,27 @@ def _report(res: dict, suffix: str) -> None:
     m = res["metrics"]
     L = [f"# 실사례 후향 검증 결과 (`retro{suffix}`, 자동 생성 {res['at'][:16]}, `python -m app.eval.retro analyze`)", "",
          f"사전 등록: `docs/retro_prereg.md`. n = {res['n']}(양성 {res['n_pos']}). 판정: **{res['verdict']}**", "",
-         "| 점수 | 설명 | AUROC [95% CI] | PR-AUC (무작위 기준 %.3f) |" % (res["n_pos"] / max(1, res["n"])), "|---|---|---|---|"]
+         f"| 점수 | 설명 | AUROC [95% CI] | PR-AUC (무작위 기준 {res['n_pos'] / max(1, res['n']):.3f}) |", "|---|---|---|---|"]
     desc = {"S1": "1차: 검증된 용량최적화 finding 수", "S2": "2차: 용량최적화 finding 중증도 가중합(검증+보류)", "B1": "키워드 규칙(초록, LLM 없음)",
-            "B2": "승인연도(시대 교란 점검)", "B3": "축③ 라벨 규칙(승인 후 라벨 — 참고용)"}
-    for k in ("S1", "S2", "B1", "B2", "B3"):
+            "B2": "승인연도(시대 교란 점검)", "B3": "축③ 라벨 규칙(승인 후 라벨 — 참고용)", "B4": "사후 대조군: 약 이름을 준 모델 기억(도구 없음)"}
+    for k in ("S1", "S2", "B1", "B2", "B3", "B4"):
         if k in m:
             L.append(f"| {k} | {desc[k]}{' (n=' + str(m[k]['n']) + ')' if 'n' in m[k] else ''} | {m[k]['auroc']:.3f} [{m[k]['ci'][0]:.3f}, {m[k]['ci'][1]:.3f}] | {m[k]['pr_auc']:.3f} |")
     L += ["", f"S1−B1 AUROC 차이 95% CI {m['S1-B1']['ci']}, S1−B2 {m['S1-B2']['ci']} (기술용)."]
     if "reidentification_rate" in res:
         L.append(f"재식별 탐침: gpt-6-sol이 마스킹 입력에서 성분명을 맞힌 비율 {res['reidentification_rate']:.3f}.")
+    if res.get("reidentification_post_hoc"):
+        L.append(f"사후 탐침(사전 등록 밖): SMILES 제거 {res['reidentification_post_hoc'].get('nosmiles')}, SMILES·표적·기전 제거 {res['reidentification_post_hoc'].get('noid')} — 출판 초록 본문만으로도 재식별된다.")
     if "S1_not_reidentified" in m:
         s = m["S1_not_reidentified"]
         L.append(f"재식별되지 않은 부분집합(n={s['n']}, 양성 {s['n_pos']}) S1 AUROC {s['auroc']:.3f} [{s['ci'][0]:.3f}, {s['ci'][1]:.3f}].")
+    d = res.get("descriptive_post_hoc") or {}
+    if d:
+        L += ["", "## 사후 기술통계(사전 등록 밖)", "",
+              f"- 검증된 용량최적화 finding이 1개 이상인 케이스 {d['flagged_S1_ge1']}/{res['n']} — 양성·음성 가리지 않고 지적한다(평균 S1 양성 {d['mean_S1_pos']}, 음성 {d['mean_S1_neg']}).",
+              f"- F00(TCR) 기권 {d['f00_abstain']}/{res['n']} — 라벨 차단, 마스킹으로 ChEMBL 이름 조회(IC50) 실패, 초록 PK는 {d['protocol_pk_cases']}건에서 일부만 추출 → 입력 부족으로 전형값 없이 멈춤.",
+              f"- S1과 모델 기억(B4)의 Spearman ρ = {d['spearman_S1_B4'][0]} (p = {d['spearman_S1_B4'][1]}) — 에이전트 점수가 기억 신호를 따라가지 않았다(오염을 배제하는 증거는 아님).",
+              f"- 토큰 합계 {d['tokens_total']:,}(케이스당 {d['tokens_per_case']:,}), 탐침·기억 대조군 별도."]
     L += ["", "## 케이스별", "", "| 케이스 | 약물 | 승인 | PMR | S1 | S2 | B1 | F00 | 재식별 | 토큰 |", "|---|---|---|---|---|---|---|---|---|---|"]
     for r in sorted(res["rows"], key=lambda r: (-r["y"], -r["S1"])):
         L.append(f"| {r['case_id']} | {r['generic']} | {r['year']} | {'●' if r['y'] else '○'} | {r['S1']} | {r['S2']} | {r['B1']} | {r['f00'] or '—'} | {'예' if r['reidentified'] else '아니오' if r['reidentified'] is False else '—'} | {r['tokens']:,} |")
@@ -182,8 +241,9 @@ def _report(res: dict, suffix: str) -> None:
 
 if __name__ == "__main__":
     ap = argparse.ArgumentParser()
-    ap.add_argument("cmd", choices=["run", "probe", "analyze"])
+    ap.add_argument("cmd", choices=["run", "probe", "memory", "analyze"])
     ap.add_argument("--resume", action="store_true")
     ap.add_argument("--suffix", default="")
+    ap.add_argument("--variant", default="", choices=["", "nosmiles", "noid"], help="사후 분석: 재식별 단서 제거 변형")
     a = ap.parse_args()
-    {"run": lambda: run(a.resume, a.suffix), "probe": probe, "analyze": lambda: analyze(a.suffix)}[a.cmd]()
+    {"run": lambda: run(a.resume, a.suffix), "probe": lambda: probe(a.variant), "memory": memory_probe, "analyze": lambda: analyze(a.suffix)}[a.cmd]()

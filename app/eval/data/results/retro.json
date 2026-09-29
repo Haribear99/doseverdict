@@ -1,0 +1,2056 @@
+{
+ "n": 43,
+ "n_pos": 14,
+ "at": "2026-09-29T05:37:59.835790+00:00",
+ "suffix": "",
+ "metrics": {
+  "S1": {
+   "auroc": 0.44,
+   "ci": [
+    0.27,
+    0.621
+   ],
+   "pr_auc": 0.35
+  },
+  "S2": {
+   "auroc": 0.516,
+   "ci": [
+    0.33,
+    0.701
+   ],
+   "pr_auc": 0.406
+  },
+  "B1": {
+   "auroc": 0.466,
+   "ci": [
+    0.379,
+    0.555
+   ],
+   "pr_auc": 0.316
+  },
+  "B2": {
+   "auroc": 0.499,
+   "ci": [
+    0.325,
+    0.677
+   ],
+   "pr_auc": 0.342
+  },
+  "B3": {
+   "auroc": 0.679,
+   "ci": [
+    0.473,
+    0.854
+   ],
+   "pr_auc": 0.481,
+   "n": 31
+  },
+  "B4": {
+   "auroc": 0.709,
+   "ci": [
+    0.53,
+    0.866
+   ],
+   "pr_auc": 0.651,
+   "n": 43
+  },
+  "S1-B1": {
+   "ci": [
+    -0.24,
+    0.185
+   ]
+  },
+  "S1-B2": {
+   "ci": [
+    -0.312,
+    0.188
+   ]
+  }
+ },
+ "reidentification_post_hoc": {
+  "nosmiles": 1.0,
+  "noid": 0.977
+ },
+ "reidentification_rate": 1.0,
+ "descriptive_post_hoc": {
+  "flagged_S1_ge1": 43,
+  "f00_abstain": 43,
+  "mean_S1_pos": 3.57,
+  "mean_S1_neg": 3.83,
+  "spearman_S1_B4": [
+   -0.26,
+   0.092
+  ],
+  "protocol_pk_cases": 8,
+  "tokens_total": 1197050,
+  "tokens_per_case": 27838
+ },
+ "verdict": "신호 확인 안 됨(null) — S1 AUROC CI가 0.5를 포함",
+ "rows": [
+  {
+   "case_id": "RETRO-01",
+   "generic": "adagrasib",
+   "year": 2022,
+   "y": 1,
+   "S1": 4,
+   "S2": 9,
+   "B1": 0,
+   "B2": 2022,
+   "B3": 2.5,
+   "B4": 95,
+   "n_findings": 9,
+   "protocol_pk": false,
+   "tokens": 30194,
+   "f00": "abstain",
+   "reidentified": true,
+   "dose_findings": [
+    {
+     "id": "F01",
+     "status": "verified",
+     "severity": "high",
+     "claim": "The sentence identifies safety, tolerability, and observed pharmacokinetics as the basis for the 600 mg twice-daily RP2D but gives no comparison with the other regimens studied. When selecting dosages for further evaluat",
+     "span": "The recommended phase II dose (RP2D) was 600 mg twice a day on the basis of safety, tolerability, and observed pharmacokinetics properties."
+    },
+    {
+     "id": "F02",
+     "status": "verified",
+     "severity": "medium",
+     "claim": "The sentence identifies the escalation designs and general transition triggers but does not specify their numerical thresholds or allocation rules. Dosing rules are expressed in the protocol for a titration design in whi",
+     "span": "Patients with advanced KRASG12C-mutant solid tumors were treated with DV-R01 150 mg orally once daily, 300 mg once daily, 600 mg once daily, 1,200 mg once daily"
+    },
+    {
+     "id": "F03",
+     "status": "verified",
+     "severity": "medium",
+     "claim": "The sentence identifies the study populations but gives no expansion-cohort specifications. Sponsors of first-in-human multiple-expansion-cohort trials should provide the scientific rationale for studying each proposed c",
+     "span": "We report results from a phase I/IB study of DV-R01 in non-small-cell lung cancer, colorectal cancer, and other solid tumors harboring the KRASG12C mutation."
+    },
+    {
+     "id": "F07",
+     "status": "verified",
+     "severity": "medium",
+     "claim": "The sentence reports responses among 15 evaluable patients at 600 mg twice daily but provides no response results for other doses. Multiple dosages should be compared in a trial designed to assess antitumor activity, saf",
+     "span": "After a median follow-up of 19.6 months, eight of 15 patients (53.3%; 95% CI, 26.6 to 78.7) with RECIST-evaluable KRASG12C-mutant non-small-cell lung cancer tre"
+    }
+   ]
+  },
+  {
+   "case_id": "RETRO-02",
+   "generic": "brigatinib",
+   "year": 2017,
+   "y": 0,
+   "S1": 4,
+   "S2": 11,
+   "B1": 0,
+   "B2": 2017,
+   "B3": 2.0,
+   "B4": 78,
+   "n_findings": 11,
+   "protocol_pk": false,
+   "tokens": 35419,
+   "f00": "abstain",
+   "reidentified": true,
+   "dose_findings": [
+    {
+     "id": "F01",
+     "status": "verified",
+     "severity": "high",
+     "claim": "The synopsis identifies an initial recommended phase 2 dose and two additional regimens but does not give the comparative basis for their selection. When selecting dosages for further evaluation or as the recommended dos",
+     "span": "We initially chose a dose of 180 mg once daily as the recommended phase 2 dose; however, we also assessed two additional regimens (90 mg once daily and 180 mg o"
+    },
+    {
+     "id": "F02",
+     "status": "verified",
+     "severity": "high",
+     "claim": "The synopsis gives the escalation range and 3 + 3 design but not dose-level allocations, DLT decision rules, or the analysis used to select a dose. Dosages selected for administration in a clinical trial(s) should be ade",
+     "span": "In the initial dose-escalation phase 1 stage of the trial, patients received oral DV-R02 at total daily doses of 30-300 mg (according to a standard 3 + 3 design"
+    },
+    {
+     "id": "F03",
+     "status": "verified",
+     "severity": "high",
+     "claim": "The synopsis lists the regimens but gives neither a PK sampling schedule nor measured exposure data for them. A PK sampling and analysis plan should be included in each protocol.",
+     "span": "In the phase 2 expansion stage, we assessed three oral once-daily regimens: 90 mg, 180 mg, and 180 mg with a 7 day lead-in at 90 mg; one patient received 90 mg "
+    },
+    {
+     "id": "F10",
+     "status": "verified",
+     "severity": "medium",
+     "claim": "The report concludes that the safety profile is acceptable but does not qualify that conclusion by regimen in this sentence. When selecting dosages for further evaluation or as the recommended dosage, safety and tolerabi",
+     "span": "Interpretation: DV-R02 shows promising clinical activity and has an acceptable safety profile in patients with crizotinib-treated and crizotinib-naive ALK-rearr"
+    }
+   ]
+  },
+  {
+   "case_id": "RETRO-03",
+   "generic": "ceritinib",
+   "year": 2014,
+   "y": 1,
+   "S1": 3,
+   "S2": 9,
+   "B1": 0,
+   "B2": 2014,
+   "B3": 2.0,
+   "B4": 93,
+   "n_findings": 9,
+   "protocol_pk": false,
+   "tokens": 28037,
+   "f00": "abstain",
+   "reidentified": true,
+   "dose_findings": [
+    {
+     "id": "F01",
+     "status": "verified",
+     "severity": "high",
+     "claim": "The synopsis says expansion patients received the maximum tolerated dose but gives no comparison with lower doses to explain that selection. When selecting dosages for further evaluation, safety and tolerability should b",
+     "span": "In an expansion phase of the study, patients received the maximum tolerated dose."
+    },
+    {
+     "id": "F02",
+     "status": "verified",
+     "severity": "high",
+     "claim": "The response rate combines patients receiving at least 400 mg per day rather than reporting responses by individual dose. Multiple dosages should be compared in a trial designed to assess antitumor activity, safety, and ",
+     "span": "Among 114 patients with NSCLC who received at least 400 mg of DV-R03 per day, the overall response rate was 58% (95% confidence interval [CI], 48 to 67)."
+    },
+    {
+     "id": "F03",
+     "status": "verified",
+     "severity": "high",
+     "claim": "The sentence gives the administered dose range and schedule but no dose-specific pharmacokinetic or exposure–response results. A PK sampling and analysis plan should be included in each protocol.",
+     "span": "Methods: In this phase 1 study, we administered oral DV-R03 in doses of 50 to 750 mg once daily to patients with advanced cancers harboring genetic alterations "
+    }
+   ]
+  },
+  {
+   "case_id": "RETRO-04",
+   "generic": "crizotinib",
+   "year": 2011,
+   "y": 0,
+   "S1": 1,
+   "S2": 3,
+   "B1": 0,
+   "B2": 2011,
+   "B3": 2.0,
+   "B4": 78,
+   "n_findings": 8,
+   "protocol_pk": false,
+   "tokens": 26431,
+   "f00": "abstain",
+   "reidentified": true,
+   "dose_findings": [
+    {
+     "id": "F02",
+     "status": "verified",
+     "severity": "high",
+     "claim": "The synopsis identifies an escalation-derived recommended dose of 250 mg twice daily but gives no dose-level results, escalation rules, PK results, or comparison with alternative doses. Multiple dosages should be compare",
+     "span": "These patients were enrolled in an expanded cohort study instituted after phase 1 dose escalation had established a recommended DV-R04 dose of 250 mg twice dail"
+    }
+   ]
+  },
+  {
+   "case_id": "RETRO-05",
+   "generic": "erdafitinib",
+   "year": 2019,
+   "y": 0,
+   "S1": 5,
+   "S2": 11,
+   "B1": 0,
+   "B2": 2019,
+   "B3": 0.5,
+   "B4": 88,
+   "n_findings": 11,
+   "protocol_pk": false,
+   "tokens": 28329,
+   "f00": "abstain",
+   "reidentified": true,
+   "dose_findings": [
+    {
+     "id": "F01",
+     "status": "verified",
+     "severity": "high",
+     "claim": "The report identifies an initial and final RP2D and attributes the change to improved tolerability, without presenting a comparison of the candidate regimens. Safety and tolerability should be compared across multiple do",
+     "span": "Nine milligrams daily was considered as the initial RP2D; however, tolerability was improved with intermittent schedules, and 10 mg administered on a 7-days-on/"
+    },
+    {
+     "id": "F02",
+     "status": "verified",
+     "severity": "medium",
+     "claim": "The report describes a dose-dependent phosphate effect but does not give its frequency or time course by candidate schedule. Relevant clinical data such as PK, PD, safety, tolerability and activity should support dosages",
+     "span": "Dose-dependent elevations in serum phosphate, a manifestation of pharmacodynamic effect, occurred in all patients starting at 4 mg daily."
+    },
+    {
+     "id": "F03",
+     "status": "verified",
+     "severity": "medium",
+     "claim": "The report states PK conclusions and a half-life but does not describe PK sampling or on- and off-treatment exposure profiles. A PK sampling and analysis plan should be included in each protocol and should adequately cha",
+     "span": "Pharmacokinetics were linear, dose proportional, and predictable, with a half-life of 50 to 60 hours."
+    },
+    {
+     "id": "F07",
+     "status": "verified",
+     "severity": "medium",
+     "claim": "The report gives total enrollment without identifying expansion cohorts or their objectives and sizes. Sponsors of first-in-human multiple expansion-cohort trials should provide the scientific rationale for studying each",
+     "span": "Sixty-five patients were enrolled."
+    },
+    {
+     "id": "F08",
+     "status": "verified",
+     "severity": "medium",
+     "claim": "The report gives outcomes for 23 response-evaluable patients with FGFR pathway alterations without assigning those outcomes to doses or schedules. Multiple dosages should be compared in trials designed to assess antitumo",
+     "span": "Among 23 response-evaluable patients with tumor FGFR pathway alterations, four confirmed responses and one unconfirmed partial response were observed in patient"
+    }
+   ]
+  },
+  {
+   "case_id": "RETRO-06",
+   "generic": "everolimus",
+   "year": 2009,
+   "y": 0,
+   "S1": 5,
+   "S2": 10,
+   "B1": 0,
+   "B2": 2009,
+   "B3": 2.0,
+   "B4": 25,
+   "n_findings": 11,
+   "protocol_pk": true,
+   "tokens": 28923,
+   "f00": "abstain",
+   "reidentified": true,
+   "dose_findings": [
+    {
+     "id": "F01",
+     "status": "verified",
+     "severity": "medium",
+     "claim": "The conclusion recommends 20 mg/wk and 5 mg/d without presenting a comparison supporting the choice between regimens. When selecting dosages for further evaluation or as the recommended dosage, safety and tolerability sh",
+     "span": "Doses of 20 mg/wk and 5 mg/d are recommended as appropriate starting doses for these studies."
+    },
+    {
+     "id": "F02",
+     "status": "verified",
+     "severity": "medium",
+     "claim": "The results report AUC and maximum-concentration trends without presenting dose-level distributions or an exposure–response analysis. A PK sampling and analysis plan should be included in each protocol.",
+     "span": "Area under the curve increased proportional to dose, but maximum serum concentration increased less than proportionally at doses >or= 20 mg/wk."
+    },
+    {
+     "id": "F03",
+     "status": "verified",
+     "severity": "medium",
+     "claim": "The results report peripheral-blood S6 kinase 1 inhibition without presenting its dose-specific variability or relationship to tumor PD and clinical outcomes. A sampling and analysis plan for PD data should be considered",
+     "span": "S6 kinase 1 activity in peripheral-blood mononuclear cells was inhibited for at least 7 days at doses >or= 20 mg/wk."
+    },
+    {
+     "id": "F08",
+     "status": "verified",
+     "severity": "medium",
+     "claim": "The results give a terminal half-life and range without a PK sampling schedule or repeat-dose measurements. The PK sampling and analysis plan for dose-finding trials should be sufficient to adequately characterize PK, in",
+     "span": "Terminal half-life was 30 hours (range, 26 to 38 hours)."
+    },
+    {
+     "id": "F09",
+     "status": "verified",
+     "severity": "medium",
+     "claim": "The conclusion calls PK predictable across the studied schedules without presenting schedule-specific accumulation or variability. A PK sampling and analysis plan should be included in each protocol.",
+     "span": "Conclusion: DV-R06 was satisfactorily tolerated at dosages up to 70 mg/wk and 10 mg/d with predictable PK."
+    }
+   ]
+  },
+  {
+   "case_id": "RETRO-07",
+   "generic": "futibatinib",
+   "year": 2022,
+   "y": 1,
+   "S1": 6,
+   "S2": 14,
+   "B1": 0,
+   "B2": 2022,
+   "B3": 0.5,
+   "B4": 78,
+   "n_findings": 11,
+   "protocol_pk": false,
+   "tokens": 29316,
+   "f00": "abstain",
+   "reidentified": true,
+   "dose_findings": [
+    {
+     "id": "F02",
+     "status": "verified",
+     "severity": "high",
+     "claim": "The synopsis uses a stronger daily-dosing exposure–phosphorus relationship to support 20 mg daily as the RP2D without presenting dose-specific comparative activity and tolerability results. Multiple dosages should be com",
+     "span": "Serum phosphorus increased dose dependently with DV-R07 on both schedules, but a stronger exposure-response relationship was observed with q.d. dosing, supporti"
+    },
+    {
+     "id": "F03",
+     "status": "verified",
+     "severity": "high",
+     "claim": "The synopsis identifies 20 mg daily as the MTD and does not provide a benefit–risk comparison with lower daily doses in this sentence. Safety and tolerability should be compared across multiple dosages when selecting dos",
+     "span": "The maximum tolerated dose (MTD) was determined to be 20 mg q.d.; no MTD was defined for the t.i.w. schedule."
+    },
+    {
+     "id": "F05",
+     "status": "verified",
+     "severity": "high",
+     "claim": "The synopsis pools partial responses and stable disease across patients without reporting response results by dose or schedule. Multiple dosages should be compared in trials designed to assess antitumor activity, safety,",
+     "span": "Overall, partial responses were observed in five patients [FGFR2 fusion-positive intrahepatic cholangiocarcinoma (n = 3) and FGFR1-mutant primary brain tumor (n"
+    },
+    {
+     "id": "F06",
+     "status": "verified",
+     "severity": "medium",
+     "claim": "The synopsis specifies a standard 3+3 design and the tested dose ranges but provides no design operating characteristics. The trial should be sized to allow sufficient assessment of safety and antitumor activity for each",
+     "span": "Patients And Methods: Following a standard 3+3 dose-escalation design, eligible patients with advanced solid tumors refractory to standard therapies received 8-"
+    },
+    {
+     "id": "F07",
+     "status": "verified",
+     "severity": "medium",
+     "claim": "The synopsis states dose proportionality for daily dosing and saturation for some three-times-weekly doses without giving PK sampling or analysis methods. A PK sampling and analysis plan should be included in each protoc",
+     "span": "Pharmacokinetics were dose proportional across all q.d. doses but not all t.i.w. doses evaluated, with saturation observed between 80 and 200 mg t.i.w."
+    },
+    {
+     "id": "F10",
+     "status": "verified",
+     "severity": "low",
+     "claim": "The investigational-product summary supplies a structure and FGFR3 target designation but no clinical toxicity or dose-selection data. The structure alert is suitable only for class classification and is not validated to",
+     "span": "DV-R07 is an oral small molecule (Fibroblast growth factor receptor inhibitor). SMILES: C=CC(=O)N1CC[C@H](n2nc(C#Cc3cc(OC)cc(OC)c3)c3c(N)ncnc32)C1. Target: FGFR"
+    }
+   ]
+  },
+  {
+   "case_id": "RETRO-08",
+   "generic": "glasdegib",
+   "year": 2018,
+   "y": 0,
+   "S1": 4,
+   "S2": 9,
+   "B1": 0,
+   "B2": 2018,
+   "B3": 0.0,
+   "B4": 88,
+   "n_findings": 9,
+   "protocol_pk": true,
+   "tokens": 32737,
+   "f00": "abstain",
+   "reidentified": true,
+   "dose_findings": [
+    {
+     "id": "F01",
+     "status": "verified",
+     "severity": "high",
+     "claim": "The reported recommended phase 2 dose is expressed as “200 mg or lower” rather than as a single dose, and this sentence gives no selection criteria. When selecting dosages for further evaluation or as the recommended dos",
+     "span": "Based on these results, the recommended phase 2 dose was 200 mg or lower once daily."
+    },
+    {
+     "id": "F02",
+     "status": "verified",
+     "severity": "high",
+     "claim": "The reported administered-dose list includes 180 mg and 270 mg but not 200 mg. Dosages selected for administration in a clinical trial(s) should be adequately supported by data appropriate to the stage of development.",
+     "span": "Patients received DV-R08 once daily at 5 mg (n=3), 10 mg (n=3), 20 mg (n=4), 40 mg (n=4), 80 mg (n=8), 120 mg (n=3), 180 mg (n=3), 270 mg (n=5), 400 mg (n=9), a"
+    },
+    {
+     "id": "F03",
+     "status": "verified",
+     "severity": "medium",
+     "claim": "The sentence reports apparent dose proportionality without dose-level exposure estimates or an exposure–response analysis. A PK sampling and analysis plan should be included in each protocol.",
+     "span": "Pharmacokinetics seemed to be dose proportional."
+    },
+    {
+     "id": "F08",
+     "status": "verified",
+     "severity": "low",
+     "claim": "The half-life summary is confined to the MTD group and does not describe sampling times or repeated-dose exposure across groups. The PK sampling and analysis plan for dose-finding trials should be sufficient to adequatel",
+     "span": "The mean half-life was 23·9 h (SD 14·0) in the MTD group."
+    }
+   ]
+  },
+  {
+   "case_id": "RETRO-09",
+   "generic": "ibrutinib",
+   "year": 2013,
+   "y": 0,
+   "S1": 6,
+   "S2": 14,
+   "B1": 0,
+   "B2": 2013,
+   "B3": 0.5,
+   "B4": 78,
+   "n_findings": 11,
+   "protocol_pk": false,
+   "tokens": 27223,
+   "f00": "abstain",
+   "reidentified": true,
+   "dose_findings": [
+    {
+     "id": "F01",
+     "status": "verified",
+     "severity": "high",
+     "claim": "The synopsis reports full BTK occupancy at 2.5 mg/kg per day and escalation to 12.5 mg/kg per day without reaching MTD, but gives no dose-specific activity and safety comparison in this sentence. Multiple dosages should ",
+     "span": "Full occupancy of the BTK active site occurred at 2.5 mg/kg per day, and dose escalation continued to 12.5 mg/kg per day without reaching MTD."
+    },
+    {
+     "id": "F02",
+     "status": "verified",
+     "severity": "high",
+     "claim": "The synopsis describes rapid absorption, elimination, and sustained occupancy without providing a PK sampling plan or dose-specific exposure results in this sentence. A PK sampling and analysis plan should be included in",
+     "span": "Pharmacokinetic data indicated rapid absorption and elimination, yet BTK occupancy was maintained for at least 24 hours, consistent with the irreversible mechan"
+    },
+    {
+     "id": "F03",
+     "status": "verified",
+     "severity": "high",
+     "claim": "The synopsis identifies a later-development dose as under review but does not identify that dose or provide its selection rationale in this sentence. Multiple dosages should be compared in a trial designed to assess anti",
+     "span": "The dose selected for later development is the dose under review."
+    },
+    {
+     "id": "F05",
+     "status": "verified",
+     "severity": "medium",
+     "claim": "The synopsis gives escalation stopping conditions but not the DLT definition, observation window, cohort sizes, or escalation rules in this sentence. A trial comparing dosages should be sized to allow sufficient assessme",
+     "span": "Dose escalation proceeded until either the maximum-tolerated dose (MTD) was achieved or, in the absence of MTD, until three dose levels above full BTK occupancy"
+    },
+    {
+     "id": "F08",
+     "status": "verified",
+     "severity": "medium",
+     "claim": "The synopsis identifies intermittent and continuous schedules but gives no schedule-specific comparative outcomes in this sentence. Sponsors of expansion cohorts intended to assess the optimal dose or schedule should con",
+     "span": "Two schedules were evaluated: one, 28 days on, 7 days off; and two, once-daily continuous dosing."
+    },
+    {
+     "id": "F10",
+     "status": "verified",
+     "severity": "low",
+     "claim": "The synopsis provides a SMILES structure but no matched-compound potency distribution or clinical safety data in this sentence. The structure is classified as an irreversible covalent inhibitor candidate, and its structu",
+     "span": "SMILES: C=CC(=O)N1CCC[C@@H](n2nc(-c3ccc(Oc4ccccc4)cc3)c3c(N)ncnc32)C1."
+    }
+   ]
+  },
+  {
+   "case_id": "RETRO-10",
+   "generic": "idelalisib",
+   "year": 2014,
+   "y": 1,
+   "S1": 3,
+   "S2": 8,
+   "B1": 0,
+   "B2": 2014,
+   "B3": 2.0,
+   "B4": 72,
+   "n_findings": 5,
+   "protocol_pk": false,
+   "tokens": 24761,
+   "f00": "abstain",
+   "reidentified": true,
+   "dose_findings": [
+    {
+     "id": "F01",
+     "status": "verified",
+     "severity": "high",
+     "claim": "The synopsis identifies a later-development dose as under review but does not state how that dose was selected. Multiple dosages should be compared in a trial designed to assess antitumor activity, safety, and tolerabili",
+     "span": "The dose selected for later development is the dose under review."
+    },
+    {
+     "id": "F02",
+     "status": "verified",
+     "severity": "high",
+     "claim": "The reported sentence gives the number and range of dose levels and describes once- or twice-daily continuous treatment, but gives no PK sampling plan. A PK sampling and analysis plan should be included in each protocol.",
+     "span": "Patients were treated at 6 dose levels of oral DV-R10 (range 50-350 mg once or twice daily) and remained on continuous therapy while deriving clinical benefit."
+    },
+    {
+     "id": "F04",
+     "status": "verified",
+     "severity": "medium",
+     "claim": "The sentence reports an overall response rate and its response categories, without reporting results by dose or schedule. Multiple dosages should be compared in a trial designed to assess antitumor activity, safety, and ",
+     "span": "The overall response rate was 72%, with 39% of patients meeting the criteria for partial response per DV-R10 and 33% meeting the recently updated criteria of PR"
+    }
+   ]
+  },
+  {
+   "case_id": "RETRO-11",
+   "generic": "inavolisib",
+   "year": 2024,
+   "y": 1,
+   "S1": 4,
+   "S2": 11,
+   "B1": 0,
+   "B2": 2024,
+   "B3": 2.0,
+   "B4": 85,
+   "n_findings": 9,
+   "protocol_pk": false,
+   "tokens": 26680,
+   "f00": "abstain",
+   "reidentified": true,
+   "dose_findings": [
+    {
+     "id": "F01",
+     "status": "verified",
+     "severity": "high",
+     "claim": "The synopsis identifies a later-development dose as under review but gives no dose-level comparisons or selection rationale in this sentence. Multiple dosages should be compared in a trial designed to assess antitumor ac",
+     "span": "The dose selected for later development is the dose under review."
+    },
+    {
+     "id": "F03",
+     "status": "verified",
+     "severity": "high",
+     "claim": "The sentence asserts that no PK DDIs were observed without giving the sampling or analysis supporting that assertion. A PK sampling and analysis plan should be included in each protocol.",
+     "span": "No PK drug-drug interactions (DDIs) were observed among the study treatments when administered."
+    },
+    {
+     "id": "F04",
+     "status": "verified",
+     "severity": "high",
+     "claim": "The conclusion characterizes safety as manageable but provides no cross-dose tolerability comparison in that sentence. When selecting dosages for further evaluation or as the recommended dosage, safety and tolerability s",
+     "span": "Conclusion: DV-R11 plus palbociclib and ET demonstrated a manageable safety profile, lack of DDIs, and promising preliminary antitumor activity."
+    },
+    {
+     "id": "F05",
+     "status": "verified",
+     "severity": "medium",
+     "claim": "The two named arms differ in endocrine partner, while this sentence gives neither DV-R11 dose assignments nor prior-therapy eligibility criteria. Expansion cohorts intended to further assess the optimal dose or schedule ",
+     "span": "Methods: Women ≥18 years of age received DV-R11, palbociclib, and letrozole (Inavo + Palbo + Letro arm) or fulvestrant (Inavo + Palbo + Fulv arm) until unaccept"
+    }
+   ]
+  },
+  {
+   "case_id": "RETRO-12",
+   "generic": "lazertinib",
+   "year": 2024,
+   "y": 0,
+   "S1": 5,
+   "S2": 13,
+   "B1": 1,
+   "B2": 2024,
+   "B3": 2.0,
+   "B4": 85,
+   "n_findings": 11,
+   "protocol_pk": false,
+   "tokens": 33786,
+   "f00": "abstain",
+   "reidentified": true,
+   "dose_findings": [
+    {
+     "id": "F01",
+     "status": "verified",
+     "severity": "high",
+     "claim": "The synopsis identifies a later-development dose but does not explain how it was selected. Multiple dosages should be compared in a trial designed to assess antitumor activity, safety, and tolerability to support a propo",
+     "span": "The dose selected for later development is the dose under review."
+    },
+    {
+     "id": "F02",
+     "status": "verified",
+     "severity": "high",
+     "claim": "The report states that adverse events did not increase with dose without presenting dose-specific results in that sentence. Safety and tolerability should be compared across multiple dosages when selecting dosages for fu",
+     "span": "There was no dose-dependent increase in adverse events."
+    },
+    {
+     "id": "F03",
+     "status": "verified",
+     "severity": "high",
+     "claim": "The report identifies a rolling-six escalation design and five expanded cohorts without describing their individual rationales or rules in this sentence. Sponsors of first-in-human multiple-expansion-cohort trials should",
+     "span": "Patients were enrolled to seven dose-escalation cohorts according to a rolling six design; five cohorts were expanded."
+    },
+    {
+     "id": "F06",
+     "status": "verified",
+     "severity": "medium",
+     "claim": "The report says pharmacokinetics were assessed but gives no sampling or analysis plan in this sentence. A PK sampling and analysis plan should be included in each protocol.",
+     "span": "We assessed the safety, tolerability, pharmacokinetics, and activity of DV-R12-an irreversible, third-generation, mutant-selective, EGFR TKI-in patients with ad"
+    },
+    {
+     "id": "F10",
+     "status": "verified",
+     "severity": "medium",
+     "claim": "The investigational-product description supplies a SMILES string and identifies EGFR as the target without providing a clinical dose rationale in this span. Acrylate and Michael-acceptor structural alerts are not validat",
+     "span": "SMILES: C=CC(=O)Nc1cc(Nc2nccc(-n3cc(CN(C)C)c(-c4ccccc4)n3)n2)c(OC)cc1N1CCOCC1. Target: EGFR."
+    }
+   ]
+  },
+  {
+   "case_id": "RETRO-13",
+   "generic": "lenvatinib",
+   "year": 2015,
+   "y": 1,
+   "S1": 4,
+   "S2": 8,
+   "B1": 0,
+   "B2": 2015,
+   "B3": 0.5,
+   "B4": 99,
+   "n_findings": 9,
+   "protocol_pk": false,
+   "tokens": 26855,
+   "f00": "abstain",
+   "reidentified": true,
+   "dose_findings": [
+    {
+     "id": "F01",
+     "status": "verified",
+     "severity": "medium",
+     "claim": "The synopsis identifies a dose for later development and concludes that doses up to 25 mg per day were well tolerated, but does not present a dose-specific benefit–risk comparison. Multiple dosages should be compared in ",
+     "span": "The dose selected for later development is the dose under review.\n\nConclusion: E7080 is well tolerated at doses up to 25 mg per day."
+    },
+    {
+     "id": "F02",
+     "status": "verified",
+     "severity": "medium",
+     "claim": "The results give the overall enrollment, dose range, two dose-limiting toxicities at 32 mg, and a 25 mg MTD, without cohort denominators or escalation rules. Clinical data from all sources should be analyzed for dose-rel",
+     "span": "Results: Eighty-two patients received E7080 in dose cohorts from 0.2 to 32 mg. Dose-limiting toxicities were grade 3 proteinuria (two patients) at 32 mg, and th"
+    },
+    {
+     "id": "F03",
+     "status": "verified",
+     "severity": "medium",
+     "claim": "The report describes dose-linear kinetics and no accumulation after four weeks, but gives no exposure–response or exposure–toxicity analysis. An established concentration-response relationship is often not needed, but ma",
+     "span": "E7080 has dose-linear kinetics with no drug accumulation after 4 weeks' administration."
+    },
+    {
+     "id": "F05",
+     "status": "verified",
+     "severity": "medium",
+     "claim": "The sampling description specifies collection days but not within-day post-dose times or the PK analysis plan. A PK sampling and analysis plan should be included in each protocol.",
+     "span": "Samples for pharmacokinetic analyses were collected on days 1, 8, 15 and 22 of cycle 1 and day 1 of cycle 2."
+    }
+   ]
+  },
+  {
+   "case_id": "RETRO-14",
+   "generic": "nilotinib",
+   "year": 2007,
+   "y": 0,
+   "S1": 4,
+   "S2": 13,
+   "B1": 0,
+   "B2": 2007,
+   "B3": 0.5,
+   "B4": 70,
+   "n_findings": 10,
+   "protocol_pk": false,
+   "tokens": 29866,
+   "f00": "abstain",
+   "reidentified": true,
+   "dose_findings": [
+    {
+     "id": "F01",
+     "status": "verified",
+     "severity": "high",
+     "claim": "The methods sentence lists total enrollment, the treated population, and nine regimens but does not give escalation rules, regimen-level results, PK sampling, or prior-therapy eligibility criteria. A PK sampling and anal",
+     "span": "Methods: In a phase 1 dose-escalation study, we assigned 119 patients with imatinib-resistant CML or acute lymphoblastic leukemia (ALL) to receive DV-R14 orally"
+    },
+    {
+     "id": "F02",
+     "status": "verified",
+     "severity": "high",
+     "claim": "The response sentence reports outcomes by disease phase but not by regimen or measured exposure. Multiple dosages should be compared in a trial(s) designed to assess antitumor activity, safety, and tolerability to suppor",
+     "span": "Of 33 patients with the blastic phase of disease, 13 had a hematologic response and 9 had a cytogenetic response; of 46 patients with the accelerated phase, 33 "
+    },
+    {
+     "id": "F04",
+     "status": "verified",
+     "severity": "high",
+     "claim": "The sentence refers to a later-development dose without identifying it or explaining how it was selected. Safety and tolerability should be compared across multiple dosages when selecting dosages for further evaluation o",
+     "span": "The dose selected for later development is the dose under review."
+    },
+    {
+     "id": "F06",
+     "status": "verified",
+     "severity": "medium",
+     "claim": "The sentence gives an in-vitro potency comparison but no clinical dose-selection rationale. Multiple dosages should be compared in a trial(s) designed to assess antitumor activity, safety, and tolerability to support pro",
+     "span": "Preclinical in vitro studies have shown that DV-R14 (DV-R14), a new BCR-ABL tyrosine kinase inhibitor, is more potent than imatinib against CML cells by a facto"
+    },
+    {
+     "id": "F07",
+     "status": "held",
+     "severity": "medium",
+     "claim": "The product description supplies a SMILES string and calls DV-R14 an oral small molecule but does not state a target or starting-dose rationale. Structure alerts are high-throughput-screening interference filters and are",
+     "span": "DV-R14 is an oral small molecule (small-molecule targeted agent). SMILES: Cc1cn(-c2cc(NC(=O)c3ccc(C)c(Nc4nccc(-c5cccnc5)n4)c3)cc(C(F)(F)F)c2)cn1. Target: not st"
+    }
+   ]
+  },
+  {
+   "case_id": "RETRO-15",
+   "generic": "osimertinib",
+   "year": 2015,
+   "y": 0,
+   "S1": 4,
+   "S2": 10,
+   "B1": 0,
+   "B2": 2015,
+   "B3": 0.0,
+   "B4": 35,
+   "n_findings": 10,
+   "protocol_pk": false,
+   "tokens": 25796,
+   "f00": "abstain",
+   "reidentified": true,
+   "dose_findings": [
+    {
+     "id": "F01",
+     "status": "verified",
+     "severity": "high",
+     "claim": "The synopsis reports a 20–240 mg once-daily dose range but gives no dose-level exposure, activity, or safety results in this sentence. Multiple dosages should be compared in a trial designed to assess antitumor activity,",
+     "span": "Methods: We administered DV-R15 at doses of 20 to 240 mg once daily in patients with advanced lung cancer who had radiologically documented disease progression "
+    },
+    {
+     "id": "F02",
+     "status": "verified",
+     "severity": "high",
+     "claim": "The synopsis reports no dose-limiting toxic effects among 31 escalation patients but does not state a dose-selection rule or later-cycle safety results in this sentence. When selecting dosages for further evaluation or a",
+     "span": "Among 31 patients enrolled in the dose-escalation cohorts, no dose-limiting toxic effects occurred at the doses evaluated."
+    },
+    {
+     "id": "F04",
+     "status": "verified",
+     "severity": "medium",
+     "claim": "The synopsis says pharmacokinetics were assessed but provides no sampling or analysis plan in this sentence. A PK sampling and analysis plan should be included in each protocol.",
+     "span": "Patients were assessed for safety, pharmacokinetics, and efficacy."
+    },
+    {
+     "id": "F07",
+     "status": "verified",
+     "severity": "medium",
+     "claim": "The synopsis reports an overall objective response rate without a dose-specific breakdown in this sentence. Multiple dosages should be compared in a trial designed to assess antitumor activity, safety, and tolerability.",
+     "span": "The overall objective tumor response rate was 51% (95% confidence interval [CI], 45 to 58)."
+    }
+   ]
+  },
+  {
+   "case_id": "RETRO-16",
+   "generic": "pacritinib",
+   "year": 2022,
+   "y": 0,
+   "S1": 3,
+   "S2": 8,
+   "B1": 0,
+   "B2": 2022,
+   "B3": 2.5,
+   "B4": 88,
+   "n_findings": 9,
+   "protocol_pk": false,
+   "tokens": 29191,
+   "f00": "abstain",
+   "reidentified": true,
+   "dose_findings": [
+    {
+     "id": "F01",
+     "status": "verified",
+     "severity": "high",
+     "claim": "The synopsis identifies 500 mg QD as the MTD and 400 mg QD as the recommended phase 2 dose but gives no rationale for selecting 400 mg QD. Expansion cohorts evaluating safety beyond dose escalation should be supported by",
+     "span": "The MTD was established at 500 mg QD, and the recommended phase 2 dose was 400 mg QD."
+    },
+    {
+     "id": "F02",
+     "status": "verified",
+     "severity": "high",
+     "claim": "The synopsis reports five cycle-1 dose-limiting toxicities in aggregate without counts by dose level or escalation-decision rules. Information supporting individual expansion cohorts should describe prespecified stopping",
+     "span": "Five patients (11.6%) experienced a dose-limiting toxicity during cycle 1 of phase 1."
+    },
+    {
+     "id": "F04",
+     "status": "verified",
+     "severity": "medium",
+     "claim": "The synopsis gives the phase 1 dose range and total enrollment but no PK sampling plan or dose-level PK results. A PK sampling and analysis plan should be included in each protocol.",
+     "span": "In the phase 1 dose-escalation part of the study, 43 adults with advanced myeloid malignancies received DV-R16 100 to 600 mg once daily (QD)."
+    }
+   ]
+  },
+  {
+   "case_id": "RETRO-17",
+   "generic": "palbociclib",
+   "year": 2015,
+   "y": 0,
+   "S1": 5,
+   "S2": 12,
+   "B1": 0,
+   "B2": 2015,
+   "B3": 0.0,
+   "B4": 35,
+   "n_findings": 10,
+   "protocol_pk": true,
+   "tokens": 29440,
+   "f00": "abstain",
+   "reidentified": true,
+   "dose_findings": [
+    {
+     "id": "F01",
+     "status": "verified",
+     "severity": "high",
+     "claim": "The report identifies 125 mg once daily as both the MTD and recommended phase II dose without giving a dose-by-dose comparison in this sentence. Multiple dosages should be compared in a trial designed to assess antitumor",
+     "span": "The MTD and recommended phase II dose of DV-R17 was 125 mg once daily."
+    },
+    {
+     "id": "F02",
+     "status": "verified",
+     "severity": "high",
+     "claim": "The report describes a modeled exposure–neutropenia relationship without giving dose-specific exposure variability or benefit–risk estimates in this sentence. Clinical data from all sources should be analyzed for dose-re",
+     "span": "Using an E(max) model, neutropenia was shown to be proportional to exposure."
+    },
+    {
+     "id": "F04",
+     "status": "verified",
+     "severity": "medium",
+     "claim": "The conclusion calls neutropenia the sole significant toxicity at 125 mg once daily without presenting toxicity by cycle or treatment duration in this sentence. Multiple dosages should be compared in a trial designed to ",
+     "span": "Conclusions: DV-R17 warrants phase II testing at 125 mg once daily, at which dose neutropenia was the sole significant toxicity."
+    },
+    {
+     "id": "F05",
+     "status": "verified",
+     "severity": "medium",
+     "claim": "The report names six dose-escalation cohorts and a standard 3 + 3 design but does not give cohort denominators, DLT windows, or escalation decisions in this sentence. Clinical data from all sources should be analyzed for",
+     "span": "Experimental Design: This open-label phase I study ([registry number masked]) enrolled patients who received DV-R17 orally in six dose-escalation cohorts in a s"
+    },
+    {
+     "id": "F06",
+     "status": "verified",
+     "severity": "medium",
+     "claim": "The report gives summary absorption, elimination, and distribution measures without describing repeat-dose sampling or accumulation in these sentences. A PK sampling and analysis plan should be included in each protocol.",
+     "span": "DV-R17 was slowly absorbed (median T(max), 5.5 hours), and slowly eliminated (mean half-life was 25.9 hours) with a large volume of distribution (mean, 2,793 L)"
+    }
+   ]
+  },
+  {
+   "case_id": "RETRO-18",
+   "generic": "pirtobrutinib",
+   "year": 2023,
+   "y": 0,
+   "S1": 3,
+   "S2": 7,
+   "B1": 2,
+   "B2": 2023,
+   "B3": 0.0,
+   "B4": 82,
+   "n_findings": 11,
+   "protocol_pk": false,
+   "tokens": 30099,
+   "f00": "abstain",
+   "reidentified": true,
+   "dose_findings": [
+    {
+     "id": "F01",
+     "status": "verified",
+     "severity": "high",
+     "claim": "The report identifies 200 mg daily as the recommended phase 2 dose but gives no comparative dose-level rationale in this sentence. Multiple dosages should be compared in a trial designed to assess antitumor activity, saf",
+     "span": "The recommended phase 2 dose was 200 mg daily."
+    },
+    {
+     "id": "F05",
+     "status": "verified",
+     "severity": "medium",
+     "claim": "The report asserts linear dose-proportional exposures across seven dose levels but provides no PK sampling or analysis plan in this sentence. A PK sampling and analysis plan should be included in each protocol.",
+     "span": "Findings: 323 patients were treated with DV-R18 across seven dose levels (25 mg, 50 mg, 100 mg, 150 mg, 200 mg, 250 mg, and 300 mg once per day) with linear dos"
+    },
+    {
+     "id": "F06",
+     "status": "verified",
+     "severity": "medium",
+     "claim": "The report gives an ORR for 121 efficacy-evaluable CLL or SLL patients without a dose-specific response breakdown in this sentence. Multiple dosages should be compared in a trial designed to assess antitumor activity, sa",
+     "span": "In 121 efficacy evaluable patients with chronic lymphocytic leukaemia (CLL) or small lymphocytic lymphoma (SLL) treated with a previous covalent BTK inhibitor ("
+    }
+   ]
+  },
+  {
+   "case_id": "RETRO-19",
+   "generic": "pralsetinib",
+   "year": 2020,
+   "y": 0,
+   "S1": 2,
+   "S2": 5,
+   "B1": 0,
+   "B2": 2020,
+   "B3": 2.5,
+   "B4": 85,
+   "n_findings": 6,
+   "protocol_pk": false,
+   "tokens": 21485,
+   "f00": "abstain",
+   "reidentified": true,
+   "dose_findings": [
+    {
+     "id": "F01",
+     "status": "verified",
+     "severity": "high",
+     "claim": "The synopsis identifies the later-development dose as the subject of review but gives no dose-selection rationale in this sentence. Multiple dosages should be compared in a trial designed to assess antitumor activity, sa",
+     "span": "The dose selected for later development is the dose under review."
+    },
+    {
+     "id": "F04",
+     "status": "verified",
+     "severity": "medium",
+     "claim": "The synopsis says that no other protocol text is available, so a PK sampling plan cannot be checked from the supplied material. A PK sampling and analysis plan should be included in each protocol.",
+     "span": "No other protocol text is available."
+    }
+   ]
+  },
+  {
+   "case_id": "RETRO-20",
+   "generic": "repotrectinib",
+   "year": 2023,
+   "y": 0,
+   "S1": 3,
+   "S2": 8,
+   "B1": 0,
+   "B2": 2023,
+   "B3": 2.0,
+   "B4": 85,
+   "n_findings": 6,
+   "protocol_pk": false,
+   "tokens": 24481,
+   "f00": "abstain",
+   "reidentified": true,
+   "dose_findings": [
+    {
+     "id": "F01",
+     "status": "verified",
+     "severity": "high",
+     "claim": "The synopsis refers to a dose selected for later development but does not identify that dose or give its selection rationale. Dosages selected for administration in a clinical trial(s) should be adequately supported by d",
+     "span": "The dose selected for later development is the dose under review."
+    },
+    {
+     "id": "F03",
+     "status": "verified",
+     "severity": "high",
+     "claim": "The abstract reports confirmed responses but gives no dose-specific results or dose-selection method in this sentence. When selecting dosages for further evaluation or as the recommended dosage, safety and tolerability s",
+     "span": "As clinical proof of concept, in an ongoing first-in-human phase I/II trial, DV-R20 achieved confirmed responses in patients with ROS1 or NTRK3 fusion-positive "
+    },
+    {
+     "id": "F04",
+     "status": "verified",
+     "severity": "medium",
+     "claim": "The investigational-product description identifies DV-R20 as a Trk-A inhibitor and lists NTRK1 as its target. Relevant nonclinical and clinical data, such as PK, PD, safety, tolerability, dosage convenience, and activity",
+     "span": "DV-R20 is an oral small molecule (Nerve growth factor receptor Trk-A inhibitor). SMILES: C[C@H]1CNC(=O)c2cnn3ccc(nc23)N[C@H](C)c2cc(F)ccc2O1. Target: NTRK1."
+    }
+   ]
+  },
+  {
+   "case_id": "RETRO-21",
+   "generic": "ruxolitinib",
+   "year": 2011,
+   "y": 0,
+   "S1": 3,
+   "S2": 7,
+   "B1": 0,
+   "B2": 2011,
+   "B3": 1.0,
+   "B4": 65,
+   "n_findings": 9,
+   "protocol_pk": false,
+   "tokens": 28925,
+   "f00": "abstain",
+   "reidentified": true,
+   "dose_findings": [
+    {
+     "id": "F02",
+     "status": "verified",
+     "severity": "high",
+     "claim": "The sentence identifies a starting dose and individualized titration and calls the regimen the most effective and safest, without specifying titration rules or comparative dose results. When selecting dosages for further",
+     "span": "We studied additional doses and established that a 15-mg twice-daily starting dose, followed by individualized dose titration, was the most effective and safest"
+    },
+    {
+     "id": "F03",
+     "status": "verified",
+     "severity": "medium",
+     "claim": "The sentence reports dose-dependent STAT3 suppression in two patient groups without quantitative measurements or a linkage to outcomes at the selected dose. A PK sampling and analysis plan should be included in each prot",
+     "span": "A dose-dependent suppression of phosphorylated signal transducer and activator of transcription 3 (STAT3), a marker of JAK signaling, was demonstrated in patien"
+    },
+    {
+     "id": "F04",
+     "status": "verified",
+     "severity": "medium",
+     "claim": "The sentence gives response and severe-adverse-event results for 33 patients at the selected dose but does not identify an expansion cohort or provide results at other doses. The trial should be sized to allow for suffic",
+     "span": "At this dose, 17 of 33 patients (52%) had a rapid objective response (≥50% reduction of splenomegaly) lasting for 12 months or more, and this therapy was associ"
+    }
+   ]
+  },
+  {
+   "case_id": "RETRO-22",
+   "generic": "selpercatinib",
+   "year": 2020,
+   "y": 0,
+   "S1": 3,
+   "S2": 8,
+   "B1": 0,
+   "B2": 2020,
+   "B3": 4.0,
+   "B4": 78,
+   "n_findings": 6,
+   "protocol_pk": false,
+   "tokens": 24074,
+   "f00": "abstain",
+   "reidentified": true,
+   "dose_findings": [
+    {
+     "id": "F01",
+     "status": "verified",
+     "severity": "high",
+     "claim": "The synopsis reports rapid, real-time PK-guided titration in two patients and characterizes the resulting exposures as meaningful and safely achieved, but this sentence gives no sampling schedule, dose histories, exposur",
+     "span": "Due to clinical urgency, two patients with RET-altered, MKI-resistant cancers were treated with DV-R22, utilizing rapid dose-titration guided by real-time pharm"
+    },
+    {
+     "id": "F02",
+     "status": "verified",
+     "severity": "high",
+     "claim": "The synopsis identifies a later-development dose as the subject of review but does not identify the dose or explain its selection in this sentence. Assessment of dose-response should be an integral component of drug deve",
+     "span": "The dose selected for later development is the dose under review."
+    },
+    {
+     "id": "F03",
+     "status": "verified",
+     "severity": "medium",
+     "claim": "The sentence reports a brain response and symptom resolution in one patient without stating her dose, exposure, response-assessment timing, or safety findings. Knowledge of the relationships among dose, drug-concentratio",
+     "span": "A second patient with KIF5B-RET fusion-positive lung cancer, acquired resistance to alectinib and symptomatic brain metastases experienced a dramatic response i"
+    }
+   ]
+  },
+  {
+   "case_id": "RETRO-23",
+   "generic": "sotorasib",
+   "year": 2021,
+   "y": 1,
+   "S1": 3,
+   "S2": 11,
+   "B1": 0,
+   "B2": 2021,
+   "B3": 4.5,
+   "B4": 99,
+   "n_findings": 9,
+   "protocol_pk": true,
+   "tokens": 27100,
+   "f00": "abstain",
+   "reidentified": true,
+   "dose_findings": [
+    {
+     "id": "F01",
+     "status": "verified",
+     "severity": "high",
+     "claim": "The synopsis identifies a later-development dose but does not give its selection rule or comparative rationale. Multiple dosages should be compared in a trial designed to assess antitumor activity, safety, and tolerabili",
+     "span": "The dose selected for later development is the dose under review."
+    },
+    {
+     "id": "F02",
+     "status": "verified",
+     "severity": "high",
+     "claim": "The results report no observed dose-limiting toxic effects or treatment-related deaths but provide no escalation decision rules or dose-specific observation details. Expansion cohorts intended to further evaluate safety ",
+     "span": "No dose-limiting toxic effects or treatment-related deaths were observed."
+    },
+    {
+     "id": "F03",
+     "status": "held",
+     "severity": "high",
+     "claim": "The results give aggregate enrollment by tumor type across escalation and expansion but not enrollment, exposure, activity, or toxicity by dose or the rationale and stopping rules for each expansion cohort. The backgroun",
+     "span": "A total of 129 patients (59 with NSCLC, 42 with colorectal cancer, and 28 with other tumors) were included in dose escalation and expansion cohorts."
+    },
+    {
+     "id": "F05",
+     "status": "verified",
+     "severity": "medium",
+     "claim": "The methods name pharmacokinetics as a secondary endpoint without describing its sampling or analysis plan. A PK sampling and analysis plan should be included in each protocol.",
+     "span": "Key secondary end points were pharmacokinetics and objective response, as assessed according to Response Evaluation Criteria in Solid Tumors (RECIST), version 1"
+    }
+   ]
+  },
+  {
+   "case_id": "RETRO-24",
+   "generic": "tovorafenib",
+   "year": 2024,
+   "y": 0,
+   "S1": 5,
+   "S2": 13,
+   "B1": 0,
+   "B2": 2024,
+   "B3": 0.0,
+   "B4": 75,
+   "n_findings": 11,
+   "protocol_pk": false,
+   "tokens": 26777,
+   "f00": "abstain",
+   "reidentified": true,
+   "dose_findings": [
+    {
+     "id": "F01",
+     "status": "verified",
+     "severity": "high",
+     "claim": "The results identify two RP2Ds without describing the criteria used to select or compare them. Multiple dosages should be compared in a trial designed to assess antitumor activity, safety, and tolerability.",
+     "span": "The RP2D of DV-R24 was defined as 200 mg Q2D or 600 mg QW."
+    },
+    {
+     "id": "F02",
+     "status": "verified",
+     "severity": "high",
+     "claim": "The objectives include determining the MTD and RP2D on both schedules but give no escalation or DLT assessment rules. A PK sampling and analysis plan should be included in each protocol.",
+     "span": "Primary objectives were to evaluate the safety of DV-R24 administered once every other day (Q2D) or once weekly (QW), and to determine the maximum-tolerated and"
+    },
+    {
+     "id": "F04",
+     "status": "verified",
+     "severity": "high",
+     "claim": "The conclusion calls both schedules acceptable and prefers 600 mg QW without setting out the comparative benefit–risk criteria supporting that preference. When selecting dosages for further evaluation or as the recommend",
+     "span": "Conclusions: The safety profile of both schedules was acceptable, with QW dosing at the RP2D of 600 mg QW preferred for future clinical studies."
+    },
+    {
+     "id": "F07",
+     "status": "verified",
+     "severity": "medium",
+     "claim": "The sentence characterizes QW accumulation but gives no concentration–time results or cross-schedule PK analysis. A PK sampling and analysis plan should be included in each protocol.",
+     "span": "QW dose administration was associated with minimal accumulation of DV-R24 in systemic circulation in the dose range of 400-800 mg."
+    },
+    {
+     "id": "F08",
+     "status": "verified",
+     "severity": "medium",
+     "claim": "The methods name pharmacokinetics as an objective without specifying sampling times or analyses. A PK sampling and analysis plan should be included in each protocol.",
+     "span": "Secondary objectives included evaluation of antitumor activity and DV-R24 pharmacokinetics."
+    }
+   ]
+  },
+  {
+   "case_id": "RETRO-25",
+   "generic": "tucatinib",
+   "year": 2020,
+   "y": 0,
+   "S1": 5,
+   "S2": 11,
+   "B1": 0,
+   "B2": 2020,
+   "B3": 2.5,
+   "B4": 20,
+   "n_findings": 11,
+   "protocol_pk": true,
+   "tokens": 28937,
+   "f00": "abstain",
+   "reidentified": true,
+   "dose_findings": [
+    {
+     "id": "F01",
+     "status": "verified",
+     "severity": "high",
+     "claim": "The synopsis identifies 600 mg BID as the MTD after transaminase dose-limiting toxicities at 800 mg BID but gives no comparison of dose-level activity, tolerability, or exposure to explain the later-development dose sele",
+     "span": "Dose-limiting toxicities of increased transaminases occurred at 800 mg BID, thus 600 mg BID was the MTD."
+    },
+    {
+     "id": "F02",
+     "status": "verified",
+     "severity": "medium",
+     "claim": "The synopsis reports a half-life and approximately dose-proportional exposure but no analysis relating exposure to response or adverse events. An established concentration-response relationship is often not needed, but m",
+     "span": "The half-life of DV-R25 was 5.38 hours and increases in exposure were approximately dose proportional."
+    },
+    {
+     "id": "F05",
+     "status": "verified",
+     "severity": "medium",
+     "claim": "The synopsis names a modified 3+3 design but does not specify its modification rules, DLT observation window, or dose-escalation decision criteria. Dosages selected for administration in a clinical trial should be adequa",
+     "span": "After a modified 3+3 dose-escalation design determined the MTD, the expansion cohort was enrolled."
+    },
+    {
+     "id": "F07",
+     "status": "verified",
+     "severity": "medium",
+     "claim": "The synopsis pools response and clinical-benefit results across evaluable patients treated at doses at or above the MTD without giving results by dose. The trial should be sized to allow sufficient assessment of safety a",
+     "span": "In evaluable HER2+ MBC (n = 22) treated at doses ≥ MTD, the response rate was 14% [all partial response (PR)] and the clinical benefit rate (PR + stable disease"
+    },
+    {
+     "id": "F08",
+     "status": "verified",
+     "severity": "medium",
+     "claim": "The synopsis says parent-drug and metabolite PK were determined but provides no sampling or analysis plan. A PK sampling and analysis plan should be included in each protocol.",
+     "span": "PK properties of DV-R25 and a metabolite were determined."
+    }
+   ]
+  },
+  {
+   "case_id": "RETRO-26",
+   "generic": "vandetanib",
+   "year": 2011,
+   "y": 0,
+   "S1": 4,
+   "S2": 8,
+   "B1": 0,
+   "B2": 2011,
+   "B3": 0.0,
+   "B4": 95,
+   "n_findings": 9,
+   "protocol_pk": false,
+   "tokens": 27798,
+   "f00": "abstain",
+   "reidentified": true,
+   "dose_findings": [
+    {
+     "id": "F01",
+     "status": "verified",
+     "severity": "medium",
+     "claim": "The conclusion identifies 300 mg/day for phase II investigation and describes its tolerability, but gives no comparison with other doses. Multiple dosages should be compared in a trial designed to assess antitumor activi",
+     "span": "Conclusions: Once-daily oral dosing of DV-R26 at 300 mg/day is generally well tolerated in patients with advanced solid tumors, and this dose is being investiga"
+    },
+    {
+     "id": "F04",
+     "status": "verified",
+     "severity": "medium",
+     "claim": "The pharmacokinetic conclusion supports once-daily dosing but supplies no concentration results by dose. Knowledge of the relationships among dose, drug-concentration in blood, and clinical response, including undesirabl",
+     "span": "Pharmacokinetic analysis confirmed that DV-R26 was suitable for once-daily oral dosing."
+    },
+    {
+     "id": "F05",
+     "status": "verified",
+     "severity": "medium",
+     "claim": "The results give enrollment by dose but neither identify the escalation rule nor say whether enrollment at 300 mg was a prespecified expansion cohort. A trial should be sized to allow sufficient assessment of safety and ",
+     "span": "Results: Seventy-seven patients were treated at doses of 50 mg (n=9), 100 mg (n=19), 200 mg (n=8), 300 mg (n=25), 500 mg (n=8), and 600 mg (n=8)."
+    },
+    {
+     "id": "F06",
+     "status": "verified",
+     "severity": "medium",
+     "claim": "The result explains the conclusion about 500 mg/day using three DLTs among eight patients but does not reconcile that conclusion with the separately reported 600 mg enrollment. Safety and tolerability should be compared ",
+     "span": "In the 500 mg/day cohort, 3/8 patients experienced DLT and this dose was therefore considered to exceed the maximum tolerated dose."
+    }
+   ]
+  },
+  {
+   "case_id": "RETRO-27",
+   "generic": "vorasidenib",
+   "year": 2024,
+   "y": 0,
+   "S1": 5,
+   "S2": 13,
+   "B1": 0,
+   "B2": 2024,
+   "B3": 2.5,
+   "B4": 70,
+   "n_findings": 11,
+   "protocol_pk": false,
+   "tokens": 25593,
+   "f00": "abstain",
+   "reidentified": true,
+   "dose_findings": [
+    {
+     "id": "F01",
+     "status": "verified",
+     "severity": "high",
+     "claim": "The synopsis identifies a later-development dose as under review but gives no dose-selection criteria or comparisons. Multiple dosages should be compared in a trial designed to assess antitumor activity, safety, and tole",
+     "span": "The dose selected for later development is the dose under review."
+    },
+    {
+     "id": "F02",
+     "status": "verified",
+     "severity": "high",
+     "claim": "The synopsis reports reversible transaminase dose-limiting toxicities at doses ≥100 mg but provides no individual exposure or exposure–response results. A PK sampling and analysis plan should be included in each protocol",
+     "span": "Dose-limiting toxicities of elevated transaminases occurred at doses ≥100 mg and were reversible."
+    },
+    {
+     "id": "F05",
+     "status": "verified",
+     "severity": "high",
+     "claim": "The synopsis reports a 93-patient dose-escalation study, including 52 patients with glioma, without specifying cohort definitions, escalation rules, or DLT-observation rules. Sponsors of first-in-human multiple expansion",
+     "span": "Patients And Methods: We conducted a multicenter, open-label, phase I, dose-escalation study of DV-R27 in 93 patients with mutant IDH1/2 (mIDH1/2) solid tumors,"
+    },
+    {
+     "id": "F06",
+     "status": "verified",
+     "severity": "medium",
+     "claim": "The synopsis states that no other protocol text is available, so it supplies no PK sampling times or analysis plan. The PK sampling and analysis plan for dose-finding trials should be sufficient to adequately characteriz",
+     "span": "No other protocol text is available."
+    },
+    {
+     "id": "F07",
+     "status": "verified",
+     "severity": "medium",
+     "claim": "The synopsis reports an 18% response rate in the nonenhancing-glioma subgroup without giving response results by dose. Multiple dosages should be compared in a trial designed to assess antitumor activity, safety, and tol",
+     "span": "The protocol-defined objective response rate per Response Assessment in Neuro-Oncology criteria for LGG in patients with nonenhancing glioma was 18% (one partia"
+    }
+   ]
+  },
+  {
+   "case_id": "RETRO-28",
+   "generic": "zongertinib",
+   "year": 2025,
+   "y": 0,
+   "S1": 5,
+   "S2": 14,
+   "B1": 1,
+   "B2": 2025,
+   "B3": 2.0,
+   "B4": 78,
+   "n_findings": 11,
+   "protocol_pk": false,
+   "tokens": 26325,
+   "f00": "abstain",
+   "reidentified": true,
+   "dose_findings": [
+    {
+     "id": "F01",
+     "status": "verified",
+     "severity": "high",
+     "claim": "The report names two recommended expansion doses after stating that MTD was not reached, but gives no comparative rationale for those doses. Multiple dosages should be compared in a trial designed to assess antitumor act",
+     "span": "Two DLTs occurred during the MTD evaluation period; MTD was not reached (NR). The recommended doses for expansion were 120 mg once daily and 240 mg once daily."
+    },
+    {
+     "id": "F02",
+     "status": "verified",
+     "severity": "high",
+     "claim": "The report identifies MTD and DLTs as primary endpoints and tumor response as a secondary endpoint, without describing the escalation design or precision of safety estimates. The trial should be sized to allow sufficient",
+     "span": "Primary end points were maximum tolerated dose (MTD) and dose-limiting toxicities (DLTs); tumor response was a secondary end point."
+    },
+    {
+     "id": "F04",
+     "status": "verified",
+     "severity": "high",
+     "claim": "The report gives dosing ranges and describes patients as pretreated, but does not give a PK sampling plan, dose-specific comparisons, or prior-treatment eligibility criteria. A PK sampling and analysis plan should be inc",
+     "span": "Phase Ia assessed DV-R28 administered twice a day (15-150 mg) or once daily (60-360 mg) in pretreated patients with various tumors, including NSCLC."
+    },
+    {
+     "id": "F05",
+     "status": "verified",
+     "severity": "high",
+     "claim": "The report pools ORR across doses and tumors rather than presenting response estimates by expansion dose or tumor cohort. Multiple dosages should be compared in a trial designed to assess antitumor activity, safety, and ",
+     "span": "The confirmed investigator-assessed overall response rate (ORR) across all doses/tumors was 30% (95% CI, 23 to 40); median duration of response was 12.7 months "
+    },
+    {
+     "id": "F08",
+     "status": "verified",
+     "severity": "medium",
+     "claim": "The conclusion describes the safety profile as manageable without qualifying that claim by expansion dose. When selecting dosages for further evaluation or as the recommended dosage, safety and tolerability should be com",
+     "span": "Conclusion: DV-R28 had a manageable safety profile and demonstrated preliminary antitumor activity in patients with HER2-altered tumors, including those with HE"
+    }
+   ]
+  },
+  {
+   "case_id": "RETRO-29",
+   "generic": "acalabrutinib",
+   "year": 2017,
+   "y": 0,
+   "S1": 3,
+   "S2": 8,
+   "B1": 0,
+   "B2": 2017,
+   "B3": 0.0,
+   "B4": 65,
+   "n_findings": 9,
+   "protocol_pk": false,
+   "tokens": 25817,
+   "f00": "abstain",
+   "reidentified": true,
+   "dose_findings": [
+    {
+     "id": "F01",
+     "status": "verified",
+     "severity": "high",
+     "claim": "The sentence identifies once-daily escalation doses and a twice-daily expansion dose but gives no comparison of the schedules. Multiple dosages should be compared in a trial designed to assess antitumor activity, safety,",
+     "span": "Patients were treated with DV-R29 at a dose of 100 to 400 mg once daily in the dose-escalation (phase 1) portion of the study and 100 mg twice daily in the expa"
+    },
+    {
+     "id": "F02",
+     "status": "verified",
+     "severity": "high",
+     "claim": "The sentence reports no dose-limiting toxic effects during escalation but gives neither the per-dose denominators nor the escalation and dose-selection rules. A PK sampling and analysis plan should be included in each pr",
+     "span": "No dose-limiting toxic effects occurred during the dose-escalation portion of the study."
+    },
+    {
+     "id": "F08",
+     "status": "verified",
+     "severity": "medium",
+     "claim": "The sentence reports an overall response rate without separate estimates for escalation and expansion schedules. Multiple dosages should be compared in a trial designed to assess antitumor activity, safety, and tolerabil",
+     "span": "At a median follow-up of 14.3 months, the overall response rate was 95%, including 85% with a partial response and 10% with a partial response with lymphocytosi"
+    }
+   ]
+  },
+  {
+   "case_id": "RETRO-30",
+   "generic": "afatinib",
+   "year": 2013,
+   "y": 0,
+   "S1": 6,
+   "S2": 13,
+   "B1": 0,
+   "B2": 2013,
+   "B3": 0.0,
+   "B4": 90,
+   "n_findings": 11,
+   "protocol_pk": false,
+   "tokens": 28932,
+   "f00": "abstain",
+   "reidentified": true,
+   "dose_findings": [
+    {
+     "id": "F01",
+     "status": "verified",
+     "severity": "high",
+     "claim": "The abstract recommends 70 mg OD on a 14-days-on/14-days-off schedule without stating a comparison of safety and tolerability across doses. When selecting dosages for further evaluation or as the recommended dosage, safe",
+     "span": "The recommended dose for studies with DV-R30 for 14 days followed by 14 days off medication is 70 mg OD."
+    },
+    {
+     "id": "F05",
+     "status": "verified",
+     "severity": "medium",
+     "claim": "The abstract reports no deviation from dose proportionality but does not present dose-level exposure distributions or exposure-linked outcomes in this sentence. A PK sampling and analysis plan should be included in each ",
+     "span": "DV-R30 PK after single and multiple doses revealed moderately fast absorption, and no deviation from dose proportionality."
+    },
+    {
+     "id": "F06",
+     "status": "verified",
+     "severity": "medium",
+     "claim": "The abstract lists seven dose levels without stating escalation or dose-selection rules in this sentence. Multiple dosages should be compared in a trial designed to assess antitumor activity, safety, and tolerability to ",
+     "span": "Dose levels were 10, 20, 30, 45, 70, 85, and 100 mg."
+    },
+    {
+     "id": "F07",
+     "status": "verified",
+     "severity": "medium",
+     "claim": "The abstract reports 12 additional patients treated at 70 mg without stating why that number was selected in this sentence. Expansion cohorts can be intended to further evaluate safety beyond the initial dose-escalation ",
+     "span": "An additional 12 patients were treated at 70 mg."
+    },
+    {
+     "id": "F08",
+     "status": "verified",
+     "severity": "medium",
+     "claim": "The abstract specifies a 14-days-on/14-days-off regimen without giving PK sampling times in this sentence. The PK sampling and analysis plan for dose-finding trials should be sufficient to adequately characterize the PK.",
+     "span": "An escalating schedule of once-daily (OD) DV-R30 for 14 days followed by 14 days off medication was explored."
+    },
+    {
+     "id": "F09",
+     "status": "verified",
+     "severity": "medium",
+     "claim": "The abstract reports no significant change in EGFR-associated skin-biopsy biomarkers without giving dose-specific results in this sentence. Multiple dosages should be compared in a trial designed to assess antitumor acti",
+     "span": "Pharmacodynamics analysis in skin biopsies did not show significant changes in EGFR-associated biomarkers."
+    }
+   ]
+  },
+  {
+   "case_id": "RETRO-31",
+   "generic": "alpelisib",
+   "year": 2019,
+   "y": 0,
+   "S1": 3,
+   "S2": 8,
+   "B1": 0,
+   "B2": 2019,
+   "B3": null,
+   "B4": 85,
+   "n_findings": 9,
+   "protocol_pk": true,
+   "tokens": 26819,
+   "f00": "abstain",
+   "reidentified": true,
+   "dose_findings": [
+    {
+     "id": "F01",
+     "status": "verified",
+     "severity": "high",
+     "claim": "The report identifies two maximum tolerated doses but does not describe the comparison used to select the expansion dose. Knowledge of the relationships among dose, drug-concentration in blood, and clinical response (eff",
+     "span": "DV-R31 maximum tolerated doses were established as 400 mg once daily and 150 mg twice daily."
+    },
+    {
+     "id": "F03",
+     "status": "verified",
+     "severity": "high",
+     "claim": "The report identifies responses beginning at 270 mg once daily but does not provide response denominators or a benefit–risk comparison by dose. Knowledge of the relationships among dose, drug-concentration in blood, and ",
+     "span": "Objective tumor responses were observed at doses ≥ 270 mg once daily; overall response rate was 6.0% (n = 8; one patient with endometrial cancer had a complete "
+    },
+    {
+     "id": "F06",
+     "status": "verified",
+     "severity": "medium",
+     "claim": "The report gives a half-life and accumulation description for 400 mg once daily but no dose- or schedule-specific exposure results. Knowledge of the relationships among dose, drug-concentration in blood, and clinical res",
+     "span": "DV-R31 was rapidly absorbed; half-life was 7.6 hours at 400 mg once daily with minimal accumulation."
+    }
+   ]
+  },
+  {
+   "case_id": "RETRO-32",
+   "generic": "bosutinib",
+   "year": 2012,
+   "y": 0,
+   "S1": 4,
+   "S2": 7,
+   "B1": 0,
+   "B2": 2012,
+   "B3": 0.0,
+   "B4": 82,
+   "n_findings": 10,
+   "protocol_pk": false,
+   "tokens": 25852,
+   "f00": "abstain",
+   "reidentified": true,
+   "dose_findings": [
+    {
+     "id": "F01",
+     "status": "verified",
+     "severity": "medium",
+     "claim": "The synopsis identifies gastrointestinal toxicity at 500 mg/day as the stated basis for selecting 400 mg/day, without presenting a comparison of antitumor activity across those doses. Multiple dosages should be compared ",
+     "span": "However, the majority of patients treated with 500 mg/day had grade 2 or greater gastrointestinal toxicity, and 400 mg/day was identified as the RP2D."
+    },
+    {
+     "id": "F02",
+     "status": "verified",
+     "severity": "medium",
+     "claim": "The synopsis reports a mean half-life at the RP2D but no PK sampling plan or exposure measurements by dose. A PK sampling and analysis plan should be included in each protocol, and the plan for dose-finding trials should",
+     "span": "DV-R32 had a mean half-life of 19 to 20 hours at the RP2D."
+    },
+    {
+     "id": "F04",
+     "status": "verified",
+     "severity": "medium",
+     "claim": "The synopsis names a 3 + 3 design without specifying its DLT assessment window, evaluable cohort sizes, or escalation and de-escalation rules. Risk control should be proportionate to the importance of the risk to partici",
+     "span": "In part 1 (dose escalation), increasing oral DV-R32 doses were administered using a 3 + 3 design."
+    },
+    {
+     "id": "F09",
+     "status": "verified",
+     "severity": "low",
+     "claim": "The synopsis calls DV-R32 generally well tolerated but gives no dose-specific event rates, event durations, or discontinuation rates in that conclusion. Safety and tolerability should be compared across multiple dosages ",
+     "span": "Conclusions: DV-R32 was generally well tolerated in patients with solid tumors, with the main toxicity being gastrointestinal."
+    }
+   ]
+  },
+  {
+   "case_id": "RETRO-33",
+   "generic": "cabozantinib",
+   "year": 2012,
+   "y": 1,
+   "S1": 5,
+   "S2": 14,
+   "B1": 0,
+   "B2": 2012,
+   "B3": null,
+   "B4": 97,
+   "n_findings": 11,
+   "protocol_pk": false,
+   "tokens": 26941,
+   "f00": "abstain",
+   "reidentified": true,
+   "dose_findings": [
+    {
+     "id": "F01",
+     "status": "verified",
+     "severity": "high",
+     "claim": "The report gives an MTD of 175 mg daily but does not identify a rule for selecting the later-development dose or compare dose levels in this sentence. Multiple dosages should be compared in a trial designed to assess ant",
+     "span": "The MTD was 175 mg daily."
+    },
+    {
+     "id": "F02",
+     "status": "verified",
+     "severity": "high",
+     "claim": "The report attributes expansion of the MTC-enriched cohort to early observations of clinical benefit but gives no cohort design details in this sentence. The background information for each expansion cohort should contai",
+     "span": "Early observations of clinical benefit in a phase I study of DV-R33, which included patients with medullary thyroid cancer (MTC), led to expansion of an MTC-enr"
+    },
+    {
+     "id": "F03",
+     "status": "verified",
+     "severity": "high",
+     "claim": "The report identifies a dose-escalation study but gives no escalation design, cohort sizes, or DLT assessment window in this sentence. Phase 1 clinical trials are designed to determine the side effects associated with in",
+     "span": "A phase I dose-escalation study of oral DV-R33 was conducted in patients with advanced solid tumors."
+    },
+    {
+     "id": "F04",
+     "status": "verified",
+     "severity": "high",
+     "claim": "The report names pharmacokinetics as an endpoint but provides no PK sampling or analysis plan in this sentence. A PK sampling and analysis plan should be included in each protocol and should be sufficient to characterize",
+     "span": "Primary end points included evaluation of safety, pharmacokinetics, and maximum-tolerated dose (MTD) determination."
+    },
+    {
+     "id": "F07",
+     "status": "verified",
+     "severity": "medium",
+     "claim": "The report concludes that the safety profile is acceptable without qualifying that conclusion by dose in this sentence. Safety and tolerability should be compared across multiple dosages when selecting dosages for furthe",
+     "span": "Conclusion: DV-R33 has an acceptable safety profile and is active in MTC."
+    }
+   ]
+  },
+  {
+   "case_id": "RETRO-34",
+   "generic": "capivasertib",
+   "year": 2023,
+   "y": 0,
+   "S1": 2,
+   "S2": 5,
+   "B1": 0,
+   "B2": 2023,
+   "B3": null,
+   "B4": 90,
+   "n_findings": 10,
+   "protocol_pk": false,
+   "tokens": 28707,
+   "f00": "abstain",
+   "reidentified": true,
+   "dose_findings": [
+    {
+     "id": "F01",
+     "status": "verified",
+     "severity": "high",
+     "claim": "The synopsis identifies 480 mg bid on the 4/7 schedule as the recommended phase II dose and reports expansion-cohort activity, but gives no comparison supporting selection across doses or schedules. Dosages selected for ",
+     "span": "The recommended phase II dose (480 mg bid, 4/7 intermittent) was assessed in PIK3CA-mutant breast and gynecologic expansion cohorts: 46% and 56% of patients, re"
+    },
+    {
+     "id": "F02",
+     "status": "verified",
+     "severity": "medium",
+     "claim": "The conclusion asserts plasma levels and robust tumor target modulation at the recommended dose without presenting dose-specific measurements or a comparison across schedules. Relevant nonclinical and clinical data inclu",
+     "span": "Conclusions: At the recommended phase II dose, DV-R34 was well tolerated and achieved plasma levels and robust target modulation in tumors."
+    }
+   ]
+  },
+  {
+   "case_id": "RETRO-35",
+   "generic": "elacestrant",
+   "year": 2023,
+   "y": 0,
+   "S1": 4,
+   "S2": 8,
+   "B1": 1,
+   "B2": 2023,
+   "B3": null,
+   "B4": 88,
+   "n_findings": 8,
+   "protocol_pk": false,
+   "tokens": 27524,
+   "f00": "abstain",
+   "reidentified": true,
+   "dose_findings": [
+    {
+     "id": "F01",
+     "status": "verified",
+     "severity": "medium",
+     "claim": "The synopsis identifies the dose selected for later development but does not give a dose-selection rationale. “When selecting dosages for further evaluation or as the recommended dosage, safety and tolerability should be",
+     "span": "The dose selected for later development is the dose under review."
+    },
+    {
+     "id": "F02",
+     "status": "verified",
+     "severity": "medium",
+     "claim": "The synopsis describes 3 + 3 escalation and capsule-then-tablet expansion at 400 mg, but gives no escalation results, expansion decision rules, or formulation-bridging analysis. “Sponsors of FIH multiple expansion cohort",
+     "span": "Methods: The study consisted of a 3 + 3 design (DV-R35 capsules) followed by expansion at RP2D (400-mg capsules, then 400-mg tablets) for the evaluation of safe"
+    },
+    {
+     "id": "F03",
+     "status": "verified",
+     "severity": "medium",
+     "claim": "The synopsis reports enrollment and receipt of the 400-mg RP2D but provides no dose-specific PK or exposure–response results. “A PK sampling and analysis plan should be included in each protocol.”",
+     "span": "Results: Of 57 postmenopausal women enrolled, 50 received RP2D (400 mg once daily): median age, 63 years; median three prior anticancer therapies, including cyc"
+    },
+    {
+     "id": "F06",
+     "status": "verified",
+     "severity": "medium",
+     "claim": "The conclusion describes safety and activity at 400 mg but does not present a comparison across doses to support an optimal-dose conclusion. “Multiple dosages should be compared in a trial(s) that is designed to assess a",
+     "span": "Conclusion: DV-R35 400 mg orally once daily has an acceptable safety profile and demonstrated single-agent activity with confirmed partial responses in heavily "
+    }
+   ]
+  },
+  {
+   "case_id": "RETRO-36",
+   "generic": "infigratinib",
+   "year": 2021,
+   "y": 1,
+   "S1": 4,
+   "S2": 9,
+   "B1": 0,
+   "B2": 2021,
+   "B3": null,
+   "B4": 75,
+   "n_findings": 7,
+   "protocol_pk": false,
+   "tokens": 33774,
+   "f00": "abstain",
+   "reidentified": true,
+   "dose_findings": [
+    {
+     "id": "F01",
+     "status": "verified",
+     "severity": "high",
+     "claim": "The synopsis attributes the 125 mg daily MTD to four reported DLT cases, including grade 1 corneal toxicity, but gives neither the DLT definition and dose-level denominators nor a comparison of safety and activity across",
+     "span": "The MTD, 125 mg daily, was determined on the basis of dose-limiting toxicities in four patients (100 mg, grade 3 aminotransferase elevations [n = 1]; 125 mg, hy"
+    },
+    {
+     "id": "F02",
+     "status": "verified",
+     "severity": "medium",
+     "claim": "The synopsis identifies the expansion populations and schedules but does not give a scientific rationale, planned sample size, stopping rules, or PK sampling plan for each arm. Sponsors of first-in-human multiple expansi",
+     "span": "During expansion at the MTD, patients with FGFR1-amplified squamous cell non-small-cell lung cancer (sqNSCLC; arm 1) or other solid tumors with FGFR genetic alt"
+    },
+    {
+     "id": "F03",
+     "status": "verified",
+     "severity": "medium",
+     "claim": "The synopsis reports partial responses at doses of at least 100 mg without response counts or exposure results separately for each dose and schedule. Dosages selected for administration in clinical trials should be adequ",
+     "span": "Antitumor activity (seven partial responses [six confirmed]) was demonstrated with DV-R36 doses ≥ 100 mg in patients with FGFR1-amplified sqNSCLC and FGFR3-muta"
+    },
+    {
+     "id": "F05",
+     "status": "verified",
+     "severity": "medium",
+     "claim": "The synopsis compares schedule-specific dose-adjustment or interruption percentages without giving arm denominators, treatment duration, allocation method, or adverse-event-specific modification rules. When selecting dos",
+     "span": "However, adverse event-related dose adjustments/interruptions were less frequent with the 3-weeks-on/1-week-off (50.0%) versus the continuous (73.7%) schedule."
+    }
+   ]
+  },
+  {
+   "case_id": "RETRO-37",
+   "generic": "mobocertinib",
+   "year": 2021,
+   "y": 0,
+   "S1": 1,
+   "S2": 3,
+   "B1": 0,
+   "B2": 2021,
+   "B3": null,
+   "B4": 91,
+   "n_findings": 6,
+   "protocol_pk": false,
+   "tokens": 22946,
+   "f00": "abstain",
+   "reidentified": true,
+   "dose_findings": [
+    {
+     "id": "F01",
+     "status": "verified",
+     "severity": "high",
+     "claim": "The sentence identifies 160 mg/d as both the recommended phase 2 dose and maximum tolerated dose but gives no dose-level comparisons, escalation rules, DLT observations, or PK sampling plan. A PK sampling and analysis pl",
+     "span": "Dose escalation identified 160 mg/d as the recommended phase 2 dose and maximum tolerated dose."
+    }
+   ]
+  },
+  {
+   "case_id": "RETRO-38",
+   "generic": "panobinostat",
+   "year": 2015,
+   "y": 1,
+   "S1": 1,
+   "S2": 3,
+   "B1": 1,
+   "B2": 2015,
+   "B3": null,
+   "B4": 92,
+   "n_findings": 7,
+   "protocol_pk": false,
+   "tokens": 27597,
+   "f00": "abstain",
+   "reidentified": true,
+   "dose_findings": [
+    {
+     "id": "F02",
+     "status": "verified",
+     "severity": "high",
+     "claim": "The synopsis names 40 mg as the weekly phase II recommended dose without a formal MTD but provides no comparative results explaining its selection. When selecting dosages for further evaluation or as the recommended dosa",
+     "span": "In patients with lymphoma and myeloma, 40 mg was the recommended dose for phase II evaluation (formal MTD not determined) of weekly DV-R38, and 60 mg was the MT"
+    }
+   ]
+  },
+  {
+   "case_id": "RETRO-39",
+   "generic": "ponatinib",
+   "year": 2012,
+   "y": 1,
+   "S1": 5,
+   "S2": 12,
+   "B1": 0,
+   "B2": 2012,
+   "B3": null,
+   "B4": 75,
+   "n_findings": 10,
+   "protocol_pk": true,
+   "tokens": 28718,
+   "f00": "abstain",
+   "reidentified": true,
+   "dose_findings": [
+    {
+     "id": "F02",
+     "status": "verified",
+     "severity": "high",
+     "claim": "The report gives a once-daily dose range but no dose-level PK sampling or analysis plan. A PK sampling and analysis plan should be included in each protocol.",
+     "span": "DV-R39 was administered once daily at doses ranging from 2 to 60 mg."
+    },
+    {
+     "id": "F03",
+     "status": "verified",
+     "severity": "high",
+     "claim": "The synopsis refers to a later-development dose without identifying it or explaining its selection. Multiple dosages should be compared in a trial(s) designed to assess antitumor activity, safety, and tolerability to sup",
+     "span": "The dose selected for later development is the dose under review."
+    },
+    {
+     "id": "F04",
+     "status": "verified",
+     "severity": "medium",
+     "claim": "The report identifies dose escalation and total enrollment but does not say whether expansion cohorts existed or describe cohort-specific objectives. Sponsors of FIH multiple expansion cohort trials should provide the sc",
+     "span": "Methods: In this phase 1 dose-escalation study, we enrolled 81 patients with resistant hematologic cancers, including 60 with CML and 5 with Ph-positive ALL."
+    },
+    {
+     "id": "F06",
+     "status": "verified",
+     "severity": "medium",
+     "claim": "The report gives response percentages for mutation-defined groups without reporting their dose-specific denominators or exposures. Multiple dosages should be compared in a trial(s) designed to assess antitumor activity, ",
+     "span": "Of 12 patients who had chronic-phase CML with the T315I mutation, 100% had a complete hematologic response and 92% had a major cytogenetic response. Of 13 patie"
+    },
+    {
+     "id": "F07",
+     "status": "verified",
+     "severity": "medium",
+     "claim": "The background describes BCR-ABL inhibition but gives no broader target-profile data or dose-specific benefit–risk analysis. When selecting dosages for further evaluation or as the recommended dosage, safety and tolerabi",
+     "span": "DV-R39 (DV-R39) is a potent oral tyrosine kinase inhibitor that blocks native and mutated BCR-ABL, including the gatekeeper mutant T315I, which is uniformly res"
+    }
+   ]
+  },
+  {
+   "case_id": "RETRO-40",
+   "generic": "quizartinib",
+   "year": 2023,
+   "y": 1,
+   "S1": 2,
+   "S2": 6,
+   "B1": 0,
+   "B2": 2023,
+   "B3": null,
+   "B4": 85,
+   "n_findings": 10,
+   "protocol_pk": false,
+   "tokens": 25857,
+   "f00": "abstain",
+   "reidentified": true,
+   "dose_findings": [
+    {
+     "id": "F04",
+     "status": "verified",
+     "severity": "high",
+     "claim": "The synopsis reports complete inhibition in an in vitro plasma inhibitory assay without identifying the tested dose or presenting dose-specific results. Multiple dosages should be compared in a trial designed to assess a",
+     "span": "FLT3-ITD phosphorylation was completely inhibited in an in vitro plasma inhibitory assay."
+    },
+    {
+     "id": "F05",
+     "status": "verified",
+     "severity": "high",
+     "claim": "The synopsis reports a 200 mg/day maximum-tolerated dose and grade 3 QT prolongation as the dose-limiting toxicity, without a comparison of candidate doses in this sentence. Safety and tolerability should be compared acr",
+     "span": "The maximum-tolerated dose was 200 mg/day, and the dose-limiting toxicity was grade 3 QT prolongation."
+    }
+   ]
+  },
+  {
+   "case_id": "RETRO-41",
+   "generic": "ribociclib",
+   "year": 2017,
+   "y": 1,
+   "S1": 2,
+   "S2": 4,
+   "B1": 0,
+   "B2": 2017,
+   "B3": null,
+   "B4": 85,
+   "n_findings": 11,
+   "protocol_pk": true,
+   "tokens": 27577,
+   "f00": "abstain",
+   "reidentified": true,
+   "dose_findings": [
+    {
+     "id": "F01",
+     "status": "verified",
+     "severity": "medium",
+     "claim": "The synopsis reports a 900 mg/day MTD and a 600 mg/day RDE but gives no comparative dose-level rationale in this sentence. Safety and tolerability should be compared across multiple dosages when selecting dosages for fur",
+     "span": "The MTD and RDE were established as 900 and 600 mg/day 3-weeks-on/1-week-off, respectively."
+    },
+    {
+     "id": "F02",
+     "status": "verified",
+     "severity": "medium",
+     "claim": "The synopsis reports an exposure trend and mean half-life but no dose-level exposure–toxicity or exposure–activity analysis in this sentence. A PK sampling and analysis plan should be included in each protocol.",
+     "span": "Plasma exposure increases were slightly higher than dose proportional; mean half-life at the RDE was 32.6 hours."
+    }
+   ]
+  },
+  {
+   "case_id": "RETRO-42",
+   "generic": "selinexor",
+   "year": 2019,
+   "y": 1,
+   "S1": 4,
+   "S2": 12,
+   "B1": 0,
+   "B2": 2019,
+   "B3": null,
+   "B4": 87,
+   "n_findings": 9,
+   "protocol_pk": false,
+   "tokens": 27230,
+   "f00": "abstain",
+   "reidentified": true,
+   "dose_findings": [
+    {
+     "id": "F01",
+     "status": "verified",
+     "severity": "high",
+     "claim": "The synopsis gives a qualitative tolerability and activity rationale for 35 mg/m2 but no dose-level results supporting the comparison. Multiple dosages should be compared in a trial designed to assess antitumor activity,",
+     "span": "The recommended phase II dose of 35 mg/m2 given twice a week was chosen based on better patient tolerability and no demonstrable improvement in radiologic respo"
+    },
+    {
+     "id": "F02",
+     "status": "verified",
+     "severity": "high",
+     "claim": "The synopsis reports dose proportionality and no accumulation without providing dose-level exposure distributions or exposure–response results. Pharmacokinetic information can be used to choose doses that ensure adequate",
+     "span": "Pharmacokinetics were dose proportional, with no evidence of drug accumulation."
+    },
+    {
+     "id": "F03",
+     "status": "verified",
+     "severity": "high",
+     "claim": "The synopsis identifies the MTD and schedule but does not give the DLT definition, observation window, escalation rules, or dose-level safety results. Safety and tolerability should be compared across the multiple dosage",
+     "span": "The maximum-tolerated dose was defined at 65 mg/m2 using a twice-a-week (days 1 and 3) dosing schedule."
+    },
+    {
+     "id": "F04",
+     "status": "held",
+     "severity": "medium",
+     "claim": "The synopsis reports a leukocyte biomarker plateau at 28 mg/m2 and tumor-biopsy findings without giving dose-specific biomarker variability or a comparison with 35 mg/m2. It is all too common to discover, at the end of a",
+     "span": "Dose-dependent elevations in XPO1 mRNA in leukocytes were demonstrated up to a dose level of 28 mg/m2 before plateauing, and paired tumor biopsies showed nuclea"
+    },
+    {
+     "id": "F08",
+     "status": "verified",
+     "severity": "low",
+     "claim": "The synopsis provides a SMILES string and names XPO1 as the target but gives no potency or structure-based evidence linked to dose selection. Multiple dosages should be compared in a trial designed to assess antitumor ac",
+     "span": "SMILES: O=C(/C=C\\n1cnc(-c2cc(C(F)(F)F)cc(C(F)(F)F)c2)n1)NNc1cnccn1. Target: XPO1."
+    }
+   ]
+  },
+  {
+   "case_id": "RETRO-43",
+   "generic": "sonidegib",
+   "year": 2015,
+   "y": 0,
+   "S1": 4,
+   "S2": 10,
+   "B1": 0,
+   "B2": 2015,
+   "B3": null,
+   "B4": 75,
+   "n_findings": 9,
+   "protocol_pk": false,
+   "tokens": 28181,
+   "f00": "abstain",
+   "reidentified": true,
+   "dose_findings": [
+    {
+     "id": "F02",
+     "status": "verified",
+     "severity": "high",
+     "claim": "The synopsis refers to a later-development dose without naming it or explaining its selection. Pharmacokinetic information can be used to choose doses that ensure adequate spread of attained concentration-response values",
+     "span": "The dose selected for later development is the dose under review."
+    },
+    {
+     "id": "F03",
+     "status": "verified",
+     "severity": "high",
+     "claim": "The report gives MTDs for daily and twice-daily dosing without comparing those regimens as candidates for later development. Pharmacokinetic information can be used to choose doses that ensure adequate spread of attained",
+     "span": "The MTDs of DV-R43 were 800 mg daily and 250 mg twice daily."
+    },
+    {
+     "id": "F05",
+     "status": "verified",
+     "severity": "medium",
+     "claim": "The report describes nonlinear pharmacokinetics above 400 mg daily without providing dose-level exposure distributions or uncertainty. Pharmacokinetic information can be used to choose doses that ensure adequate spread o",
+     "span": "DV-R43 exposure increased dose proportionally up to 400 mg daily, and displayed nonlinear pharmacokinetics at higher doses."
+    },
+    {
+     "id": "F07",
+     "status": "verified",
+     "severity": "medium",
+     "claim": "The report describes continuous dosing and a single-dose PK run-in but gives no repeated-dose sampling schedule. Pharmacokinetic information can be used to choose doses that ensure adequate spread of attained concentrati",
+     "span": "Experimental Design: Oral DV-R43 was administered to 103 patients with advanced solid tumors, including medulloblastoma and basal cell carcinoma (BCC), at doses"
+    }
+   ]
+  }
+ ]
+}

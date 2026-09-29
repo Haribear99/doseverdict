@@ -159,6 +159,27 @@ def usage_lines() -> list[str]:
     return out + ["- 원본 `logs/`는 git·Docker에서 제외되고, 재현에 필요한 필드(시각·모델·용도·usage)만 공개 집계본으로 커밋한다. 이 절이 제출물의 누적 토큰 단일 출처다.", ""]
 
 
+def retro_lines() -> list[str]:
+    """실사례 후향 검증(`app/eval/retro.py`, 사전 등록 `docs/retro_prereg.md`)."""
+    fp = ROOT / "app/eval/data/results/retro.json"
+    if not fp.exists():
+        return ["(결과 없음)", ""]
+    r = json.loads(fp.read_text(encoding="utf-8"))
+    m, d = r["metrics"], r.get("descriptive_post_hoc") or {}
+    desc = {"S1": "1차: 검증된 용량최적화 finding 수", "S2": "2차: 중증도 가중합(검증+보류)", "B1": "키워드 규칙(초록)", "B2": "승인연도",
+            "B3": "축③ 라벨 규칙(승인 후 라벨, 참고)", "B4": "사후: 약 이름을 준 모델 기억"}
+    out = [f"n = {r['n']}(양성 {r['n_pos']}, 무작위 PR-AUC {r['n_pos'] / r['n']:.3f}). 판정: **{r['verdict']}**", "",
+           "| 점수 | 설명 | n | AUROC [95% CI] | PR-AUC |", "|---|---|---|---|---|"]
+    for k in ("S1", "S2", "B1", "B2", "B3", "B4"):
+        if k in m:
+            out.append(f"| {k} | {desc[k]} | {m[k].get('n', r['n'])} | {m[k]['auroc']:.3f} [{m[k]['ci'][0]:.3f}, {m[k]['ci'][1]:.3f}] | {m[k]['pr_auc']:.3f} |")
+    post = r.get("reidentification_post_hoc") or {}
+    out += ["", f"- 재식별 탐침(사전 등록): {r.get('reidentification_rate')} · 사후 변형: SMILES 제거 {post.get('nosmiles')}, SMILES·표적·기전 제거 {post.get('noid')}",
+            f"- 사후 기술통계: 용량최적화 지적 ≥1 {d.get('flagged_S1_ge1')}/{r['n']}, 평균 S1 양성 {d.get('mean_S1_pos')} · 음성 {d.get('mean_S1_neg')}, F00 기권 {d.get('f00_abstain')}/{r['n']}, "
+            f"S1–B4 Spearman ρ {(d.get('spearman_S1_B4') or [None])[0]} (p {(d.get('spearman_S1_B4') or [None, None])[1]}), 토큰 {d.get('tokens_total', 0):,}(케이스당 {d.get('tokens_per_case', 0):,})", ""]
+    return out
+
+
 def main() -> None:
     cfgs = [
         ("full", "09-11 본평가: Reviewer 3인"), ("lean", "09-11 기본: Reviewer 1인 + 재선택"),
@@ -176,6 +197,7 @@ def main() -> None:
              "## 1. 평가(축① Silver Set — 원·확장 세트는 기준 시놉시스 DV-DEMO-002, 다약물 세트는 아다그라십·로를라티닙·DV-505(가상) 시놉시스의 결함 주입 변형)", ""] + config_rows(cfgs) + [
              "", "## 1-1. 다약물 세트 약물별(`lean_mdrug3`, 최종 코드)", ""] + multidrug_lines() + [
              "", "## 1-2. 쌍대 비교(같은 케이스끼리)", ""] + pair_lines() + ["## 1-3. 반복 실행 평균 비교", ""] + mean_pair_lines() + [
+             "## 1-4. 실사례 후향 검증(승인 전 1상 초록 → FDA 용량최적화 PMR/PMC, `retro.json`)", ""] + retro_lines() + [
              "## 2. 소토라십 240 mg TCR (`evidence/tcr_240mg.json`)", "",
              "| 가정 | C_max | C_avg | C_trough | 판정 |", "|---|---|---|---|---|"]
     for r in tcr["rows"]:
