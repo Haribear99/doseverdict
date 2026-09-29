@@ -42,3 +42,10 @@ FDA가 최초 승인 때 **용량최적화 PMR/PMC**(일반 대상 인구에서 
 
 ## 사후 분석
 이 문서에 없는 분석은 모두 "사후"로 표기한다.
+
+## 부록 — 표본 확정(실행 전, 2026-09-29)
+- 정답 확장: `pmr_ground_truth_ext.jsonl` 15건(양성 7·음성 8, 승인서한 PDF 원문 인용). 음성은 양성과 비슷한 승인연도에서 골랐다. 경계 사례(regorafenib·abemaciclib·larotrectinib·duvelisib·pazopanib)는 판정이 애매해 넣지 않았다.
+- 최종 표본 **43건(양성 14)**. 제외: avapritinib·pemigatinib(승인 전 출판된 1상 논문 없음).
+- 입력 편차(결과를 보기 전에 결정): inavolisib은 단독요법 FIH 논문이 승인 전에 없어 같은 시험의 병용 1/1b상 논문을 쓴다(승인 용법이 병용). pralsetinib·repotrectinib·selpercatinib은 정식 용량증량 결과가 아니라 초기 환자 보고다. panobinostat·selinexor·bosutinib은 FIH 시험과 승인 적응증 시험이 다르며 FIH를 쓴다.
+- 표적은 ChEMBL 작용기전의 첫 항목에서 가져온다(다중 표적 약은 대표 표적이 아닐 수 있음. 예: quizartinib → CSF1R).
+- 마스킹: 성분명·브랜드명·코드명(대문자 2~6 + 숫자 3~8), 시험 약칭(24종), 자금원·등록번호 문장, 저널 서지. 43건 전수 검사에서 잔여 0.

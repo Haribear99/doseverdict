@@ -11,6 +11,7 @@
 """
 from __future__ import annotations
 
+import html
 import json
 import re
 import sys
@@ -26,7 +27,7 @@ import pharmacology_evidence as pe  # noqa: E402  재시도 포함 fetch_json
 EUTILS = "https://eutils.ncbi.nlm.nih.gov/entrez/eutils"
 CHEMBL = "https://www.ebi.ac.uk/chembl/api/data"
 EXCLUDE = {"tofacitinib", "remibrutinib"}   # 비항암 적응증 — 지원 범위(항암 1/2상) 밖
-_CODE = re.compile(r"\b(?!NCT\d)[A-Z]{2,6}[- ]?\d{3,7}[A-Z]?\b")   # 스폰서 코드명(AMG 510, MRTX849, LDK378, INCB018424). CYP3A4·HER2·G12C는 안 걸린다
+_CODE = re.compile(r"\b(?!NCT\d)[A-Z]{2,6}[- ]?\d{3,8}[A-Z]?\b")   # 스폰서 코드명(AMG 510, MRTX849, LDK378, INCB018424). CYP3A4·HER2·G12C는 안 걸린다
 
 
 def _get_text(url: str) -> str:
@@ -49,10 +50,15 @@ def abstract_of(pmid: str) -> tuple[str, str]:
     parts = []
     for m in re.finditer(r"<AbstractText([^>]*)>(.*?)</AbstractText>", xml, flags=re.S):
         label = re.search(r'Label="([^"]+)"', m.group(1))
-        body = re.sub(r"<[^>]+>", "", m.group(2)).strip()
+        if label and re.search(r"REGISTRATION|FUNDING|TRIAL NUMBER", label.group(1), flags=re.I):
+            continue   # 등록번호·자금원 절은 시험명·스폰서를 드러낸다
+        body = html.unescape(re.sub(r"<[^>]+>", "", m.group(2))).strip()   # 엔티티(&#xa9; 등)를 먼저 풀어야 아래 정규식이 맞는다
+        body = re.sub(r"\((Funded|Supported|Sponsored) by[^()]*(\([^()]*\)[^()]*)*\)\.?", "", body, flags=re.I)   # (Funded by Amgen…; CodeBreaK100 …NCT…)
+        body = re.sub(r"[^.]*(ClinicalTrials\.gov|EudraCT|Trial registration|registered)[^.]*\.?", "", body, flags=re.I)
+        body = re.sub(r"\bNCT\d{8}\b", "[registry number masked]", body).strip()
+        body = re.sub(r"[A-Z][A-Za-z .]+; \d+\(\d+\); [\d-]+\. ?©\d{4} AACR\.?.*$", "", body, flags=re.S).strip()   # 저널 서지·논평 안내
         parts.append(f"{label.group(1).title()}: {body}" if label else body)
     year = re.search(r"<PubDate>\s*<Year>(\d{4})", xml) or re.search(r"<Year>(\d{4})</Year>", xml)
-    import html
     return html.unescape("\n\n".join(parts)), (year.group(1) if year else "")
 
 
@@ -87,7 +93,12 @@ def code_names(nct_id: str | None) -> set[str]:
     return {n.strip() for n in names if n and n.strip() and _CODE.fullmatch(n.strip())}
 
 
+# 시험 약칭은 약을 드러낸다(Beamion LUNG-1, CodeBreaK 100, KRYSTAL-1…). 초록 전수 점검에서 나온 것만 등록한다.
+_TRIALS = re.compile(r"\b(Beamion|CodeBreaK|KRYSTAL|ASCEND|AURA|PROFILE|NAVIGATOR|ARROW|LIBRETTO|BRUIN|FIGHT|FOENIX|PACE|EXAM|STORM|QuANTUM|MONALEESA|PALOMA|SOLAR|EMERALD|CAPItello|EXCLAIM|TRIDENT|FIREFLY)(?:[- ]?[A-Z]+)?(?:[- ]?\d+)?\b")
+
+
 def mask(text: str, names: set[str], alias: str) -> str:
+    text = _TRIALS.sub("[trial name masked]", text)
     for n in sorted(names, key=len, reverse=True):
         if len(n) >= 3:
             text = re.sub(re.escape(n), alias, text, flags=re.I)
@@ -126,6 +137,9 @@ def build() -> None:
     for p in sorted(DATA.glob("retro_sources_part*.json")):
         sources += json.loads(p.read_text(encoding="utf-8"))
     cases, manifest, skipped = [], [], []
+    mp = DATA / "retro_manifest.jsonl"   # 기존 케이스 번호 유지 — 약물을 추가해도 앞선 케이스의 ID·상태 파일이 바뀌지 않는다
+    prev = {json.loads(l)["generic"]: json.loads(l)["case_id"] for l in mp.read_text(encoding="utf-8").splitlines() if l.strip()} if mp.exists() else {}
+    next_no = max([int(v.split("-")[1]) for v in prev.values()] or [0]) + 1
     for s in sorted(sources, key=lambda x: x["generic"].lower()):
         g = s["generic"].lower()
         t = truth.get(g)
@@ -141,7 +155,10 @@ def build() -> None:
             continue
         sym, moa = target_of(s["chembl_id"]) if s.get("chembl_id") else ("", "")
         names = {g, t.get("brand", "")} | code_names(s.get("nct_id"))
-        i = len(cases) + 1
+        if g in prev:
+            i = int(prev[g].split("-")[1])
+        else:
+            i, next_no = next_no, next_no + 1
         cid, alias = f"RETRO-{i:02d}", f"DV-R{i:02d}"
         syn = synopsis(cid, alias, t["initial_approval_date"], year, sym, moa, s["smiles"], mask(abstract, names, alias))
         leaked = [n for n in names if len(n) >= 3 and n.lower() in syn.lower()]
@@ -152,6 +169,8 @@ def build() -> None:
                          "y": int(t["pmr_dose_optimization"]), "pmid": s["pmid"], "pmid_pubdate": s.get("pmid_pubdate"), "nct_id": s.get("nct_id"),
                          "chembl_id": s.get("chembl_id"), "target": sym, "masked_names": sorted(names - {""}), "truth_source": t.get("source_urls")})
         print(cid, g, "y=", cases[-1]["y"], "target", sym, "abstract", len(abstract))
+    order = sorted(range(len(cases)), key=lambda k: cases[k]["case_id"])
+    cases, manifest = [cases[k] for k in order], [manifest[k] for k in order]
     (DATA / "retro_cases.jsonl").write_text("\n".join(json.dumps(c, ensure_ascii=False) for c in cases) + "\n", encoding="utf-8")
     (DATA / "retro_manifest.jsonl").write_text("\n".join(json.dumps(m, ensure_ascii=False) for m in manifest) + "\n", encoding="utf-8")
     print(f"cases {len(cases)} (양성 {sum(c['y'] for c in cases)}), 제외 {skipped}")
