@@ -45,7 +45,7 @@
    ],
    "tokens_agent": 39701,
    "tokens_arm": 2819,
-   "verdict": "에이전트 우위"
+   "verdict": "기술용(1회)"
   }
  },
  "quote_fidelity": {
@@ -71,18 +71,46 @@
    "rate_checkable": 1.0
   }
  },
- "post_hoc_verifiable_grounded": {
-  "oneshot": 0.25,
-  "diff": [
-   -0.233,
-   -0.35,
-   -0.121
-  ]
- },
- "post_hoc_quote_support": {
-  "checkable": 360,
-  "exact": 197,
-  "nli_paraphrase": 79,
-  "unsupported": 84
+ "post_hoc": {
+  "fidelity": {
+   "agent": {
+    "quotes": 332,
+    "checkable": 295,
+    "exact": 278,
+    "exact_or_nli": 288,
+    "unsupported": 7
+   },
+   "oneshot": {
+    "quotes": 386,
+    "checkable": 360,
+    "exact": 197,
+    "exact_or_nli": 276,
+    "unsupported": 84
+   },
+   "agent_evidence_quote": {
+    "n": 1308,
+    "verbatim": 1308
+   }
+  },
+  "symmetric_grounded": {
+   "exact": {
+    "agent": 0.454,
+    "oneshot": 0.117,
+    "diff": [
+     -0.338,
+     -0.433,
+     -0.246
+    ]
+   },
+   "nli": {
+    "agent": 0.458,
+    "oneshot": 0.25,
+    "diff": [
+     -0.208,
+     -0.325,
+     -0.096
+    ]
+   }
+  }
  }
 }

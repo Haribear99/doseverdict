@@ -61,7 +61,7 @@ CSS = """
 .dv-step b, .dv-role b { display: block; color: var(--dv-ink); margin-bottom: 0.2rem; }
 .dv-step span, .dv-role span { color: var(--dv-muted); font-size: 0.9rem; line-height: 1.5; }
 .dv-step .dv-num { display: inline-block; font-variant-numeric: tabular-nums; color: var(--dv-accent); font-weight: 700; margin-right: 0.35rem; }
-.dv-role { border-left: 3px solid var(--dv-accent); }
+.dv-role { border-top: 2px solid var(--dv-accent); }
 .dv-section { font-size: 0.8rem; letter-spacing: 0.06em; text-transform: uppercase; color: var(--dv-muted); border-bottom: 1px solid var(--dv-line);
   padding-bottom: 0.3rem; margin: 1.4rem 0 0.2rem; }
 .dv-note { color: var(--dv-muted); font-size: 0.85rem; line-height: 1.55; }
@@ -248,11 +248,11 @@ def render_retro() -> None:
     d, post = res.get("descriptive_post_hoc") or {}, res.get("reidentification_post_hoc") or {}
     if d:
         st.markdown(f"**해석(사후 기술)** — 에이전트는 {d.get('flagged_S1_ge1')}/{res.get('n')}건 모두에서 검증된 용량최적화 결함을 지적했다"
-                    f"(평균 S1 양성 {d.get('mean_S1_pos')} · 음성 {d.get('mean_S1_neg')}). 근거 사슬의 결측을 찾는 검토자이지, FDA가 어느 약에 PMR을 부과할지 "
-                    f"맞히는 예측기가 아니다. F00은 {d.get('f00_abstain')}/{res.get('n')}건 기권(라벨 차단·IC50 미확보 → 전형값 없이 멈춤).")
+                    f"(평균 S1 양성 {d.get('mean_S1_pos')} · 음성 {d.get('mean_S1_neg')}). 지적의 정확성은 평가하지 않았고({d.get('S1_template')}/{d.get('S1_total')}건은 입력 템플릿 문장이 유발), "
+                    f"결과는 판별력 없음과 구별되지 않는다 — 이 설정에서 용량 지적은 FDA의 PMR 부과를 예측하지 못했다. F00은 {d.get('f00_abstain')}/{res.get('n')}건 기권(라벨 차단·IC50 미확보 → 전형값 없이 멈춤).")
     if post or d.get("spearman_S1_B4"):
         st.caption(f"기억 오염: 사후 탐침에서 SMILES 제거 {post.get('nosmiles')}, SMILES·표적·기전 제거 {post.get('noid')}로 재식별된다 — 출판 초록은 모델 기억과 분리할 수 없다. "
-                   f"S1과 기억 대조군(B4)의 Spearman ρ {(d.get('spearman_S1_B4') or ['—'])[0]}: 에이전트 점수가 기억 신호를 따라가지 않았다(배제의 증거는 아님).")
+                   f"S1과 기억 대조군(B4)의 Spearman ρ {(d.get('spearman_S1_B4') or ['—'])[0]}: 점수 수준의 상관은 확인되지 않았다. 다만 파이프라인이 {d.get('name_restored')}/{res.get('n')}건에서 약 이름을 스스로 복원해 검색했다 — 오염을 배제할 수 없다.")
     rows = res.get("rows", [])
     if rows:
         st.markdown("**케이스별**")
@@ -270,6 +270,29 @@ def render_retro() -> None:
                         st.markdown(f"- {f.get('id')} [{f.get('status')}/{f.get('severity')}] {f.get('claim')}")
                     if not r.get("dose_findings"):
                         st.caption("용량최적화 finding 없음")
+
+
+def render_oneshot() -> None:
+    """강한 LLM 원샷 베이스라인(사전 등록 docs/oneshot_prereg.md) — app/eval/data/results/oneshot_compare.json이 있을 때만."""
+    res = _load_json("oneshot_compare.json")
+    if not res:
+        return
+    st.markdown("**같은 모델을 한 번 부르면?** — 같은 모델(gpt-6-sol)을 도구·검색·검증 없이 한 번 호출한 원샷을 합성 평가 원 20케이스에 2회 돌려 에이전트와 짝지어 비교했다.")
+    rows = []
+    for name, a in res.get("arms", {}).items():
+        g = a["grounded_diff"]
+        rows.append({"비교": name, "grounded 에이전트 / 비교": f"{a['grounded_agent']:.3f} / {a['grounded_arm']:.3f}",
+                     "차이 [95% CI]": f"{g[0]:+.3f} [{g[1]:+.3f}, {g[2]:+.3f}]", "토큰/케이스 에이전트 / 비교": f"{a['tokens_agent']:,} / {a['tokens_arm']:,}",
+                     "판정": a["verdict"] if name.startswith("oneshot") else "기술용(1회)"})
+    st.table(rows)
+    q, qs = res.get("quote_fidelity", {}), res.get("post_hoc_quote_support") or {}
+    rates = [v["rate"] for k, v in q.items() if k.startswith("oneshot") and v.get("rate") is not None]
+    msg = "탐지율(span)은 원샷도 같은 수준이고 토큰은 약 8분의 1이다. 차이는 인용이다 — 에이전트의 인용문은 검색된 규제 조항 원문에서 온다."
+    if rates:
+        msg += f" 원샷이 기억으로 적은 가이던스 문장은 원문과 {min(rates):.0%} 일치했고"
+    if qs:
+        msg += f", 사후 NLI 재판정(충실한 의역 인정) 뒤에도 {qs['unsupported']}/{qs['checkable']}건({qs['unsupported'] / max(1, qs['checkable']):.1%})은 어느 조항으로도 뒷받침되지 않았다."
+    st.caption(msg + " 조건은 원샷에 유리하다(에이전트는 결함 출처 조항을 검색에서 뺀 채 평가).")
 
 
 def init_state():
@@ -425,6 +448,7 @@ if rs is None and not run:
     graph_box.graphviz_chart(graph_dot(None, set()), use_container_width=True)
     section("후향 검증")
     render_retro()
+    render_oneshot()
     st.stop()
 if rs is None:
     st.stop()
@@ -553,3 +577,4 @@ with tabs[5]:
 
 with tabs[6]:
     render_retro()
+    render_oneshot()

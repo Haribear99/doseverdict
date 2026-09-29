@@ -152,10 +152,16 @@ def analyze(suffix: str) -> None:
         s1 = sum(f.verifier_status == "verified" for f in dose)
         s2 = sum(SEV.get(str(getattr(f.severity, "value", f.severity)), 1) for f in dose if f.verifier_status in ("verified", "held"))
         m = man[cid]
+        # 사후(red-judge 09-29): 입력 템플릿 문장("No other protocol text…", SMILES 줄 등)을 span으로 삼은 S1 지적 — 초록 본문 밖
+        body = c["synopsis"].split("## Phase 1 Study Report", 1)[-1]
+        s1_tmpl = sum(1 for f in dose if f.verifier_status == "verified" and f.protocol_span.text.strip()[:60] not in body)
+        # 사후: 파이프라인 LLM이 가려진 약 이름을 스스로 복원해 검색 질의·도구 인자에 넣었는가(기억이 추론에 들어간 직접 증거)
+        trace = json.dumps(st.model_dump(include={"review_questions", "tool_log", "scratch"}), ensure_ascii=False, default=str).lower()
+        name_restored = m["generic"] in trace
         lab = labels.get(m["generic"])
         rows.append({"case_id": cid, "generic": m["generic"], "year": m["approval_year"], "y": c["y"], "S1": s1, "S2": s2,
                      "B1": b1_score(c["synopsis"]), "B2": m["approval_year"], "B3": risk_score(lab)[0] if lab else None,
-                     "B4": mem.get(cid), "n_findings": len(st.findings),
+                     "B4": mem.get(cid), "n_findings": len(st.findings), "S1_template": s1_tmpl, "name_restored": name_restored,
                      "protocol_pk": bool((cp := st.trial.study.investigational_product.clinical_pk) and any(v is not None for v in cp.model_dump().values())), "tokens": st.budget.used_tokens,
                      "f00": next((f.verdict for f in st.findings if f.finding_id == "F00"), None),
                      "reidentified": (probe_rows.get(cid) or {}).get("correct"),
@@ -193,6 +199,9 @@ def analyze(suffix: str) -> None:
         "mean_S1_pos": round(sum(r["S1"] for r in pos) / max(1, len(pos)), 2), "mean_S1_neg": round(sum(r["S1"] for r in neg) / max(1, len(neg)), 2),
         "spearman_S1_B4": [round(float(rho.statistic), 3), round(float(rho.pvalue), 3)] if rho else None,
         "protocol_pk_cases": sum(r["protocol_pk"] for r in rows),
+        "S1_total": sum(r["S1"] for r in rows), "S1_template": sum(r["S1_template"] for r in rows),
+        "flagged_excl_template": sum(r["S1"] - r["S1_template"] >= 1 for r in rows),
+        "name_restored": sum(r["name_restored"] for r in rows), "name_restored_pos": sum(r["name_restored"] and r["y"] for r in rows),
         "tokens_total": sum(r["tokens"] for r in rows), "tokens_per_case": round(sum(r["tokens"] for r in rows) / max(1, len(rows)))}
     lo = res["metrics"]["S1"]["ci"][0]
     res["verdict"] = "신호 있음(S1 AUROC CI 하한 > 0.5)" if lo > 0.5 else "신호 확인 안 됨(null) — S1 AUROC CI가 0.5를 포함"
@@ -225,7 +234,10 @@ def _report(res: dict, suffix: str) -> None:
         L += ["", "## 사후 기술통계(사전 등록 밖)", "",
               f"- 검증된 용량최적화 finding이 1개 이상인 케이스 {d['flagged_S1_ge1']}/{res['n']} — 양성·음성 가리지 않고 지적한다(평균 S1 양성 {d['mean_S1_pos']}, 음성 {d['mean_S1_neg']}).",
               f"- F00(TCR) 기권 {d['f00_abstain']}/{res['n']} — 라벨 차단, 마스킹으로 ChEMBL 이름 조회(IC50) 실패, 초록 PK는 {d['protocol_pk_cases']}건에서 일부만 추출 → 입력 부족으로 전형값 없이 멈춤.",
-              f"- S1과 모델 기억(B4)의 Spearman ρ = {d['spearman_S1_B4'][0]} (p = {d['spearman_S1_B4'][1]}) — 에이전트 점수가 기억 신호를 따라가지 않았다(오염을 배제하는 증거는 아님).",
+              f"- S1과 모델 기억(B4)의 Spearman ρ = {d['spearman_S1_B4'][0]} (p = {d['spearman_S1_B4'][1]}) — 점수 수준의 상관은 확인되지 않았다(오염 배제의 증거는 아님).",
+              f"- 입력 템플릿 문장(초록 밖)을 span으로 삼은 S1 지적 {d['S1_template']}/{d['S1_total']}건. 템플릿 유발분을 빼면 지적 케이스 {d['flagged_excl_template']}/{res['n']}.",
+              f"- 지적의 정확성(precision)은 평가하지 않았다. 대부분 '초록에 PK 채혈·용량 비교 정보가 없다'는 지적이라, 43/43 지적은 판별력 없음(특이도 0)과 구별되지 않는다.",
+              f"- 파이프라인 LLM이 가려진 약 이름을 스스로 복원해 검색 질의·도구 인자에 넣은 케이스 {d['name_restored']}/{res['n']}(그중 양성 {d['name_restored_pos']}) — 기억이 추론에 들어간 직접 증거.",
               f"- 토큰 합계 {d['tokens_total']:,}(케이스당 {d['tokens_per_case']:,}), 탐침·기억 대조군 별도."]
     L += ["", "## 케이스별", "", "| 케이스 | 약물 | 승인 | PMR | S1 | S2 | B1 | F00 | 재식별 | 토큰 |", "|---|---|---|---|---|---|---|---|---|---|"]
     for r in sorted(res["rows"], key=lambda r: (-r["y"], -r["S1"])):

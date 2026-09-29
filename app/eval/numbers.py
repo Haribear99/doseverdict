@@ -176,7 +176,9 @@ def retro_lines() -> list[str]:
     post = r.get("reidentification_post_hoc") or {}
     out += ["", f"- 재식별 탐침(사전 등록): {r.get('reidentification_rate')} · 사후 변형: SMILES 제거 {post.get('nosmiles')}, SMILES·표적·기전 제거 {post.get('noid')}",
             f"- 사후 기술통계: 용량최적화 지적 ≥1 {d.get('flagged_S1_ge1')}/{r['n']}, 평균 S1 양성 {d.get('mean_S1_pos')} · 음성 {d.get('mean_S1_neg')}, F00 기권 {d.get('f00_abstain')}/{r['n']}, "
-            f"S1–B4 Spearman ρ {(d.get('spearman_S1_B4') or [None])[0]} (p {(d.get('spearman_S1_B4') or [None, None])[1]}), 토큰 {d.get('tokens_total', 0):,}(케이스당 {d.get('tokens_per_case', 0):,})", ""]
+            f"S1–B4 Spearman ρ {(d.get('spearman_S1_B4') or [None])[0]} (p {(d.get('spearman_S1_B4') or [None, None])[1]}), 토큰 {d.get('tokens_total', 0):,}(케이스당 {d.get('tokens_per_case', 0):,})",
+            f"- 사후(red-judge 09-29): 템플릿 문장 유발 S1 지적 {d.get('S1_template')}/{d.get('S1_total')}건(제외 시 지적 케이스 {d.get('flagged_excl_template')}/{r['n']}), 지적 정확성 미평가, "
+            f"파이프라인이 약 이름을 스스로 복원 {d.get('name_restored')}/{r['n']}(양성 {d.get('name_restored_pos')}), 마스킹 누락 코드명 1건(E7080, RETRO-13 lenvatinib)", ""]
     return out
 
 
@@ -196,10 +198,19 @@ def oneshot_lines() -> list[str]:
             "| 인용 충실도 | 인용문 | 원문 일치 | 비율(전체) | 검사 불가(본문 미색인 문서) | 비율(검사 가능분) |", "|---|---|---|---|---|---|"]
     for cfg, q in r.get("quote_fidelity", {}).items():
         out.append(f"| {cfg} | {q['n_quotes']} | {q['matched']} | {q['rate']} | {q['unknown_doc_id']} | {q['rate_checkable']} |")
-    qs, vg = r.get("post_hoc_quote_support") or {}, r.get("post_hoc_verifiable_grounded") or {}
-    if qs:
-        out += ["", f"- 사후: 원샷 인용문 검사 가능 {qs['checkable']}건 중 원문 일치 {qs['exact']}, 충실한 의역(NLI ≥ 0.7) {qs['nli_paraphrase']}, 뒷받침 없음 {qs['unsupported']}"
-                f"({qs['unsupported'] / max(1, qs['checkable']):.1%}). 뒷받침되는 인용만 인정한 원샷 grounded {vg.get('oneshot')}, 에이전트 대비 {vg.get('diff')}."]
+    ph = r.get("post_hoc") or {}
+    if ph:
+        fa, fo, fe, sy = ph["fidelity"]["agent"], ph["fidelity"]["oneshot"], ph["fidelity"]["agent_evidence_quote"], ph["symmetric_grounded"]
+        pct = lambda n, d: f"{n / max(1, d):.1%}"
+        out += ["", "사후(사전 등록 밖) — 같은 인용 판정기를 양쪽에(에이전트 evidence_fact / 원샷 guidance_quote):", "",
+                "| 쪽 | 검사 가능 | 원문 일치 | 일치 또는 NLI 의역 | 둘 다 아님 |", "|---|---|---|---|---|",
+                f"| 에이전트 | {fa['checkable']} | {fa['exact']} ({pct(fa['exact'], fa['checkable'])}) | {fa['exact_or_nli']} ({pct(fa['exact_or_nli'], fa['checkable'])}) | {fa['unsupported']} ({pct(fa['unsupported'], fa['checkable'])}) |",
+                f"| 원샷 | {fo['checkable']} | {fo['exact']} ({pct(fo['exact'], fo['checkable'])}) | {fo['exact_or_nli']} ({pct(fo['exact_or_nli'], fo['checkable'])}) | {fo['unsupported']} ({pct(fo['unsupported'], fo['checkable'])}) |", "",
+                f"- 에이전트 근거 풀의 규제 조항 인용문(evidence.quote) {fe['verbatim']}/{fe['n']}건이 코퍼스 원문."]
+        for k, lab in (("exact", "원문 일치만"), ("nli", "일치 또는 NLI 의역")):
+            d = sy[k]["diff"]
+            out.append(f"- 대칭 필터({lab}) grounded: 에이전트 {sy[k]['agent']:.3f}, 원샷 {sy[k]['oneshot']:.3f}, 차이(원샷 − 에이전트) {d[0]:+.3f} [{d[1]:+.3f}, {d[2]:+.3f}]")
+        out.append("- NLI 의역 판정은 인용 문서의 가까운 조항 3개만 본다(임계 0.7, 결과를 본 뒤 정한 단일 설정). 판정 모델은 에이전트 검증기와 같다(에이전트에 유리).")
     return out + [""]
 
 
