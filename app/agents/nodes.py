@@ -209,7 +209,7 @@ def run_exposure_dose(state: ReviewState, task: Task) -> None:
             rows.append((dose, r.data["TCR_max"], r.data["TCR_avg"], r.data["TCR_trough"], r.data["verdict"]))
     split = any(v == "abstain_metric_dependent" for *_, v in rows)
     table = "; ".join(f"{d:.0f} mg: Cmax {a:.1f}/Cavg {b:.1f}/Ctrough {c:.2f} → {v}" for d, a, b, c, v in rows)
-    _ev(state, "calculation", "DoseVerdict", f"TCR(선형 CL/F 가정, PK {pk_src}, IC50 {ic50} nM — {ic50_src}, f_u {fu} — {fu_src}, t½ {pk['t_half']} h, τ {tau} h — {tau_src}): {table}. "
+    _ev(state, "calculation", "DoseVerdict", f"TCR(선형 CL/F 가정, PK {pk_src}, IC50 {ic50:.3g} nM — {ic50_src}, f_u {fu:.3g} — {fu_src}, t½ {pk['t_half']:.3g} h, τ {tau} h — {tau_src}): {table}. "
         + ("판정이 지표(Cavg vs Ctrough)에 따라 갈리므로 '커버된다'는 결론을 만들지 않는다. " if split else "")
         + ("라벨이 비선형 PK를 보고하므로 선형 외삽은 라벨과 모순될 수 있다 → 두 가정을 병기하고 용량군별 반복투여 PK를 요청한다." if pk["nonlinear"]
            else "선형 PK 가정의 1차 근사다 — 용량군별 반복투여 PK로 확인이 필요하다."), tier=3)

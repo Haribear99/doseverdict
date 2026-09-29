@@ -58,10 +58,16 @@ PAIRS = [  # (기준, 비교, 설명) — 기술서·발표의 쌍대 비교 수
     ("lean_g6allext", "lean_comboext", "gpt-6-sol → + strict·250자(확장 40)"),
     ("lean_combo", "lean_v2", "09-25 기본 → 09-26 업그레이드 코드(원 20, 회귀)"),
     ("lean", "lean_v2", "09-11 배포 기본 → 09-26 업그레이드 코드(원 20)"),
+    ("lean_combo", "lean_v3", "09-25 기본 → 최종 코드 1차 실행(원 20, 회귀)"),
+    ("lean_combo", "lean_v3b", "09-25 기본 → 최종 코드 2차 실행(원 20, 회귀)"),
+    ("lean_v3", "lean_v3b", "최종 코드 같은 설정 반복(원 20) — 실행 간 변동 크기"),
+    ("lean", "lean_v3", "09-11 배포 기본 → 최종 코드 1차(원 20)"),
+    ("lean", "lean_v3b", "09-11 배포 기본 → 최종 코드 2차(원 20)"),
+    ("lean_mdrug", "lean_mdrug3", "09-26 코드 → 최종 코드(다약물 30)"),
 ]
 
 
-def multidrug_lines(cfg: str = "lean_mdrug") -> list[str]:
+def multidrug_lines(cfg: str = "lean_mdrug3") -> list[str]:
     """다약물 세트의 약물별 지표와 약리 축 도달(저장 상태에서 집계). 원 세트와 결함 풀은 같고 기준 시놉시스만 다르다."""
     from collections import Counter, defaultdict
     p = RES / f"{cfg}.json"
@@ -137,12 +143,13 @@ def main() -> None:
         ("lean_c6sol", "A/B: compile gpt-6-sol"), ("lean_g6all", "A/B: 전 노드 gpt-6-sol"), ("lean_combo", "09-25 기본: gpt-6-sol + strict + 인용문 250자"),
         ("lean_d3ext", "09-23 새 코드, 확장 세트"), ("lean_g6allext", "전 노드 gpt-6-sol, 확장 세트"), ("lean_comboext", "09-25 기본, 확장 세트"),
         ("lean_v2", "09-26 업그레이드 코드(약물 무관화·보류 재검색·예산 가드)"), ("lean_mdrug", "09-26 업그레이드 코드, 다약물 세트"),
+        ("lean_v3", "최종 코드(c7dc0be, 투여 간격 수정) 1차"), ("lean_v3b", "최종 코드 2차(같은 설정 반복)"), ("lean_mdrug3", "최종 코드, 다약물 세트"),
     ]
     tcr = json.loads((ROOT / "evidence" / "tcr_240mg.json").read_text(encoding="utf-8"))
     lines = [f"# 수치 원천표 (자동 생성 {datetime.now():%Y-%m-%d %H:%M}, `python -m app.eval.numbers`)", "",
              "제출물(기술서·발표·영상·README·데모 화면)의 모든 수치는 이 표에서만 가져온다. 점추정 간 차이는 n=20에서 대부분 신뢰구간이 겹친다 — 유의 여부는 `python -m app.eval.compare`로 확인한 것만 주장한다.", "",
              "## 1. 평가(축① Silver Set — 원·확장 세트는 기준 시놉시스 DV-DEMO-002, 다약물 세트는 아다그라십·로를라티닙·DV-505(가상) 시놉시스의 결함 주입 변형)", ""] + config_rows(cfgs) + [
-             "", "## 1-1. 다약물 세트 약물별(`lean_mdrug`)", ""] + multidrug_lines() + [
+             "", "## 1-1. 다약물 세트 약물별(`lean_mdrug3`, 최종 코드)", ""] + multidrug_lines() + [
              "", "## 1-2. 쌍대 비교(같은 케이스끼리)", ""] + pair_lines() + [
              "## 2. 소토라십 240 mg TCR (`evidence/tcr_240mg.json`)", "",
              "| 가정 | C_max | C_avg | C_trough | 판정 |", "|---|---|---|---|---|"]

@@ -110,7 +110,7 @@ def main() -> None:
         fig, ax = plt.subplots(figsize=(6, 4))
         for name, x, y in pts:
             # 세트마다 모양을 달리한다 — 원(원 20) · 속 빈 사각형(확장 40) · 속 빈 세모(다약물 30). 세트 간 직접 비교하지 않는다
-            kind = "ext" if name.endswith("ext") else ("mdrug" if name.endswith("mdrug") else "orig")
+            kind = "ext" if name.endswith("ext") else ("mdrug" if "mdrug" in name else "orig")
             marker, edge = {"orig": ("o", None), "ext": ("s", "C1"), "mdrug": ("^", "C2")}[kind]
             ax.scatter(x / 1000, y, s=50, marker=marker, facecolors="none" if edge else None, edgecolors=edge, color=None if edge else "C0")
             ax.annotate(name, (x / 1000, y), textcoords="offset points", xytext=(6, -12 if edge else 4), fontsize=8)

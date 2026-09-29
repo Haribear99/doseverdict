@@ -132,13 +132,13 @@ def tool_table(states: list[tuple[str, dict]]) -> list[str]:
 
 def main() -> None:
     ap = argparse.ArgumentParser()
-    ap.add_argument("--configs", default="lean_v2,lean_mdrug")
+    ap.add_argument("--configs", default="lean_v3,lean_v3b,lean_mdrug3")
     a = ap.parse_args()
     cfgs = [c.strip() for c in a.configs.split(",") if c.strip()]
     states = load(cfgs)
     demos = [(p.stem, json.loads(p.read_text(encoding="utf-8"))) for p in sorted(DEMO.glob("demo*.json"))]
     lines = [f"# 자율성·도구 활용 집계 (자동 생성 {datetime.now():%Y-%m-%d %H:%M}, `python -m app.eval.agency`)", "",
-             f"원천: `app/eval/data/results/states/{{{','.join(cfgs)}}}/*.json` ({len(states)}케이스, 09-26 업그레이드 코드 — 원 20 + 다약물 30) · 데모: `app/demo/results/demo*.json`. 단위 규칙은 스크립트 머리말 참조.", "",
+             f"원천: `app/eval/data/results/states/{{{','.join(cfgs)}}}/*.json` ({len(states)}케이스, 최종 코드 c7dc0be — 원 20 2회 반복 + 다약물 30) · 데모: `app/demo/results/demo*.json`. 단위 규칙은 스크립트 머리말 참조.", "",
              "## 1. 재계획 이벤트 — 평가 세트", ""] + replan_table(states) + [
              "", f"- {rewrite_outcomes(states)}.", f"- {held_outcomes(states)}.",
              "- `evidence_reselected`는 CUDA가 있을 때만 켜진다(`DV_EVIDENCE_RERANK=auto`). 평가는 GPU PC에서 돌았고 배포본(CPU)에서는 꺼진다.",
