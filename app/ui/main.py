@@ -2,7 +2,7 @@
 DoseVerdict — Streamlit 시연 UI.
 
 실행: .venv/Scripts/python.exe -m streamlit run app/ui/main.py  (파일명이 app.py면 패키지 app을 가린다)
-화면: 상태 그래프(현재 노드 강조) · 타임라인(판단 전환 표시) · Trial Schema · 도구 호출 원문 · Evidence Card · Findings(Patch Diff) · Human Gate · Audit
+화면: 상태 그래프(현재 노드 강조) · 타임라인(판단 전환 표시) · Trial Schema · 도구 호출 원문 · Evidence Card · Findings(Patch Diff) · Human Gate · Audit · 후향 검증
 그래프 실행은 동기 graph.stream() — Streamlit은 커스텀 스레드에서 st.* 호출을 지원하지 않는다.
 """
 from __future__ import annotations
@@ -40,6 +40,68 @@ NODE_LABEL = {"compile": "Protocol\nCompiler", "plan": "Orchestrator\n(과제 DA
 
 st.set_page_config(page_title="DoseVerdict", page_icon="⚖️", layout="wide")
 
+# 색 토큰 — 상태 4색은 .streamlit/config.toml의 green/orange/red/violetColor와 같은 값이어야 배지(:green-badge 등)와 카드 색이 일치한다.
+CSS = """
+<style>
+:root {
+  --dv-ink: #1b2430; --dv-muted: #5b6472; --dv-paper: #fbfaf7; --dv-panel: #ffffff; --dv-line: #dcd6ca; --dv-accent: #1f3a5f;
+  --dv-verified: #2f7d4f; --dv-verified-bg: #dcebe2;
+  --dv-held: #b7791f;     --dv-held-bg: #f6e5c6; --dv-held-text: #96610f;
+  --dv-rejected: #b4372f; --dv-rejected-bg: #f3d6d3;
+  --dv-abstain: #5a5f96;  --dv-abstain-bg: #dfe0ef;
+  --dv-sev-critical: #7f1d1d; --dv-sev-high: #b4372f; --dv-sev-medium: #9a6b12; --dv-sev-low: #5b6472;
+  --dv-del-bg: #f8e6e4; --dv-ins-bg: #e8f2ec;
+}
+.dv-hero { border-top: 3px solid var(--dv-accent); padding: 1.4rem 0 0.4rem; margin-bottom: 0.6rem; }
+.dv-eyebrow { font-size: 0.78rem; letter-spacing: 0.08em; text-transform: uppercase; color: var(--dv-muted); margin: 0 0 0.35rem; }
+.dv-hero h1 { font-size: clamp(1.7rem, 4.2vw, 2.5rem); line-height: 1.2; font-weight: 700; color: var(--dv-ink); margin: 0 0 0.5rem; padding: 0; }
+.dv-lede { font-size: clamp(1rem, 2.2vw, 1.12rem); color: var(--dv-ink); max-width: 46rem; line-height: 1.6; margin: 0; }
+.dv-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 0.75rem; margin: 0.9rem 0 0.4rem; }
+.dv-step, .dv-role { background: var(--dv-panel); border: 1px solid var(--dv-line); border-radius: 6px; padding: 0.85rem 1rem; }
+.dv-step b, .dv-role b { display: block; color: var(--dv-ink); margin-bottom: 0.2rem; }
+.dv-step span, .dv-role span { color: var(--dv-muted); font-size: 0.9rem; line-height: 1.5; }
+.dv-step .dv-num { display: inline-block; font-variant-numeric: tabular-nums; color: var(--dv-accent); font-weight: 700; margin-right: 0.35rem; }
+.dv-role { border-left: 3px solid var(--dv-accent); }
+.dv-section { font-size: 0.8rem; letter-spacing: 0.06em; text-transform: uppercase; color: var(--dv-muted); border-bottom: 1px solid var(--dv-line);
+  padding-bottom: 0.3rem; margin: 1.4rem 0 0.2rem; }
+.dv-note { color: var(--dv-muted); font-size: 0.85rem; line-height: 1.55; }
+.dv-chip { display: inline-block; padding: 0.1rem 0.55rem; border-radius: 999px; font-size: 0.78rem; font-weight: 600; margin: 0 0.3rem 0.3rem 0; white-space: nowrap; }
+.dv-chip.verified { color: var(--dv-verified); background: var(--dv-verified-bg); }
+.dv-chip.held { color: var(--dv-held-text); background: var(--dv-held-bg); }
+.dv-chip.rejected { color: var(--dv-rejected); background: var(--dv-rejected-bg); }
+.dv-chip.abstain { color: var(--dv-abstain); background: var(--dv-abstain-bg); }
+.dv-chip.pending, .dv-chip.cat { color: var(--dv-muted); background: #efece5; }
+.dv-sev { display: inline-block; padding: 0.05rem 0.5rem; border-radius: 4px; font-size: 0.75rem; font-weight: 600; border: 1px solid currentColor; margin: 0 0.3rem 0.3rem 0; }
+.dv-sev.critical { color: var(--dv-sev-critical); } .dv-sev.high { color: var(--dv-sev-high); }
+.dv-sev.medium { color: var(--dv-sev-medium); } .dv-sev.low { color: var(--dv-sev-low); }
+.dv-quote { border-left: 3px solid var(--dv-line); background: #f6f4ee; padding: 0.6rem 0.9rem; margin: 0.4rem 0 0.8rem; font-family: Georgia, 'Noto Serif KR', serif;
+  color: var(--dv-ink); line-height: 1.55; overflow-wrap: anywhere; }
+.dv-abstain-box { border: 1px solid var(--dv-abstain); border-left-width: 4px; background: var(--dv-abstain-bg); border-radius: 6px; padding: 0.75rem 1rem; margin: 0.3rem 0 0.8rem; }
+.dv-abstain-box b { color: var(--dv-abstain); }
+.dv-diff { line-height: 1.8; overflow-wrap: anywhere; background: var(--dv-panel); border: 1px solid var(--dv-line); border-radius: 6px; padding: 0.6rem 0.9rem; }
+.dv-diff del { background: var(--dv-del-bg); color: var(--dv-rejected); }
+.dv-diff ins { background: var(--dv-ins-bg); color: var(--dv-verified); text-decoration: none; }
+.dv-kpis { display: grid; grid-template-columns: repeat(auto-fit, minmax(88px, 1fr)); gap: 0.4rem; margin: 0.6rem 0 0.2rem; }
+.dv-kpi { background: var(--dv-panel); border: 1px solid var(--dv-line); border-top: 3px solid var(--dv-line); border-radius: 6px; padding: 0.5rem 0.7rem; }
+.dv-kpi.verified { border-top-color: var(--dv-verified); } .dv-kpi.held { border-top-color: var(--dv-held); }
+.dv-kpi.rejected { border-top-color: var(--dv-rejected); } .dv-kpi.abstain { border-top-color: var(--dv-abstain); }
+.dv-kpi-label { display: block; font-size: 0.78rem; color: var(--dv-muted); }
+.dv-kpi-value { display: block; font-size: 1.3rem; font-weight: 700; color: var(--dv-ink); font-variant-numeric: tabular-nums; }
+.dv-kpi.verified .dv-kpi-value { color: var(--dv-verified); } .dv-kpi.held .dv-kpi-value { color: var(--dv-held-text); }
+.dv-kpi.rejected .dv-kpi-value { color: var(--dv-rejected); } .dv-kpi.abstain .dv-kpi-value { color: var(--dv-abstain); }
+.dv-kpi-sub { display: block; font-size: 0.75rem; color: var(--dv-muted); }
+[data-testid="stMetric"] { background: var(--dv-panel); border: 1px solid var(--dv-line); border-radius: 6px; padding: 0.6rem 0.8rem; }
+[data-testid="stMetricValue"] { font-variant-numeric: tabular-nums; font-size: clamp(1.35rem, 2.1vw, 1.75rem); }
+[data-testid="stMetricValue"] > div { white-space: normal; overflow: visible; text-overflow: clip; }
+[data-testid="stExpander"] details { background: var(--dv-panel); }
+@media (max-width: 640px) {
+  .dv-hero { padding-top: 1rem; }
+  .dv-grid { grid-template-columns: 1fr; }
+}
+</style>
+"""
+st.markdown(CSS, unsafe_allow_html=True)
+
 
 def _warm() -> None:
     from app.corpus.index import CorpusIndex
@@ -63,14 +125,16 @@ _warm_thread()
 # ----------------------------------------------------------------- helpers
 def graph_dot(current: str | None, done: set[str]) -> str:
     lines = ['digraph G { rankdir=LR; node [shape=box, style="rounded,filled", fontname="Helvetica", fontsize=10];']
+    lines.append('bgcolor="transparent"; edge [color="#8a8f98", fontname="Helvetica", fontsize=9];')
     for n in NODES:
-        color = "#1f77b4" if n == current else ("#c7e9c0" if n in done else "#f0f0f0")
-        font = "white" if n == current else "black"
-        lines.append(f'"{n}" [label="{NODE_LABEL[n]}", fillcolor="{color}", fontcolor="{font}"];')
+        color = "#1f3a5f" if n == current else ("#e8f2ec" if n in done else "#ffffff")
+        font = "white" if n == current else ("#2f7d4f" if n in done else "#5b6472")
+        border = "#1f3a5f" if n == current else ("#2f7d4f" if n in done else "#dcd6ca")
+        lines.append(f'"{n}" [label="{NODE_LABEL[n]}", fillcolor="{color}", fontcolor="{font}", color="{border}"];')
     edges = [("compile", "plan"), ("plan", "tools"), ("tools", "arena"), ("arena", "findings"), ("findings", "verify"), ("verify", "gate"), ("gate", "finalize")]
     for a, b in edges:
         lines.append(f'"{a}" -> "{b}";')
-    lines.append('"verify" -> "rewrite" [style=dashed, color="#ff7f0e", label="기각"]; "rewrite" -> "verify" [style=dashed, color="#ff7f0e"];')
+    lines.append('"verify" -> "rewrite" [style=dashed, color="#b4372f", fontcolor="#b4372f", label="기각"]; "rewrite" -> "verify" [style=dashed, color="#b4372f"];')
     lines.append("}")
     return "\n".join(lines)
 
@@ -82,15 +146,121 @@ def diff_html(a: str, b: str) -> str:
         if op == "equal":
             out.append(html.escape(" ".join(a.split()[i1:i2])))
         if op in ("delete", "replace"):
-            out.append(f'<del style="background:#fde0dd">{html.escape(" ".join(a.split()[i1:i2]))}</del>')
+            out.append(f'<del>{html.escape(" ".join(a.split()[i1:i2]))}</del>')
         if op in ("insert", "replace"):
-            out.append(f'<ins style="background:#d9f2d9;text-decoration:none">{html.escape(" ".join(b.split()[j1:j2]))}</ins>')
-    return " ".join(out)
+            out.append(f'<ins>{html.escape(" ".join(b.split()[j1:j2]))}</ins>')
+    return '<div class="dv-diff">' + " ".join(out) + "</div>"
 
 
 def sev_badge(s: str) -> str:
-    c = {"critical": "#b30000", "high": "#e6550d", "medium": "#fdae6b", "low": "#9ecae1"}.get(s, "#ccc")
-    return f'<span style="background:{c};color:white;padding:2px 6px;border-radius:4px;font-size:12px">{s}</span>'
+    return f'<span class="dv-sev {html.escape(s)}">{html.escape(s)}</span>'
+
+
+# 상태 표시: 기권은 verdict로, 나머지는 검증기 상태로 정한다(F00 기권은 verifier_status가 verified여도 '기권'으로 보인다).
+STATUS = {"verified": ("검증", "green"), "held": ("보류", "orange"), "rejected": ("기각", "red"), "abstain": ("기권", "violet"), "pending": ("미검증", "gray")}
+CATEGORY = {"dose_optimization": "용량 최적화", "safety_monitoring": "안전성 모니터링", "eligibility": "선정·제외 기준", "endpoint_ctq": "평가변수·CTQ",
+            "burden": "환자 부담", "source_version": "근거 버전", "feasibility": "실행 가능성"}
+
+
+def finding_status(f) -> str:
+    return "abstain" if f.verdict == "abstain" else f.verifier_status
+
+
+def status_chip(key: str) -> str:
+    return f'<span class="dv-chip {key}">{STATUS[key][0]}</span>'
+
+
+def section(title: str) -> None:
+    st.markdown(f'<div class="dv-section">{html.escape(title)}</div>', unsafe_allow_html=True)
+
+
+RESULTS = ROOT / "app/eval/data/results"
+
+
+def _load_json(name: str) -> dict | None:
+    p = RESULTS / name
+    try:
+        return json.loads(p.read_text(encoding="utf-8")) if p.exists() else None
+    except (OSError, ValueError):
+        return None
+
+
+def _span(vals: list[float]) -> str:
+    return f"{vals[0]:.3f}" if len(vals) == 1 or min(vals) == max(vals) else f"{min(vals):.3f}–{max(vals):.3f}"
+
+
+def eval_tiles() -> list[tuple[str, str, str]]:
+    """평가 결과 JSON의 aggregate에서 첫 화면 타일을 만든다(수치 하드코딩 금지). 파일이 없으면 해당 타일을 뺀다."""
+    base = [(n, d) for n in ("lean_v3", "lean_v3b") if (d := _load_json(f"{n}.json")) and d.get("aggregate")]
+    multi = _load_json("lean_mdrug3.json")
+    tiles = []
+    if base:
+        names = "·".join(n for n, _ in base)
+        n = f"{base[0][1]['n_cases']}" + (f" × {len(base)}회 반복" if len(base) > 1 else "")
+        tiles.append(("결함 위치 재현율 (span recall)", _span([d["aggregate"]["recall"] for _, d in base]),
+                      f"주입 결함 문장을 finding이 가리킨 비율 · {names} · n={n}"))
+        tiles.append(("근거까지 일치 (grounded recall)", _span([d["aggregate"]["grounded_recall"] for _, d in base]),
+                      f"결함을 짚고 정답 규범 문서까지 인용한 비율 · {names} · n={n}"))
+    if multi and multi.get("aggregate"):
+        drugs = {r["case_id"].split("-")[1] for r in multi.get("rows", []) if r.get("case_id", "").count("-") >= 2}
+        tiles.append(("다약물 세트 span recall", _span([multi["aggregate"]["recall"]]),
+                      f"약물 {len(drugs)}종 결함 주입 변형 · lean_mdrug3 · n={multi['n_cases']}"))
+    allsets = base + ([("lean_mdrug3", multi)] if multi and multi.get("aggregate") else [])
+    if allsets:
+        tiles.append(("인용 검증 통과율", _span([d["aggregate"]["verified_rate"] for _, d in allsets]),
+                      f"검증기 통과 finding 비율 · {'·'.join(n for n, _ in allsets)}"))
+    return tiles
+
+
+RETRO_DESC = {"S1": "1차: 검증된 용량최적화 finding 수", "S2": "2차: 용량최적화 finding 중증도 가중합(검증+보류)", "B1": "키워드 규칙(초록, LLM 없음)",
+              "B2": "승인연도(시대 교란 점검)", "B3": "축③ 라벨 규칙(승인 후 라벨 — 참고용, 누설 있음)"}
+
+
+def render_retro() -> None:
+    """실사례 후향 검증(사전 등록 docs/retro_prereg.md) 결과 — app/eval/data/results/retro.json이 있을 때만 수치를 보인다."""
+    res = _load_json("retro.json")
+    st.markdown("**실사례 후향 검증** — FDA가 최초 승인 때 용량최적화 PMR/PMC를 부과한 항암제를, 승인 전 공개된 1상 초록(약물명 마스킹)만으로 더 자주 짚는가. "
+                "판정 규칙·비교 기준은 실행 전에 고정했다(`docs/retro_prereg.md`).")
+    if not res:
+        st.info("결과 준비 중 — `python -m app.eval.retro analyze`가 `app/eval/data/results/retro.json`을 만들면 여기에 표시된다.")
+        return
+    m = res.get("metrics", {})
+    c1, c2, c3 = st.columns(3)
+    c1.metric("표본", f"{res.get('n', 0)}건", help="사전 등록 기준으로 확보된 케이스 수")
+    c2.metric("PMR 양성", f"{res.get('n_pos', 0)}건")
+    if "reidentification_rate" in res:
+        c3.metric("재식별률(P1 탐침)", f"{res['reidentification_rate']:.3f}", help="마스킹 입력에서 LLM이 성분명을 맞힌 비율")
+    st.markdown(f"**판정(사전 규칙)**: {res.get('verdict', '—')}")
+    table = [{"점수": k, "설명": RETRO_DESC[k] + (f" (n={m[k]['n']})" if "n" in m[k] else ""), "AUROC": f"{m[k]['auroc']:.3f}",
+              "95% CI": f"[{m[k]['ci'][0]:.3f}, {m[k]['ci'][1]:.3f}]", "PR-AUC": f"{m[k]['pr_auc']:.3f}" if m[k].get("pr_auc") is not None else "—"}
+             for k in ("S1", "S2", "B1", "B2", "B3") if k in m]
+    if table:
+        st.table(table)
+    notes = [f"S1−{k} AUROC 차이 95% CI [{m[f'S1-{k}']['ci'][0]:.3f}, {m[f'S1-{k}']['ci'][1]:.3f}]" for k in ("B1", "B2") if f"S1-{k}" in m]
+    if "S1_not_reidentified" in m:
+        s = m["S1_not_reidentified"]
+        notes.append(f"재식별되지 않은 부분집합(n={s['n']}, 양성 {s['n_pos']}) S1 AUROC {s['auroc']:.3f} [{s['ci'][0]:.3f}, {s['ci'][1]:.3f}]")
+    if res.get("n"):
+        notes.append(f"PR-AUC 무작위 기준 = 양성 비율 {res.get('n_pos', 0) / res['n']:.3f}")
+    if notes:
+        st.caption(" · ".join(notes) + " — 차이 CI는 기술용이며 표본이 작아 유의성 주장에 쓰지 않는다.")
+    rows = res.get("rows", [])
+    if rows:
+        st.markdown("**케이스별**")
+        st.dataframe([{"케이스": r.get("case_id"), "약물": r.get("generic"), "승인연도": r.get("year"), "PMR": "예" if r.get("y") else "아니오",
+                       "S1": r.get("S1"), "S2": r.get("S2"), "B1": r.get("B1"), "F00": r.get("f00") or "—",
+                       "재식별": {True: "예", False: "아니오"}.get(r.get("reidentified"), "—")}
+                      for r in sorted(rows, key=lambda r: (-int(r.get("y") or 0), -float(r.get("S1") or 0)))],
+                     hide_index=True, use_container_width=True)
+        pos = [r for r in rows if r.get("y")]
+        if pos:
+            with st.expander(f"양성 사례 {len(pos)}건의 용량최적화 finding 원문"):
+                for r in pos:
+                    st.markdown(f"**{r.get('case_id')} {r.get('generic')}**")
+                    for f in r.get("dose_findings") or []:
+                        st.markdown(f"- {f.get('id')} [{f.get('status')}/{f.get('severity')}] {f.get('claim')}")
+                    if not r.get("dose_findings"):
+                        st.caption("용량최적화 finding 없음")
 
 
 def init_state():
@@ -140,6 +310,7 @@ with st.sidebar:
     st.caption("판정 권한: 계산·규칙은 도구, 최종 승인은 사람. LLM은 구조화·가설·문장 초안만.")
 
 # ----------------------------------------------------------------- run
+hero_box = st.container()
 top = st.container()
 if show_cached and cached_path:
     rs0 = ReviewState.model_validate_json(cached_path.read_text(encoding="utf-8"))
@@ -211,8 +382,40 @@ if run:
 
 rs: ReviewState | None = st.session_state.review
 if rs is None and not run:
+    with hero_box:
+        st.markdown(
+            '<div class="dv-hero"><p class="dv-eyebrow">DoseVerdict · 항암 1/2상 프로토콜 용량 근거 검토</p>'
+            '<h1>MTD는 RP2D가 아니다</h1>'
+            '<p class="dv-lede">프로토콜의 용량 근거를 실제 약리 계산과 규제 조항 인용으로 검증하고, 근거가 얇으면 결론을 만들지 않고 멈춘다. '
+            '최종 판단은 사람이 Human Gate에서 내린다.</p></div>', unsafe_allow_html=True)
+        section("사용 방법")
+        st.markdown(
+            '<div class="dv-grid">'
+            '<div class="dv-step"><b><span class="dv-num">1</span>예시 선택</b><span>사이드바(모바일은 왼쪽 위 » 버튼)에서 예시 프로토콜을 고른다. 직접 붙여넣기·파일 업로드도 된다.</span></div>'
+            '<div class="dv-step"><b><span class="dv-num">2</span>저장 결과 보기 / 라이브 실행</b><span>저장된 결과는 LLM 호출 없이 즉시 열린다. 라이브 검토는 배포본(CPU)에서 약 1.5분, 3~4만 토큰(Reviewer 3인 옵션 시 약 1.3배).</span></div>'
+            '<div class="dv-step"><b><span class="dv-num">3</span>Human Gate</b><span>finding별로 승인·기각·보류를 정해 감사로그에 남긴다. 에이전트는 승인하지 않는다.</span></div>'
+            '</div>', unsafe_allow_html=True)
+        section("판정 권한 분리")
+        st.markdown(
+            '<div class="dv-grid">'
+            '<div class="dv-role"><b>LLM</b><span>프로토콜 구조화, 가설, 문장 초안까지만</span></div>'
+            '<div class="dv-role"><b>도구</b><span>수치 — RDKit·ChEMBL·openFDA·시뮬레이션 계산</span></div>'
+            '<div class="dv-role"><b>검증기</b><span>인용 — 원문 span 일치와 근거 조항 대조(NLI)</span></div>'
+            '<div class="dv-role"><b>사람</b><span>승인 — 최종 결정과 감사로그 기록</span></div>'
+            '</div>', unsafe_allow_html=True)
+        tiles = eval_tiles()
+        if tiles:
+            section("평가 결과 (Silver Set 측정치)")
+            for col, (label, value, cap) in zip(st.columns(len(tiles)), tiles):
+                col.metric(label, value)
+                col.caption(cap)
+            st.markdown('<p class="dv-note">Silver Set은 기준 시놉시스에 결함을 주입한 합성 평가 세트다. 임상·규제 전문가가 판정한 Gold Set이 아니다. '
+                        '값이 범위로 표시된 것은 같은 설정을 2회 반복 실행한 결과다. 원천: <code>app/eval/data/results/</code>, <code>docs/numbers.md</code>.</p>',
+                        unsafe_allow_html=True)
+        section("에이전트 흐름")
     graph_box.graphviz_chart(graph_dot(None, set()), use_container_width=True)
-    st.info("왼쪽에서 예시 프로토콜을 고르고 **검토 실행**을 누르세요. 배포본(CPU)에서 약 1.5분, 3~4만 토큰이 듭니다(Reviewer 3인 옵션 시 토큰 약 1.3배). 기다리지 않으려면 **⚡ 저장된 결과 즉시 보기**를 누르세요.")
+    section("후향 검증")
+    render_retro()
     st.stop()
 if rs is None:
     st.stop()
@@ -221,20 +424,35 @@ graph_box.graphviz_chart(graph_dot(st.session_state.current, st.session_state.do
 if st.session_state.events:
     with timeline.expander("타임라인 (판단 전환 지점은 굵게)", expanded=False):
         for m in st.session_state.events:
-            st.markdown("- " + m)
+            dot = next((c for k, c in (("기각", "red"), ("기권", "violet"), ("보류", "orange")) if k in m), "gray")
+            st.markdown(f":{dot}[●] " + m)
+
+# ----------------------------------------------------------------- summary bar
+_n = {k: sum(1 for f in rs.findings if finding_status(f) == k) for k in STATUS}
+_fail = sum(1 for c in rs.tool_log if not c.ok)
+_kpis = [("Findings", f"{len(rs.findings)}건", "", "")] + [(f"{STATUS[k][0]}", f"{_n[k]}건", k, "") for k in ("verified", "held", "rejected", "abstain")] + [
+    ("토큰", f"{rs.budget.used_tokens:,}", "", f"상한 {rs.budget.max_tokens:,}"),
+    ("도구 호출", f"{len(rs.tool_log)}회", "", f"실패 {_fail}회" if _fail else "실패 0회"),
+    ("재계획 이벤트", f"{sum(1 for e in rs.replan_events if e.get('trigger'))}건", "", "스스로 경로를 바꾼 지점")]
+st.markdown('<div class="dv-kpis">' + "".join(
+    f'<div class="dv-kpi {k}"><span class="dv-kpi-label">{html.escape(label)}</span><span class="dv-kpi-value">{html.escape(v)}</span>'
+    + (f'<span class="dv-kpi-sub">{html.escape(sub)}</span>' if sub else "") + "</div>" for label, v, k, sub in _kpis) + "</div>"
+    + '<p class="dv-note">검증·보류·기각은 기권(F00 등 결론을 만들지 않은 항목)을 뺀 finding의 검증기 상태다.</p>', unsafe_allow_html=True)
 
 # ----------------------------------------------------------------- tabs
-tabs = st.tabs(["Findings", "Human Gate", "Evidence Cards", "도구 호출", "Trial Schema", "Audit"])
+tabs = st.tabs(["Findings", "Human Gate", "Evidence Cards", "도구 호출", "Trial Schema", "Audit", "후향 검증"])
 
 with tabs[0]:
-    st.subheader(f"Findings {len(rs.findings)}건 — 검증 {sum(1 for f in rs.findings if f.verifier_status == 'verified')} / 보류 {sum(1 for f in rs.findings if f.verifier_status == 'held')} / 기각 {sum(1 for f in rs.findings if f.verifier_status == 'rejected')}")
+    st.subheader(f"Findings {len(rs.findings)}건 — 검증 {_n['verified']} / 보류 {_n['held']} / 기각 {_n['rejected']} / 기권 {_n['abstain']}")
     for f in rs.findings:
-        icon = {"abstain": "🛑", "defect": "⚠️", "no_issue": "✅"}[f.verdict]
-        vs = {"verified": "✔ 검증", "held": "⏸ 보류", "rejected": "✖ 기각", "pending": "…"}[f.verifier_status]
-        with st.expander(f"{icon} {f.finding_id} · {f.category} · {vs} · {f.severity.value}", expanded=(f.finding_id in ("F00", "F01"))):
-            st.markdown(f"**원문 span**  \n> {f.protocol_span.text}")
+        sk = finding_status(f)
+        cat = CATEGORY.get(f.category, f.category)
+        with st.expander(f"**{f.finding_id}** · :{STATUS[sk][1]}-badge[{STATUS[sk][0]}] · {cat} · {f.severity.value}", expanded=(f.finding_id in ("F00", "F01"))):
+            st.markdown(status_chip(sk) + sev_badge(f.severity.value) + f'<span class="dv-chip cat">{html.escape(cat)}</span>'
+                        + ('<span class="dv-chip pending">검증기: 검증</span>' if sk == "abstain" and f.verifier_status == "verified" else ""), unsafe_allow_html=True)
             if f.verdict == "abstain":
-                st.error(f"**기권** — {f.abstain_reason}")
+                st.markdown(f'<div class="dv-abstain-box"><b>기권 — 결론을 만들지 않음</b><br>{html.escape(f.abstain_reason or "")}</div>', unsafe_allow_html=True)
+            st.markdown(f'**원문 span**<div class="dv-quote">{html.escape(f.protocol_span.text)}</div>', unsafe_allow_html=True)
             st.markdown(f"**프로토콜 사실**: {f.protocol_fact or f.claim}")
             if f.evidence_fact:
                 st.markdown(f"**근거 사실**: {f.evidence_fact}")
@@ -323,3 +541,6 @@ with tabs[5]:
     with st.expander("감사 메타(JSON)"):
         st.json({"models": rs.audit.models if rs.audit else {}, "corpus_manifest": rs.audit.corpus_manifest_id if rs.audit else None,
                  "prompt_hashes": rs.audit.prompt_hashes if rs.audit else [], "replan_events": rs.replan_events, "terminal_status": rs.terminal_status})
+
+with tabs[6]:
+    render_retro()

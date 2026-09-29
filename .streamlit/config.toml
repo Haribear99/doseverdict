@@ -1,0 +1,30 @@
+# DoseVerdict 화면 테마 — 규제 검토 문서 톤. 상태 색(green=검증, orange=보류, red=기각, violet=기권)은
+# app/ui/main.py의 CSS 토큰(--dv-verified 등)과 같은 값이어야 한다. 한쪽만 바꾸면 배지와 카드 색이 어긋난다.
+[theme]
+base = "light"
+primaryColor = "#1f3a5f"
+backgroundColor = "#fbfaf7"
+secondaryBackgroundColor = "#f1eee7"
+textColor = "#1b2430"
+borderColor = "#dcd6ca"
+font = "Pretendard Variable:https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable-dynamic-subset.min.css"
+codeFont = "monospace"
+baseRadius = "6px"
+greenColor = "#2f7d4f"
+orangeColor = "#b7791f"
+redColor = "#b4372f"
+violetColor = "#5a5f96"
+grayColor = "#6b7280"
+blueColor = "#1f3a5f"
+greenBackgroundColor = "#dcebe2"
+orangeBackgroundColor = "#f6e5c6"
+redBackgroundColor = "#f3d6d3"
+violetBackgroundColor = "#dfe0ef"
+greenTextColor = "#2f7d4f"
+orangeTextColor = "#96610f"
+redTextColor = "#b4372f"
+violetTextColor = "#5a5f96"
+chartCategoricalColors = ["#1f3a5f", "#9a6b12", "#2f7d4f", "#5a5f96", "#b4372f", "#6b7280"]
+
+[theme.sidebar]
+backgroundColor = "#f1eee7"
