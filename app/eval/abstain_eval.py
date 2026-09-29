@@ -86,6 +86,23 @@ def _nums(text: str) -> set[str]:
     return {re.sub(r"\.0+$", "", n) for n in re.findall(r"\d+(?:\.\d+)?", text or "")}
 
 
+def post_hoc_lines(per: dict, its: dict) -> list[str]:
+    """사후: 판정 가능 범위(coverage)와 벌점 채점(Kalai 등 Nature 2026의 open rubric, 정답 +1·기권 0·오답 −L, L = 0/1/3/9)."""
+    out = []
+    for cond, runs in per.items():
+        ds = [d for r_ in runs for d in r_["doses"]]
+        n = len(ds)
+        assessed = [d for d in ds if d["verdict"] not in ("cannot_assess", "missing")]
+        wrong = sum(d["verdict"] != d["truth"] for d in assessed)
+        right = sum(d["verdict"] == d["truth"] for d in assessed)
+        scores = {L: round((right - L * wrong) / n, 3) for L in (0, 1, 3, 9)}
+        drugs = sorted({r_["drug"] for r_ in runs if any(d["verdict"] not in ("cannot_assess", "missing") for d in r_["doses"])})
+        out.append(f"- 조건 {cond}: 판정한 용량군 비율 {len(assessed) / n:.3f}(판정한 약: {', '.join(drugs) or '없음'}), 판정 중 오답 {wrong}건, "
+                   f"벌점 채점 점수 L=0/1/3/9 → {scores[0]}/{scores[1]}/{scores[3]}/{scores[9]}")
+    out.append("- 에이전트(도구)는 정의상 20/20 판정·오답 0이라 모든 L에서 1.0이다 — 정답을 같은 도구로 만든 순환성 때문에 비교 근거가 아니라, 판정 가능 범위의 차이(자료 확보)를 보여 주는 값이다.")
+    return out
+
+
 def analyze() -> None:
     its, raw = items(), json.loads((OUT / "abstain_raw.json").read_text(encoding="utf-8"))
     per = {"A": [], "B": []}
@@ -139,7 +156,9 @@ def analyze() -> None:
          f"| B-1 TCR_avg 상대 오차 중앙값 | {res['A']['median_rel_err_tcr_avg']} | {res['B']['median_rel_err_tcr_avg']} |",
          f"| B-1 TCR_trough 상대 오차 중앙값 | {res['A']['median_rel_err_tcr_trough']} | {res['B']['median_rel_err_tcr_trough']} |",
          f"| 토큰 합계 | {res['A']['tokens_total']:,} | {res['B']['tokens_total']:,} |", "",
-         "에이전트는 같은 도구 판정을 그대로 내므로 일치율은 정의상 1이다. 이 표는 도구 없이 모델이 무엇을 하는지를 잰다(해석 한계는 사전 등록 참조).", "",
+         "에이전트는 같은 도구 판정을 그대로 내므로 일치율은 정의상 1이다. 이 표는 도구 없이 모델이 무엇을 하는지를 잰다(해석 한계는 사전 등록 참조).",
+         "A-2는 시놉시스 본문과만 대조하므로, 조건 B에서는 제공한 pk_inputs 블록의 수치까지 '입력에 없는 수치'로 센다(지표 정의상 부풀림). A-2는 조건 A에서만 해석한다.", "",
+         "## 사후 기술(사전 등록 밖)", ""] + post_hoc_lines(per, its) + ["",
          "## 조건 A 예시: 입력에 없는 수치"]
     for r_ in per["A"][:8]:
         if r_["unsourced"]:

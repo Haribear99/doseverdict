@@ -1,0 +1,1922 @@
+{
+ "n_items": 20,
+ "truth_counts": {
+  "indeterminate": 7,
+  "covered": 13
+ },
+ "A": {
+  "definite_on_indeterminate": {
+   "mean": 0.0,
+   "min": 0.0,
+   "max": 0.0
+  },
+  "abstain_on_covered": {
+   "mean": 0.769,
+   "min": 0.769,
+   "max": 0.769
+  },
+  "agreement": {
+   "mean": 0.25,
+   "min": 0.25,
+   "max": 0.25
+  },
+  "unsourced_number_rate": {
+   "mean": 0.048,
+   "min": 0.0,
+   "max": 0.071
+  },
+  "median_rel_err_tcr_avg": 0.004,
+  "median_rel_err_tcr_trough": 0.0,
+  "tokens_total": 32567,
+  "parse_errors": 0
+ },
+ "B": {
+  "definite_on_indeterminate": {
+   "mean": 0.0,
+   "min": 0.0,
+   "max": 0.0
+  },
+  "abstain_on_covered": {
+   "mean": 0.0,
+   "min": 0.0,
+   "max": 0.0
+  },
+  "agreement": {
+   "mean": 1.0,
+   "min": 1.0,
+   "max": 1.0
+  },
+  "unsourced_number_rate": {
+   "mean": 0.178,
+   "min": 0.108,
+   "max": 0.225
+  },
+  "median_rel_err_tcr_avg": 0.003,
+  "median_rel_err_tcr_trough": 0.002,
+  "tokens_total": 40043,
+  "parse_errors": 0
+ },
+ "runs": {
+  "A": [
+   {
+    "drug": "sotorasib",
+    "rep": 0,
+    "tokens": 1968,
+    "n_numbers": 5,
+    "n_unsourced": 0,
+    "unsourced": [],
+    "parse_error": false,
+    "doses": [
+     {
+      "dose_mg": 180.0,
+      "truth": "indeterminate",
+      "verdict": "cannot_assess",
+      "tcr": {
+       "tcr_avg": 1.9,
+       "tcr_trough": 0.23
+      },
+      "model_tcr": {
+       "tcr_avg": null,
+       "tcr_trough": null
+      }
+     },
+     {
+      "dose_mg": 360.0,
+      "truth": "indeterminate",
+      "verdict": "cannot_assess",
+      "tcr": {
+       "tcr_avg": 3.7,
+       "tcr_trough": 0.46
+      },
+      "model_tcr": {
+       "tcr_avg": null,
+       "tcr_trough": null
+      }
+     },
+     {
+      "dose_mg": 540.0,
+      "truth": "indeterminate",
+      "verdict": "cannot_assess",
+      "tcr": {
+       "tcr_avg": 5.6,
+       "tcr_trough": 0.7
+      },
+      "model_tcr": {
+       "tcr_avg": null,
+       "tcr_trough": null
+      }
+     },
+     {
+      "dose_mg": 720.0,
+      "truth": "indeterminate",
+      "verdict": "cannot_assess",
+      "tcr": {
+       "tcr_avg": 7.5,
+       "tcr_trough": 0.93
+      },
+      "model_tcr": {
+       "tcr_avg": null,
+       "tcr_trough": null
+      }
+     },
+     {
+      "dose_mg": 960.0,
+      "truth": "covered",
+      "verdict": "cannot_assess",
+      "tcr": {
+       "tcr_avg": 10.0,
+       "tcr_trough": 1.24
+      },
+      "model_tcr": {
+       "tcr_avg": null,
+       "tcr_trough": null
+      }
+     }
+    ]
+   },
+   {
+    "drug": "sotorasib",
+    "rep": 1,
+    "tokens": 2024,
+    "n_numbers": 5,
+    "n_unsourced": 0,
+    "unsourced": [],
+    "parse_error": false,
+    "doses": [
+     {
+      "dose_mg": 180.0,
+      "truth": "indeterminate",
+      "verdict": "cannot_assess",
+      "tcr": {
+       "tcr_avg": 1.9,
+       "tcr_trough": 0.23
+      },
+      "model_tcr": {
+       "tcr_avg": null,
+       "tcr_trough": null
+      }
+     },
+     {
+      "dose_mg": 360.0,
+      "truth": "indeterminate",
+      "verdict": "cannot_assess",
+      "tcr": {
+       "tcr_avg": 3.7,
+       "tcr_trough": 0.46
+      },
+      "model_tcr": {
+       "tcr_avg": null,
+       "tcr_trough": null
+      }
+     },
+     {
+      "dose_mg": 540.0,
+      "truth": "indeterminate",
+      "verdict": "cannot_assess",
+      "tcr": {
+       "tcr_avg": 5.6,
+       "tcr_trough": 0.7
+      },
+      "model_tcr": {
+       "tcr_avg": null,
+       "tcr_trough": null
+      }
+     },
+     {
+      "dose_mg": 720.0,
+      "truth": "indeterminate",
+      "verdict": "cannot_assess",
+      "tcr": {
+       "tcr_avg": 7.5,
+       "tcr_trough": 0.93
+      },
+      "model_tcr": {
+       "tcr_avg": null,
+       "tcr_trough": null
+      }
+     },
+     {
+      "dose_mg": 960.0,
+      "truth": "covered",
+      "verdict": "cannot_assess",
+      "tcr": {
+       "tcr_avg": 10.0,
+       "tcr_trough": 1.24
+      },
+      "model_tcr": {
+       "tcr_avg": null,
+       "tcr_trough": null
+      }
+     }
+    ]
+   },
+   {
+    "drug": "sotorasib",
+    "rep": 2,
+    "tokens": 2099,
+    "n_numbers": 6,
+    "n_unsourced": 0,
+    "unsourced": [],
+    "parse_error": false,
+    "doses": [
+     {
+      "dose_mg": 180.0,
+      "truth": "indeterminate",
+      "verdict": "cannot_assess",
+      "tcr": {
+       "tcr_avg": 1.9,
+       "tcr_trough": 0.23
+      },
+      "model_tcr": {
+       "tcr_avg": null,
+       "tcr_trough": null
+      }
+     },
+     {
+      "dose_mg": 360.0,
+      "truth": "indeterminate",
+      "verdict": "cannot_assess",
+      "tcr": {
+       "tcr_avg": 3.7,
+       "tcr_trough": 0.46
+      },
+      "model_tcr": {
+       "tcr_avg": null,
+       "tcr_trough": null
+      }
+     },
+     {
+      "dose_mg": 540.0,
+      "truth": "indeterminate",
+      "verdict": "cannot_assess",
+      "tcr": {
+       "tcr_avg": 5.6,
+       "tcr_trough": 0.7
+      },
+      "model_tcr": {
+       "tcr_avg": null,
+       "tcr_trough": null
+      }
+     },
+     {
+      "dose_mg": 720.0,
+      "truth": "indeterminate",
+      "verdict": "cannot_assess",
+      "tcr": {
+       "tcr_avg": 7.5,
+       "tcr_trough": 0.93
+      },
+      "model_tcr": {
+       "tcr_avg": null,
+       "tcr_trough": null
+      }
+     },
+     {
+      "dose_mg": 960.0,
+      "truth": "covered",
+      "verdict": "cannot_assess",
+      "tcr": {
+       "tcr_avg": 10.0,
+       "tcr_trough": 1.24
+      },
+      "model_tcr": {
+       "tcr_avg": null,
+       "tcr_trough": null
+      }
+     }
+    ]
+   },
+   {
+    "drug": "adagrasib",
+    "rep": 0,
+    "tokens": 2045,
+    "n_numbers": 4,
+    "n_unsourced": 0,
+    "unsourced": [],
+    "parse_error": false,
+    "doses": [
+     {
+      "dose_mg": 150.0,
+      "truth": "indeterminate",
+      "verdict": "cannot_assess",
+      "tcr": {
+       "tcr_avg": 1.1,
+       "tcr_trough": 0.93
+      },
+      "model_tcr": {
+       "tcr_avg": null,
+       "tcr_trough": null
+      }
+     },
+     {
+      "dose_mg": 300.0,
+      "truth": "covered",
+      "verdict": "cannot_assess",
+      "tcr": {
+       "tcr_avg": 2.2,
+       "tcr_trough": 1.86
+      },
+      "model_tcr": {
+       "tcr_avg": null,
+       "tcr_trough": null
+      }
+     },
+     {
+      "dose_mg": 400.0,
+      "truth": "covered",
+      "verdict": "cannot_assess",
+      "tcr": {
+       "tcr_avg": 3.0,
+       "tcr_trough": 2.48
+      },
+      "model_tcr": {
+       "tcr_avg": null,
+       "tcr_trough": null
+      }
+     },
+     {
+      "dose_mg": 600.0,
+      "truth": "covered",
+      "verdict": "cannot_assess",
+      "tcr": {
+       "tcr_avg": 4.5,
+       "tcr_trough": 3.71
+      },
+      "model_tcr": {
+       "tcr_avg": null,
+       "tcr_trough": null
+      }
+     }
+    ]
+   },
+   {
+    "drug": "adagrasib",
+    "rep": 1,
+    "tokens": 2090,
+    "n_numbers": 5,
+    "n_unsourced": 0,
+    "unsourced": [],
+    "parse_error": false,
+    "doses": [
+     {
+      "dose_mg": 150.0,
+      "truth": "indeterminate",
+      "verdict": "cannot_assess",
+      "tcr": {
+       "tcr_avg": 1.1,
+       "tcr_trough": 0.93
+      },
+      "model_tcr": {
+       "tcr_avg": null,
+       "tcr_trough": null
+      }
+     },
+     {
+      "dose_mg": 300.0,
+      "truth": "covered",
+      "verdict": "cannot_assess",
+      "tcr": {
+       "tcr_avg": 2.2,
+       "tcr_trough": 1.86
+      },
+      "model_tcr": {
+       "tcr_avg": null,
+       "tcr_trough": null
+      }
+     },
+     {
+      "dose_mg": 400.0,
+      "truth": "covered",
+      "verdict": "cannot_assess",
+      "tcr": {
+       "tcr_avg": 3.0,
+       "tcr_trough": 2.48
+      },
+      "model_tcr": {
+       "tcr_avg": null,
+       "tcr_trough": null
+      }
+     },
+     {
+      "dose_mg": 600.0,
+      "truth": "covered",
+      "verdict": "cannot_assess",
+      "tcr": {
+       "tcr_avg": 4.5,
+       "tcr_trough": 3.71
+      },
+      "model_tcr": {
+       "tcr_avg": null,
+       "tcr_trough": null
+      }
+     }
+    ]
+   },
+   {
+    "drug": "adagrasib",
+    "rep": 2,
+    "tokens": 2100,
+    "n_numbers": 4,
+    "n_unsourced": 0,
+    "unsourced": [],
+    "parse_error": false,
+    "doses": [
+     {
+      "dose_mg": 150.0,
+      "truth": "indeterminate",
+      "verdict": "cannot_assess",
+      "tcr": {
+       "tcr_avg": 1.1,
+       "tcr_trough": 0.93
+      },
+      "model_tcr": {
+       "tcr_avg": null,
+       "tcr_trough": null
+      }
+     },
+     {
+      "dose_mg": 300.0,
+      "truth": "covered",
+      "verdict": "cannot_assess",
+      "tcr": {
+       "tcr_avg": 2.2,
+       "tcr_trough": 1.86
+      },
+      "model_tcr": {
+       "tcr_avg": null,
+       "tcr_trough": null
+      }
+     },
+     {
+      "dose_mg": 400.0,
+      "truth": "covered",
+      "verdict": "cannot_assess",
+      "tcr": {
+       "tcr_avg": 3.0,
+       "tcr_trough": 2.48
+      },
+      "model_tcr": {
+       "tcr_avg": null,
+       "tcr_trough": null
+      }
+     },
+     {
+      "dose_mg": 600.0,
+      "truth": "covered",
+      "verdict": "cannot_assess",
+      "tcr": {
+       "tcr_avg": 4.5,
+       "tcr_trough": 3.71
+      },
+      "model_tcr": {
+       "tcr_avg": null,
+       "tcr_trough": null
+      }
+     }
+    ]
+   },
+   {
+    "drug": "lorlatinib",
+    "rep": 0,
+    "tokens": 2211,
+    "n_numbers": 6,
+    "n_unsourced": 0,
+    "unsourced": [],
+    "parse_error": false,
+    "doses": [
+     {
+      "dose_mg": 25.0,
+      "truth": "covered",
+      "verdict": "cannot_assess",
+      "tcr": {
+       "tcr_avg": 5.4,
+       "tcr_trough": 3.73
+      },
+      "model_tcr": {
+       "tcr_avg": null,
+       "tcr_trough": null
+      }
+     },
+     {
+      "dose_mg": 50.0,
+      "truth": "covered",
+      "verdict": "cannot_assess",
+      "tcr": {
+       "tcr_avg": 10.8,
+       "tcr_trough": 7.46
+      },
+      "model_tcr": {
+       "tcr_avg": null,
+       "tcr_trough": null
+      }
+     },
+     {
+      "dose_mg": 75.0,
+      "truth": "covered",
+      "verdict": "cannot_assess",
+      "tcr": {
+       "tcr_avg": 16.1,
+       "tcr_trough": 11.19
+      },
+      "model_tcr": {
+       "tcr_avg": null,
+       "tcr_trough": null
+      }
+     },
+     {
+      "dose_mg": 100.0,
+      "truth": "covered",
+      "verdict": "cannot_assess",
+      "tcr": {
+       "tcr_avg": 21.5,
+       "tcr_trough": 14.91
+      },
+      "model_tcr": {
+       "tcr_avg": null,
+       "tcr_trough": null
+      }
+     },
+     {
+      "dose_mg": 150.0,
+      "truth": "covered",
+      "verdict": "cannot_assess",
+      "tcr": {
+       "tcr_avg": 32.3,
+       "tcr_trough": 22.37
+      },
+      "model_tcr": {
+       "tcr_avg": null,
+       "tcr_trough": null
+      }
+     },
+     {
+      "dose_mg": 200.0,
+      "truth": "covered",
+      "verdict": "cannot_assess",
+      "tcr": {
+       "tcr_avg": 43.0,
+       "tcr_trough": 29.83
+      },
+      "model_tcr": {
+       "tcr_avg": null,
+       "tcr_trough": null
+      }
+     }
+    ]
+   },
+   {
+    "drug": "lorlatinib",
+    "rep": 1,
+    "tokens": 2201,
+    "n_numbers": 6,
+    "n_unsourced": 0,
+    "unsourced": [],
+    "parse_error": false,
+    "doses": [
+     {
+      "dose_mg": 25.0,
+      "truth": "covered",
+      "verdict": "cannot_assess",
+      "tcr": {
+       "tcr_avg": 5.4,
+       "tcr_trough": 3.73
+      },
+      "model_tcr": {
+       "tcr_avg": null,
+       "tcr_trough": null
+      }
+     },
+     {
+      "dose_mg": 50.0,
+      "truth": "covered",
+      "verdict": "cannot_assess",
+      "tcr": {
+       "tcr_avg": 10.8,
+       "tcr_trough": 7.46
+      },
+      "model_tcr": {
+       "tcr_avg": null,
+       "tcr_trough": null
+      }
+     },
+     {
+      "dose_mg": 75.0,
+      "truth": "covered",
+      "verdict": "cannot_assess",
+      "tcr": {
+       "tcr_avg": 16.1,
+       "tcr_trough": 11.19
+      },
+      "model_tcr": {
+       "tcr_avg": null,
+       "tcr_trough": null
+      }
+     },
+     {
+      "dose_mg": 100.0,
+      "truth": "covered",
+      "verdict": "cannot_assess",
+      "tcr": {
+       "tcr_avg": 21.5,
+       "tcr_trough": 14.91
+      },
+      "model_tcr": {
+       "tcr_avg": null,
+       "tcr_trough": null
+      }
+     },
+     {
+      "dose_mg": 150.0,
+      "truth": "covered",
+      "verdict": "cannot_assess",
+      "tcr": {
+       "tcr_avg": 32.3,
+       "tcr_trough": 22.37
+      },
+      "model_tcr": {
+       "tcr_avg": null,
+       "tcr_trough": null
+      }
+     },
+     {
+      "dose_mg": 200.0,
+      "truth": "covered",
+      "verdict": "cannot_assess",
+      "tcr": {
+       "tcr_avg": 43.0,
+       "tcr_trough": 29.83
+      },
+      "model_tcr": {
+       "tcr_avg": null,
+       "tcr_trough": null
+      }
+     }
+    ]
+   },
+   {
+    "drug": "lorlatinib",
+    "rep": 2,
+    "tokens": 2447,
+    "n_numbers": 6,
+    "n_unsourced": 0,
+    "unsourced": [],
+    "parse_error": false,
+    "doses": [
+     {
+      "dose_mg": 25.0,
+      "truth": "covered",
+      "verdict": "cannot_assess",
+      "tcr": {
+       "tcr_avg": 5.4,
+       "tcr_trough": 3.73
+      },
+      "model_tcr": {
+       "tcr_avg": null,
+       "tcr_trough": null
+      }
+     },
+     {
+      "dose_mg": 50.0,
+      "truth": "covered",
+      "verdict": "cannot_assess",
+      "tcr": {
+       "tcr_avg": 10.8,
+       "tcr_trough": 7.46
+      },
+      "model_tcr": {
+       "tcr_avg": null,
+       "tcr_trough": null
+      }
+     },
+     {
+      "dose_mg": 75.0,
+      "truth": "covered",
+      "verdict": "cannot_assess",
+      "tcr": {
+       "tcr_avg": 16.1,
+       "tcr_trough": 11.19
+      },
+      "model_tcr": {
+       "tcr_avg": null,
+       "tcr_trough": null
+      }
+     },
+     {
+      "dose_mg": 100.0,
+      "truth": "covered",
+      "verdict": "cannot_assess",
+      "tcr": {
+       "tcr_avg": 21.5,
+       "tcr_trough": 14.91
+      },
+      "model_tcr": {
+       "tcr_avg": null,
+       "tcr_trough": null
+      }
+     },
+     {
+      "dose_mg": 150.0,
+      "truth": "covered",
+      "verdict": "cannot_assess",
+      "tcr": {
+       "tcr_avg": 32.3,
+       "tcr_trough": 22.37
+      },
+      "model_tcr": {
+       "tcr_avg": null,
+       "tcr_trough": null
+      }
+     },
+     {
+      "dose_mg": 200.0,
+      "truth": "covered",
+      "verdict": "cannot_assess",
+      "tcr": {
+       "tcr_avg": 43.0,
+       "tcr_trough": 29.83
+      },
+      "model_tcr": {
+       "tcr_avg": null,
+       "tcr_trough": null
+      }
+     }
+    ]
+   },
+   {
+    "drug": "dv505",
+    "rep": 0,
+    "tokens": 5125,
+    "n_numbers": 14,
+    "n_unsourced": 0,
+    "unsourced": [],
+    "parse_error": false,
+    "doses": [
+     {
+      "dose_mg": 50.0,
+      "truth": "indeterminate",
+      "verdict": "indeterminate",
+      "tcr": {
+       "tcr_avg": 1.2,
+       "tcr_trough": 0.4
+      },
+      "model_tcr": {
+       "tcr_avg": 1.15,
+       "tcr_trough": 0.4
+      }
+     },
+     {
+      "dose_mg": 100.0,
+      "truth": "indeterminate",
+      "verdict": "indeterminate",
+      "tcr": {
+       "tcr_avg": 2.3,
+       "tcr_trough": 0.8
+      },
+      "model_tcr": {
+       "tcr_avg": 2.31,
+       "tcr_trough": 0.8
+      }
+     },
+     {
+      "dose_mg": 200.0,
+      "truth": "covered",
+      "verdict": "covered",
+      "tcr": {
+       "tcr_avg": 4.6,
+       "tcr_trough": 1.59
+      },
+      "model_tcr": {
+       "tcr_avg": 4.62,
+       "tcr_trough": 1.59
+      }
+     },
+     {
+      "dose_mg": 400.0,
+      "truth": "covered",
+      "verdict": "covered",
+      "tcr": {
+       "tcr_avg": 9.2,
+       "tcr_trough": 3.19
+      },
+      "model_tcr": {
+       "tcr_avg": 9.23,
+       "tcr_trough": 3.19
+      }
+     },
+     {
+      "dose_mg": 600.0,
+      "truth": "covered",
+      "verdict": "covered",
+      "tcr": {
+       "tcr_avg": 13.8,
+       "tcr_trough": 4.78
+      },
+      "model_tcr": {
+       "tcr_avg": 13.85,
+       "tcr_trough": 4.78
+      }
+     }
+    ]
+   },
+   {
+    "drug": "dv505",
+    "rep": 1,
+    "tokens": 3864,
+    "n_numbers": 12,
+    "n_unsourced": 2,
+    "unsourced": [
+     "Unbound fraction calculated from binding=0.06 (assumption)",
+     "Atomic masses used for molecular-mass calculation=C 12.011, H 1.008, F 18.998, N 14.007, O 15.999 g/mol (prior_knowledge)"
+    ],
+    "parse_error": false,
+    "doses": [
+     {
+      "dose_mg": 50.0,
+      "truth": "indeterminate",
+      "verdict": "indeterminate",
+      "tcr": {
+       "tcr_avg": 1.2,
+       "tcr_trough": 0.4
+      },
+      "model_tcr": {
+       "tcr_avg": 1.15,
+       "tcr_trough": 0.4
+      }
+     },
+     {
+      "dose_mg": 100.0,
+      "truth": "indeterminate",
+      "verdict": "indeterminate",
+      "tcr": {
+       "tcr_avg": 2.3,
+       "tcr_trough": 0.8
+      },
+      "model_tcr": {
+       "tcr_avg": 2.31,
+       "tcr_trough": 0.8
+      }
+     },
+     {
+      "dose_mg": 200.0,
+      "truth": "covered",
+      "verdict": "covered",
+      "tcr": {
+       "tcr_avg": 4.6,
+       "tcr_trough": 1.59
+      },
+      "model_tcr": {
+       "tcr_avg": 4.62,
+       "tcr_trough": 1.59
+      }
+     },
+     {
+      "dose_mg": 400.0,
+      "truth": "covered",
+      "verdict": "covered",
+      "tcr": {
+       "tcr_avg": 9.2,
+       "tcr_trough": 3.19
+      },
+      "model_tcr": {
+       "tcr_avg": 9.23,
+       "tcr_trough": 3.19
+      }
+     },
+     {
+      "dose_mg": 600.0,
+      "truth": "covered",
+      "verdict": "covered",
+      "tcr": {
+       "tcr_avg": 13.8,
+       "tcr_trough": 4.78
+      },
+      "model_tcr": {
+       "tcr_avg": 13.85,
+       "tcr_trough": 4.78
+      }
+     }
+    ]
+   },
+   {
+    "drug": "dv505",
+    "rep": 2,
+    "tokens": 4393,
+    "n_numbers": 12,
+    "n_unsourced": 2,
+    "unsourced": [
+     "Atomic weights used for molecular-weight calculation=C 12.011; H 1.008; F 18.998; N 14.007; O 15.999 g/mol (prior_knowledge)",
+     "Calculated molecular weight=501.57 g/mol (prior_knowledge)"
+    ],
+    "parse_error": false,
+    "doses": [
+     {
+      "dose_mg": 50.0,
+      "truth": "indeterminate",
+      "verdict": "indeterminate",
+      "tcr": {
+       "tcr_avg": 1.2,
+       "tcr_trough": 0.4
+      },
+      "model_tcr": {
+       "tcr_avg": 1.15,
+       "tcr_trough": 0.4
+      }
+     },
+     {
+      "dose_mg": 100.0,
+      "truth": "indeterminate",
+      "verdict": "indeterminate",
+      "tcr": {
+       "tcr_avg": 2.3,
+       "tcr_trough": 0.8
+      },
+      "model_tcr": {
+       "tcr_avg": 2.31,
+       "tcr_trough": 0.8
+      }
+     },
+     {
+      "dose_mg": 200.0,
+      "truth": "covered",
+      "verdict": "covered",
+      "tcr": {
+       "tcr_avg": 4.6,
+       "tcr_trough": 1.59
+      },
+      "model_tcr": {
+       "tcr_avg": 4.62,
+       "tcr_trough": 1.59
+      }
+     },
+     {
+      "dose_mg": 400.0,
+      "truth": "covered",
+      "verdict": "covered",
+      "tcr": {
+       "tcr_avg": 9.2,
+       "tcr_trough": 3.19
+      },
+      "model_tcr": {
+       "tcr_avg": 9.23,
+       "tcr_trough": 3.19
+      }
+     },
+     {
+      "dose_mg": 600.0,
+      "truth": "covered",
+      "verdict": "covered",
+      "tcr": {
+       "tcr_avg": 13.8,
+       "tcr_trough": 4.78
+      },
+      "model_tcr": {
+       "tcr_avg": 13.85,
+       "tcr_trough": 4.78
+      }
+     }
+    ]
+   }
+  ],
+  "B": [
+   {
+    "drug": "sotorasib",
+    "rep": 0,
+    "tokens": 3176,
+    "n_numbers": 9,
+    "n_unsourced": 0,
+    "unsourced": [],
+    "parse_error": false,
+    "doses": [
+     {
+      "dose_mg": 180.0,
+      "truth": "indeterminate",
+      "verdict": "indeterminate",
+      "tcr": {
+       "tcr_avg": 1.9,
+       "tcr_trough": 0.23
+      },
+      "model_tcr": {
+       "tcr_avg": 1.872,
+       "tcr_trough": 0.232
+      }
+     },
+     {
+      "dose_mg": 360.0,
+      "truth": "indeterminate",
+      "verdict": "indeterminate",
+      "tcr": {
+       "tcr_avg": 3.7,
+       "tcr_trough": 0.46
+      },
+      "model_tcr": {
+       "tcr_avg": 3.745,
+       "tcr_trough": 0.464
+      }
+     },
+     {
+      "dose_mg": 540.0,
+      "truth": "indeterminate",
+      "verdict": "indeterminate",
+      "tcr": {
+       "tcr_avg": 5.6,
+       "tcr_trough": 0.7
+      },
+      "model_tcr": {
+       "tcr_avg": 5.617,
+       "tcr_trough": 0.696
+      }
+     },
+     {
+      "dose_mg": 720.0,
+      "truth": "indeterminate",
+      "verdict": "indeterminate",
+      "tcr": {
+       "tcr_avg": 7.5,
+       "tcr_trough": 0.93
+      },
+      "model_tcr": {
+       "tcr_avg": 7.489,
+       "tcr_trough": 0.928
+      }
+     },
+     {
+      "dose_mg": 960.0,
+      "truth": "covered",
+      "verdict": "covered",
+      "tcr": {
+       "tcr_avg": 10.0,
+       "tcr_trough": 1.24
+      },
+      "model_tcr": {
+       "tcr_avg": 9.986,
+       "tcr_trough": 1.237
+      }
+     }
+    ]
+   },
+   {
+    "drug": "sotorasib",
+    "rep": 1,
+    "tokens": 3040,
+    "n_numbers": 10,
+    "n_unsourced": 1,
+    "unsourced": [
+     "ln(2), used in supplied elimination-rate equation=0.693147 (prior_knowledge)"
+    ],
+    "parse_error": false,
+    "doses": [
+     {
+      "dose_mg": 180.0,
+      "truth": "indeterminate",
+      "verdict": "indeterminate",
+      "tcr": {
+       "tcr_avg": 1.9,
+       "tcr_trough": 0.23
+      },
+      "model_tcr": {
+       "tcr_avg": 1.87,
+       "tcr_trough": 0.232
+      }
+     },
+     {
+      "dose_mg": 360.0,
+      "truth": "indeterminate",
+      "verdict": "indeterminate",
+      "tcr": {
+       "tcr_avg": 3.7,
+       "tcr_trough": 0.46
+      },
+      "model_tcr": {
+       "tcr_avg": 3.74,
+       "tcr_trough": 0.464
+      }
+     },
+     {
+      "dose_mg": 540.0,
+      "truth": "indeterminate",
+      "verdict": "indeterminate",
+      "tcr": {
+       "tcr_avg": 5.6,
+       "tcr_trough": 0.7
+      },
+      "model_tcr": {
+       "tcr_avg": 5.62,
+       "tcr_trough": 0.696
+      }
+     },
+     {
+      "dose_mg": 720.0,
+      "truth": "indeterminate",
+      "verdict": "indeterminate",
+      "tcr": {
+       "tcr_avg": 7.5,
+       "tcr_trough": 0.93
+      },
+      "model_tcr": {
+       "tcr_avg": 7.49,
+       "tcr_trough": 0.928
+      }
+     },
+     {
+      "dose_mg": 960.0,
+      "truth": "covered",
+      "verdict": "covered",
+      "tcr": {
+       "tcr_avg": 10.0,
+       "tcr_trough": 1.24
+      },
+      "model_tcr": {
+       "tcr_avg": 9.99,
+       "tcr_trough": 1.24
+      }
+     }
+    ]
+   },
+   {
+    "drug": "sotorasib",
+    "rep": 2,
+    "tokens": 3548,
+    "n_numbers": 10,
+    "n_unsourced": 0,
+    "unsourced": [],
+    "parse_error": false,
+    "doses": [
+     {
+      "dose_mg": 180.0,
+      "truth": "indeterminate",
+      "verdict": "indeterminate",
+      "tcr": {
+       "tcr_avg": 1.9,
+       "tcr_trough": 0.23
+      },
+      "model_tcr": {
+       "tcr_avg": 1.872,
+       "tcr_trough": 0.232
+      }
+     },
+     {
+      "dose_mg": 360.0,
+      "truth": "indeterminate",
+      "verdict": "indeterminate",
+      "tcr": {
+       "tcr_avg": 3.7,
+       "tcr_trough": 0.46
+      },
+      "model_tcr": {
+       "tcr_avg": 3.745,
+       "tcr_trough": 0.464
+      }
+     },
+     {
+      "dose_mg": 540.0,
+      "truth": "indeterminate",
+      "verdict": "indeterminate",
+      "tcr": {
+       "tcr_avg": 5.6,
+       "tcr_trough": 0.7
+      },
+      "model_tcr": {
+       "tcr_avg": 5.617,
+       "tcr_trough": 0.696
+      }
+     },
+     {
+      "dose_mg": 720.0,
+      "truth": "indeterminate",
+      "verdict": "indeterminate",
+      "tcr": {
+       "tcr_avg": 7.5,
+       "tcr_trough": 0.93
+      },
+      "model_tcr": {
+       "tcr_avg": 7.489,
+       "tcr_trough": 0.928
+      }
+     },
+     {
+      "dose_mg": 960.0,
+      "truth": "covered",
+      "verdict": "covered",
+      "tcr": {
+       "tcr_avg": 10.0,
+       "tcr_trough": 1.24
+      },
+      "model_tcr": {
+       "tcr_avg": 9.986,
+       "tcr_trough": 1.237
+      }
+     }
+    ]
+   },
+   {
+    "drug": "adagrasib",
+    "rep": 0,
+    "tokens": 3559,
+    "n_numbers": 11,
+    "n_unsourced": 7,
+    "unsourced": [
+     "CL/F=37.0 L/h; supplied separately in pk_inputs (assumption)",
+     "Half-life=23.0 h; supplied separately in pk_inputs (assumption)",
+     "Unbound fraction=0.02; supplied separately in pk_inputs (assumption)",
+     "Cellular IC50=10.0 nM; supplied separately in pk_inputs (assumption)",
+     "Molecular weight=604.13 g/mol; supplied separately in pk_inputs (assumption)",
+     "Steady-state concentration model=Linear one-compartment model and equations supplied in pk_inputs (assumption)",
+     "Natural logarithm of 2=Approximately 0.693147, for half-life conversion (prior_knowledge)"
+    ],
+    "parse_error": false,
+    "doses": [
+     {
+      "dose_mg": 150.0,
+      "truth": "indeterminate",
+      "verdict": "indeterminate",
+      "tcr": {
+       "tcr_avg": 1.1,
+       "tcr_trough": 0.93
+      },
+      "model_tcr": {
+       "tcr_avg": 1.118,
+       "tcr_trough": 0.928
+      }
+     },
+     {
+      "dose_mg": 300.0,
+      "truth": "covered",
+      "verdict": "covered",
+      "tcr": {
+       "tcr_avg": 2.2,
+       "tcr_trough": 1.86
+      },
+      "model_tcr": {
+       "tcr_avg": 2.237,
+       "tcr_trough": 1.857
+      }
+     },
+     {
+      "dose_mg": 400.0,
+      "truth": "covered",
+      "verdict": "covered",
+      "tcr": {
+       "tcr_avg": 3.0,
+       "tcr_trough": 2.48
+      },
+      "model_tcr": {
+       "tcr_avg": 2.982,
+       "tcr_trough": 2.475
+      }
+     },
+     {
+      "dose_mg": 600.0,
+      "truth": "covered",
+      "verdict": "covered",
+      "tcr": {
+       "tcr_avg": 4.5,
+       "tcr_trough": 3.71
+      },
+      "model_tcr": {
+       "tcr_avg": 4.474,
+       "tcr_trough": 3.713
+      }
+     }
+    ]
+   },
+   {
+    "drug": "adagrasib",
+    "rep": 1,
+    "tokens": 3840,
+    "n_numbers": 12,
+    "n_unsourced": 7,
+    "unsourced": [
+     "Apparent clearance (CL/F)=37.0 L/h; supplied in pk_inputs (assumption)",
+     "Elimination half-life=23.0 h; supplied in pk_inputs (assumption)",
+     "Unbound fraction=0.02; supplied in pk_inputs (assumption)",
+     "Cellular IC50=10.0 nM; supplied in pk_inputs (assumption)",
+     "Molecular weight=604.13 g/mol; supplied in pk_inputs (assumption)",
+     "Natural logarithm of 2=0.693147 (prior_knowledge)",
+     "Fraction remaining after one dosing interval, calculated=0.696532 (assumption)"
+    ],
+    "parse_error": false,
+    "doses": [
+     {
+      "dose_mg": 150.0,
+      "truth": "indeterminate",
+      "verdict": "indeterminate",
+      "tcr": {
+       "tcr_avg": 1.1,
+       "tcr_trough": 0.93
+      },
+      "model_tcr": {
+       "tcr_avg": 1.118,
+       "tcr_trough": 0.928
+      }
+     },
+     {
+      "dose_mg": 300.0,
+      "truth": "covered",
+      "verdict": "covered",
+      "tcr": {
+       "tcr_avg": 2.2,
+       "tcr_trough": 1.86
+      },
+      "model_tcr": {
+       "tcr_avg": 2.237,
+       "tcr_trough": 1.857
+      }
+     },
+     {
+      "dose_mg": 400.0,
+      "truth": "covered",
+      "verdict": "covered",
+      "tcr": {
+       "tcr_avg": 3.0,
+       "tcr_trough": 2.48
+      },
+      "model_tcr": {
+       "tcr_avg": 2.982,
+       "tcr_trough": 2.476
+      }
+     },
+     {
+      "dose_mg": 600.0,
+      "truth": "covered",
+      "verdict": "covered",
+      "tcr": {
+       "tcr_avg": 4.5,
+       "tcr_trough": 3.71
+      },
+      "model_tcr": {
+       "tcr_avg": 4.474,
+       "tcr_trough": 3.713
+      }
+     }
+    ]
+   },
+   {
+    "drug": "adagrasib",
+    "rep": 2,
+    "tokens": 3253,
+    "n_numbers": 10,
+    "n_unsourced": 1,
+    "unsourced": [
+     "ln(2), used to calculate the elimination rate constant=0.693147 (prior_knowledge)"
+    ],
+    "parse_error": false,
+    "doses": [
+     {
+      "dose_mg": 150.0,
+      "truth": "indeterminate",
+      "verdict": "indeterminate",
+      "tcr": {
+       "tcr_avg": 1.1,
+       "tcr_trough": 0.93
+      },
+      "model_tcr": {
+       "tcr_avg": 1.118,
+       "tcr_trough": 0.928
+      }
+     },
+     {
+      "dose_mg": 300.0,
+      "truth": "covered",
+      "verdict": "covered",
+      "tcr": {
+       "tcr_avg": 2.2,
+       "tcr_trough": 1.86
+      },
+      "model_tcr": {
+       "tcr_avg": 2.237,
+       "tcr_trough": 1.857
+      }
+     },
+     {
+      "dose_mg": 400.0,
+      "truth": "covered",
+      "verdict": "covered",
+      "tcr": {
+       "tcr_avg": 3.0,
+       "tcr_trough": 2.48
+      },
+      "model_tcr": {
+       "tcr_avg": 2.982,
+       "tcr_trough": 2.476
+      }
+     },
+     {
+      "dose_mg": 600.0,
+      "truth": "covered",
+      "verdict": "covered",
+      "tcr": {
+       "tcr_avg": 4.5,
+       "tcr_trough": 3.71
+      },
+      "model_tcr": {
+       "tcr_avg": 4.474,
+       "tcr_trough": 3.713
+      }
+     }
+    ]
+   },
+   {
+    "drug": "lorlatinib",
+    "rep": 0,
+    "tokens": 2815,
+    "n_numbers": 9,
+    "n_unsourced": 0,
+    "unsourced": [],
+    "parse_error": false,
+    "doses": [
+     {
+      "dose_mg": 25.0,
+      "truth": "covered",
+      "verdict": "covered",
+      "tcr": {
+       "tcr_avg": 5.4,
+       "tcr_trough": 3.73
+      },
+      "model_tcr": {
+       "tcr_avg": 5.379,
+       "tcr_trough": 3.729
+      }
+     },
+     {
+      "dose_mg": 50.0,
+      "truth": "covered",
+      "verdict": "covered",
+      "tcr": {
+       "tcr_avg": 10.8,
+       "tcr_trough": 7.46
+      },
+      "model_tcr": {
+       "tcr_avg": 10.758,
+       "tcr_trough": 7.457
+      }
+     },
+     {
+      "dose_mg": 75.0,
+      "truth": "covered",
+      "verdict": "covered",
+      "tcr": {
+       "tcr_avg": 16.1,
+       "tcr_trough": 11.19
+      },
+      "model_tcr": {
+       "tcr_avg": 16.138,
+       "tcr_trough": 11.186
+      }
+     },
+     {
+      "dose_mg": 100.0,
+      "truth": "covered",
+      "verdict": "covered",
+      "tcr": {
+       "tcr_avg": 21.5,
+       "tcr_trough": 14.91
+      },
+      "model_tcr": {
+       "tcr_avg": 21.517,
+       "tcr_trough": 14.914
+      }
+     },
+     {
+      "dose_mg": 150.0,
+      "truth": "covered",
+      "verdict": "covered",
+      "tcr": {
+       "tcr_avg": 32.3,
+       "tcr_trough": 22.37
+      },
+      "model_tcr": {
+       "tcr_avg": 32.275,
+       "tcr_trough": 22.371
+      }
+     },
+     {
+      "dose_mg": 200.0,
+      "truth": "covered",
+      "verdict": "covered",
+      "tcr": {
+       "tcr_avg": 43.0,
+       "tcr_trough": 29.83
+      },
+      "model_tcr": {
+       "tcr_avg": 43.033,
+       "tcr_trough": 29.829
+      }
+     }
+    ]
+   },
+   {
+    "drug": "lorlatinib",
+    "rep": 1,
+    "tokens": 3087,
+    "n_numbers": 9,
+    "n_unsourced": 0,
+    "unsourced": [],
+    "parse_error": false,
+    "doses": [
+     {
+      "dose_mg": 25.0,
+      "truth": "covered",
+      "verdict": "covered",
+      "tcr": {
+       "tcr_avg": 5.4,
+       "tcr_trough": 3.73
+      },
+      "model_tcr": {
+       "tcr_avg": 5.38,
+       "tcr_trough": 3.73
+      }
+     },
+     {
+      "dose_mg": 50.0,
+      "truth": "covered",
+      "verdict": "covered",
+      "tcr": {
+       "tcr_avg": 10.8,
+       "tcr_trough": 7.46
+      },
+      "model_tcr": {
+       "tcr_avg": 10.76,
+       "tcr_trough": 7.46
+      }
+     },
+     {
+      "dose_mg": 75.0,
+      "truth": "covered",
+      "verdict": "covered",
+      "tcr": {
+       "tcr_avg": 16.1,
+       "tcr_trough": 11.19
+      },
+      "model_tcr": {
+       "tcr_avg": 16.14,
+       "tcr_trough": 11.19
+      }
+     },
+     {
+      "dose_mg": 100.0,
+      "truth": "covered",
+      "verdict": "covered",
+      "tcr": {
+       "tcr_avg": 21.5,
+       "tcr_trough": 14.91
+      },
+      "model_tcr": {
+       "tcr_avg": 21.52,
+       "tcr_trough": 14.91
+      }
+     },
+     {
+      "dose_mg": 150.0,
+      "truth": "covered",
+      "verdict": "covered",
+      "tcr": {
+       "tcr_avg": 32.3,
+       "tcr_trough": 22.37
+      },
+      "model_tcr": {
+       "tcr_avg": 32.28,
+       "tcr_trough": 22.37
+      }
+     },
+     {
+      "dose_mg": 200.0,
+      "truth": "covered",
+      "verdict": "covered",
+      "tcr": {
+       "tcr_avg": 43.0,
+       "tcr_trough": 29.83
+      },
+      "model_tcr": {
+       "tcr_avg": 43.03,
+       "tcr_trough": 29.83
+      }
+     }
+    ]
+   },
+   {
+    "drug": "lorlatinib",
+    "rep": 2,
+    "tokens": 3368,
+    "n_numbers": 8,
+    "n_unsourced": 3,
+    "unsourced": [
+     "Unbound fraction, supplied PK input=0.34 (assumption)",
+     "Cellular IC50 (nM), supplied PK input=9.0 (assumption)",
+     "Molecular weight (g/mol), supplied PK input=406.421 (assumption)"
+    ],
+    "parse_error": false,
+    "doses": [
+     {
+      "dose_mg": 25.0,
+      "truth": "covered",
+      "verdict": "covered",
+      "tcr": {
+       "tcr_avg": 5.4,
+       "tcr_trough": 3.73
+      },
+      "model_tcr": {
+       "tcr_avg": 5.3792,
+       "tcr_trough": 3.7286
+      }
+     },
+     {
+      "dose_mg": 50.0,
+      "truth": "covered",
+      "verdict": "covered",
+      "tcr": {
+       "tcr_avg": 10.8,
+       "tcr_trough": 7.46
+      },
+      "model_tcr": {
+       "tcr_avg": 10.7584,
+       "tcr_trough": 7.4571
+      }
+     },
+     {
+      "dose_mg": 75.0,
+      "truth": "covered",
+      "verdict": "covered",
+      "tcr": {
+       "tcr_avg": 16.1,
+       "tcr_trough": 11.19
+      },
+      "model_tcr": {
+       "tcr_avg": 16.1376,
+       "tcr_trough": 11.1857
+      }
+     },
+     {
+      "dose_mg": 100.0,
+      "truth": "covered",
+      "verdict": "covered",
+      "tcr": {
+       "tcr_avg": 21.5,
+       "tcr_trough": 14.91
+      },
+      "model_tcr": {
+       "tcr_avg": 21.5167,
+       "tcr_trough": 14.9143
+      }
+     },
+     {
+      "dose_mg": 150.0,
+      "truth": "covered",
+      "verdict": "covered",
+      "tcr": {
+       "tcr_avg": 32.3,
+       "tcr_trough": 22.37
+      },
+      "model_tcr": {
+       "tcr_avg": 32.2751,
+       "tcr_trough": 22.3714
+      }
+     },
+     {
+      "dose_mg": 200.0,
+      "truth": "covered",
+      "verdict": "covered",
+      "tcr": {
+       "tcr_avg": 43.0,
+       "tcr_trough": 29.83
+      },
+      "model_tcr": {
+       "tcr_avg": 43.0335,
+       "tcr_trough": 29.8285
+      }
+     }
+    ]
+   },
+   {
+    "drug": "dv505",
+    "rep": 0,
+    "tokens": 3855,
+    "n_numbers": 11,
+    "n_unsourced": 2,
+    "unsourced": [
+     "Natural logarithm of 2=0.693147 (prior_knowledge)",
+     "mg/L-to-nM conversion numerator, divided by molecular weight=1000000 (prior_knowledge)"
+    ],
+    "parse_error": false,
+    "doses": [
+     {
+      "dose_mg": 50.0,
+      "truth": "indeterminate",
+      "verdict": "indeterminate",
+      "tcr": {
+       "tcr_avg": 1.2,
+       "tcr_trough": 0.4
+      },
+      "model_tcr": {
+       "tcr_avg": 1.154,
+       "tcr_trough": 0.399
+      }
+     },
+     {
+      "dose_mg": 100.0,
+      "truth": "indeterminate",
+      "verdict": "indeterminate",
+      "tcr": {
+       "tcr_avg": 2.3,
+       "tcr_trough": 0.8
+      },
+      "model_tcr": {
+       "tcr_avg": 2.308,
+       "tcr_trough": 0.797
+      }
+     },
+     {
+      "dose_mg": 200.0,
+      "truth": "covered",
+      "verdict": "covered",
+      "tcr": {
+       "tcr_avg": 4.6,
+       "tcr_trough": 1.59
+      },
+      "model_tcr": {
+       "tcr_avg": 4.615,
+       "tcr_trough": 1.594
+      }
+     },
+     {
+      "dose_mg": 400.0,
+      "truth": "covered",
+      "verdict": "covered",
+      "tcr": {
+       "tcr_avg": 9.2,
+       "tcr_trough": 3.19
+      },
+      "model_tcr": {
+       "tcr_avg": 9.23,
+       "tcr_trough": 3.189
+      }
+     },
+     {
+      "dose_mg": 600.0,
+      "truth": "covered",
+      "verdict": "covered",
+      "tcr": {
+       "tcr_avg": 13.8,
+       "tcr_trough": 4.78
+      },
+      "model_tcr": {
+       "tcr_avg": 13.845,
+       "tcr_trough": 4.783
+      }
+     }
+    ]
+   },
+   {
+    "drug": "dv505",
+    "rep": 1,
+    "tokens": 3149,
+    "n_numbers": 9,
+    "n_unsourced": 0,
+    "unsourced": [],
+    "parse_error": false,
+    "doses": [
+     {
+      "dose_mg": 50.0,
+      "truth": "indeterminate",
+      "verdict": "indeterminate",
+      "tcr": {
+       "tcr_avg": 1.2,
+       "tcr_trough": 0.4
+      },
+      "model_tcr": {
+       "tcr_avg": 1.154,
+       "tcr_trough": 0.399
+      }
+     },
+     {
+      "dose_mg": 100.0,
+      "truth": "indeterminate",
+      "verdict": "indeterminate",
+      "tcr": {
+       "tcr_avg": 2.3,
+       "tcr_trough": 0.8
+      },
+      "model_tcr": {
+       "tcr_avg": 2.308,
+       "tcr_trough": 0.797
+      }
+     },
+     {
+      "dose_mg": 200.0,
+      "truth": "covered",
+      "verdict": "covered",
+      "tcr": {
+       "tcr_avg": 4.6,
+       "tcr_trough": 1.59
+      },
+      "model_tcr": {
+       "tcr_avg": 4.615,
+       "tcr_trough": 1.595
+      }
+     },
+     {
+      "dose_mg": 400.0,
+      "truth": "covered",
+      "verdict": "covered",
+      "tcr": {
+       "tcr_avg": 9.2,
+       "tcr_trough": 3.19
+      },
+      "model_tcr": {
+       "tcr_avg": 9.23,
+       "tcr_trough": 3.189
+      }
+     },
+     {
+      "dose_mg": 600.0,
+      "truth": "covered",
+      "verdict": "covered",
+      "tcr": {
+       "tcr_avg": 13.8,
+       "tcr_trough": 4.78
+      },
+      "model_tcr": {
+       "tcr_avg": 13.845,
+       "tcr_trough": 4.784
+      }
+     }
+    ]
+   },
+   {
+    "drug": "dv505",
+    "rep": 2,
+    "tokens": 3353,
+    "n_numbers": 9,
+    "n_unsourced": 0,
+    "unsourced": [],
+    "parse_error": false,
+    "doses": [
+     {
+      "dose_mg": 50.0,
+      "truth": "indeterminate",
+      "verdict": "indeterminate",
+      "tcr": {
+       "tcr_avg": 1.2,
+       "tcr_trough": 0.4
+      },
+      "model_tcr": {
+       "tcr_avg": 1.154,
+       "tcr_trough": 0.399
+      }
+     },
+     {
+      "dose_mg": 100.0,
+      "truth": "indeterminate",
+      "verdict": "indeterminate",
+      "tcr": {
+       "tcr_avg": 2.3,
+       "tcr_trough": 0.8
+      },
+      "model_tcr": {
+       "tcr_avg": 2.308,
+       "tcr_trough": 0.797
+      }
+     },
+     {
+      "dose_mg": 200.0,
+      "truth": "covered",
+      "verdict": "covered",
+      "tcr": {
+       "tcr_avg": 4.6,
+       "tcr_trough": 1.59
+      },
+      "model_tcr": {
+       "tcr_avg": 4.615,
+       "tcr_trough": 1.595
+      }
+     },
+     {
+      "dose_mg": 400.0,
+      "truth": "covered",
+      "verdict": "covered",
+      "tcr": {
+       "tcr_avg": 9.2,
+       "tcr_trough": 3.19
+      },
+      "model_tcr": {
+       "tcr_avg": 9.23,
+       "tcr_trough": 3.189
+      }
+     },
+     {
+      "dose_mg": 600.0,
+      "truth": "covered",
+      "verdict": "covered",
+      "tcr": {
+       "tcr_avg": 13.8,
+       "tcr_trough": 4.78
+      },
+      "model_tcr": {
+       "tcr_avg": 13.845,
+       "tcr_trough": 4.784
+      }
+     }
+    ]
+   }
+  ]
+ }
+}
