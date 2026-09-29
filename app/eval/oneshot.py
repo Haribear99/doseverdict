@@ -22,7 +22,7 @@ KEYS = ("grounded_recall", "recall", "precision_proxy", "tokens")
 def mean_runs(cfgs: list[str]) -> dict[str, dict]:
     runs = [load(c) for c in cfgs]
     common = set.intersection(*(set(r) for r in runs))
-    return {cid: {k: sum(r[cid][k] for r in runs) / len(runs) for k in KEYS} for cid in common}
+    return {cid: {k: sum(r[cid][k] for r in runs) / len(runs) for k in KEYS} for cid in sorted(common)}   # 정렬 — set 순서가 실행마다 달라 부트스트랩이 흔들리지 않게
 
 
 def paired(base: dict, arm: dict, key: str, n_boot: int = 5000, seed: int = 0) -> tuple[float, float, float, int]:

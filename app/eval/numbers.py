@@ -180,6 +180,29 @@ def retro_lines() -> list[str]:
     return out
 
 
+def oneshot_lines() -> list[str]:
+    """강한 LLM 원샷 베이스라인(`app/eval/oneshot.py`, 사전 등록 `docs/oneshot_prereg.md`)."""
+    fp = ROOT / "app/eval/data/results/oneshot_compare.json"
+    if not fp.exists():
+        return ["(결과 없음)", ""]
+    r = json.loads(fp.read_text(encoding="utf-8"))
+    out = ["| 팔 | n | grounded 에이전트 / 팔 | 차이(팔−에이전트) [95% CI] | span 차이 | precision 차이 | 토큰/케이스 에이전트 / 팔 | 판정 |", "|---|---|---|---|---|---|---|---|"]
+    for name, a in r["arms"].items():
+        g, sp, pr = a["grounded_diff"], a["span_diff"], a["precision_diff"]
+        out.append(f"| {name} | {a['n']} | {a['grounded_agent']:.3f} / {a['grounded_arm']:.3f} | {g[0]:+.3f} [{g[1]:+.3f}, {g[2]:+.3f}] | {sp[0]:+.3f} [{sp[1]:+.3f}, {sp[2]:+.3f}] | "
+                   f"{pr[0]:+.3f} [{pr[1]:+.3f}, {pr[2]:+.3f}] | {a['tokens_agent']:,} / {a['tokens_arm']:,} | {a['verdict'] if name.startswith('oneshot') else '기술용(1회)'} |")
+    out += ["", "에이전트 = `lean_v3`+`lean_v3b` 케이스별 평균. 원샷 = gpt-6-sol 단일 호출(effort medium, 도구·검색·검증 없음, 문서 목록만) 2회 평균. "
+            "에이전트는 결함 출처 조항을 검색에서 뺀(hold-out) 조건이고 원샷은 모델 기억에 제한이 없어, 이 비교는 원샷에 유리한 쪽이다.", "",
+            "| 인용 충실도 | 인용문 | 원문 일치 | 비율(전체) | 검사 불가(본문 미색인 문서) | 비율(검사 가능분) |", "|---|---|---|---|---|---|"]
+    for cfg, q in r.get("quote_fidelity", {}).items():
+        out.append(f"| {cfg} | {q['n_quotes']} | {q['matched']} | {q['rate']} | {q['unknown_doc_id']} | {q['rate_checkable']} |")
+    qs, vg = r.get("post_hoc_quote_support") or {}, r.get("post_hoc_verifiable_grounded") or {}
+    if qs:
+        out += ["", f"- 사후: 원샷 인용문 검사 가능 {qs['checkable']}건 중 원문 일치 {qs['exact']}, 충실한 의역(NLI ≥ 0.7) {qs['nli_paraphrase']}, 뒷받침 없음 {qs['unsupported']}"
+                f"({qs['unsupported'] / max(1, qs['checkable']):.1%}). 뒷받침되는 인용만 인정한 원샷 grounded {vg.get('oneshot')}, 에이전트 대비 {vg.get('diff')}."]
+    return out + [""]
+
+
 def main() -> None:
     cfgs = [
         ("full", "09-11 본평가: Reviewer 3인"), ("lean", "09-11 기본: Reviewer 1인 + 재선택"),
@@ -198,6 +221,7 @@ def main() -> None:
              "", "## 1-1. 다약물 세트 약물별(`lean_mdrug3`, 최종 코드)", ""] + multidrug_lines() + [
              "", "## 1-2. 쌍대 비교(같은 케이스끼리)", ""] + pair_lines() + ["## 1-3. 반복 실행 평균 비교", ""] + mean_pair_lines() + [
              "## 1-4. 실사례 후향 검증(승인 전 1상 초록 → FDA 용량최적화 PMR/PMC, `retro.json`)", ""] + retro_lines() + [
+             "## 1-5. 강한 LLM 원샷 베이스라인(원 20, `oneshot_compare.json`)", ""] + oneshot_lines() + [
              "## 2. 소토라십 240 mg TCR (`evidence/tcr_240mg.json`)", "",
              "| 가정 | C_max | C_avg | C_trough | 판정 |", "|---|---|---|---|---|"]
     for r in tcr["rows"]:
