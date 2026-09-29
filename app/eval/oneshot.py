@@ -163,7 +163,8 @@ def post_hoc(agent: dict, out: dict) -> list[str]:
                                       for d in (f.get("cited_doc_ids") or [f.get("cited_doc_id") or ""]))]
         ex = sum(_support(f, bd, "exact") for f in chk)
         nl = sum(_support(f, bd, "nli") for f in chk)
-        fid[side] = {"quotes": len(allf), "checkable": len(chk), "exact": ex, "exact_or_nli": nl, "unsupported": len(chk) - nl}
+        kor = sum(1 for f in allf if len(_norm(f.get("guidance_quote") or "")) < 6)   # 한국어 등 문자열 판정 불가 → 검사 불가·grounded 불인정
+        fid[side] = {"quotes": len(allf), "checkable": len(chk), "exact": ex, "exact_or_nli": nl, "unsupported": len(chk) - nl, "non_latin_uncheckable": kor}
     # 에이전트가 근거로 붙인 규제 조항 인용문(evidence.quote)이 코퍼스 원문인가
     clause_texts = [_norm(t) for ts in bd.values() for t in ts]
     evq = [_norm(e.get("quote") or "") for run in runs["agent"] for _, _, ev in run for e in ev.values() if e.get("kind") == "regulatory_clause"]

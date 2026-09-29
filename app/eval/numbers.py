@@ -210,6 +210,7 @@ def oneshot_lines() -> list[str]:
         for k, lab in (("exact", "원문 일치만"), ("nli", "일치 또는 NLI 의역")):
             d = sy[k]["diff"]
             out.append(f"- 대칭 필터({lab}) grounded: 에이전트 {sy[k]['agent']:.3f}, 원샷 {sy[k]['oneshot']:.3f}, 차이(원샷 − 에이전트) {d[0]:+.3f} [{d[1]:+.3f}, {d[2]:+.3f}]")
+        out.append(f"- 한국어 등 문자열 판정 불가 인용: 에이전트 {fa.get('non_latin_uncheckable')}건, 원샷 {fo.get('non_latin_uncheckable')}건 — 검사 불가로 빼고 grounded에서 불인정(에이전트에 불리).")
         out.append("- NLI 의역 판정은 인용 문서의 가까운 조항 3개만 본다(임계 0.7, 결과를 본 뒤 정한 단일 설정). 판정 모델은 에이전트 검증기와 같다(에이전트에 유리).")
     return out + [""]
 

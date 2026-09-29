@@ -489,7 +489,7 @@ figcaption { font-size: 19px; color: var(--muted); line-height: 1.4; }
     <div class="col" style="flex:0.9; gap:18px">
       <div class="small" style="font-weight:600; color:var(--ink)">사후 · 근거 문장 원문 대조 (같은 판정기를 양쪽에)</div>
       <table class="tight" style="font-size:21px">
-        <thead><tr><th></th><th class="num">원문 일치</th><th class="num">일치 또는 NLI 의역</th></tr></thead>
+        <thead><tr><th></th><th class="num">원문 일치*</th><th class="num">일치 또는 NLI 의역</th></tr></thead>
         <tbody>
           <tr><td>에이전트</td><td class="num">94.2%</td><td class="num">97.6%</td></tr>
           <tr><td>원샷</td><td class="num">54.7%</td><td class="num">76.7%</td></tr>
@@ -502,7 +502,7 @@ figcaption { font-size: 19px; color: var(--muted); line-height: 1.4; }
           <tr><td>일치 또는 NLI 의역 인정</td><td class="num">−0.208 [−0.325, −0.096]</td></tr>
         </tbody>
       </table>
-      <p class="small">원샷 인용 84/360건은 인용 문서의 가까운 조항 3개로 확인되지 않았다.</p>
+      <p class="small">* 원문 일치 = 정규화 문자열 포함·6-gram 50% 이상·Jaccard ≥ 0.5. 원샷 인용 84/360건은 인용 문서의 가까운 조항 3개로 확인되지 않았다. 한국어 인용(에이전트의 식약처 안내서 인용 14건, 원샷 0건)은 문자열 판정이 안 돼 불인정 — 에이전트에 불리.</p>
       <div class="note"><strong>한계</strong> — 판정 NLI는 에이전트 검증기와 같은 모델·조항 3개·임계 0.7(사후 설정)이다. 에이전트에 유리하다.</div>
     </div>
   </div>
