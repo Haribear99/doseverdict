@@ -216,23 +216,26 @@ def oneshot_lines() -> list[str]:
 
 
 def abstain_lines() -> list[str]:
-    """기권 평가(`app/eval/abstain_eval.py`, 사전 등록 `docs/abstain_prereg.md`)."""
+    """기권 평가(`app/eval/abstain_eval.py`, 사전 등록 `docs/abstain_prereg.md`). A′는 사후 조건."""
     fp = ROOT / "app/eval/data/results/abstain.json"
     if not fp.exists():
         return ["(결과 없음)", ""]
     r = json.loads(fp.read_text(encoding="utf-8"))
     f = lambda s: f"{s['mean']:.3f} ({s['min']:.3f}–{s['max']:.3f})" if s else "—"
-    A, B = r["A"], r["B"]
-    out = [f"항목(약 × 용량군) {r['n_items']}개, 정답(도구 판정) {r['truth_counts']}. 원샷 = gpt-6-sol 단일 호출(effort medium, 도구 없음), 조건마다 약 4종 × 3회.", "",
-           "| 지표 | 조건 A(시놉시스만) | 조건 B(도구 입력·규칙 제공) |", "|---|---|---|",
-           f"| A-1 정답 indeterminate에서 확정 판정(1차) | {f(A['definite_on_indeterminate'])} | {f(B['definite_on_indeterminate'])} |",
-           f"| A-3 정답 covered에서 기권 | {f(A['abstain_on_covered'])} | {f(B['abstain_on_covered'])} |",
-           f"| B-2 도구 판정 일치율 | {f(A['agreement'])} | {f(B['agreement'])} |",
-           f"| A-2 입력에 없는 PK 수치 비율(조건 A만 해석) | {f(A['unsourced_number_rate'])} | {f(B['unsourced_number_rate'])} |",
-           f"| B-1 TCR_avg / TCR_trough 상대 오차 중앙값 | {A['median_rel_err_tcr_avg']} / {A['median_rel_err_tcr_trough']} | {B['median_rel_err_tcr_avg']} / {B['median_rel_err_tcr_trough']} |",
-           f"| 토큰 | {A['tokens_total']:,} | {B['tokens_total']:,} |", "",
-           "- 조건 A에서 원샷이 판정한 약은 프로토콜에 PK가 적힌 DV-505뿐이다(판정 범위 0.250, 오답 0). 라벨에만 PK가 있는 소토라십·아다그라십·로를라티닙은 모두 cannot_assess.",
-           "- 에이전트는 같은 도구 판정을 내므로 일치율은 정의상 1이다(순환성). 차이는 판정에 필요한 자료(라벨 PK·ChEMBL IC50)를 도구로 확보하느냐다.", ""]
+    A, B, M = r["A"], r["B"], r.get("A_mem") or {}
+    g = lambda k: f(M.get(k)) if M else "—"
+    out = [f"항목(약 × 용량군) {r['n_items']}개, 정답(도구 판정) {r['truth_counts']}. 원샷 = gpt-6-sol 단일 호출(effort medium, 도구 없음), 조건마다 약 4종 × 3회. 지시문에 기권 선택지(indeterminate·cannot_assess)와 그 정의를 줬다.", "",
+           "| 지표 | 조건 A(시놉시스만) | 조건 B(도구 입력·규칙 제공) | 사후 A′(시놉시스 + 기억·추정 권장) |", "|---|---|---|---|",
+           f"| A-1 정답 indeterminate에서 확정 판정(1차) | {f(A['definite_on_indeterminate'])} | {f(B['definite_on_indeterminate'])} | {g('definite_on_indeterminate')} |",
+           f"| A-3 정답 covered에서 기권 | {f(A['abstain_on_covered'])} | {f(B['abstain_on_covered'])} | {g('abstain_on_covered')} |",
+           f"| B-2 도구 판정 일치율 | {f(A['agreement'])} | {f(B['agreement'])} | {g('agreement')} |",
+           f"| A-2 입력에 없는 수치 비율(조건 A는 분자량 등 유도 수치) | {f(A['unsourced_number_rate'])} | {f(B['unsourced_number_rate'])} | {g('unsourced_number_rate')} |",
+           f"| B-1 TCR_avg / TCR_trough 상대 오차 중앙값 | {A['median_rel_err_tcr_avg']} / {A['median_rel_err_tcr_trough']} | {B['median_rel_err_tcr_avg']} / {B['median_rel_err_tcr_trough']} | {M.get('median_rel_err_tcr_avg')} / {M.get('median_rel_err_tcr_trough')} |",
+           f"| 토큰 | {A['tokens_total']:,} | {B['tokens_total']:,} | {M.get('tokens_total', 0):,} |", ""]
+    rep = (ROOT / "app/eval/data/results/ABSTAIN_REPORT.md").read_text(encoding="utf-8")
+    out += [l for l in rep.splitlines() if l.startswith("- 조건 ") or l.startswith("- 사후 A′")]
+    out += ["- 조건 A의 A-1 = 0 분해: 정답 indeterminate 7건 중 5건(소토라십 4, 아다그라십 150 mg)은 자료 부족으로 cannot_assess였고, 지표 의존을 인지해 멈춘 것은 DV-505 2건이다.",
+            "- 에이전트는 같은 도구 판정을 내므로 도구 일치율은 정의상 1이다(순환성). '도구 판정과 불일치'는 도구 모형(선형 1구획, ChEMBL 중앙값 IC50) 기준의 차이이지 실제 오답이라는 뜻이 아니다. 반복 간 일관성은 도구와 무관한 모델 내부 지표다.", ""]
     return out
 
 

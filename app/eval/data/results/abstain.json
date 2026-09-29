@@ -56,6 +56,32 @@
   "tokens_total": 40043,
   "parse_errors": 0
  },
+ "A_mem": {
+  "definite_on_indeterminate": {
+   "mean": 0.381,
+   "min": 0.143,
+   "max": 0.714
+  },
+  "abstain_on_covered": {
+   "mean": 0.231,
+   "min": 0.077,
+   "max": 0.385
+  },
+  "agreement": {
+   "mean": 0.717,
+   "min": 0.5,
+   "max": 0.85
+  },
+  "unsourced_number_rate": {
+   "mean": 0.336,
+   "min": 0.304,
+   "max": 0.356
+  },
+  "median_rel_err_tcr_avg": 0.51,
+  "median_rel_err_tcr_trough": 0.544,
+  "tokens_total": 44240,
+  "parse_errors": 0
+ },
  "runs": {
   "A": [
    {
@@ -1913,6 +1939,976 @@
       "model_tcr": {
        "tcr_avg": 13.845,
        "tcr_trough": 4.784
+      }
+     }
+    ]
+   }
+  ],
+  "A_mem": [
+   {
+    "drug": "sotorasib",
+    "rep": 0,
+    "tokens": 3478,
+    "n_numbers": 13,
+    "n_unsourced": 5,
+    "unsourced": [
+     "Reference steady-state total-plasma Cmax=7.50 µg/mL (prior_knowledge)",
+     "Reference steady-state total-plasma AUC over 24 hours=65.3 µg·h/mL (prior_knowledge)",
+     "Plasma protein binding and calculated unbound fraction=89% bound; 11% unbound (prior_knowledge)",
+     "Sotorasib molecular weight=560.6 g/mol (prior_knowledge)",
+     "Approximate elimination half-life=5 hours (prior_knowledge)"
+    ],
+    "parse_error": false,
+    "doses": [
+     {
+      "dose_mg": 180.0,
+      "truth": "indeterminate",
+      "verdict": "indeterminate",
+      "tcr": {
+       "tcr_avg": 1.9,
+       "tcr_trough": 0.23
+      },
+      "model_tcr": {
+       "tcr_avg": 3.34,
+       "tcr_trough": 0.38
+      }
+     },
+     {
+      "dose_mg": 360.0,
+      "truth": "indeterminate",
+      "verdict": "indeterminate",
+      "tcr": {
+       "tcr_avg": 3.7,
+       "tcr_trough": 0.46
+      },
+      "model_tcr": {
+       "tcr_avg": 6.67,
+       "tcr_trough": 0.76
+      }
+     },
+     {
+      "dose_mg": 540.0,
+      "truth": "indeterminate",
+      "verdict": "covered",
+      "tcr": {
+       "tcr_avg": 5.6,
+       "tcr_trough": 0.7
+      },
+      "model_tcr": {
+       "tcr_avg": 10.01,
+       "tcr_trough": 1.14
+      }
+     },
+     {
+      "dose_mg": 720.0,
+      "truth": "indeterminate",
+      "verdict": "covered",
+      "tcr": {
+       "tcr_avg": 7.5,
+       "tcr_trough": 0.93
+      },
+      "model_tcr": {
+       "tcr_avg": 13.34,
+       "tcr_trough": 1.52
+      }
+     },
+     {
+      "dose_mg": 960.0,
+      "truth": "covered",
+      "verdict": "covered",
+      "tcr": {
+       "tcr_avg": 10.0,
+       "tcr_trough": 1.24
+      },
+      "model_tcr": {
+       "tcr_avg": 17.79,
+       "tcr_trough": 2.02
+      }
+     }
+    ]
+   },
+   {
+    "drug": "sotorasib",
+    "rep": 1,
+    "tokens": 3828,
+    "n_numbers": 13,
+    "n_unsourced": 5,
+    "unsourced": [
+     "Reference steady-state Cmax at 960 mg=7.50 µg/mL (prior_knowledge)",
+     "Reference steady-state AUC over 24 hours at 960 mg=65.3 µg·h/mL (prior_knowledge)",
+     "Plasma protein binding and corresponding free fraction=89% bound; 0.11 free (prior_knowledge)",
+     "Sotorasib molecular weight=560.6 g/mol (prior_knowledge)",
+     "Approximate elimination half-life=5 hours (prior_knowledge)"
+    ],
+    "parse_error": false,
+    "doses": [
+     {
+      "dose_mg": 180.0,
+      "truth": "indeterminate",
+      "verdict": "covered",
+      "tcr": {
+       "tcr_avg": 1.9,
+       "tcr_trough": 0.23
+      },
+      "model_tcr": {
+       "tcr_avg": 38.5,
+       "tcr_trough": 4.4
+      }
+     },
+     {
+      "dose_mg": 360.0,
+      "truth": "indeterminate",
+      "verdict": "covered",
+      "tcr": {
+       "tcr_avg": 3.7,
+       "tcr_trough": 0.46
+      },
+      "model_tcr": {
+       "tcr_avg": 54.5,
+       "tcr_trough": 6.2
+      }
+     },
+     {
+      "dose_mg": 540.0,
+      "truth": "indeterminate",
+      "verdict": "covered",
+      "tcr": {
+       "tcr_avg": 5.6,
+       "tcr_trough": 0.7
+      },
+      "model_tcr": {
+       "tcr_avg": 66.7,
+       "tcr_trough": 7.6
+      }
+     },
+     {
+      "dose_mg": 720.0,
+      "truth": "indeterminate",
+      "verdict": "covered",
+      "tcr": {
+       "tcr_avg": 7.5,
+       "tcr_trough": 0.93
+      },
+      "model_tcr": {
+       "tcr_avg": 77.1,
+       "tcr_trough": 8.8
+      }
+     },
+     {
+      "dose_mg": 960.0,
+      "truth": "covered",
+      "verdict": "covered",
+      "tcr": {
+       "tcr_avg": 10.0,
+       "tcr_trough": 1.24
+      },
+      "model_tcr": {
+       "tcr_avg": 89.0,
+       "tcr_trough": 10.1
+      }
+     }
+    ]
+   },
+   {
+    "drug": "sotorasib",
+    "rep": 2,
+    "tokens": 3700,
+    "n_numbers": 12,
+    "n_unsourced": 5,
+    "unsourced": [
+     "Reference steady-state total-plasma Cmax=7.50 µg/mL (prior_knowledge)",
+     "Reference steady-state total-plasma AUC over 24 h=65.3 µg·h/mL (prior_knowledge)",
+     "Sotorasib plasma protein binding=89% bound; 11% free (prior_knowledge)",
+     "Sotorasib molecular weight=560.6 g/mol (prior_knowledge)",
+     "Cellular IC50 used for this estimate=0.09 µM (assumption)"
+    ],
+    "parse_error": false,
+    "doses": [
+     {
+      "dose_mg": 180.0,
+      "truth": "indeterminate",
+      "verdict": "indeterminate",
+      "tcr": {
+       "tcr_avg": 1.9,
+       "tcr_trough": 0.23
+      },
+      "model_tcr": {
+       "tcr_avg": 1.11,
+       "tcr_trough": 0.13
+      }
+     },
+     {
+      "dose_mg": 360.0,
+      "truth": "indeterminate",
+      "verdict": "indeterminate",
+      "tcr": {
+       "tcr_avg": 3.7,
+       "tcr_trough": 0.46
+      },
+      "model_tcr": {
+       "tcr_avg": 2.23,
+       "tcr_trough": 0.27
+      }
+     },
+     {
+      "dose_mg": 540.0,
+      "truth": "indeterminate",
+      "verdict": "indeterminate",
+      "tcr": {
+       "tcr_avg": 5.6,
+       "tcr_trough": 0.7
+      },
+      "model_tcr": {
+       "tcr_avg": 3.34,
+       "tcr_trough": 0.4
+      }
+     },
+     {
+      "dose_mg": 720.0,
+      "truth": "indeterminate",
+      "verdict": "indeterminate",
+      "tcr": {
+       "tcr_avg": 7.5,
+       "tcr_trough": 0.93
+      },
+      "model_tcr": {
+       "tcr_avg": 4.46,
+       "tcr_trough": 0.54
+      }
+     },
+     {
+      "dose_mg": 960.0,
+      "truth": "covered",
+      "verdict": "indeterminate",
+      "tcr": {
+       "tcr_avg": 10.0,
+       "tcr_trough": 1.24
+      },
+      "model_tcr": {
+       "tcr_avg": 5.93,
+       "tcr_trough": 0.67
+      }
+     }
+    ]
+   },
+   {
+    "drug": "adagrasib",
+    "rep": 0,
+    "tokens": 3541,
+    "n_numbers": 11,
+    "n_unsourced": 5,
+    "unsourced": [
+     "Adagrasib steady-state Cmax at 600 mg twice daily=approximately 2.5 mg/L (prior_knowledge)",
+     "Adagrasib steady-state AUC over a dosing interval at 600 mg twice daily=approximately 19.3 mg·h/L (prior_knowledge)",
+     "Adagrasib molecular weight=approximately 604.1 g/mol (prior_knowledge)",
+     "Free fraction in plasma=0.02 (approximately 98% protein bound) (prior_knowledge)",
+     "Estimated cellular KRAS G12C IC50=10 nM; assay- and cell-line-dependent (assumption)"
+    ],
+    "parse_error": false,
+    "doses": [
+     {
+      "dose_mg": 150.0,
+      "truth": "indeterminate",
+      "verdict": "indeterminate",
+      "tcr": {
+       "tcr_avg": 1.1,
+       "tcr_trough": 0.93
+      },
+      "model_tcr": {
+       "tcr_avg": 1.33,
+       "tcr_trough": 0.83
+      }
+     },
+     {
+      "dose_mg": 300.0,
+      "truth": "covered",
+      "verdict": "covered",
+      "tcr": {
+       "tcr_avg": 2.2,
+       "tcr_trough": 1.86
+      },
+      "model_tcr": {
+       "tcr_avg": 2.66,
+       "tcr_trough": 1.66
+      }
+     },
+     {
+      "dose_mg": 400.0,
+      "truth": "covered",
+      "verdict": "covered",
+      "tcr": {
+       "tcr_avg": 3.0,
+       "tcr_trough": 2.48
+      },
+      "model_tcr": {
+       "tcr_avg": 3.55,
+       "tcr_trough": 2.21
+      }
+     },
+     {
+      "dose_mg": 600.0,
+      "truth": "covered",
+      "verdict": "covered",
+      "tcr": {
+       "tcr_avg": 4.5,
+       "tcr_trough": 3.71
+      },
+      "model_tcr": {
+       "tcr_avg": 5.32,
+       "tcr_trough": 3.31
+      }
+     }
+    ]
+   },
+   {
+    "drug": "adagrasib",
+    "rep": 1,
+    "tokens": 3176,
+    "n_numbers": 13,
+    "n_unsourced": 6,
+    "unsourced": [
+     "Approximate steady-state Cmax at 600 mg twice daily=4.3 µg/mL (prior_knowledge)",
+     "Approximate steady-state AUC over the dosing interval at 600 mg twice daily=30.1 µg·h/mL (prior_knowledge)",
+     "Approximate unbound plasma fraction=0.017 (1.7%) (prior_knowledge)",
+     "Adagrasib molecular weight=604.1 g/mol (prior_knowledge)",
+     "Representative cellular IC50; cell-line-dependent estimate, not specified in the protocol=50 nM (assumption)",
+     "Estimated steady-state total trough at 600 mg twice daily; not supplied by the protocol=1.5 µg/mL (assumption)"
+    ],
+    "parse_error": false,
+    "doses": [
+     {
+      "dose_mg": 150.0,
+      "truth": "indeterminate",
+      "verdict": "not_covered",
+      "tcr": {
+       "tcr_avg": 1.1,
+       "tcr_trough": 0.93
+      },
+      "model_tcr": {
+       "tcr_avg": 0.35,
+       "tcr_trough": 0.21
+      }
+     },
+     {
+      "dose_mg": 300.0,
+      "truth": "covered",
+      "verdict": "indeterminate",
+      "tcr": {
+       "tcr_avg": 2.2,
+       "tcr_trough": 1.86
+      },
+      "model_tcr": {
+       "tcr_avg": 0.71,
+       "tcr_trough": 0.42
+      }
+     },
+     {
+      "dose_mg": 400.0,
+      "truth": "covered",
+      "verdict": "indeterminate",
+      "tcr": {
+       "tcr_avg": 3.0,
+       "tcr_trough": 2.48
+      },
+      "model_tcr": {
+       "tcr_avg": 0.94,
+       "tcr_trough": 0.56
+      }
+     },
+     {
+      "dose_mg": 600.0,
+      "truth": "covered",
+      "verdict": "indeterminate",
+      "tcr": {
+       "tcr_avg": 4.5,
+       "tcr_trough": 3.71
+      },
+      "model_tcr": {
+       "tcr_avg": 1.41,
+       "tcr_trough": 0.84
+      }
+     }
+    ]
+   },
+   {
+    "drug": "adagrasib",
+    "rep": 2,
+    "tokens": 3769,
+    "n_numbers": 11,
+    "n_unsourced": 4,
+    "unsourced": [
+     "Approximate adagrasib steady-state Cmax at 600 mg twice daily=2.1 µg/mL (prior_knowledge)",
+     "Approximate adagrasib steady-state AUC over 12 hours at 600 mg twice daily=17.5 µg·h/mL (prior_knowledge)",
+     "Approximate plasma protein binding and resulting free fraction=98.2% bound; 0.018 free fraction (prior_knowledge)",
+     "Adagrasib molecular weight=604.1 g/mol (prior_knowledge)"
+    ],
+    "parse_error": false,
+    "doses": [
+     {
+      "dose_mg": 150.0,
+      "truth": "indeterminate",
+      "verdict": "not_covered",
+      "tcr": {
+       "tcr_avg": 1.1,
+       "tcr_trough": 0.93
+      },
+      "model_tcr": {
+       "tcr_avg": 0.43,
+       "tcr_trough": 0.3
+      }
+     },
+     {
+      "dose_mg": 300.0,
+      "truth": "covered",
+      "verdict": "indeterminate",
+      "tcr": {
+       "tcr_avg": 2.2,
+       "tcr_trough": 1.86
+      },
+      "model_tcr": {
+       "tcr_avg": 0.87,
+       "tcr_trough": 0.6
+      }
+     },
+     {
+      "dose_mg": 400.0,
+      "truth": "covered",
+      "verdict": "indeterminate",
+      "tcr": {
+       "tcr_avg": 3.0,
+       "tcr_trough": 2.48
+      },
+      "model_tcr": {
+       "tcr_avg": 1.16,
+       "tcr_trough": 0.79
+      }
+     },
+     {
+      "dose_mg": 600.0,
+      "truth": "covered",
+      "verdict": "covered",
+      "tcr": {
+       "tcr_avg": 4.5,
+       "tcr_trough": 3.71
+      },
+      "model_tcr": {
+       "tcr_avg": 1.74,
+       "tcr_trough": 1.19
+      }
+     }
+    ]
+   },
+   {
+    "drug": "lorlatinib",
+    "rep": 0,
+    "tokens": 3916,
+    "n_numbers": 11,
+    "n_unsourced": 4,
+    "unsourced": [
+     "Approximate steady-state Cmax at reference dose, ng/mL=577 (prior_knowledge)",
+     "Approximate steady-state AUC over the dosing interval at reference dose, ng·h/mL=5650 (prior_knowledge)",
+     "Lorlatinib unbound plasma fraction=0.34 (prior_knowledge)",
+     "Lorlatinib molecular weight, g/mol=406.41 (prior_knowledge)"
+    ],
+    "parse_error": false,
+    "doses": [
+     {
+      "dose_mg": 25.0,
+      "truth": "covered",
+      "verdict": "indeterminate",
+      "tcr": {
+       "tcr_avg": 5.4,
+       "tcr_trough": 3.73
+      },
+      "model_tcr": {
+       "tcr_avg": 1.64,
+       "tcr_trough": 0.7
+      }
+     },
+     {
+      "dose_mg": 50.0,
+      "truth": "covered",
+      "verdict": "covered",
+      "tcr": {
+       "tcr_avg": 10.8,
+       "tcr_trough": 7.46
+      },
+      "model_tcr": {
+       "tcr_avg": 3.28,
+       "tcr_trough": 1.39
+      }
+     },
+     {
+      "dose_mg": 75.0,
+      "truth": "covered",
+      "verdict": "covered",
+      "tcr": {
+       "tcr_avg": 16.1,
+       "tcr_trough": 11.19
+      },
+      "model_tcr": {
+       "tcr_avg": 4.92,
+       "tcr_trough": 2.09
+      }
+     },
+     {
+      "dose_mg": 100.0,
+      "truth": "covered",
+      "verdict": "covered",
+      "tcr": {
+       "tcr_avg": 21.5,
+       "tcr_trough": 14.91
+      },
+      "model_tcr": {
+       "tcr_avg": 6.56,
+       "tcr_trough": 2.79
+      }
+     },
+     {
+      "dose_mg": 150.0,
+      "truth": "covered",
+      "verdict": "covered",
+      "tcr": {
+       "tcr_avg": 32.3,
+       "tcr_trough": 22.37
+      },
+      "model_tcr": {
+       "tcr_avg": 9.85,
+       "tcr_trough": 4.18
+      }
+     },
+     {
+      "dose_mg": 200.0,
+      "truth": "covered",
+      "verdict": "covered",
+      "tcr": {
+       "tcr_avg": 43.0,
+       "tcr_trough": 29.83
+      },
+      "model_tcr": {
+       "tcr_avg": 13.13,
+       "tcr_trough": 5.58
+      }
+     }
+    ]
+   },
+   {
+    "drug": "lorlatinib",
+    "rep": 1,
+    "tokens": 3750,
+    "n_numbers": 10,
+    "n_unsourced": 5,
+    "unsourced": [
+     "Approximate steady-state Cmax at reference dose=605 ng/mL (prior_knowledge)",
+     "Approximate steady-state AUC over dosing interval at reference dose=5410 ng·h/mL (prior_knowledge)",
+     "Unbound plasma fraction=0.34 (prior_knowledge)",
+     "Lorlatinib molecular weight=406.41 g/mol (prior_knowledge)",
+     "Illustrative cellular ALK IC50 for a resistant variant=80 nM (assumption)"
+    ],
+    "parse_error": false,
+    "doses": [
+     {
+      "dose_mg": 25.0,
+      "truth": "covered",
+      "verdict": "indeterminate",
+      "tcr": {
+       "tcr_avg": 5.4,
+       "tcr_trough": 3.73
+      },
+      "model_tcr": {
+       "tcr_avg": 0.59,
+       "tcr_trough": 0.39
+      }
+     },
+     {
+      "dose_mg": 50.0,
+      "truth": "covered",
+      "verdict": "indeterminate",
+      "tcr": {
+       "tcr_avg": 10.8,
+       "tcr_trough": 7.46
+      },
+      "model_tcr": {
+       "tcr_avg": 1.18,
+       "tcr_trough": 0.78
+      }
+     },
+     {
+      "dose_mg": 75.0,
+      "truth": "covered",
+      "verdict": "covered",
+      "tcr": {
+       "tcr_avg": 16.1,
+       "tcr_trough": 11.19
+      },
+      "model_tcr": {
+       "tcr_avg": 1.77,
+       "tcr_trough": 1.18
+      }
+     },
+     {
+      "dose_mg": 100.0,
+      "truth": "covered",
+      "verdict": "covered",
+      "tcr": {
+       "tcr_avg": 21.5,
+       "tcr_trough": 14.91
+      },
+      "model_tcr": {
+       "tcr_avg": 2.36,
+       "tcr_trough": 1.57
+      }
+     },
+     {
+      "dose_mg": 150.0,
+      "truth": "covered",
+      "verdict": "covered",
+      "tcr": {
+       "tcr_avg": 32.3,
+       "tcr_trough": 22.37
+      },
+      "model_tcr": {
+       "tcr_avg": 3.54,
+       "tcr_trough": 2.35
+      }
+     },
+     {
+      "dose_mg": 200.0,
+      "truth": "covered",
+      "verdict": "covered",
+      "tcr": {
+       "tcr_avg": 43.0,
+       "tcr_trough": 29.83
+      },
+      "model_tcr": {
+       "tcr_avg": 4.72,
+       "tcr_trough": 3.14
+      }
+     }
+    ]
+   },
+   {
+    "drug": "lorlatinib",
+    "rep": 2,
+    "tokens": 3573,
+    "n_numbers": 12,
+    "n_unsourced": 6,
+    "unsourced": [
+     "Approximate steady-state Cmax at reference dose (ng/mL)=577 (prior_knowledge)",
+     "Approximate steady-state AUC over 24 hours at reference dose (ng·h/mL)=5650 (prior_knowledge)",
+     "Unbound plasma fraction=0.34 (prior_knowledge)",
+     "Lorlatinib molecular weight (g/mol)=406.41 (prior_knowledge)",
+     "Representative cellular ALK IC50 (nM)=10 (assumption)",
+     "Concentration conversion factor from ng/mL to ng/L=1000 (assumption)"
+    ],
+    "parse_error": false,
+    "doses": [
+     {
+      "dose_mg": 25.0,
+      "truth": "covered",
+      "verdict": "covered",
+      "tcr": {
+       "tcr_avg": 5.4,
+       "tcr_trough": 3.73
+      },
+      "model_tcr": {
+       "tcr_avg": 4.92,
+       "tcr_trough": 2.09
+      }
+     },
+     {
+      "dose_mg": 50.0,
+      "truth": "covered",
+      "verdict": "covered",
+      "tcr": {
+       "tcr_avg": 10.8,
+       "tcr_trough": 7.46
+      },
+      "model_tcr": {
+       "tcr_avg": 9.85,
+       "tcr_trough": 4.18
+      }
+     },
+     {
+      "dose_mg": 75.0,
+      "truth": "covered",
+      "verdict": "covered",
+      "tcr": {
+       "tcr_avg": 16.1,
+       "tcr_trough": 11.19
+      },
+      "model_tcr": {
+       "tcr_avg": 14.77,
+       "tcr_trough": 6.27
+      }
+     },
+     {
+      "dose_mg": 100.0,
+      "truth": "covered",
+      "verdict": "covered",
+      "tcr": {
+       "tcr_avg": 21.5,
+       "tcr_trough": 14.91
+      },
+      "model_tcr": {
+       "tcr_avg": 19.69,
+       "tcr_trough": 8.37
+      }
+     },
+     {
+      "dose_mg": 150.0,
+      "truth": "covered",
+      "verdict": "covered",
+      "tcr": {
+       "tcr_avg": 32.3,
+       "tcr_trough": 22.37
+      },
+      "model_tcr": {
+       "tcr_avg": 29.54,
+       "tcr_trough": 12.55
+      }
+     },
+     {
+      "dose_mg": 200.0,
+      "truth": "covered",
+      "verdict": "covered",
+      "tcr": {
+       "tcr_avg": 43.0,
+       "tcr_trough": 29.83
+      },
+      "model_tcr": {
+       "tcr_avg": 39.39,
+       "tcr_trough": 16.73
+      }
+     }
+    ]
+   },
+   {
+    "drug": "dv505",
+    "rep": 0,
+    "tokens": 4063,
+    "n_numbers": 11,
+    "n_unsourced": 0,
+    "unsourced": [],
+    "parse_error": false,
+    "doses": [
+     {
+      "dose_mg": 50.0,
+      "truth": "indeterminate",
+      "verdict": "indeterminate",
+      "tcr": {
+       "tcr_avg": 1.2,
+       "tcr_trough": 0.4
+      },
+      "model_tcr": {
+       "tcr_avg": 1.15,
+       "tcr_trough": 0.43
+      }
+     },
+     {
+      "dose_mg": 100.0,
+      "truth": "indeterminate",
+      "verdict": "indeterminate",
+      "tcr": {
+       "tcr_avg": 2.3,
+       "tcr_trough": 0.8
+      },
+      "model_tcr": {
+       "tcr_avg": 2.31,
+       "tcr_trough": 0.86
+      }
+     },
+     {
+      "dose_mg": 200.0,
+      "truth": "covered",
+      "verdict": "covered",
+      "tcr": {
+       "tcr_avg": 4.6,
+       "tcr_trough": 1.59
+      },
+      "model_tcr": {
+       "tcr_avg": 4.62,
+       "tcr_trough": 1.73
+      }
+     },
+     {
+      "dose_mg": 400.0,
+      "truth": "covered",
+      "verdict": "covered",
+      "tcr": {
+       "tcr_avg": 9.2,
+       "tcr_trough": 3.19
+      },
+      "model_tcr": {
+       "tcr_avg": 9.23,
+       "tcr_trough": 3.46
+      }
+     },
+     {
+      "dose_mg": 600.0,
+      "truth": "covered",
+      "verdict": "covered",
+      "tcr": {
+       "tcr_avg": 13.8,
+       "tcr_trough": 4.78
+      },
+      "model_tcr": {
+       "tcr_avg": 13.85,
+       "tcr_trough": 5.18
+      }
+     }
+    ]
+   },
+   {
+    "drug": "dv505",
+    "rep": 1,
+    "tokens": 3788,
+    "n_numbers": 9,
+    "n_unsourced": 0,
+    "unsourced": [],
+    "parse_error": false,
+    "doses": [
+     {
+      "dose_mg": 50.0,
+      "truth": "indeterminate",
+      "verdict": "indeterminate",
+      "tcr": {
+       "tcr_avg": 1.2,
+       "tcr_trough": 0.4
+      },
+      "model_tcr": {
+       "tcr_avg": 1.15,
+       "tcr_trough": 0.4
+      }
+     },
+     {
+      "dose_mg": 100.0,
+      "truth": "indeterminate",
+      "verdict": "indeterminate",
+      "tcr": {
+       "tcr_avg": 2.3,
+       "tcr_trough": 0.8
+      },
+      "model_tcr": {
+       "tcr_avg": 2.31,
+       "tcr_trough": 0.8
+      }
+     },
+     {
+      "dose_mg": 200.0,
+      "truth": "covered",
+      "verdict": "covered",
+      "tcr": {
+       "tcr_avg": 4.6,
+       "tcr_trough": 1.59
+      },
+      "model_tcr": {
+       "tcr_avg": 4.62,
+       "tcr_trough": 1.59
+      }
+     },
+     {
+      "dose_mg": 400.0,
+      "truth": "covered",
+      "verdict": "covered",
+      "tcr": {
+       "tcr_avg": 9.2,
+       "tcr_trough": 3.19
+      },
+      "model_tcr": {
+       "tcr_avg": 9.23,
+       "tcr_trough": 3.19
+      }
+     },
+     {
+      "dose_mg": 600.0,
+      "truth": "covered",
+      "verdict": "covered",
+      "tcr": {
+       "tcr_avg": 13.8,
+       "tcr_trough": 4.78
+      },
+      "model_tcr": {
+       "tcr_avg": 13.85,
+       "tcr_trough": 4.78
+      }
+     }
+    ]
+   },
+   {
+    "drug": "dv505",
+    "rep": 2,
+    "tokens": 3658,
+    "n_numbers": 11,
+    "n_unsourced": 1,
+    "unsourced": [
+     "Unbound plasma fraction=0.06, calculated from protein binding (assumption)"
+    ],
+    "parse_error": false,
+    "doses": [
+     {
+      "dose_mg": 50.0,
+      "truth": "indeterminate",
+      "verdict": "indeterminate",
+      "tcr": {
+       "tcr_avg": 1.2,
+       "tcr_trough": 0.4
+      },
+      "model_tcr": {
+       "tcr_avg": 1.15,
+       "tcr_trough": 0.4
+      }
+     },
+     {
+      "dose_mg": 100.0,
+      "truth": "indeterminate",
+      "verdict": "indeterminate",
+      "tcr": {
+       "tcr_avg": 2.3,
+       "tcr_trough": 0.8
+      },
+      "model_tcr": {
+       "tcr_avg": 2.31,
+       "tcr_trough": 0.8
+      }
+     },
+     {
+      "dose_mg": 200.0,
+      "truth": "covered",
+      "verdict": "covered",
+      "tcr": {
+       "tcr_avg": 4.6,
+       "tcr_trough": 1.59
+      },
+      "model_tcr": {
+       "tcr_avg": 4.62,
+       "tcr_trough": 1.59
+      }
+     },
+     {
+      "dose_mg": 400.0,
+      "truth": "covered",
+      "verdict": "covered",
+      "tcr": {
+       "tcr_avg": 9.2,
+       "tcr_trough": 3.19
+      },
+      "model_tcr": {
+       "tcr_avg": 9.23,
+       "tcr_trough": 3.19
+      }
+     },
+     {
+      "dose_mg": 600.0,
+      "truth": "covered",
+      "verdict": "covered",
+      "tcr": {
+       "tcr_avg": 13.8,
+       "tcr_trough": 4.78
+      },
+      "model_tcr": {
+       "tcr_avg": 13.85,
+       "tcr_trough": 4.78
       }
      }
     ]

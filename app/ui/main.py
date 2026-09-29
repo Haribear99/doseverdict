@@ -306,8 +306,13 @@ def render_abstain() -> None:
     st.table([{"지표": "판정 보류가 정답인 용량군에서 확정 판정(1차)", "A": f"{A['definite_on_indeterminate']['mean']:.3f}", "B": f"{B['definite_on_indeterminate']['mean']:.3f}"},
               {"지표": "커버가 정답인 용량군에서 판단 보류", "A": f"{A['abstain_on_covered']['mean']:.3f}", "B": f"{B['abstain_on_covered']['mean']:.3f}"},
               {"지표": "도구 판정 일치율", "A": f"{A['agreement']['mean']:.3f}", "B": f"{B['agreement']['mean']:.3f}"}])
-    st.caption("같은 모델도 결론을 지어내지 않고, 입력이 주어지면 도구만큼 계산한다. 차이는 자료다 — 시놉시스만으로는 PK가 라벨에만 있는 약 3종을 판정하지 못했고, "
-               "에이전트는 라벨 PK·ChEMBL IC50을 도구로 확보한다. 정답을 같은 도구로 만들어 에이전트 일치율은 정의상 1이다(순환성).")
+    M = res.get("A_mem") or {}
+    cap = ("지시문에 기권 선택지를 준 조건에서, 같은 모델은 자료가 없으면 멈췄다(PK가 라벨에만 있는 약 3종은 판정 불가). "
+           "정답을 같은 도구로 만들어 에이전트 일치율은 정의상 1이다(순환성) — 에이전트와의 정확도 비교가 아니다.")
+    if M:
+        cap += (f" 사후 조건 A′(기억·추정 권장)에서는 모두 판정했지만 도구 판정 일치율 {M['agreement']['mean']:.3f}, "
+                f"라벨에만 PK가 있는 약에서 같은 질문 3회의 판정이 일치하지 않는 경우가 많았다(ABSTAIN_REPORT 사후 절).")
+    st.caption(cap)
 
 
 def init_state():

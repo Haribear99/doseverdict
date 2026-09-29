@@ -65,6 +65,28 @@ def prompt(it: dict, cond: str) -> str:
     return p
 
 
+INSTR_MEM = INSTR + (" If a needed value is not in the protocol, use your best knowledge of this drug (e.g. published label or literature values) or a reasonable "
+                    "estimate, and mark its source; prefer giving a verdict over 'cannot_assess' when you can reasonably estimate the inputs.")
+
+
+def run_memory() -> None:
+    """사후 조건 A′(red-judge 3차 제안, 사전 등록 밖): 시놉시스만 주되 기억·추정 사용을 권장한다.
+    조건 A에서 모델이 라벨 PK를 채우지 않은 것이 기억에 없어서인지, 지시문 때문에 보수적이었는지를 가른다."""
+    from app.agents.graph import gateway
+    gc, rows = gateway(), []
+    for drug, it in items().items():
+        for rep in range(3):
+            resp, rec = gc.respond("planner", prompt(it, "A"), instructions=INSTR_MEM, text_format=SCHEMA, reasoning_effort="medium",
+                                   max_output_tokens=8000, purpose=f"abstain_eval:{drug}:A_mem:{rep}")
+            try:
+                ans = json.loads(resp.output_text)
+            except json.JSONDecodeError:
+                ans = {"parse_error": (resp.output_text or "")[:300]}
+            rows.append({"drug": drug, "cond": "A_mem", "rep": rep, "answer": ans, "tokens": int((rec.usage or {}).get("total_tokens") or 0)})
+            print(json.dumps({"drug": drug, "cond": "A_mem", "rep": rep, "tokens": rows[-1]["tokens"]}), flush=True)
+    (OUT / "abstain_raw_mem.json").write_text(json.dumps(rows, ensure_ascii=False, indent=1), encoding="utf-8")
+
+
 def run() -> None:
     from app.agents.graph import gateway
     gc, rows = gateway(), []
@@ -87,25 +109,34 @@ def _nums(text: str) -> set[str]:
 
 
 def post_hoc_lines(per: dict, its: dict) -> list[str]:
-    """사후: 판정 가능 범위(coverage)와 벌점 채점(Kalai 등 Nature 2026의 open rubric, 정답 +1·기권 0·오답 −L, L = 0/1/3/9)."""
+    """사후(사전 등록 밖): 판정 가능 범위, 판정 중 오답, 반복 간 일관성(같은 약·용량의 3회 판정이 모두 같은 비율)."""
     out = []
+    names = {"A": "조건 A", "B": "조건 B", "A_mem": "사후 A′(기억·추정 권장)"}
     for cond, runs in per.items():
         ds = [d for r_ in runs for d in r_["doses"]]
         n = len(ds)
         assessed = [d for d in ds if d["verdict"] not in ("cannot_assess", "missing")]
         wrong = sum(d["verdict"] != d["truth"] for d in assessed)
-        right = sum(d["verdict"] == d["truth"] for d in assessed)
-        scores = {L: round((right - L * wrong) / n, 3) for L in (0, 1, 3, 9)}
+        by_item: dict[tuple, list[str]] = {}
+        for r_ in runs:
+            for d in r_["doses"]:
+                by_item.setdefault((r_["drug"], d["dose_mg"]), []).append(d["verdict"])
+        cons = sum(len(set(v)) == 1 for v in by_item.values()) / max(1, len(by_item))
+        label_only = {k: v for k, v in by_item.items() if k[0] != "dv505"}
+        cons_lab = sum(len(set(v)) == 1 for v in label_only.values()) / max(1, len(label_only))
         drugs = sorted({r_["drug"] for r_ in runs if any(d["verdict"] not in ("cannot_assess", "missing") for d in r_["doses"])})
-        out.append(f"- 조건 {cond}: 판정한 용량군 비율 {len(assessed) / n:.3f}(판정한 약: {', '.join(drugs) or '없음'}), 판정 중 오답 {wrong}건, "
-                   f"벌점 채점 점수 L=0/1/3/9 → {scores[0]}/{scores[1]}/{scores[3]}/{scores[9]}")
-    out.append("- 에이전트(도구)는 정의상 20/20 판정·오답 0이라 모든 L에서 1.0이다 — 정답을 같은 도구로 만든 순환성 때문에 비교 근거가 아니라, 판정 가능 범위의 차이(자료 확보)를 보여 주는 값이다.")
+        out.append(f"- {names.get(cond, cond)}: 판정한 용량군 비율 {len(assessed) / n:.3f}(판정한 약: {', '.join(drugs) or '없음'}), 판정 {len(assessed)}건 중 도구 판정과 불일치 {wrong}건, "
+                   f"반복 3회 판정 일관성 {cons:.3f}(PK가 라벨에만 있는 약 3종만 {cons_lab:.3f})")
+    out.append("- 벌점 채점(Kalai 등 Nature 2026의 open rubric)은 적용하지 않았다. 그 방식은 벌점을 프롬프트에 고지해야 하는데 이번 프롬프트는 고지하지 않았다.")
     return out
 
 
 def analyze() -> None:
     its, raw = items(), json.loads((OUT / "abstain_raw.json").read_text(encoding="utf-8"))
     per = {"A": [], "B": []}
+    if (OUT / "abstain_raw_mem.json").exists():   # 사후 조건 A′
+        raw += json.loads((OUT / "abstain_raw_mem.json").read_text(encoding="utf-8"))
+        per["A_mem"] = []
     for r in raw:
         it, ans = its[r["drug"]], r["answer"]
         got = {float(d.get("dose_mg") or -1): d for d in ans.get("doses", [])}
@@ -147,20 +178,22 @@ def analyze() -> None:
     res["runs"] = per
     (OUT / "abstain.json").write_text(json.dumps(res, ensure_ascii=False, indent=1), encoding="utf-8")
     f = lambda s: f"{s['mean']:.3f} ({s['min']:.3f}–{s['max']:.3f})" if s else "—"
+    M = res.get("A_mem") or {}
+    fm = lambda k: f(M.get(k)) if M else "—"
     L = ["# 기권 평가 결과 (`python -m app.eval.abstain_eval analyze`)", "", f"사전 등록: `docs/abstain_prereg.md`. 항목(약×용량군) {res['n_items']}개, 정답 분포 {res['truth_counts']}. 조건마다 3회 반복의 평균(최소–최대).", "",
-         "| 지표 | 조건 A(시놉시스만) | 조건 B(도구 입력·규칙 제공) |", "|---|---|---|",
-         f"| A-1 정답이 indeterminate인 용량군에서 확정 판정 비율(1차) | {f(res['A']['definite_on_indeterminate'])} | {f(res['B']['definite_on_indeterminate'])} |",
-         f"| A-3 정답이 covered인 용량군에서 기권 비율 | {f(res['A']['abstain_on_covered'])} | {f(res['B']['abstain_on_covered'])} |",
-         f"| B-2 판정 일치율(도구 대비) | {f(res['A']['agreement'])} | {f(res['B']['agreement'])} |",
-         f"| A-2 입력에 없는 PK 수치 비율 | {f(res['A']['unsourced_number_rate'])} | {f(res['B']['unsourced_number_rate'])} |",
-         f"| B-1 TCR_avg 상대 오차 중앙값 | {res['A']['median_rel_err_tcr_avg']} | {res['B']['median_rel_err_tcr_avg']} |",
-         f"| B-1 TCR_trough 상대 오차 중앙값 | {res['A']['median_rel_err_tcr_trough']} | {res['B']['median_rel_err_tcr_trough']} |",
-         f"| 토큰 합계 | {res['A']['tokens_total']:,} | {res['B']['tokens_total']:,} |", "",
+         "| 지표 | 조건 A(시놉시스만) | 조건 B(도구 입력·규칙 제공) | 사후 A′(시놉시스만 + 기억·추정 사용 권장) |", "|---|---|---|---|",
+         f"| A-1 정답이 indeterminate인 용량군에서 확정 판정 비율(1차) | {f(res['A']['definite_on_indeterminate'])} | {f(res['B']['definite_on_indeterminate'])} | {fm('definite_on_indeterminate')} |",
+         f"| A-3 정답이 covered인 용량군에서 기권 비율 | {f(res['A']['abstain_on_covered'])} | {f(res['B']['abstain_on_covered'])} | {fm('abstain_on_covered')} |",
+         f"| B-2 판정 일치율(도구 대비) | {f(res['A']['agreement'])} | {f(res['B']['agreement'])} | {fm('agreement')} |",
+         f"| A-2 입력에 없는 수치 비율 | {f(res['A']['unsourced_number_rate'])} | {f(res['B']['unsourced_number_rate'])} | {fm('unsourced_number_rate')} |",
+         f"| B-1 TCR_avg 상대 오차 중앙값 | {res['A']['median_rel_err_tcr_avg']} | {res['B']['median_rel_err_tcr_avg']} | {M.get('median_rel_err_tcr_avg')} |",
+         f"| B-1 TCR_trough 상대 오차 중앙값 | {res['A']['median_rel_err_tcr_trough']} | {res['B']['median_rel_err_tcr_trough']} | {M.get('median_rel_err_tcr_trough')} |",
+         f"| 토큰 합계 | {res['A']['tokens_total']:,} | {res['B']['tokens_total']:,} | {M.get('tokens_total', 0):,} |", "",
          "에이전트는 같은 도구 판정을 그대로 내므로 일치율은 정의상 1이다. 이 표는 도구 없이 모델이 무엇을 하는지를 잰다(해석 한계는 사전 등록 참조).",
          "A-2는 시놉시스 본문과만 대조하므로, 조건 B에서는 제공한 pk_inputs 블록의 수치까지 '입력에 없는 수치'로 센다(지표 정의상 부풀림). A-2는 조건 A에서만 해석한다.", "",
          "## 사후 기술(사전 등록 밖)", ""] + post_hoc_lines(per, its) + ["",
-         "## 조건 A 예시: 입력에 없는 수치"]
-    for r_ in per["A"][:8]:
+         "## 조건 A 예시: 입력에 없는 수치(분자량 등 유도 수치이며 PK 값이 아니다)"]
+    for r_ in per["A"]:
         if r_["unsourced"]:
             L.append(f"- {r_['drug']} 반복 {r_['rep']}: " + "; ".join(r_["unsourced"][:5]))
     L += ["", "## 용량군별 판정(조건 A, 반복 0)", "", "| 약 | 용량 | 정답 | 원샷 A | 원샷 B |", "|---|---|---|---|---|"]
@@ -174,10 +207,10 @@ def analyze() -> None:
 
 if __name__ == "__main__":
     ap = argparse.ArgumentParser()
-    ap.add_argument("cmd", choices=["run", "analyze", "items"])
+    ap.add_argument("cmd", choices=["run", "run_memory", "analyze", "items"])
     a = ap.parse_args()
     if a.cmd == "items":
         for k, v in items().items():
             print(k, v["inputs"], [(d["dose_mg"], d["truth"]) for d in v["doses"]])
     else:
-        {"run": run, "analyze": analyze}[a.cmd]()
+        {"run": run, "run_memory": run_memory, "analyze": analyze}[a.cmd]()

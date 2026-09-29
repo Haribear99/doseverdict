@@ -1,0 +1,1311 @@
+[
+ {
+  "drug": "sotorasib",
+  "cond": "A_mem",
+  "rep": 0,
+  "answer": {
+   "doses": [
+    {
+     "dose_mg": 180,
+     "verdict": "indeterminate",
+     "tcr_max": 9.2,
+     "tcr_avg": 3.34,
+     "tcr_trough": 0.38,
+     "rationale": "Estimated peak and average free concentrations exceed the cellular IC50, but the estimated steady-state trough does not. The verdict therefore depends on the concentration metric."
+    },
+    {
+     "dose_mg": 360,
+     "verdict": "indeterminate",
+     "tcr_max": 18.39,
+     "tcr_avg": 6.67,
+     "tcr_trough": 0.76,
+     "rationale": "Estimated peak and average free concentrations exceed the cellular IC50, but the estimated steady-state trough does not. The verdict therefore depends on the concentration metric."
+    },
+    {
+     "dose_mg": 540,
+     "verdict": "covered",
+     "tcr_max": 27.59,
+     "tcr_avg": 10.01,
+     "tcr_trough": 1.14,
+     "rationale": "Estimated free concentration remains above the assumed cellular IC50 through the dosing interval, although the trough margin is small."
+    },
+    {
+     "dose_mg": 720,
+     "verdict": "covered",
+     "tcr_max": 36.79,
+     "tcr_avg": 13.34,
+     "tcr_trough": 1.52,
+     "rationale": "Estimated free concentration remains above the assumed cellular IC50 through the dosing interval."
+    },
+    {
+     "dose_mg": 960,
+     "verdict": "covered",
+     "tcr_max": 49.05,
+     "tcr_avg": 17.79,
+     "tcr_trough": 2.02,
+     "rationale": "Estimated free concentration remains above the assumed cellular IC50 through the dosing interval."
+    }
+   ],
+   "numbers_used": [
+    {
+     "name": "Planned once-daily dose levels",
+     "value": "180, 360, 540, 720, and 960 mg",
+     "source": "protocol"
+    },
+    {
+     "name": "Conflicting fixed-dose statement",
+     "value": "200 mg for all participants",
+     "source": "protocol"
+    },
+    {
+     "name": "Dosing interval",
+     "value": "24 hours",
+     "source": "protocol"
+    },
+    {
+     "name": "Reference sotorasib dose",
+     "value": "960 mg once daily",
+     "source": "prior_knowledge"
+    },
+    {
+     "name": "Reference steady-state total-plasma Cmax",
+     "value": "7.50 µg/mL",
+     "source": "prior_knowledge"
+    },
+    {
+     "name": "Reference steady-state total-plasma AUC over 24 hours",
+     "value": "65.3 µg·h/mL",
+     "source": "prior_knowledge"
+    },
+    {
+     "name": "Plasma protein binding and calculated unbound fraction",
+     "value": "89% bound; 11% unbound",
+     "source": "prior_knowledge"
+    },
+    {
+     "name": "Sotorasib molecular weight",
+     "value": "560.6 g/mol",
+     "source": "prior_knowledge"
+    },
+    {
+     "name": "Approximate elimination half-life",
+     "value": "5 hours",
+     "source": "prior_knowledge"
+    },
+    {
+     "name": "Assumed time of peak for trough extrapolation",
+     "value": "1 hour after dose",
+     "source": "assumption"
+    },
+    {
+     "name": "Representative cellular IC50",
+     "value": "30 nM",
+     "source": "assumption"
+    },
+    {
+     "name": "Coverage threshold",
+     "value": "TCR ≥1 throughout the dosing interval",
+     "source": "assumption"
+    },
+    {
+     "name": "Exposure extrapolation",
+     "value": "Cmax, AUC, and estimated trough scaled in proportion to dose relative to 960 mg",
+     "source": "assumption"
+    }
+   ]
+  },
+  "tokens": 3478
+ },
+ {
+  "drug": "sotorasib",
+  "cond": "A_mem",
+  "rep": 1,
+  "answer": {
+   "doses": [
+    {
+     "dose_mg": 180,
+     "verdict": "covered",
+     "tcr_max": 106.2,
+     "tcr_avg": 38.5,
+     "tcr_trough": 4.4,
+     "rationale": "Estimated free concentrations exceed the representative cellular IC50 even at trough. This is a population-level estimate, not a guarantee of coverage for every participant."
+    },
+    {
+     "dose_mg": 360,
+     "verdict": "covered",
+     "tcr_max": 150.2,
+     "tcr_avg": 54.5,
+     "tcr_trough": 6.2,
+     "rationale": "Estimated free concentrations exceed the representative cellular IC50 throughout the dosing interval."
+    },
+    {
+     "dose_mg": 540,
+     "verdict": "covered",
+     "tcr_max": 184.0,
+     "tcr_avg": 66.7,
+     "tcr_trough": 7.6,
+     "rationale": "Estimated free concentrations exceed the representative cellular IC50 throughout the dosing interval."
+    },
+    {
+     "dose_mg": 720,
+     "verdict": "covered",
+     "tcr_max": 212.4,
+     "tcr_avg": 77.1,
+     "tcr_trough": 8.8,
+     "rationale": "Estimated free concentrations exceed the representative cellular IC50 throughout the dosing interval."
+    },
+    {
+     "dose_mg": 960,
+     "verdict": "covered",
+     "tcr_max": 245.3,
+     "tcr_avg": 89.0,
+     "tcr_trough": 10.1,
+     "rationale": "Estimated free concentrations exceed the representative cellular IC50 throughout the dosing interval."
+    }
+   ],
+   "numbers_used": [
+    {
+     "name": "Planned dose levels",
+     "value": "180, 360, 540, 720, 960 mg",
+     "source": "protocol"
+    },
+    {
+     "name": "Dosing interval",
+     "value": "24 hours (once daily)",
+     "source": "protocol"
+    },
+    {
+     "name": "Conflicting fixed-dose statement",
+     "value": "200 mg for all participants; conflicts with the planned dose levels and would prevent their evaluation as written",
+     "source": "protocol"
+    },
+    {
+     "name": "Reference steady-state Cmax at 960 mg",
+     "value": "7.50 µg/mL",
+     "source": "prior_knowledge"
+    },
+    {
+     "name": "Reference steady-state AUC over 24 hours at 960 mg",
+     "value": "65.3 µg·h/mL",
+     "source": "prior_knowledge"
+    },
+    {
+     "name": "Plasma protein binding and corresponding free fraction",
+     "value": "89% bound; 0.11 free",
+     "source": "prior_knowledge"
+    },
+    {
+     "name": "Sotorasib molecular weight",
+     "value": "560.6 g/mol",
+     "source": "prior_knowledge"
+    },
+    {
+     "name": "Representative cellular IC50",
+     "value": "6 nM; cell-line and assay dependent",
+     "source": "prior_knowledge"
+    },
+    {
+     "name": "Approximate elimination half-life",
+     "value": "5 hours",
+     "source": "prior_knowledge"
+    },
+    {
+     "name": "Approximate time of Cmax",
+     "value": "1 hour after dosing",
+     "source": "prior_knowledge"
+    },
+    {
+     "name": "Dose-exposure scaling exponent for doses below 960 mg",
+     "value": "0.5; estimated Cmax and AUC scale with (dose/960 mg)^0.5",
+     "source": "assumption"
+    },
+    {
+     "name": "Trough extrapolation",
+     "value": "23 hours from Cmax to the next dose, using the 5-hour half-life",
+     "source": "assumption"
+    },
+    {
+     "name": "Coverage threshold",
+     "value": "TCR ≥1 at trough",
+     "source": "assumption"
+    }
+   ]
+  },
+  "tokens": 3828
+ },
+ {
+  "drug": "sotorasib",
+  "cond": "A_mem",
+  "rep": 2,
+  "answer": {
+   "doses": [
+    {
+     "dose_mg": 180,
+     "verdict": "indeterminate",
+     "tcr_max": 3.07,
+     "tcr_avg": 1.11,
+     "tcr_trough": 0.13,
+     "rationale": "Estimated peak and average free concentrations exceed the cellular IC50, but the estimated trough does not. The average result is close to the threshold and depends on uncertain low-dose exposure."
+    },
+    {
+     "dose_mg": 360,
+     "verdict": "indeterminate",
+     "tcr_max": 6.54,
+     "tcr_avg": 2.23,
+     "tcr_trough": 0.27,
+     "rationale": "Estimated peak and average concentrations exceed the IC50, but the estimated trough does not."
+    },
+    {
+     "dose_mg": 540,
+     "verdict": "indeterminate",
+     "tcr_max": 9.81,
+     "tcr_avg": 3.34,
+     "tcr_trough": 0.4,
+     "rationale": "Estimated peak and average concentrations exceed the IC50, but the estimated trough does not."
+    },
+    {
+     "dose_mg": 720,
+     "verdict": "indeterminate",
+     "tcr_max": 13.08,
+     "tcr_avg": 4.46,
+     "tcr_trough": 0.54,
+     "rationale": "Estimated peak and average concentrations exceed the IC50, but the estimated trough does not."
+    },
+    {
+     "dose_mg": 960,
+     "verdict": "indeterminate",
+     "tcr_max": 16.35,
+     "tcr_avg": 5.93,
+     "tcr_trough": 0.67,
+     "rationale": "Estimated peak and average concentrations exceed the IC50, but the estimated trough does not. Thus coverage throughout the interval is not established."
+    }
+   ],
+   "numbers_used": [
+    {
+     "name": "Planned oral once-daily doses",
+     "value": "180, 360, 540, 720, 960 mg",
+     "source": "protocol"
+    },
+    {
+     "name": "Conflicting fixed dose specified elsewhere in the protocol",
+     "value": "200 mg",
+     "source": "protocol"
+    },
+    {
+     "name": "Dosing interval",
+     "value": "24 h",
+     "source": "protocol"
+    },
+    {
+     "name": "Reference steady-state dose",
+     "value": "960 mg once daily",
+     "source": "prior_knowledge"
+    },
+    {
+     "name": "Reference steady-state total-plasma Cmax",
+     "value": "7.50 µg/mL",
+     "source": "prior_knowledge"
+    },
+    {
+     "name": "Reference steady-state total-plasma AUC over 24 h",
+     "value": "65.3 µg·h/mL",
+     "source": "prior_knowledge"
+    },
+    {
+     "name": "Sotorasib plasma protein binding",
+     "value": "89% bound; 11% free",
+     "source": "prior_knowledge"
+    },
+    {
+     "name": "Sotorasib molecular weight",
+     "value": "560.6 g/mol",
+     "source": "prior_knowledge"
+    },
+    {
+     "name": "Cellular IC50 used for this estimate",
+     "value": "0.09 µM",
+     "source": "assumption"
+    },
+    {
+     "name": "Coverage threshold",
+     "value": "TCR ≥1",
+     "source": "assumption"
+    },
+    {
+     "name": "Exposure extrapolation to lower doses",
+     "value": "Cmax, Cavg, and Ctrough scaled in proportion to dose relative to 960 mg; actual sotorasib exposure may not scale proportionally",
+     "source": "assumption"
+    },
+    {
+     "name": "Estimated terminal half-life and peak time used to estimate trough",
+     "value": "5 h half-life; peak 1 h after dosing, leaving 23 h from peak to trough",
+     "source": "assumption"
+    }
+   ]
+  },
+  "tokens": 3700
+ },
+ {
+  "drug": "adagrasib",
+  "cond": "A_mem",
+  "rep": 0,
+  "answer": {
+   "doses": [
+    {
+     "dose_mg": 150,
+     "verdict": "indeterminate",
+     "tcr_max": 2.07,
+     "tcr_avg": 1.33,
+     "tcr_trough": 0.83,
+     "rationale": "Estimated peak and average free concentrations exceed the cellular IC50, but the estimated trough does not. Coverage therefore depends on the concentration metric."
+    },
+    {
+     "dose_mg": 300,
+     "verdict": "covered",
+     "tcr_max": 4.14,
+     "tcr_avg": 2.66,
+     "tcr_trough": 1.66,
+     "rationale": "Estimated free concentration remains above the cellular IC50 through the dosing interval, including at trough."
+    },
+    {
+     "dose_mg": 400,
+     "verdict": "covered",
+     "tcr_max": 5.52,
+     "tcr_avg": 3.55,
+     "tcr_trough": 2.21,
+     "rationale": "Estimated free concentration remains above the cellular IC50 through the dosing interval, including at trough."
+    },
+    {
+     "dose_mg": 600,
+     "verdict": "covered",
+     "tcr_max": 8.28,
+     "tcr_avg": 5.32,
+     "tcr_trough": 3.31,
+     "rationale": "Estimated free concentration remains above the cellular IC50 through the dosing interval, including at trough."
+    }
+   ],
+   "numbers_used": [
+    {
+     "name": "Planned doses and twice-daily schedule",
+     "value": "150, 300, 400, and 600 mg twice daily",
+     "source": "protocol"
+    },
+    {
+     "name": "Dosing interval",
+     "value": "12 hours",
+     "source": "protocol"
+    },
+    {
+     "name": "Adagrasib steady-state Cmax at 600 mg twice daily",
+     "value": "approximately 2.5 mg/L",
+     "source": "prior_knowledge"
+    },
+    {
+     "name": "Adagrasib steady-state AUC over a dosing interval at 600 mg twice daily",
+     "value": "approximately 19.3 mg·h/L",
+     "source": "prior_knowledge"
+    },
+    {
+     "name": "Calculated steady-state Cavg at 600 mg twice daily",
+     "value": "19.3 / 12 = 1.61 mg/L",
+     "source": "assumption"
+    },
+    {
+     "name": "Estimated steady-state trough at 600 mg twice daily",
+     "value": "1.0 mg/L",
+     "source": "assumption"
+    },
+    {
+     "name": "Adagrasib molecular weight",
+     "value": "approximately 604.1 g/mol",
+     "source": "prior_knowledge"
+    },
+    {
+     "name": "Free fraction in plasma",
+     "value": "0.02 (approximately 98% protein bound)",
+     "source": "prior_knowledge"
+    },
+    {
+     "name": "Estimated cellular KRAS G12C IC50",
+     "value": "10 nM; assay- and cell-line-dependent",
+     "source": "assumption"
+    },
+    {
+     "name": "Exposure extrapolation",
+     "value": "Exposure at 150, 300, and 400 mg assumed proportional to dose relative to 600 mg",
+     "source": "assumption"
+    },
+    {
+     "name": "Coverage criterion",
+     "value": "TCR ≥ 1 throughout the dosing interval",
+     "source": "assumption"
+    }
+   ]
+  },
+  "tokens": 3541
+ },
+ {
+  "drug": "adagrasib",
+  "cond": "A_mem",
+  "rep": 1,
+  "answer": {
+   "doses": [
+    {
+     "dose_mg": 150,
+     "verdict": "not_covered",
+     "tcr_max": 0.61,
+     "tcr_avg": 0.35,
+     "tcr_trough": 0.21,
+     "rationale": "Estimated free concentration remains below the assumed cellular IC50 throughout the dosing interval."
+    },
+    {
+     "dose_mg": 300,
+     "verdict": "indeterminate",
+     "tcr_max": 1.21,
+     "tcr_avg": 0.71,
+     "tcr_trough": 0.42,
+     "rationale": "Estimated peak exceeds the assumed cellular IC50, but average and trough do not. The verdict depends on the concentration metric."
+    },
+    {
+     "dose_mg": 400,
+     "verdict": "indeterminate",
+     "tcr_max": 1.61,
+     "tcr_avg": 0.94,
+     "tcr_trough": 0.56,
+     "rationale": "Estimated peak exceeds the assumed cellular IC50, but average and trough do not. The verdict depends on the concentration metric."
+    },
+    {
+     "dose_mg": 600,
+     "verdict": "indeterminate",
+     "tcr_max": 2.42,
+     "tcr_avg": 1.41,
+     "tcr_trough": 0.84,
+     "rationale": "Estimated peak and average exceed the assumed cellular IC50, but trough does not; sustained coverage is therefore uncertain."
+    }
+   ],
+   "numbers_used": [
+    {
+     "name": "Planned twice-daily dose",
+     "value": "150 mg",
+     "source": "protocol"
+    },
+    {
+     "name": "Planned twice-daily dose",
+     "value": "300 mg",
+     "source": "protocol"
+    },
+    {
+     "name": "Planned twice-daily dose",
+     "value": "400 mg",
+     "source": "protocol"
+    },
+    {
+     "name": "Planned twice-daily dose and exposure reference dose",
+     "value": "600 mg",
+     "source": "protocol"
+    },
+    {
+     "name": "Twice-daily dosing interval",
+     "value": "12 h",
+     "source": "protocol"
+    },
+    {
+     "name": "Approximate steady-state Cmax at 600 mg twice daily",
+     "value": "4.3 µg/mL",
+     "source": "prior_knowledge"
+    },
+    {
+     "name": "Approximate steady-state AUC over the dosing interval at 600 mg twice daily",
+     "value": "30.1 µg·h/mL",
+     "source": "prior_knowledge"
+    },
+    {
+     "name": "Approximate unbound plasma fraction",
+     "value": "0.017 (1.7%)",
+     "source": "prior_knowledge"
+    },
+    {
+     "name": "Adagrasib molecular weight",
+     "value": "604.1 g/mol",
+     "source": "prior_knowledge"
+    },
+    {
+     "name": "Representative cellular IC50; cell-line-dependent estimate, not specified in the protocol",
+     "value": "50 nM",
+     "source": "assumption"
+    },
+    {
+     "name": "Estimated steady-state total trough at 600 mg twice daily; not supplied by the protocol",
+     "value": "1.5 µg/mL",
+     "source": "assumption"
+    },
+    {
+     "name": "Exposure scaling across planned doses",
+     "value": "Proportional to dose relative to 600 mg",
+     "source": "assumption"
+    },
+    {
+     "name": "Coverage threshold",
+     "value": "TCR ≥1",
+     "source": "assumption"
+    }
+   ]
+  },
+  "tokens": 3176
+ },
+ {
+  "drug": "adagrasib",
+  "cond": "A_mem",
+  "rep": 2,
+  "answer": {
+   "doses": [
+    {
+     "dose_mg": 150,
+     "verdict": "not_covered",
+     "tcr_max": 0.63,
+     "tcr_avg": 0.43,
+     "tcr_trough": 0.3,
+     "rationale": "Estimated free concentrations remain below the assumed cellular IC50 throughout the dosing interval."
+    },
+    {
+     "dose_mg": 300,
+     "verdict": "indeterminate",
+     "tcr_max": 1.25,
+     "tcr_avg": 0.87,
+     "tcr_trough": 0.6,
+     "rationale": "Estimated peak coverage exceeds the IC50, but average and trough coverage do not."
+    },
+    {
+     "dose_mg": 400,
+     "verdict": "indeterminate",
+     "tcr_max": 1.67,
+     "tcr_avg": 1.16,
+     "tcr_trough": 0.79,
+     "rationale": "Estimated peak and average coverage exceed the IC50, but trough coverage does not."
+    },
+    {
+     "dose_mg": 600,
+     "verdict": "covered",
+     "tcr_max": 2.5,
+     "tcr_avg": 1.74,
+     "tcr_trough": 1.19,
+     "rationale": "All three estimated steady-state metrics exceed the assumed IC50. This is sensitive to the assumed trough and cellular IC50; it does not establish coverage in every tumor."
+    }
+   ],
+   "numbers_used": [
+    {
+     "name": "Planned twice-daily dose levels",
+     "value": "150, 300, 400, and 600 mg",
+     "source": "protocol"
+    },
+    {
+     "name": "Dosing interval",
+     "value": "12 hours",
+     "source": "protocol"
+    },
+    {
+     "name": "Approximate adagrasib steady-state Cmax at 600 mg twice daily",
+     "value": "2.1 µg/mL",
+     "source": "prior_knowledge"
+    },
+    {
+     "name": "Approximate adagrasib steady-state AUC over 12 hours at 600 mg twice daily",
+     "value": "17.5 µg·h/mL",
+     "source": "prior_knowledge"
+    },
+    {
+     "name": "Calculated steady-state Cavg at 600 mg twice daily",
+     "value": "17.5 / 12 = 1.46 µg/mL",
+     "source": "assumption"
+    },
+    {
+     "name": "Estimated steady-state trough at 600 mg twice daily",
+     "value": "1.0 µg/mL",
+     "source": "assumption"
+    },
+    {
+     "name": "Approximate plasma protein binding and resulting free fraction",
+     "value": "98.2% bound; 0.018 free fraction",
+     "source": "prior_knowledge"
+    },
+    {
+     "name": "Adagrasib molecular weight",
+     "value": "604.1 g/mol",
+     "source": "prior_knowledge"
+    },
+    {
+     "name": "Representative cellular IC50 used for this estimate",
+     "value": "25 nM; an assumed value, not a protocol-specified or universal KRAS G12C cellular IC50",
+     "source": "assumption"
+    },
+    {
+     "name": "Coverage threshold",
+     "value": "TCR ≥ 1",
+     "source": "assumption"
+    },
+    {
+     "name": "Exposure scaling across planned doses",
+     "value": "Assumed proportional to dose relative to 600 mg; factors 0.25, 0.50, 0.667, and 1.00",
+     "source": "assumption"
+    }
+   ]
+  },
+  "tokens": 3769
+ },
+ {
+  "drug": "lorlatinib",
+  "cond": "A_mem",
+  "rep": 0,
+  "answer": {
+   "doses": [
+    {
+     "dose_mg": 25,
+     "verdict": "indeterminate",
+     "tcr_max": 4.02,
+     "tcr_avg": 1.64,
+     "tcr_trough": 0.7,
+     "rationale": "Estimated peak and average exceed the cellular IC50, but trough falls below it; coverage depends on the concentration metric."
+    },
+    {
+     "dose_mg": 50,
+     "verdict": "covered",
+     "tcr_max": 8.05,
+     "tcr_avg": 3.28,
+     "tcr_trough": 1.39,
+     "rationale": "Estimated trough remains above the assumed cellular IC50."
+    },
+    {
+     "dose_mg": 75,
+     "verdict": "covered",
+     "tcr_max": 12.07,
+     "tcr_avg": 4.92,
+     "tcr_trough": 2.09,
+     "rationale": "Estimated trough remains above the assumed cellular IC50."
+    },
+    {
+     "dose_mg": 100,
+     "verdict": "covered",
+     "tcr_max": 16.09,
+     "tcr_avg": 6.56,
+     "tcr_trough": 2.79,
+     "rationale": "Estimated trough remains above the assumed cellular IC50."
+    },
+    {
+     "dose_mg": 150,
+     "verdict": "covered",
+     "tcr_max": 24.14,
+     "tcr_avg": 9.85,
+     "tcr_trough": 4.18,
+     "rationale": "Estimated trough remains above the assumed cellular IC50, assuming dose-proportional exposure."
+    },
+    {
+     "dose_mg": 200,
+     "verdict": "covered",
+     "tcr_max": 32.18,
+     "tcr_avg": 13.13,
+     "tcr_trough": 5.58,
+     "rationale": "Estimated trough remains above the assumed cellular IC50, assuming dose-proportional exposure."
+    }
+   ],
+   "numbers_used": [
+    {
+     "name": "Planned once-daily doses, mg",
+     "value": "25, 50, 75, 100, 150, 200",
+     "source": "protocol"
+    },
+    {
+     "name": "Reference dose, mg once daily",
+     "value": "100",
+     "source": "prior_knowledge"
+    },
+    {
+     "name": "Approximate steady-state Cmax at reference dose, ng/mL",
+     "value": "577",
+     "source": "prior_knowledge"
+    },
+    {
+     "name": "Approximate steady-state AUC over the dosing interval at reference dose, ng·h/mL",
+     "value": "5650",
+     "source": "prior_knowledge"
+    },
+    {
+     "name": "Estimated steady-state trough at reference dose, ng/mL",
+     "value": "100",
+     "source": "assumption"
+    },
+    {
+     "name": "Dosing interval, hours",
+     "value": "24",
+     "source": "protocol"
+    },
+    {
+     "name": "Lorlatinib unbound plasma fraction",
+     "value": "0.34",
+     "source": "prior_knowledge"
+    },
+    {
+     "name": "Lorlatinib molecular weight, g/mol",
+     "value": "406.41",
+     "source": "prior_knowledge"
+    },
+    {
+     "name": "Representative cellular ALK IC50, nM; actual value varies by model and resistance mutation",
+     "value": "30",
+     "source": "assumption"
+    },
+    {
+     "name": "Coverage threshold, TCR",
+     "value": "1",
+     "source": "assumption"
+    },
+    {
+     "name": "Exposure scaling relative to the reference dose",
+     "value": "Dose-proportional across 25–200 mg",
+     "source": "assumption"
+    }
+   ]
+  },
+  "tokens": 3916
+ },
+ {
+  "drug": "lorlatinib",
+  "cond": "A_mem",
+  "rep": 1,
+  "answer": {
+   "doses": [
+    {
+     "dose_mg": 25,
+     "verdict": "indeterminate",
+     "tcr_max": 1.58,
+     "tcr_avg": 0.59,
+     "tcr_trough": 0.39,
+     "rationale": "Estimated peak exceeds the illustrative cellular IC50, but average and trough do not. Coverage throughout the interval is therefore not supported; a peak-based judgment would differ."
+    },
+    {
+     "dose_mg": 50,
+     "verdict": "indeterminate",
+     "tcr_max": 3.16,
+     "tcr_avg": 1.18,
+     "tcr_trough": 0.78,
+     "rationale": "Estimated peak and average exceed the illustrative cellular IC50, but trough does not. The verdict depends on the concentration metric."
+    },
+    {
+     "dose_mg": 75,
+     "verdict": "covered",
+     "tcr_max": 4.75,
+     "tcr_avg": 1.77,
+     "tcr_trough": 1.18,
+     "rationale": "Estimated trough exceeds the illustrative cellular IC50, supporting coverage throughout the dosing interval, though with a narrow trough margin."
+    },
+    {
+     "dose_mg": 100,
+     "verdict": "covered",
+     "tcr_max": 6.33,
+     "tcr_avg": 2.36,
+     "tcr_trough": 1.57,
+     "rationale": "Estimated trough exceeds the illustrative cellular IC50."
+    },
+    {
+     "dose_mg": 150,
+     "verdict": "covered",
+     "tcr_max": 9.49,
+     "tcr_avg": 3.54,
+     "tcr_trough": 2.35,
+     "rationale": "Estimated trough exceeds the illustrative cellular IC50."
+    },
+    {
+     "dose_mg": 200,
+     "verdict": "covered",
+     "tcr_max": 12.65,
+     "tcr_avg": 4.72,
+     "tcr_trough": 3.14,
+     "rationale": "Estimated trough exceeds the illustrative cellular IC50; extrapolation to this dose is uncertain."
+    }
+   ],
+   "numbers_used": [
+    {
+     "name": "Planned oral once-daily doses",
+     "value": "25, 50, 75, 100, 150, 200 mg; 24-hour dosing interval",
+     "source": "protocol"
+    },
+    {
+     "name": "Lorlatinib reference dose",
+     "value": "100 mg once daily",
+     "source": "prior_knowledge"
+    },
+    {
+     "name": "Approximate steady-state Cmax at reference dose",
+     "value": "605 ng/mL",
+     "source": "prior_knowledge"
+    },
+    {
+     "name": "Approximate steady-state AUC over dosing interval at reference dose",
+     "value": "5410 ng·h/mL",
+     "source": "prior_knowledge"
+    },
+    {
+     "name": "Estimated steady-state trough at reference dose",
+     "value": "150 ng/mL",
+     "source": "assumption"
+    },
+    {
+     "name": "Unbound plasma fraction",
+     "value": "0.34",
+     "source": "prior_knowledge"
+    },
+    {
+     "name": "Lorlatinib molecular weight",
+     "value": "406.41 g/mol",
+     "source": "prior_knowledge"
+    },
+    {
+     "name": "Illustrative cellular ALK IC50 for a resistant variant",
+     "value": "80 nM",
+     "source": "assumption"
+    },
+    {
+     "name": "Target-coverage cutoff",
+     "value": "TCR ≥ 1",
+     "source": "assumption"
+    },
+    {
+     "name": "Exposure scaling across planned doses",
+     "value": "Linear relative to 100 mg",
+     "source": "assumption"
+    }
+   ]
+  },
+  "tokens": 3750
+ },
+ {
+  "drug": "lorlatinib",
+  "cond": "A_mem",
+  "rep": 2,
+  "answer": {
+   "doses": [
+    {
+     "dose_mg": 25,
+     "verdict": "covered",
+     "tcr_max": 12.07,
+     "tcr_avg": 4.92,
+     "tcr_trough": 2.09,
+     "rationale": "Estimated steady-state free concentration remains above the assumed cellular IC50 throughout the dosing interval."
+    },
+    {
+     "dose_mg": 50,
+     "verdict": "covered",
+     "tcr_max": 24.14,
+     "tcr_avg": 9.85,
+     "tcr_trough": 4.18,
+     "rationale": "Estimated steady-state trough TCR exceeds 1."
+    },
+    {
+     "dose_mg": 75,
+     "verdict": "covered",
+     "tcr_max": 36.2,
+     "tcr_avg": 14.77,
+     "tcr_trough": 6.27,
+     "rationale": "Estimated steady-state trough TCR exceeds 1."
+    },
+    {
+     "dose_mg": 100,
+     "verdict": "covered",
+     "tcr_max": 48.27,
+     "tcr_avg": 19.69,
+     "tcr_trough": 8.37,
+     "rationale": "Estimated steady-state trough TCR exceeds 1."
+    },
+    {
+     "dose_mg": 150,
+     "verdict": "covered",
+     "tcr_max": 72.41,
+     "tcr_avg": 29.54,
+     "tcr_trough": 12.55,
+     "rationale": "Estimated steady-state trough TCR exceeds 1, assuming dose-proportional exposure."
+    },
+    {
+     "dose_mg": 200,
+     "verdict": "covered",
+     "tcr_max": 96.54,
+     "tcr_avg": 39.39,
+     "tcr_trough": 16.73,
+     "rationale": "Estimated steady-state trough TCR exceeds 1, assuming dose-proportional exposure."
+    }
+   ],
+   "numbers_used": [
+    {
+     "name": "Planned daily doses (mg)",
+     "value": "25, 50, 75, 100, 150, 200",
+     "source": "protocol"
+    },
+    {
+     "name": "Dosing interval (hours)",
+     "value": "24",
+     "source": "protocol"
+    },
+    {
+     "name": "Reference lorlatinib dose (mg daily)",
+     "value": "100",
+     "source": "prior_knowledge"
+    },
+    {
+     "name": "Approximate steady-state Cmax at reference dose (ng/mL)",
+     "value": "577",
+     "source": "prior_knowledge"
+    },
+    {
+     "name": "Approximate steady-state AUC over 24 hours at reference dose (ng·h/mL)",
+     "value": "5650",
+     "source": "prior_knowledge"
+    },
+    {
+     "name": "Estimated steady-state trough at reference dose (ng/mL)",
+     "value": "100",
+     "source": "assumption"
+    },
+    {
+     "name": "Unbound plasma fraction",
+     "value": "0.34",
+     "source": "prior_knowledge"
+    },
+    {
+     "name": "Lorlatinib molecular weight (g/mol)",
+     "value": "406.41",
+     "source": "prior_knowledge"
+    },
+    {
+     "name": "Representative cellular ALK IC50 (nM)",
+     "value": "10",
+     "source": "assumption"
+    },
+    {
+     "name": "Exposure scaling with dose",
+     "value": "proportional to dose across 25–200 mg",
+     "source": "assumption"
+    },
+    {
+     "name": "Coverage threshold, including at trough (TCR)",
+     "value": "1",
+     "source": "assumption"
+    },
+    {
+     "name": "Concentration conversion factor from ng/mL to ng/L",
+     "value": "1000",
+     "source": "assumption"
+    }
+   ]
+  },
+  "tokens": 3573
+ },
+ {
+  "drug": "dv505",
+  "cond": "A_mem",
+  "rep": 0,
+  "answer": {
+   "doses": [
+    {
+     "dose_mg": 50,
+     "verdict": "indeterminate",
+     "tcr_max": 2.07,
+     "tcr_avg": 1.15,
+     "tcr_trough": 0.43,
+     "rationale": "Estimated peak and average free concentrations exceed the cellular IC50, but trough does not. The coverage verdict therefore depends on the concentration metric."
+    },
+    {
+     "dose_mg": 100,
+     "verdict": "indeterminate",
+     "tcr_max": 4.15,
+     "tcr_avg": 2.31,
+     "tcr_trough": 0.86,
+     "rationale": "Estimated peak and average free concentrations exceed the cellular IC50, but trough does not. The coverage verdict therefore depends on the concentration metric."
+    },
+    {
+     "dose_mg": 200,
+     "verdict": "covered",
+     "tcr_max": 8.29,
+     "tcr_avg": 4.62,
+     "tcr_trough": 1.73,
+     "rationale": "Estimated free concentration remains above the cellular IC50 through the dosing interval."
+    },
+    {
+     "dose_mg": 400,
+     "verdict": "covered",
+     "tcr_max": 16.59,
+     "tcr_avg": 9.23,
+     "tcr_trough": 3.46,
+     "rationale": "Estimated free concentration remains above the cellular IC50 through the dosing interval."
+    },
+    {
+     "dose_mg": 600,
+     "verdict": "covered",
+     "tcr_max": 24.88,
+     "tcr_avg": 13.85,
+     "tcr_trough": 5.18,
+     "rationale": "Estimated free concentration remains above the cellular IC50 through the dosing interval, assuming dose-proportional PK beyond the studied range."
+    }
+   ],
+   "numbers_used": [
+    {
+     "name": "Planned doses",
+     "value": "50, 100, 200, 400, 600 mg",
+     "source": "protocol"
+    },
+    {
+     "name": "Dosing interval",
+     "value": "24 h, from once-daily dosing",
+     "source": "protocol"
+    },
+    {
+     "name": "Apparent oral clearance",
+     "value": "18 L/h",
+     "source": "protocol"
+    },
+    {
+     "name": "Terminal half-life",
+     "value": "9 h",
+     "source": "protocol"
+    },
+    {
+     "name": "Plasma protein binding",
+     "value": "94%",
+     "source": "protocol"
+    },
+    {
+     "name": "Unbound plasma fraction",
+     "value": "0.06, calculated from protein binding",
+     "source": "protocol"
+    },
+    {
+     "name": "Cellular pERK IC50",
+     "value": "12 nM",
+     "source": "protocol"
+    },
+    {
+     "name": "Molecular weight",
+     "value": "approximately 501.57 g/mol, calculated from the protocol SMILES",
+     "source": "protocol"
+    },
+    {
+     "name": "Elimination rate constant",
+     "value": "approximately 0.0770 h^-1, calculated from half-life",
+     "source": "protocol"
+    },
+    {
+     "name": "First-order absorption rate constant",
+     "value": "1 h^-1",
+     "source": "assumption"
+    },
+    {
+     "name": "Coverage threshold",
+     "value": "TCR of at least 1 throughout the dosing interval",
+     "source": "assumption"
+    }
+   ]
+  },
+  "tokens": 4063
+ },
+ {
+  "drug": "dv505",
+  "cond": "A_mem",
+  "rep": 1,
+  "answer": {
+   "doses": [
+    {
+     "dose_mg": 50,
+     "verdict": "indeterminate",
+     "tcr_max": 2.53,
+     "tcr_avg": 1.15,
+     "tcr_trough": 0.4,
+     "rationale": "Estimated peak and average free concentrations exceed the cellular IC50, but the estimated steady-state trough does not. Coverage therefore depends on the concentration metric."
+    },
+    {
+     "dose_mg": 100,
+     "verdict": "indeterminate",
+     "tcr_max": 5.06,
+     "tcr_avg": 2.31,
+     "tcr_trough": 0.8,
+     "rationale": "Estimated peak and average free concentrations exceed the cellular IC50, but the estimated steady-state trough does not. Coverage therefore depends on the concentration metric."
+    },
+    {
+     "dose_mg": 200,
+     "verdict": "covered",
+     "tcr_max": 10.13,
+     "tcr_avg": 4.62,
+     "tcr_trough": 1.59,
+     "rationale": "The estimated free concentration remains above the cellular IC50 through the dosing interval, including at trough."
+    },
+    {
+     "dose_mg": 400,
+     "verdict": "covered",
+     "tcr_max": 20.25,
+     "tcr_avg": 9.23,
+     "tcr_trough": 3.19,
+     "rationale": "The estimated free concentration remains above the cellular IC50 through the dosing interval, including at trough."
+    },
+    {
+     "dose_mg": 600,
+     "verdict": "covered",
+     "tcr_max": 30.38,
+     "tcr_avg": 13.85,
+     "tcr_trough": 4.78,
+     "rationale": "The estimated free concentration remains above the cellular IC50 through the dosing interval, including at trough. This extrapolates the reported clearance beyond the studied 400 mg dose."
+    }
+   ],
+   "numbers_used": [
+    {
+     "name": "Planned oral doses",
+     "value": "50, 100, 200, 400, 600 mg",
+     "source": "protocol"
+    },
+    {
+     "name": "Apparent oral clearance",
+     "value": "18 L/h, reported for 50–400 mg",
+     "source": "protocol"
+    },
+    {
+     "name": "Terminal half-life",
+     "value": "9 h",
+     "source": "protocol"
+    },
+    {
+     "name": "Plasma protein binding",
+     "value": "94%; calculated unbound fraction 0.06",
+     "source": "protocol"
+    },
+    {
+     "name": "Cellular pERK IC50",
+     "value": "12 nM",
+     "source": "protocol"
+    },
+    {
+     "name": "Molecular weight calculated from the supplied SMILES",
+     "value": "approximately 501.56 g/mol",
+     "source": "protocol"
+    },
+    {
+     "name": "Once-daily dosing interval",
+     "value": "24 h",
+     "source": "protocol"
+    },
+    {
+     "name": "Coverage criterion",
+     "value": "TCR ≥ 1",
+     "source": "assumption"
+    },
+    {
+     "name": "Steady-state concentration model",
+     "value": "Dose-proportional apparent clearance, constant protein binding, and monoexponential elimination with an estimated rate constant of 0.0770 h^-1; instantaneous absorption used to estimate peak and trough",
+     "source": "assumption"
+    }
+   ]
+  },
+  "tokens": 3788
+ },
+ {
+  "drug": "dv505",
+  "cond": "A_mem",
+  "rep": 2,
+  "answer": {
+   "doses": [
+    {
+     "dose_mg": 50,
+     "verdict": "indeterminate",
+     "tcr_max": 2.53,
+     "tcr_avg": 1.15,
+     "tcr_trough": 0.4,
+     "rationale": "Estimated peak and average free concentrations exceed the cellular IC50, but trough falls below it. Coverage depends on the concentration metric; coverage throughout the interval is not supported."
+    },
+    {
+     "dose_mg": 100,
+     "verdict": "indeterminate",
+     "tcr_max": 5.06,
+     "tcr_avg": 2.31,
+     "tcr_trough": 0.8,
+     "rationale": "Estimated peak and average free concentrations exceed the cellular IC50, but trough falls below it. Coverage depends on the concentration metric; coverage throughout the interval is not supported."
+    },
+    {
+     "dose_mg": 200,
+     "verdict": "covered",
+     "tcr_max": 10.13,
+     "tcr_avg": 4.62,
+     "tcr_trough": 1.59,
+     "rationale": "Estimated free concentration remains above the cellular IC50 throughout the dosing interval."
+    },
+    {
+     "dose_mg": 400,
+     "verdict": "covered",
+     "tcr_max": 20.25,
+     "tcr_avg": 9.23,
+     "tcr_trough": 3.19,
+     "rationale": "Estimated free concentration remains above the cellular IC50 throughout the dosing interval."
+    },
+    {
+     "dose_mg": 600,
+     "verdict": "covered",
+     "tcr_max": 30.38,
+     "tcr_avg": 13.85,
+     "tcr_trough": 4.78,
+     "rationale": "Estimated free concentration remains above the cellular IC50 throughout the dosing interval, assuming dose-proportional PK extends to this dose."
+    }
+   ],
+   "numbers_used": [
+    {
+     "name": "Planned once-daily doses",
+     "value": "50, 100, 200, 400, 600 mg",
+     "source": "protocol"
+    },
+    {
+     "name": "Apparent oral clearance",
+     "value": "18 L/h",
+     "source": "protocol"
+    },
+    {
+     "name": "Terminal half-life",
+     "value": "9 h",
+     "source": "protocol"
+    },
+    {
+     "name": "Plasma protein binding",
+     "value": "94%",
+     "source": "protocol"
+    },
+    {
+     "name": "Cellular pERK IC50",
+     "value": "12 nM",
+     "source": "protocol"
+    },
+    {
+     "name": "Dosing interval",
+     "value": "24 h, from once-daily dosing",
+     "source": "protocol"
+    },
+    {
+     "name": "Unbound plasma fraction",
+     "value": "0.06, calculated from protein binding",
+     "source": "assumption"
+    },
+    {
+     "name": "Molecular weight",
+     "value": "approximately 501.57 g/mol, calculated from the supplied SMILES as C27H28FN7O2",
+     "source": "assumption"
+    },
+    {
+     "name": "Adequate-coverage cutoff",
+     "value": "TCR ≥1",
+     "source": "assumption"
+    },
+    {
+     "name": "Peak and trough estimation model",
+     "value": "One-compartment, first-order elimination with instantaneous absorption; elimination rate ln(2)/9 h = approximately 0.0770 per hour",
+     "source": "assumption"
+    },
+    {
+     "name": "Exposure extrapolation",
+     "value": "Dose-proportional steady-state exposure through 600 mg; constant clearance and protein binding",
+     "source": "assumption"
+    }
+   ]
+  },
+  "tokens": 3658
+ }
+]
