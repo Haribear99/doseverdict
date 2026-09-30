@@ -307,7 +307,7 @@ def refute_lines() -> list[str]:
     d, g, gm = c["flagged_diff"], o["grounded_diff"], m["grounded_diff"]
     out = ["| 지표 | 현재 기본 | 반박 모드 |", "|---|---|---|",
            f"| 결함 없는 판(12회): 지적 기준 문장/실행 · 특이도 · defect finding/실행 | {c['current']['mean_flagged_base_sentences']} · {c['current']['specificity']} · {c['current']['mean_defect_findings']} | {c['refute']['mean_flagged_base_sentences']} · {c['refute']['specificity']} · {c['refute']['mean_defect_findings']} (차이 {d[0]:+.2f} [{d[1]:+.2f}, {d[2]:+.2f}]) |",
-           f"| 원 20: 민감도 · 특이도 · Youden J (현재 = 2회 평균) | {o['current']['sensitivity']} · {o['current']['specificity']} · {o['current']['youden_j']} | {o['refute']['sensitivity']} · {o['refute']['specificity']} · {o['refute']['youden_j']} |",
+           f"| 원 20: 민감도 · 특이도 · Youden J (현재 = 2회 평균) | {o['current']['sensitivity']} · {o['current']['specificity']} · {o['current']['sensitivity'] + o['current']['specificity'] - 1:.3f} | {o['refute']['sensitivity']} · {o['refute']['specificity']} · {o['refute']['youden_j']} |",
            f"| 다약물 30(확인용): 민감도 · 특이도 · Youden J | {m['current']['sensitivity']} · {m['current']['specificity']} · {m['current']['youden_j']} | {m['refute']['sensitivity']} · {m['refute']['specificity']} · {m['refute']['youden_j']} |",
            f"| grounded 차이(반박 − 현재) [95% CI] | — | 원 20 {g[0]:+.3f} [{g[1]:+.3f}, {g[2]:+.3f}] · 다약물 {gm[0]:+.3f} [{gm[1]:+.3f}, {gm[2]:+.3f}] |", ""]
     rules = " · ".join(f"{k} {'충족' if v else '미충족'}" for k, v in r["rules"].items())

@@ -497,7 +497,7 @@
 사용자 지시: "실험 결과를 보완·해결할 것. 기존 방식과 개선 방식 중 더 나은 쪽으로, 제안서에서 크게 벗어나지 않게."
 
 - 원인(코드): Arena가 모든 검토 질문에 의견을 내면서 '결함 아님'을 표현할 수단이 없었고, findings 지시문이 "가설이 확인된 모든 질문을 다루라"였다.
-- 개선: 제안서의 Adversarial Review Arena가 가설을 반박하게 했다(stance defect/no_defect/insufficient, 전원 반박된 질문은 finding 제외). 스위치 `DV_ARENA_REFUTE`, 기본 모드 프롬프트 불변(`tests/test_refute.py`).
+- 개선: 제안서의 Adversarial Review Arena가 가설을 반박하게 했다(stance defect/no_defect/insufficient, 전원 반박된 질문은 finding 제외). 스위치 `DV_ARENA_REFUTE`, 기본 모드 프롬프트 불변(`tests/test_refute.py`). 출력 스키마에는 stance='defect' 기본 필드가 추가됐다(LLM 입력으로 되돌아가는 경로 없음).
 - 사전 등록 `docs/refute_prereg.md`(실행 전 커밋 fed5667). 확인용 세트는 설계에 쓰지 않은 다약물 30. 62회, 약 2.5M 토큰.
 - 판정 **기각**(`refute_ab.json`): 결함 없는 판 8.0→6.42(−1.58 [−3.33, +0.17], 유의하지 않음), 민감도 원 20 0.962→0.883 · 다약물 0.933→0.839, J 0.762→0.676 · 0.670→0.634. grounded만 비열등.
 - 결론: 오지적 감소 두 시도(보정 6.12, 반박 6.14) 모두 결함을 함께 놓쳤다. 기본값은 민감도 우선 유지, 오지적은 Human Gate에서 기각. 반박 모드는 스위치로만 남기고 UI에는 넣지 않았다(사후 결정).
