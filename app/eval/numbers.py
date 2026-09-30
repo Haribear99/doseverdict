@@ -259,6 +259,23 @@ def specificity_lines() -> list[str]:
     return out + [""]
 
 
+def calibration_lines() -> list[str]:
+    """특이도 보정 A/B(`docs/calibration_prereg.md`, `specificity.py::calibration`)."""
+    fp = ROOT / "app/eval/data/results/calibration.json"
+    if not fp.exists():
+        return ["(결과 없음)", ""]
+    r = json.loads(fp.read_text(encoding="utf-8"))
+    g, sp = r["grounded_diff"], r["span_diff"]
+    return ["| 지표 | 현재 | 보정판(DV_FINDINGS_CALIBRATED=1) |", "|---|---|---|",
+            f"| 결함 없는 기준 시놉시스 문장 특이도(12회) | {r['clean_specificity'][0]} | {r['clean_specificity'][1]} |",
+            f"| 결함 없는 기준 시놉시스 실행당 defect finding | {r['clean_defects_per_run'][0]} | {r['clean_defects_per_run'][1]} |",
+            f"| 원 20 문장 민감도(현재 = 2회 평균) | {r['orig_sentence_sensitivity'][0]} | {r['orig_sentence_sensitivity'][1]} |",
+            f"| 원 20 문장 특이도 | {r['orig_sentence_specificity'][0]} | {r['orig_sentence_specificity'][1]} |",
+            f"| grounded 차이(보정 − 현재 2회 평균) [95% CI] | — | {g[0]:+.3f} [{g[1]:+.3f}, {g[2]:+.3f}] |",
+            f"| span recall 차이 [95% CI] | — | {sp[0]:+.3f} [{sp[1]:+.3f}, {sp[2]:+.3f}] |", "",
+            f"사전 규칙 판정: **{r['verdict']}** — 특이도는 올랐지만 민감도 하락이 0.05를 넘었다. 민감도·특이도의 교환이며, 보정판은 기본값이 아닌 '보수적 지적' 선택지로만 둔다. 보정판 양성은 1회 실행이다.", ""]
+
+
 def main() -> None:
     cfgs = [
         ("full", "09-11 본평가: Reviewer 3인"), ("lean", "09-11 기본: Reviewer 1인 + 재선택"),
@@ -280,6 +297,7 @@ def main() -> None:
              "## 1-5. 강한 LLM 원샷 베이스라인(원 20, `oneshot_compare.json`)", ""] + oneshot_lines() + [
              "## 1-6. 기권 평가(도구 없는 원샷의 표적 커버리지 판정, `abstain.json`)", ""] + abstain_lines() + [
              "## 1-7. 특이도 평가(문장 단위·음성 대조·수정안 재검토, `specificity.json`)", ""] + specificity_lines() + [
+             "## 1-8. 특이도 보정 A/B(`calibration.json`)", ""] + calibration_lines() + [
              "## 2. 소토라십 240 mg TCR (`evidence/tcr_240mg.json`)", "",
              "| 가정 | C_max | C_avg | C_trough | 판정 |", "|---|---|---|---|---|"]
     for r in tcr["rows"]:
