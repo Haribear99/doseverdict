@@ -234,9 +234,39 @@ def calibration() -> None:
     print(json.dumps(res, ensure_ascii=False, indent=1))
 
 
+def refute_ab() -> None:
+    """반박 모드 A/B(사전 등록 docs/refute_prereg.md): 현재(clean_base·lean_v3+v3b·lean_mdrug3 저장 결과) 대 반박(clean_base_refute·lean_refute·lean_mdrug_refute).
+    채택 = 규칙 1~4 모두 충족. 판정은 이 함수가 기계 적용한다."""
+    from app.eval.hybrid import _diff
+    from app.eval.oneshot import mean_runs, paired
+    b0, b1 = eval_b(""), eval_b("_refute")
+    d_clean = _diff(b1["runs"], b0["runs"])
+    a0 = eval_a([("lean_v3", "gold_axis1.jsonl"), ("lean_v3b", "gold_axis1.jsonl"), ("lean_mdrug3", "gold_axis1_multidrug.jsonl")])
+    a1 = eval_a([("lean_refute", "gold_axis1.jsonl"), ("lean_mdrug_refute", "gold_axis1_multidrug.jsonl")])
+    s = lambda a, k, m: a[k]["summary"][m]
+    orig0 = {m: (s(a0, "lean_v3", m) + s(a0, "lean_v3b", m)) / 2 for m in ("sensitivity", "specificity", "youden_j")}
+    orig1 = {m: s(a1, "lean_refute", m) for m in ("sensitivity", "specificity", "youden_j")}
+    md0 = {m: s(a0, "lean_mdrug3", m) for m in ("sensitivity", "specificity", "youden_j")}
+    md1 = {m: s(a1, "lean_mdrug_refute", m) for m in ("sensitivity", "specificity", "youden_j")}
+    g = paired(mean_runs(["lean_v3", "lean_v3b"]), mean_runs(["lean_refute"]), "grounded_recall")
+    gm = paired(mean_runs(["lean_mdrug3"]), mean_runs(["lean_mdrug_refute"]), "grounded_recall")
+    rules = {"1_clean_flagged_ci_upper_lt_0": d_clean[2] < 0,
+             "2_sensitivity_drop_le_0.05": (orig0["sensitivity"] - orig1["sensitivity"]) <= 0.05 and (md0["sensitivity"] - md1["sensitivity"]) <= 0.05,
+             "3_youden_j_not_lower": orig1["youden_j"] >= orig0["youden_j"] and md1["youden_j"] >= md0["youden_j"],
+             "4_grounded_ci_lower_gt_-0.10": g[1] > -0.10}
+    res = {"clean": {"current": {k: b0[k] for k in ("specificity", "mean_flagged_base_sentences", "mean_defect_findings", "tokens_total")},
+                     "refute": {k: b1[k] for k in ("specificity", "mean_flagged_base_sentences", "mean_defect_findings", "tokens_total")},
+                     "flagged_diff": d_clean},
+           "orig20": {"current": {k: round(v, 3) for k, v in orig0.items()}, "refute": orig1, "grounded_diff": [round(x, 3) for x in g[:3]]},
+           "multidrug30": {"current": md0, "refute": md1, "grounded_diff": [round(x, 3) for x in gm[:3]]},
+           "rules": rules, "verdict": "채택(기본값 교체)" if all(rules.values()) else "기각(현재 기본 유지)"}
+    (OUT / "refute_ab.json").write_text(json.dumps(res, ensure_ascii=False, indent=1), encoding="utf-8")
+    print(json.dumps(res, ensure_ascii=False, indent=1))
+
+
 if __name__ == "__main__":
     ap = argparse.ArgumentParser()
-    ap.add_argument("cmd", choices=["a", "run_clean", "run_patch", "report", "check", "calibration"])
+    ap.add_argument("cmd", choices=["a", "run_clean", "run_patch", "report", "check", "calibration", "refute_ab"])
     ap.add_argument("--tag", default="", help="run_clean 저장 폴더 접미사(예: _cal)")
     a_ = ap.parse_args()
     if a_.cmd == "check":   # 실행 전 점검: 문장 분할·수정판 수(LLM 0)
@@ -247,4 +277,4 @@ if __name__ == "__main__":
         print("patched cases", len(pc), "patches", sum(len(c["patches"]) for c in pc))
     else:
         {"a": lambda: print(json.dumps({k: v["summary"] for k, v in eval_a().items() if k != "base_flag_top"}, indent=1)),
-         "run_clean": lambda: run_clean(a_.tag), "run_patch": run_patch, "report": report, "calibration": calibration}[a_.cmd]()
+         "run_clean": lambda: run_clean(a_.tag), "run_patch": run_patch, "report": report, "calibration": calibration, "refute_ab": refute_ab}[a_.cmd]()

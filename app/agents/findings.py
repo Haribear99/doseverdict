@@ -144,11 +144,26 @@ def _calibrated(state: ReviewState | None = None) -> bool:
     return os.getenv("DV_FINDINGS_CALIBRATED", "0").lower() in ("1", "true", "on")
 
 
+_COVER = "Cover every review question whose hypothesis the protocol_text confirms; one finding per distinct protocol sentence."
+_COVER_REFUTE = ("Cover the review questions that at least one reviewer marked stance='defect' or 'insufficient' and whose hypothesis the protocol_text confirms; "
+                 "one finding per distinct protocol sentence. Questions that every reviewer refuted (stance='no_defect') have been removed; do not re-raise them.")
+
+
+def refuted_tasks(state: ReviewState) -> set[str]:
+    """반박 모드에서 모든 Reviewer가 no_defect로 반박한 검토 질문(task_id). 기본 모드에서는 stance가 항상 defect라 빈 집합."""
+    from app.agents.reviewers import refute_mode
+    if not refute_mode(state):
+        return set()
+    return {k for k, ps in state.scratch.get("positions", {}).items() if ps and all(p.get("stance") == "no_defect" for p in ps)}
+
+
 def _instructions(state: ReviewState | None = None) -> str:
     """주제 규칙은 원래 위치(TCR 금지 문장 바로 앞)에 넣는다 — lean_d3와 같은 프롬프트를 재현해야 A/B가 비교 가능하다."""
+    from app.agents.reviewers import refute_mode
     marker = "Do not write findings about target-coverage/exposure adequacy (TCR)"
-    ins = _INSTR.replace("Cover every review question whose hypothesis the protocol_text confirms; one finding per distinct protocol sentence.",
-                         "One finding per distinct protocol sentence.", 1) + _CALIBRATION_RULE if _calibrated(state) else _INSTR
+    ins = _INSTR.replace(_COVER, "One finding per distinct protocol sentence.", 1) + _CALIBRATION_RULE if _calibrated(state) else _INSTR
+    if refute_mode(state) and not _calibrated(state):
+        ins = ins.replace(_COVER, _COVER_REFUTE, 1)
     return ins.replace(marker, _TOPIC_RULE.lstrip(chr(10)) + chr(10) + marker, 1) if _topic_prompt() else ins
 
 
@@ -176,12 +191,13 @@ def _topic_filter(state: ReviewState, category: str, ids: list[str]) -> tuple[li
 
 
 def draft_findings(gc: GatewayClient, state: ReviewState, purpose: str = "findings") -> dict[str, Any]:
+    refuted = refuted_tasks(state)
     ctx = {
         "dose_strategy": state.trial.design.dose_strategy.model_dump(exclude_none=True),
         "safety_monitoring": state.trial.design.safety_monitoring.model_dump(exclude_none=True),
         "eligibility": state.trial.design.eligibility.model_dump(exclude_none=True),
-        "review_questions": state.review_questions,
-        "reviewer_positions": state.scratch.get("positions", {}),
+        "review_questions": [q for q in state.review_questions if q.get("task_id") not in refuted],
+        "reviewer_positions": {k: v for k, v in state.scratch.get("positions", {}).items() if k not in refuted},
         "evidence": [{"id": e.evidence_id, "kind": e.kind, "authority": e.authority, "section": e.section, "applicability": e.applicability,
                       "norm_strength": e.norm_strength, **({"topics": _doc_tags(e)} if _topic_prompt() else {}), "quote": (e.quote or "")[:quote_chars()]}
                      for e in state.evidence.values()],
@@ -193,6 +209,10 @@ def draft_findings(gc: GatewayClient, state: ReviewState, purpose: str = "findin
     if out is None:
         record_failure(state.scratch, "findings", meta)   # 초안 실패를 '결함 없음'으로 보이게 두지 않는다
     rows = [r.model_dump() for r in out.findings][:10] if out else []
+    if refuted:   # 반박된 질문에 기댄 초안은 결정론으로 뺀다(LLM이 지시를 어겨도)
+        state.scratch["refuted_tasks"] = sorted(refuted)
+        state.scratch["refuted_dropped"] = [r.get("task_id") for r in rows if r.get("task_id") in refuted]
+        rows = [r for r in rows if r.get("task_id") not in refuted]
     findings: list[Finding] = []
     tcr = deterministic_tcr_finding(state)
     if tcr:

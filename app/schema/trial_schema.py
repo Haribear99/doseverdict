@@ -192,6 +192,7 @@ class ReviewerPosition(BaseModel):
     severity: Severity
     position: str
     evidence_ids_seen: list[str] = Field(default_factory=list, description="이 Reviewer에게만 공급된 근거")
+    stance: Literal["defect", "no_defect", "insufficient"] = Field("defect", description="반박 모드(refute)에서만 채움. 기본 모드는 항상 defect")
 
 
 class Finding(BaseModel):

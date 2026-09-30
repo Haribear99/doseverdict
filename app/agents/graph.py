@@ -290,7 +290,7 @@ def sqlite_checkpointer(path: str | None = None) -> SqliteSaver:
 
 def run_until_gate(protocol_text: str, *, run_id: str | None = None, checkpointer=None, on_step=None, precompiled=None,
                    ablate: list[str] | None = None, holdout_chunk_ids: list[str] | None = None,
-                   reviewers: list[str] | None = None, calibrated: bool | None = None) -> tuple[Any, dict[str, Any], ReviewState]:
+                   reviewers: list[str] | None = None, calibrated: bool | None = None, refute: bool | None = None) -> tuple[Any, dict[str, Any], ReviewState]:
     """그래프를 Human Gate까지 실행. 반환: (graph, config, 현재 상태). on_step(node_name, state_dict)로 UI 갱신.
     precompiled=TrialSchema면 compile 생략. ablate=['no_calc','no_arena','no_verifier'] 평가용. holdout_chunk_ids는 검색에서 제외(누수 차단)."""
     graph = build_graph(checkpointer)
@@ -306,6 +306,8 @@ def run_until_gate(protocol_text: str, *, run_id: str | None = None, checkpointe
         state.scratch["reviewers"] = list(reviewers)
     if calibrated is not None:   # UI '보수적 지적 모드' — 실행 상태로 넘겨 다른 세션에 새지 않게 한다
         state.scratch["calibrated"] = bool(calibrated)
+    if refute is not None:       # 반박 모드(docs/refute_prereg.md) — 같은 이유로 실행 상태로 넘긴다
+        state.scratch["refute"] = bool(refute)
     config = {"configurable": {"thread_id": state.run_id}}
     for chunk in graph.stream(state, config, stream_mode="updates"):
         for node, upd in chunk.items():
