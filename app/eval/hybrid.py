@@ -119,6 +119,16 @@ def post_hoc_orig20(bd: dict, res: dict) -> list[str]:
     a = eval_a([("lean_v3", "gold_axis1.jsonl"), ("lean_v3b", "gold_axis1.jsonl")])
     for k in ("lean_v3", "lean_v3b"):
         out[f"에이전트 · {k}"] = a[k]["summary"]
+    import app.eval.specificity as sp   # 필터를 맞춘 비교: 에이전트도 verified finding만(red-judge 09-30 지적)
+    keep = sp.defect_spans
+    sp.defect_spans = lambda st: [f["protocol_span"]["text"] for f in st["findings"]
+                                  if f.get("verdict") == "defect" and f["finding_id"] != "F00" and f.get("verifier_status") == "verified"]
+    try:
+        av = eval_a([("lean_v3", "gold_axis1.jsonl"), ("lean_v3b", "gold_axis1.jsonl")])
+    finally:
+        sp.defect_spans = keep
+    for k in ("lean_v3", "lean_v3b"):
+        out[f"에이전트 verified만 · {k}"] = av[k]["summary"]
     res["post_hoc_orig20"] = out
     L = ["", "## 사후 분석(사전 등록 밖) — 원 20 문장 단위 민감도·특이도", "",
          "원샷 저장 결과(`oneshot`, `oneshot_r2`)에 평가 A와 같은 규칙(주입 문장 = 양성, 기준 문장 = 음성, `run_eval.matches`)을 적용했다. 원 20 원샷 결과는 이미 본 데이터이고 이 분석은 결과를 본 뒤 추가했다.", "",
