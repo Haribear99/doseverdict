@@ -277,6 +277,26 @@ def calibration_lines() -> list[str]:
             f"사전 규칙 판정: **{r['verdict']}** — 특이도는 올랐지만 민감도 하락이 0.05를 넘었다. 운영점만 옮긴 것이 아니라 판별력(Youden J)도 낮아졌다. 보정판은 기본값이 아닌 '보수적 지적' 선택지로만 둔다. 보정판 양성은 1회 실행이다.", ""]
 
 
+def hybrid_lines() -> list[str]:
+    """원샷 + 같은 인용 판정기, 결함 없는 판 비교(`docs/hybrid_prereg.md`, `hybrid.py`)와 사후 원 20 문장 단위 J."""
+    fp = ROOT / "app/eval/data/results/hybrid.json"
+    if not fp.exists():
+        return ["(결과 없음)", ""]
+    r = json.loads(fp.read_text(encoding="utf-8"))
+    a = r["agent"]
+    out = ["| 팔(결함 없는 기준 시놉시스 4종 × 3회) | 지적된 기준 문장/실행 | 특이도 | finding/실행 | 토큰/실행 | 차이(팔 − 에이전트) [95% CI] |", "|---|---|---|---|---|---|",
+           f"| 에이전트(평가 B) | {a['flagged_per_run']} | {a['specificity']} | {a['findings_per_run']} | {a['tokens_per_run']:,} | — |"]
+    for k, v in r["arms"].items():
+        d = v["diff"]
+        out.append(f"| {k} | {v['flagged_per_run']} | {v['specificity']} | {v['findings_per_run']} | {v['tokens_per_run']:,} | {d[0]:+.2f} [{d[1]:+.2f}, {d[2]:+.2f}] |")
+    out += ["", f"사전 등록 판정: **{r['verdict']}**. 판정기는 인용 판정기이며 에이전트 검증기 전체가 아니다.", "",
+            "사후(사전 등록 밖, 원 20 원샷 결과는 이미 본 데이터) — 문장 단위 민감도·특이도·J(평가 A와 같은 규칙):", "",
+            "| 팔 · 실행 | 민감도 | 특이도 | Youden J [95% CI] |", "|---|---|---|---|"]
+    for k, v in r.get("post_hoc_orig20", {}).items():
+        out.append(f"| {k} | {v['sensitivity']:.3f} | {v['specificity']:.3f} | {v['youden_j']:.3f} {v['youden_ci']} |")
+    return out + [""]
+
+
 def main() -> None:
     cfgs = [
         ("full", "09-11 본평가: Reviewer 3인"), ("lean", "09-11 기본: Reviewer 1인 + 재선택"),
@@ -299,6 +319,7 @@ def main() -> None:
              "## 1-6. 기권 평가(도구 없는 원샷의 표적 커버리지 판정, `abstain.json`)", ""] + abstain_lines() + [
              "## 1-7. 특이도 평가(문장 단위·음성 대조·수정안 재검토, `specificity.json`)", ""] + specificity_lines() + [
              "## 1-8. 특이도 보정 A/B(`calibration.json`)", ""] + calibration_lines() + [
+             "## 1-9. 원샷 + 같은 인용 판정기, 결함 없는 판(`hybrid.json`)", ""] + hybrid_lines() + [
              "## 2. 소토라십 240 mg TCR (`evidence/tcr_240mg.json`)", "",
              "| 가정 | C_max | C_avg | C_trough | 판정 |", "|---|---|---|---|---|"]
     for r in tcr["rows"]:

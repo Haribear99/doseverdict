@@ -180,7 +180,7 @@ figcaption { font-size: 19px; color: var(--muted); line-height: 1.4; }
 
 <!-- S3 authority+autonomy -->
 <section class="slide">
-  <div class="kicker">판정 권한 분리 · 스스로 정하는 것</div>
+  <div class="kicker">판정 권한 분리 · 규칙으로 정하는 것</div>
   <h1>수치는 도구, 규범은 검색과 검증기, 결정은 사람이 맡는다. 무엇을 검토할지는 결측·상충 패턴에서 정하고, 기본 종료는 “결론 없음”이다.</h1>
   <div class="body" style="flex-direction:column; gap:30px">
     <div style="display:flex; gap:56px">
@@ -207,7 +207,7 @@ figcaption { font-size: 19px; color: var(--muted); line-height: 1.4; }
             <tr><td class="mono">tool_fallback</td><td class="num">20</td><td class="num">10</td></tr>
           </tbody>
         </table>
-        <p class="small">트리거 12종 중 평가 70케이스에서 발동한 것은 4종이다. 적대 판에서는 <span class="mono">source_version_conflict</span>(예시 ⑥ 폐기 초안)와 <span class="mono">prompt_injection_detected</span>(인젝션 판)가 실제로 발동했다(06쪽). <span class="tg">재선택은 GPU에서만</span></p>
+        <p class="small">트리거 12종 중 평가 70케이스에서 발동한 것은 4종이다. 적대 판에서는 <span class="mono">source_version_conflict</span>·<span class="mono">citation_rejected</span> 재작성(예시 ⑥ 폐기 초안)과 <span class="mono">prompt_injection_detected</span>(인젝션 판)가 실제로 발동했다(06쪽). 나머지 5종은 단위 테스트로만 확인했다. <span class="tg">재선택은 GPU에서만</span></p>
       </div>
     </div>
     <div class="flow">
@@ -276,10 +276,10 @@ figcaption { font-size: 19px; color: var(--muted); line-height: 1.4; }
     <div style="display:flex; gap:56px">
       <div class="col" style="flex:1">
         <p>TCR = C_free / IC50. 입력은 라벨 CL/F 26.2 L/h, t½ 5 h, f_u 0.11(단백결합 89%), IC50 30 nM(ChEMBL 세포 기반 중앙값).</p>
-        <p class="small">단일 지표로 결론을 내면 (가)에서는 C_avg 기준 “커버”, C_trough 기준 “미커버”로 갈린다. 세 지표를 함께 낸다. 기준: TCR&lt;1 미커버, &gt;10 포화 의심 — 본 프로젝트 잠정 기준(문헌값 아님).</p>
+        <p class="small">단일 지표로 결론을 내면 (가)에서는 C_avg 기준 “커버”, C_trough 기준 “미커버”로 갈린다. 세 지표를 함께 낸다. 기준: TCR&lt;1 미커버, &gt;10 포화 의심 — 본 프로젝트 잠정 기준(문헌값 아님). 소토라십은 비가역 공유결합 저해제라 가역 평형을 가정한 TCR(특히 C_trough)은 스크리닝 근사다. 기권 시 kinact/K_I를 추가 자료로 요청한다.</p>
       </div>
       <div class="col" style="flex:1">
-        <div class="note"><strong>시판 후 비교 이후</strong> — 무작위 비교와 2026 메타분석(ORR·PFS 모두 유의하지 않음) 뒤에도 이 질문은 닫히지 않았다. DoseVerdict는 결과가 아니라 근거 사슬의 결측을 판정한다.</div>
+        <div class="note"><strong>시판 후 비교 이후</strong> — 무작위 비교(Hochmair 2024)와 2026 메타분석(Aung, JCO OP — ORR·PFS 모두 유의하지 않음) 뒤에도 이 질문은 닫히지 않았다. DoseVerdict는 결과가 아니라 근거 사슬의 결측을 판정한다.</div>
       </div>
     </div>
   </div>
@@ -319,7 +319,7 @@ figcaption { font-size: 19px; color: var(--muted); line-height: 1.4; }
 <!-- N7 confirmed -->
 <section class="slide">
   <div class="kicker">확인된 성과 · 판정 규칙은 실행 전에 커밋</div>
-  <h1>확인된 성과: 검증 통과율은 오르고 토큰은 줄었으며, 결함 문장을 골라 짚고, 고친 문장은 대부분 다시 지적되지 않는다.</h1>
+  <h1>확인된 성과: 검증 통과율은 오르고 토큰은 줄었으며, 결함 문장을 골라 짚고(같은 모델 원샷은 더 잘 짚는다), 고친 문장은 대부분 다시 지적되지 않는다.</h1>
   <div class="body" style="display:grid; grid-template-columns:1fr 1fr; gap:26px 56px">
     <div class="col" style="gap:10px">
       <div class="small" style="font-weight:600; color:var(--ink)">09-11 기준선 대비, 최종 코드 2회 평균 (원 20)</div>
@@ -337,9 +337,10 @@ figcaption { font-size: 19px; color: var(--muted); line-height: 1.4; }
           <tr><td style="white-space:nowrap">원 20 · 1차 (lean_v3)</td><td class="num">0.950</td><td class="num">0.812</td><td class="num">0.762 [0.704, 0.815]</td></tr>
           <tr><td style="white-space:nowrap">원 20 · 2차 (lean_v3b)</td><td class="num">0.975</td><td class="num">0.786</td><td class="num">0.761 [0.675, 0.836]</td></tr>
           <tr><td style="white-space:nowrap">다약물 30 (lean_mdrug3)</td><td class="num">0.933</td><td class="num">0.737</td><td class="num">0.670 [0.609, 0.727]</td></tr>
+          <tr class="sub"><td style="white-space:nowrap">원샷·도구 없음, 원 20 2회 (사후)</td><td class="num">0.975~0.992</td><td class="num">0.862~0.888</td><td class="num">0.854~0.863</td></tr>
         </tbody>
       </table>
-      <p class="small"><span class="tg">사전 등록 판정: 주입 문장을 골라 짚는다</span> <span class="tg">기준 문장을 결함 없음으로 가정한 하한</span></p>
+      <p class="small"><span class="tg">사전 등록 판정: 주입 문장을 골라 짚는다</span> <span class="tg">기준 문장을 결함 없음으로 가정한 하한</span> <span class="tg">원샷 행은 사후 계산 — 판별력 자체는 에이전트의 몫이 아니다</span></p>
     </div>
     <div class="col" style="gap:10px">
       <div class="small" style="font-weight:600; color:var(--ink)">수정안 재검토 (평가 C, 14케이스·수정안 30건)</div>
@@ -377,7 +378,7 @@ figcaption { font-size: 19px; color: var(--muted); line-height: 1.4; }
           <tr><td>findings effort medium</td><td class="num t-reject">+28.5%</td><td class="num">+0.033</td><td><span class="chip c-reject">기각</span></td></tr>
         </tbody>
       </table>
-      <p class="small"><span class="tg">gpt-6-sol +0.117은 1회 실행 · 확장 40 +0.050 유의하지 않음 → 유지 근거는 토큰 절감(사후 판단)</span> <span class="tg">나머지 4개 팔 보류 · 전체 표: 기술서 6.2</span> <span class="tg">확장 40: 토큰 −17.8% · grounded +0.046(유의하지 않음)</span> <span class="tg">입력 70~80% · reasoning 1%</span> <span class="tg">캐시 절감 0</span> <span class="tg">누적 27,168,746 토큰(6,000만의 45.3%)</span></p>
+      <p class="small"><span class="tg">gpt-6-sol +0.117은 1회 실행 · 확장 40 +0.050 유의하지 않음 → 유지 근거는 토큰 절감(사후 판단)</span> <span class="tg">나머지 4개 팔 보류 · 전체 표: 기술서 6.2</span> <span class="tg">확장 40: 토큰 −17.8% · grounded +0.046(유의하지 않음)</span> <span class="tg">입력 70~80% · reasoning 1%</span> <span class="tg">캐시 절감 0</span> <span class="tg">누적 29,683,390 토큰(6,000만의 49.5%, 09-30 기준)</span></p>
     </div>
     <div class="col" style="flex:1; gap:16px">
       <div class="note"><strong>원샷 대비 토큰 약 8배(6.9 결함 검토 과제 기준, 39,701 대 5,023)로 기대할 수 있는 것</strong> — 판단 입력의 도구 확보·재현성(10쪽, 순환성·사후 단서 있음), 원문에 묶인 인용(09쪽, 사후). 탐지율은 아니다.</div>
@@ -396,7 +397,7 @@ figcaption { font-size: 19px; color: var(--muted); line-height: 1.4; }
 <!-- N9 negative1 -->
 <section class="slide">
   <div class="kicker">한계와 부정적 결과 ①</div>
-  <h1>에이전트 구조가 결함 탐지율을 올린다는 증거는 없다: 같은 모델 원샷과 차이가 확인되지 않았고, ablation도 부정적이었다.</h1>
+  <h1>에이전트 구조가 결함 탐지를 낫게 한다는 증거는 없다: 같은 모델 원샷과 차이가 확인되지 않았고(문장 단위 판별은 원샷이 높다, 사후), ablation도 부정적이었다.</h1>
   <div class="body" style="gap:52px">
     <div class="col" style="flex:1; gap:14px">
       <div class="small" style="font-weight:600; color:var(--ink)">원샷 베이스라인 (원 20, gpt-6-sol 단일 호출·도구 없음)</div>
@@ -434,7 +435,7 @@ figcaption { font-size: 19px; color: var(--muted); line-height: 1.4; }
 <!-- N10 negative2 -->
 <section class="slide">
   <div class="kicker">한계와 부정적 결과 ②</div>
-  <h1>실제 약에서 PMR 부과 약을 가르지 못했고, 결함 없는 판에서도 지적하며, 지적을 줄이면 놓친다.</h1>
+  <h1>실제 약에서 PMR 부과 약을 가르지 못했고, 결함 없는 판에서 원샷+인용 판정기보다 많이 지적하며, 지적을 줄이면 놓친다.</h1>
   <div class="body" style="display:grid; grid-template-columns:1fr 1fr; gap:22px 52px">
     <div class="col" style="gap:8px">
       <div class="small" style="font-weight:600; color:var(--ink)">후향 검증 — 승인 전 1상 초록 43건(양성 14)</div>
@@ -443,8 +444,8 @@ figcaption { font-size: 19px; color: var(--muted); line-height: 1.4; }
     </div>
     <div class="col" style="gap:8px">
       <div class="small" style="font-weight:600; color:var(--ink)">결함 없는 기준 시놉시스 12회 (평가 B)</div>
-      <p style="font-size:22px">실행당 defect finding <b>6.42</b>(결함 6개 판 8.35와 차이가 작다), 문장 특이도 <b>0.64</b>(결함 넣은 판 0.74~0.81보다 낮다).</p>
-      <p class="small"><span class="tg">12회·점추정</span> <span class="tg">반복 지적된 기준 문장의 타당성은 사람이 판정하지 않음</span></p>
+      <p style="font-size:22px">실행당 defect finding <b>6.42</b>(결함 6개 판 8.35와 차이가 작다), 문장 특이도 <b>0.64</b>. 같은 판에서 원샷+같은 인용 판정기(사전 등록, 12회)는 지적 기준 문장 <b>6.0 대 8.0</b>/실행, 차이 −2.00 [−3.67, −0.42] → <b>원샷+판정기가 더 조용하다</b>(토큰 1/8). 다만 원 20에서 이 필터는 민감도를 0.72~0.78로 낮춘다(사후).</p>
+      <p class="small"><span class="tg">12회·점추정</span> <span class="tg">판정기 = 인용 판정기, 에이전트 검증기 전체 아님</span> <span class="tg">도구 없는 원샷(필터 없음) 7.33 — 차이 확인 안 됨</span> <span class="tg">반복 지적된 기준 문장의 타당성은 사람이 판정하지 않음</span></p>
     </div>
     <div class="col" style="gap:8px">
       <div class="small" style="font-weight:600; color:var(--ink)">지적을 줄이는 보정 A/B (사전 등록) — 기각</div>
