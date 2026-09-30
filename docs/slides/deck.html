@@ -110,7 +110,7 @@ figcaption { font-size: 19px; color: var(--muted); line-height: 1.4; }
 .card h2 { margin: 0 0 10px; font-size: 26px; font-weight: 700; letter-spacing: -0.01em; }
 .card p { font-size: 22px; color: var(--muted); }
 .quote {
-  font-family: Georgia, "Noto Serif KR", serif; font-size: 25px; line-height: 1.5;
+  font-family: Georgia, "Noto Serif KR", serif; font-size: 25px; line-height: 1.5; font-variant-numeric: lining-nums;
   background: var(--soft); border-left: 2px solid var(--muted); padding: 18px 24px; color: var(--ink);
 }
 
@@ -327,8 +327,8 @@ figcaption { font-size: 19px; color: var(--muted); line-height: 1.4; }
     <div class="col" style="gap:10px">
       <div class="small" style="font-weight:600; color:var(--ink)">09-11 기준선 대비, 최종 코드 2회 평균 (원 20)</div>
       <div style="display:flex; gap:44px">
-        <div class="stat"><div class="n md t-ok">+0.044</div><div class="l">검증 통과율 [+0.012, +0.071]</div></div>
-        <div class="stat"><div class="n md t-ok">−10.4%</div><div class="l">토큰</div></div>
+        <div class="stat"><div class="n md">+0.044</div><div class="l">검증 통과율 [+0.012, +0.071]</div></div>
+        <div class="stat"><div class="n md">−10.4%</div><div class="l">토큰</div></div>
       </div>
       <p class="small">grounded +0.075 [+0.012, +0.138]은 미확정 <span class="tg">실행 간 변동 0.067</span> <span class="tg">케이스 CI는 실행 간 변동을 담지 못함</span> <span class="tg">2회 평균 비교는 회귀 재실행 뒤 정함(사후)</span></p>
     </div>
@@ -370,7 +370,7 @@ figcaption { font-size: 19px; color: var(--muted); line-height: 1.4; }
   <div class="body" style="gap:52px">
     <div class="col" style="flex:1; gap:16px">
       <div style="display:flex; gap:44px">
-        <div class="stat"><div class="n md t-ok">−10.4%</div><div class="l">토큰, 09-11 기준선 대비 (2회 평균)</div></div>
+        <div class="stat"><div class="n md">−10.4%</div><div class="l">토큰, 09-11 기준선 대비 (2회 평균)</div></div>
         <div class="stat"><div class="n md">3.9만</div><div class="l">케이스당 토큰 (39,759 · 39,643)</div></div>
       </div>
       <table class="tight" style="font-size:19px">
@@ -378,7 +378,7 @@ figcaption { font-size: 19px; color: var(--muted); line-height: 1.4; }
         <tbody>
           <tr class="em"><td>전 노드 gpt-6-sol</td><td class="num">−9.0%</td><td class="num">+0.117 [+0.033, +0.200]</td><td><span class="chip c-ok">채택</span></td></tr>
           <tr><td>strict + 인용문 250자 (결합)</td><td class="num">−10~13%</td><td class="num">—</td><td><span class="chip c-hold">보류</span> → 사후 채택</td></tr>
-          <tr><td>findings effort medium</td><td class="num t-reject">+28.5%</td><td class="num">+0.033</td><td><span class="chip c-reject">기각</span></td></tr>
+          <tr><td>findings effort medium</td><td class="num">+28.5%</td><td class="num">+0.033</td><td><span class="chip c-reject">기각</span></td></tr>
         </tbody>
       </table>
       <p class="small"><span class="tg">gpt-6-sol +0.117은 1회 실행 · 확장 40 +0.050 유의하지 않음 → 유지 근거는 토큰 절감(사후 판단)</span> <span class="tg">나머지 4개 팔 보류 · 전체 표: 기술서 6.2</span> <span class="tg">확장 40: 토큰 −17.8% · grounded +0.046(유의하지 않음)</span> <span class="tg">입력 70~80% · reasoning 1%</span> <span class="tg">캐시 절감 0</span> <span class="tg">누적 32,184,908 토큰(6,000만의 53.6%, 10-01 기준)</span></p>

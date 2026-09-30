@@ -68,16 +68,17 @@ CSS = """
 .dv-section { font-size: 0.95rem; font-weight: 700; color: var(--dv-ink); margin: 1.8rem 0 0.1rem; }
 .dv-note { color: var(--dv-muted); font-size: 0.85rem; line-height: 1.55; }
 .dv-chip { display: inline-block; padding: 0.05rem 0.45rem; border-radius: 2px; font-size: 0.78rem; font-weight: 600; margin: 0 0.3rem 0.3rem 0; white-space: nowrap; border: 1px solid currentColor; }
-.dv-chip.verified { color: var(--dv-verified); background: var(--dv-verified-bg); }
-.dv-chip.held { color: var(--dv-held-text); background: var(--dv-held-bg); }
-.dv-chip.rejected { color: var(--dv-rejected); background: var(--dv-rejected-bg); }
-.dv-chip.abstain { color: var(--dv-abstain); background: var(--dv-abstain-bg); }
+.dv-chip.verified, .dv-chip.held, .dv-chip.rejected, .dv-chip.abstain { background: var(--dv-panel); }   /* 흰 바탕 + 상태색 글자·테두리(대비 4.5 이상) */
+.dv-chip.verified { color: var(--dv-verified); }
+.dv-chip.held { color: var(--dv-held-text); }
+.dv-chip.rejected { color: var(--dv-rejected); }
+.dv-chip.abstain { color: var(--dv-abstain); }
 .dv-chip.pending, .dv-chip.cat { color: var(--dv-muted); background: transparent; border-color: var(--dv-line); }
 .dv-sev { display: inline-block; padding: 0.05rem 0.45rem; border-radius: 2px; font-size: 0.75rem; font-weight: 600; border: 1px solid currentColor; margin: 0 0.3rem 0.3rem 0; }
-.dv-sev.critical { color: var(--dv-sev-critical); } .dv-sev.high { color: var(--dv-sev-high); }
+.dv-sev.critical { color: var(--dv-sev-critical); font-weight: 800; border-width: 2px; } .dv-sev.high { color: var(--dv-sev-high); }
 .dv-sev.medium { color: var(--dv-sev-medium); } .dv-sev.low { color: var(--dv-sev-low); }
 .dv-quote { border-left: 2px solid var(--dv-muted); background: var(--dv-soft); padding: 0.6rem 0.9rem; margin: 0.4rem 0 0.8rem; font-family: __SERIF__;
-  color: var(--dv-ink); line-height: 1.6; overflow-wrap: anywhere; }
+  color: var(--dv-ink); line-height: 1.6; overflow-wrap: anywhere; font-variant-numeric: lining-nums; }
 .dv-abstain-box { border-left: 5px solid var(--dv-abstain); background: var(--dv-abstain-bg); padding: 0.7rem 1rem; margin: 0.3rem 0 0.8rem; line-height: 1.55; }
 .dv-abstain-box b { color: var(--dv-abstain); }
 .dv-diff { line-height: 1.8; overflow-wrap: anywhere; background: var(--dv-panel); border: 1px solid var(--dv-line); border-radius: 2px; padding: 0.6rem 0.9rem; }
@@ -93,7 +94,11 @@ CSS = """
 .dv-kpi.rejected .dv-kpi-value { color: var(--dv-rejected); } .dv-kpi.abstain .dv-kpi-value { color: var(--dv-abstain); }
 .dv-kpi-sub { display: block; font-size: 0.75rem; color: var(--dv-muted); }
 [data-testid="stMetric"] { border-top: 1px solid var(--dv-ink); padding: 0.5rem 0 0.2rem; }
-[data-testid="stMetricValue"] { font-variant-numeric: tabular-nums; font-size: clamp(1.35rem, 2.1vw, 1.75rem); letter-spacing: -0.01em; }
+[data-testid="stMetricValue"] { font-variant-numeric: tabular-nums; font-size: clamp(1.35rem, 2.1vw, 1.75rem); letter-spacing: -0.01em; font-weight: 700; }
+[data-testid="stCaptionContainer"] { color: var(--dv-muted); }
+[data-testid="stTable"] table { border: 0; font-variant-numeric: tabular-nums; }
+[data-testid="stTable"] th, [data-testid="stTable"] td { border-left: 0; border-right: 0; border-top: 0; }
+[data-testid="stTable"] thead th { border-bottom: 1px solid var(--dv-ink); color: var(--dv-muted); font-weight: 600; }
 [data-testid="stMetricValue"] > div { white-space: normal; overflow: visible; text-overflow: clip; }
 [data-testid="stExpander"] details { background: var(--dv-panel); }
 @media (max-width: 640px) {
@@ -134,9 +139,10 @@ def graph_dot(current: str | None, done: set[str]) -> str:
     lines = [f'digraph G {{ rankdir=LR; nodesep=0.25; node [shape=box, style="filled", penwidth=0.8, margin="0.14,0.07", fontname="{font}", fontsize=10];']
     lines.append(f'bgcolor="transparent"; edge [color="{t.MUTED}", penwidth=0.8, arrowsize=0.6, fontname="{font}", fontsize=9];')
     for n in NODES:
-        color = t.ACCENT if n == current else (t.INS_BG if n in done else t.PANEL)
-        fc = "white" if n == current else (t.VERIFIED if n in done else t.MUTED)
-        border = t.ACCENT if n == current else (t.VERIFIED if n in done else t.LINE)
+        # 진행 상태는 중립색으로 — 초록(검증)을 쓰면 "전 단계 검증됨"으로 읽힌다
+        color = t.ACCENT if n == current else (t.SOFT if n in done else t.PANEL)
+        fc = "white" if n == current else (t.INK if n in done else t.MUTED)
+        border = t.ACCENT if n == current else (t.MUTED if n in done else t.LINE)
         lines.append(f'"{n}" [label="{NODE_LABEL[n]}", fillcolor="{color}", fontcolor="{fc}", color="{border}"];')
     edges = [("compile", "plan"), ("plan", "tools"), ("tools", "arena"), ("arena", "findings"), ("findings", "verify"), ("verify", "gate"), ("gate", "finalize")]
     for a, b in edges:
@@ -167,6 +173,23 @@ def sev_badge(s: str) -> str:
 STATUS = {"verified": ("검증", "green"), "held": ("보류", "orange"), "rejected": ("기각", "red"), "abstain": ("기권", "violet"), "pending": ("미검증", "gray")}
 CATEGORY = {"dose_optimization": "용량 최적화", "safety_monitoring": "안전성 모니터링", "eligibility": "선정·제외 기준", "endpoint_ctq": "평가변수·CTQ",
             "burden": "환자 부담", "source_version": "근거 버전", "feasibility": "실행 가능성"}
+
+
+REPLAN_LABEL = {"evidence_reselected": "근거 재선택", "citation_held": "인용 보류", "citation_rejected": "인용 기각", "held_research": "보류 재검색",
+                "tool_fallback": "대체 조회", "prompt_injection_detected": "프롬프트 인젝션 탐지", "source_version_conflict": "근거 버전 상충",
+                "budget_guard": "예산 가드", "llm_failure": "LLM 출력 실패"}
+
+
+def replan_line(e: dict) -> str:
+    """저장된 결과의 재계획 이벤트를 타임라인 한 줄로(dict 원문을 그대로 찍지 않는다)."""
+    t = e.get("trigger")
+    if not t:
+        if e.get("event") == "plan":
+            return f"계획 — 과제 {e.get('n_tasks')}개, 근거 미확보 축 {len(e.get('unavailable') or [])}개"
+        return f"이벤트 `{e.get('event')}`"
+    detail = [str(x) for x in (e.get("finding_id"), f"{e['n']}건" if "n" in e else None, e.get("reason"), e.get("action"),
+                                f"결과 {e['result']}" if e.get("result") else None) if x]
+    return f"재계획 이벤트: **{REPLAN_LABEL.get(t, t)}** `{t}`" + (" — " + " · ".join(d[:160] for d in detail) if detail else "")
 
 
 def finding_status(f) -> str:
@@ -378,7 +401,7 @@ top = st.container()
 if show_cached and cached_path:
     rs0 = ReviewState.model_validate_json(cached_path.read_text(encoding="utf-8"))
     st.session_state.update({"events": [f"저장된 실행 결과 로드 — run_id `{rs0.run_id}`, {rs0.budget.used_tokens:,} 토큰, 도구 {rs0.budget.used_tool_calls}회 (LLM 재호출 없음)"]
-                             + [f"재계획 이벤트: {e}" for e in rs0.replan_events[:6]],
+                             + [replan_line(e) for e in rs0.replan_events[:6]],
                              "done": set(NODES[:NODES.index("gate")]), "current": "gate", "review": rs0, "graph": None, "config": None, "run_started": time.perf_counter()})
     run = False
 graph_box = top.empty()
@@ -495,7 +518,7 @@ if st.session_state.events:
 # ----------------------------------------------------------------- summary bar
 _n = {k: sum(1 for f in rs.findings if finding_status(f) == k) for k in STATUS}
 _fail = sum(1 for c in rs.tool_log if not c.ok)
-_kpis = [("Findings", f"{len(rs.findings)}건", "", "")] + [(f"{STATUS[k][0]}", f"{_n[k]}건", k, "") for k in ("verified", "held", "rejected", "abstain")] + [
+_kpis = [("Findings", f"{len(rs.findings)}건", "", "")] + [(f"{STATUS[k][0]}", f"{_n[k]}건", k if _n[k] else "", "") for k in ("verified", "held", "rejected", "abstain")] + [
     ("토큰", f"{rs.budget.used_tokens:,}", "", f"상한 {rs.budget.max_tokens:,}"),
     ("도구 호출", f"{len(rs.tool_log)}회", "", f"실패 {_fail}회" if _fail else "실패 0회"),
     ("재계획 이벤트", f"{sum(1 for e in rs.replan_events if e.get('trigger'))}건", "", "스스로 경로를 바꾼 지점")]
@@ -523,7 +546,7 @@ with tabs[0]:
                 st.markdown(f"**근거 사실**: {f.evidence_fact}")
             st.caption(f"검증기: {f.verifier_note}  ·  span 원문 일치: {'검사 안 함' if f.span_verified is None else f.span_verified}")
             if f.reviewer_positions:
-                cols = st.columns(3)
+                cols = st.columns(len(f.reviewer_positions))
                 for c, p in zip(cols, f.reviewer_positions):
                     c.markdown(f"**{ {'regulatory': '규제', 'site': '시험기관', 'patient': '환자 부담'}[p.reviewer] }** {sev_badge(p.severity.value)}", unsafe_allow_html=True)
                     c.caption(p.position)
@@ -600,7 +623,7 @@ with tabs[2]:
 with tabs[3]:
     st.subheader(f"도구 호출 {len(rs.tool_log)}회 — 요청·응답 요약 (실패도 관측값)")
     for c in rs.tool_log:
-        st.markdown(f"{':green[**성공**]' if c.ok else ':red[**실패**]'} `{c.tool_call_id}` **{c.tool}** {c.latency_s}s  \n args: `{json.dumps(c.args, ensure_ascii=False)[:160]}`  \n {c.result_summary or c.error or ''}")
+        st.markdown(f"{'성공' if c.ok else ':red[**실패**]'} `{c.tool_call_id}` **{c.tool}** {c.latency_s}s  \n args: `{json.dumps(c.args, ensure_ascii=False)[:160]}`  \n {c.result_summary or c.error or ''}")
     st.markdown("**과제 DAG**")
     st.table([{"task": t.task_id, "status": t.status, "tools": ", ".join(t.tools), "depends": ", ".join(t.depends_on)} for t in rs.tasks])
     if rs.unavailable_axes:
@@ -629,7 +652,7 @@ with tabs[5]:
     ev = [e for e in rs.replan_events if e.get("trigger")]
     st.markdown(f"**재계획 이벤트 {len(ev)}건** — 에이전트가 스스로 경로를 바꾼 지점")
     if ev:
-        st.table([{"트리거": e["trigger"], "대상": e.get("finding_id") or e.get("node") or ", ".join(e.get("tasks", [])) or "-",
+        st.table([{"트리거": e["trigger"], "대상": e.get("finding_id") or e.get("node") or ", ".join(e.get("tasks", [])) or "—",
                    "내용": str(e.get("action") or e.get("result") or e.get("reason") or "")[:140]} for e in ev])
     with st.expander("감사 메타(JSON)"):
         st.json({"models": rs.audit.models if rs.audit else {}, "corpus_manifest": rs.audit.corpus_manifest_id if rs.audit else None,

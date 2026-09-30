@@ -54,6 +54,15 @@ table { font-size: 10.5pt; }
 th { border-bottom: 1pt solid #1b2430; color: #5b6472; font-weight: 600; }
 th, td { border-bottom-color: #dcd6ca; padding: 4.5pt 7pt; }
 tbody tr:last-child td { border-bottom: 0.75pt solid #1b2430; }
+/* 큰 표를 통째로 다음 쪽에 넘기면 제목만 쪽 끝에 남는다 — 표는 행 단위로 나누고 제목은 다음 내용에 붙인다 */
+table { break-inside: auto; page-break-inside: auto; }
+tr { break-inside: avoid; page-break-inside: avoid; }
+thead { display: table-header-group; }
+h1, h2, h3, h4 { break-after: avoid; page-break-after: avoid; }
+/* Chrome은 break-after: avoid를 잘 지키지 않는다 — 제목 아래 90pt를 보이지 않게 예약해, 남은 공간이 그보다 작으면 제목째 다음 쪽으로 넘긴다 */
+h2, h3, h4 { break-inside: avoid; }
+h2::after, h3::after, h4::after { content: ""; display: block; height: 90pt; margin-bottom: -90pt; }
+h2 + p, h3 + p, h4 + p { break-before: avoid; }
 
 figcaption { font-style: normal; color: #5b6472; }
 figure img { border: 0.5pt solid #dcd6ca; }
