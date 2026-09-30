@@ -1,0 +1,79 @@
+{
+ "base": "lorlatinib_synopsis_fixed.md",
+ "rep": 0,
+ "tokens": 5007,
+ "findings": [
+  {
+   "span": "Dose escalation will follow a Bayesian optimal interval (BOIN) design with a target dose-limiting toxicity (DLT) rate of 30% and a maximum of 36 subjects.",
+   "category": "dose_optimization",
+   "severity": "medium",
+   "claim": "The synopsis does not state the DLT observation window or explain why a 30% target is appropriate for a drug intended for continuing daily administration. The randomized comparison addresses later dose selection, but does not resolve how delayed toxicities affect escalation decisions.",
+   "cited_doc_id": "FDA-DOSE-OPT-2024",
+   "guidance_quote": "Safety and tolerability should be evaluated throughout treatment, including adverse reactions that occur after the initial DLT assessment period."
+  },
+  {
+   "span": "Planned dose levels (once daily, oral): 25 mg, 50 mg, 75 mg, 100 mg, 150 mg, 200 mg.",
+   "category": "dose_optimization",
+   "severity": "medium",
+   "claim": "For an investigational product identified as lorlatinib, the synopsis provides no rationale for exposing participants to the 150 mg and 200 mg levels above the established 100 mg once-daily dose, or for how those levels are expected to improve the benefit–risk balance.",
+   "cited_doc_id": "FDA-DOSE-OPT-2024",
+   "guidance_quote": "The goal of dosage optimization is to identify a dosage that maximizes efficacy while minimizing toxicity."
+  },
+  {
+   "span": "Primary (Phase 2): Objective response rate (ORR) per RECIST v1.1, including intracranial response, at the selected recommended Phase 2 dose (RP2D).",
+   "category": "endpoint_ctq",
+   "severity": "high",
+   "claim": "Intracranial response is not sufficiently defined: the synopsis does not specify the baseline CNS-measurable population, intracranial response denominator, treatment of previously irradiated lesions, or assessment method. Those choices are necessary to interpret the stated endpoint.",
+   "cited_doc_id": "CTTI-QBD",
+   "guidance_quote": "Critical to quality factors are those factors that are fundamental to the protection of study participants and/or the reliability and interpretability of the study results."
+  },
+  {
+   "span": "At least 60 subjects will be randomized 1:1 to the two candidate dose levels to compare safety, tolerability, PK, PD and preliminary antitumor activity before selecting the RP2D.",
+   "category": "endpoint_ctq",
+   "severity": "medium",
+   "claim": "The synopsis specifies a dose-comparison enrollment target but no subsequent Phase 2 enrollment target or precision criterion for ORR at the selected RP2D. It is therefore unclear whether the Phase 2 primary endpoint will use only the selected arm's approximately 30 randomized participants or an additional cohort.",
+   "cited_doc_id": "CTTI-QBD",
+   "guidance_quote": "Critical to quality factors are those factors that are fundamental to the protection of study participants and/or the reliability and interpretability of the study results."
+  },
+  {
+   "span": "at least one prior ALK inhibitor",
+   "category": "eligibility",
+   "severity": "medium",
+   "claim": "Prior lorlatinib remains permitted despite lorlatinib being the investigational product. The protocol should exclude, separately analyze, or otherwise prespecify how prior exposure and resistance will be handled when interpreting response.",
+   "cited_doc_id": "ICH-E6R3-2025",
+   "guidance_quote": "Clinical trials should be designed to produce scientifically sound and reliable results."
+  },
+  {
+   "span": "recovery of prior-treatment toxicities to Grade ≤1",
+   "category": "eligibility",
+   "severity": "medium",
+   "claim": "The blanket requirement provides no exceptions for stable, irreversible, or clinically insignificant residual toxicities. It may unnecessarily exclude otherwise suitable participants and limit recruitment without a stated safety rationale.",
+   "cited_doc_id": "ICH-E6R3-2025",
+   "guidance_quote": "Trial processes should be proportionate to the risks to participants and the importance of the data collected."
+  },
+  {
+   "span": "uncontrolled hypercholesterolemia or hypertriglyceridemia",
+   "category": "eligibility",
+   "severity": "medium",
+   "claim": "“Uncontrolled” is not defined by lipid thresholds or treatment status, allowing inconsistent screening decisions across sites.",
+   "cited_doc_id": "CTTI-QBD",
+   "guidance_quote": "Critical to quality factors are those factors that are fundamental to the protection of study participants and/or the reliability and interpretability of the study results."
+  },
+  {
+   "span": "Serum cholesterol and triglycerides will be assessed before the first dose, at 1, 2, 4 and 8 weeks, and periodically thereafter.",
+   "category": "safety_monitoring",
+   "severity": "high",
+   "claim": "The stated safety plan does not specify baseline or on-treatment blood-pressure and glucose monitoring, despite hypertension and hyperglycemia being clinically important lorlatinib toxicities. The lipid schedule alone does not cover these risks.",
+   "cited_doc_id": "ICH-E6R3-2025",
+   "guidance_quote": "The rights, safety and well-being of trial participants are the most important considerations and should prevail over interests of science and society."
+  },
+  {
+   "span": "Tumor assessments, including brain MRI, every 6 weeks.",
+   "category": "burden",
+   "severity": "low",
+   "claim": "The schedule appears to require a brain MRI every six weeks even for participants without baseline CNS disease. The synopsis does not justify that frequency for those participants or explain whether a less burdensome, risk-adapted schedule would preserve the intracranial endpoint.",
+   "cited_doc_id": "ICH-E6R3-2025",
+   "guidance_quote": "Trial processes should be proportionate to the risks to participants and the importance of the data collected."
+  }
+ ]
+}

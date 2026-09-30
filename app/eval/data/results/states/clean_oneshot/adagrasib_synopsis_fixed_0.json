@@ -1,0 +1,63 @@
+{
+ "base": "adagrasib_synopsis_fixed.md",
+ "rep": 0,
+ "tokens": 5141,
+ "findings": [
+  {
+   "span": "Primary (Phase 2): Objective response rate (ORR) per RECIST v1.1 at the selected recommended Phase 2 dose (RP2D).",
+   "category": "endpoint_ctq",
+   "severity": "high",
+   "claim": "The synopsis does not define whether responses require confirmation or whether scans will be assessed centrally or by blinded reviewers. Those assessment rules matter for the reliability of an ORR primary endpoint in an open-label study.",
+   "cited_doc_id": "ICH-E6R3-2025",
+   "guidance_quote": "Factors that are critical to quality should be identified prospectively; these are attributes fundamental to the protection of participants and the reliability and interpretability of trial results."
+  },
+  {
+   "span": "histologically confirmed KRAS G12C-mutated locally advanced or metastatic solid tumor",
+   "category": "endpoint_ctq",
+   "severity": "high",
+   "claim": "The Phase 2 population pools different tumor types without a stated tumor-specific cohort, stratification, or analysis plan. A pooled ORR could obscure materially different responses and be difficult to interpret for any particular indication.",
+   "cited_doc_id": "ICH-E6R3-2025",
+   "guidance_quote": "Critical to quality factors are attributes of a trial that are fundamental to the reliability and interpretability of the trial results."
+  },
+  {
+   "span": "at least one prior line of systemic therapy; recovery of prior-treatment toxicities to Grade ≤1.",
+   "category": "eligibility",
+   "severity": "high",
+   "claim": "The eligibility criteria do not require measurable disease, although the Phase 2 primary endpoint is ORR by RECIST v1.1. Patients without measurable disease may therefore be enrolled without being evaluable for the primary response endpoint.",
+   "cited_doc_id": "ICH-E6R3-2025",
+   "guidance_quote": "The trial should be designed to generate reliable results that are fit for the trial’s intended purpose."
+  },
+  {
+   "span": "Dose proportionality and time-dependence of exposure will be assessed by a power model.",
+   "category": "dose_optimization",
+   "severity": "medium",
+   "claim": "The stated PK analysis addresses dose proportionality and time dependence but does not specify exposure–response analyses for efficacy, adverse reactions, or tolerability to inform RP2D selection.",
+   "cited_doc_id": "FDA-DOSE-OPT-2024",
+   "guidance_quote": "Exposure-response analyses for safety and efficacy can help inform dosage optimization and selection."
+  },
+  {
+   "span": "At least 60 subjects will be randomized 1:1 to the two candidate dose levels to compare safety, tolerability, PK, PD and preliminary antitumor activity before selecting the RP2D.",
+   "category": "dose_optimization",
+   "severity": "medium",
+   "claim": "The synopsis gives no minimum treatment or follow-up duration before the RP2D decision. A decision made before sufficient follow-up could miss cumulative toxicity, persistent adverse reactions, and later dose reductions during twice-daily treatment.",
+   "cited_doc_id": "FDA-DOSE-OPT-2024",
+   "guidance_quote": "Safety and tolerability, including adverse reactions that result in dose modifications or discontinuation, should be considered when selecting a dosage."
+  },
+  {
+   "span": "At least 60 subjects will be randomized 1:1 to the two candidate dose levels to compare safety, tolerability, PK, PD and preliminary antitumor activity before selecting the RP2D.",
+   "category": "dose_optimization",
+   "severity": "medium",
+   "claim": "PD is named as a basis for comparing doses, but the synopsis specifies no PD measure, collection schedule, or analysis. The planned PD comparison is therefore not operationally defined.",
+   "cited_doc_id": "FDA-DOSE-OPT-2024",
+   "guidance_quote": "The totality of data, including pharmacokinetic, pharmacodynamic, safety, tolerability, and activity data, should inform dosage selection."
+  },
+  {
+   "span": "ECGs and electrolytes will be monitored at baseline and periodically for QTc prolongation.",
+   "category": "safety_monitoring",
+   "severity": "high",
+   "claim": "“Periodically” sets no ECG or electrolyte assessment times or frequency despite the identified QTc risk. Sites could apply inconsistent monitoring, including during early exposure and after clinically relevant changes.",
+   "cited_doc_id": "ICH-E6R3-2025",
+   "guidance_quote": "The protocol should provide a clear description of the trial procedures and assessments to be performed."
+  }
+ ]
+}

@@ -1,0 +1,63 @@
+{
+ "base": "dv505_synopsis_fixed.md",
+ "rep": 0,
+ "tokens": 3928,
+ "findings": [
+  {
+   "span": "At least 60 subjects will be randomized 1:1 to the two candidate dose levels to compare safety, tolerability, PK, PD and preliminary antitumor activity before selecting the RP2D.",
+   "category": "dose_optimization",
+   "severity": "medium",
+   "claim": "The comparison names PD but specifies no PD marker, sampling schedule, or analysis linking exposure and target engagement to dose selection. The referenced integrated criteria do not establish how PD will be measured.",
+   "cited_doc_id": "FDA-DOSE-OPT-2024",
+   "guidance_quote": "Dose optimization should integrate data on efficacy, safety, tolerability, pharmacokinetics, pharmacodynamics, and exposure–response relationships to identify a dosage that maximizes benefit–risk."
+  },
+  {
+   "span": "Planned dose levels (once daily, oral): 50 mg, 100 mg, 200 mg, 400 mg, 600 mg.",
+   "category": "dose_optimization",
+   "severity": "medium",
+   "claim": "Only once-daily schedules are considered, without a stated rationale or evaluation of whether a different dosing interval would improve target coverage or tolerability. This is particularly relevant to the reported 9-hour terminal half-life; that value alone does not establish that once-daily dosing is unsuitable.",
+   "cited_doc_id": "ICH-E4-1994",
+   "guidance_quote": "Dose-response information helps identify the dose or doses and dosing interval at which a drug is most effective while having an acceptable level of toxicity."
+  },
+  {
+   "span": "Exclusion: active brain metastases; prior treatment with a KRAS G12D inhibitor; QTcF >470 ms; anti-PD-(L)1 therapy within 4 weeks prior to the first dose.",
+   "category": "eligibility",
+   "severity": "medium",
+   "claim": "The blanket exclusion of patients with active brain metastases has no stated safety or interpretability rationale, and no distinction is made for clinically stable patients. This could unnecessarily restrict enrollment and the applicability of results.",
+   "cited_doc_id": "ICH-E6R3-2025",
+   "guidance_quote": "Trial processes and measures should be proportionate to the risks to trial participants and to the importance of the data collected."
+  },
+  {
+   "span": "recovery of prior-treatment toxicities to Grade ≤1.",
+   "category": "eligibility",
+   "severity": "medium",
+   "claim": "Requiring every prior-treatment toxicity to resolve to Grade 1 or lower, without exceptions for stable residual effects that do not affect safety assessment, may unnecessarily exclude otherwise eligible patients.",
+   "cited_doc_id": "ICH-E6R3-2025",
+   "guidance_quote": "Trial processes and measures should be proportionate to the risks to trial participants and to the importance of the data collected."
+  },
+  {
+   "span": "Dose modification rules for hepatotoxicity, gastrointestinal adverse reactions, QTc prolongation and other adverse reactions are specified in Appendix B.",
+   "category": "safety_monitoring",
+   "severity": "high",
+   "claim": "The synopsis specifies action rules for QTc prolongation and a baseline QTc exclusion but no on-treatment ECG schedule. Without scheduled measurement, the QTc dose-modification rules may not detect an emerging abnormality in time to act.",
+   "cited_doc_id": "ICH-E6R3-2025",
+   "guidance_quote": "The rights, safety, and well-being of trial participants should be protected."
+  },
+  {
+   "span": "Intensive PK sampling on Cycle 1 Day 1 and Day 15 (pre-dose, 0.5, 1, 2, 4, 6, 8 and 24 h post-dose) in all escalation subjects; steady-state trough sampling every cycle in the randomized cohorts.",
+   "category": "feasibility",
+   "severity": "medium",
+   "claim": "Each 24-hour PK sample falls on the day after its stated visit, but the visit schedule includes neither a Day 2 nor a Day 16 visit. The protocol should reconcile how these samples will be collected and accounted for operationally.",
+   "cited_doc_id": "ICH-E6R3-2025",
+   "guidance_quote": "The design and conduct of clinical trials should be supported by clear, concise, scientifically sound, and operationally feasible protocols."
+  },
+  {
+   "span": "Primary (Phase 2): Objective response rate (ORR) per RECIST v1.1 at the selected recommended Phase 2 dose (RP2D).",
+   "category": "endpoint_ctq",
+   "severity": "high",
+   "claim": "The primary ORR endpoint is not defined by tumor type or an explicitly justified pooled population, although eligibility spans KRAS G12D-mutated advanced solid tumors. The synopsis also gives no Phase 2 sample size or precision target, making interpretation of the primary result unclear.",
+   "cited_doc_id": "CTTI-QBD",
+   "guidance_quote": "Identify factors that are critical to the quality of the trial—that is, factors whose integrity is fundamental to the protection of participants and the reliability and interpretability of trial results."
+  }
+ ]
+}

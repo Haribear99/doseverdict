@@ -1,0 +1,71 @@
+{
+ "base": "dv505_synopsis_fixed.md",
+ "rep": 1,
+ "tokens": 5285,
+ "findings": [
+  {
+   "span": "Dose escalation will follow a Bayesian optimal interval (BOIN) design with a target dose-limiting toxicity (DLT) rate of 30% and a maximum of 36 subjects.",
+   "category": "safety_monitoring",
+   "severity": "high",
+   "claim": "The synopsis does not define the DLT assessment window or DLT-evaluable population. Without these, it is unclear which safety observations drive BOIN escalation decisions.",
+   "cited_doc_id": "FDA-EXPANSION-COHORTS-2022",
+   "guidance_quote": "The protocol should clearly specify the criteria for dose-limiting toxicities and the rules for dose escalation."
+  },
+  {
+   "span": "At least 60 subjects will be randomized 1:1 to the two candidate dose levels to compare safety, tolerability, PK, PD and preliminary antitumor activity before selecting the RP2D.",
+   "category": "dose_optimization",
+   "severity": "high",
+   "claim": "PD is an intended basis for choosing the RP2D, but no PD assay, sampling times, or analysis is specified. The planned comparison therefore lacks an operational PD measure.",
+   "cited_doc_id": "FDA-DOSE-OPT-2024",
+   "guidance_quote": "Sponsors should consider the totality of data, including pharmacokinetic, pharmacodynamic, safety, tolerability, and activity data, when selecting a dosage for further development."
+  },
+  {
+   "span": "At least 60 subjects will be randomized 1:1 to the two candidate dose levels to compare safety, tolerability, PK, PD and preliminary antitumor activity before selecting the RP2D.",
+   "category": "dose_optimization",
+   "severity": "medium",
+   "claim": "With roughly 30 subjects per dose drawn from multiple solid-tumor types, no stratification or tumor-type-specific comparison is described. An imbalance in tumor types could be mistaken for a dose-related difference in antitumor activity.",
+   "cited_doc_id": "FDA-DOSE-OPT-2024",
+   "guidance_quote": "Randomization can help reduce bias when comparing the safety and activity of different dosages."
+  },
+  {
+   "span": "Primary (Phase 2): Objective response rate (ORR) per RECIST v1.1 at the selected recommended Phase 2 dose (RP2D).",
+   "category": "endpoint_ctq",
+   "severity": "high",
+   "claim": "The synopsis does not say which subjects constitute the Phase 2 analysis population at the selected RP2D—such as subjects already randomized to that dose versus a subsequent expansion cohort. The primary ORR analysis is consequently not operationally defined.",
+   "cited_doc_id": "ICH-E6R3-2025",
+   "guidance_quote": "Quality should be built into the scientific and operational design and conduct of clinical trials."
+  },
+  {
+   "span": "Inclusion: age ≥18; histologically confirmed KRAS G12D-mutated locally advanced or metastatic solid tumor; ECOG 0–1; at least one prior line of systemic therapy; recovery of prior-treatment toxicities to Grade ≤1.",
+   "category": "eligibility",
+   "severity": "high",
+   "claim": "Measurable disease is not an inclusion requirement, although the Phase 2 primary endpoint is RECIST v1.1 ORR. Subjects without measurable disease could enter the primary analysis population but could not contribute an evaluable objective response.",
+   "cited_doc_id": "FDA-EXPANSION-COHORTS-2022",
+   "guidance_quote": "Patients in cohorts intended to evaluate antitumor activity generally should have measurable disease."
+  },
+  {
+   "span": "Inclusion: age ≥18; histologically confirmed KRAS G12D-mutated locally advanced or metastatic solid tumor; ECOG 0–1; at least one prior line of systemic therapy; recovery of prior-treatment toxicities to Grade ≤1.",
+   "category": "feasibility",
+   "severity": "medium",
+   "claim": "Requiring every prior-treatment toxicity to resolve to Grade ≤1, without an exception for stable or adequately managed effects, may unnecessarily exclude otherwise eligible previously treated patients.",
+   "cited_doc_id": "FDA-EXPANSION-COHORTS-2022",
+   "guidance_quote": "Eligibility criteria should be as inclusive as possible while maintaining the safety of trial participants."
+  },
+  {
+   "span": "Dose modification rules for hepatotoxicity, gastrointestinal adverse reactions, QTc prolongation and other adverse reactions are specified in Appendix B.",
+   "category": "safety_monitoring",
+   "severity": "high",
+   "claim": "QTc prolongation has a specified dose-modification rule, but the synopsis provides no on-treatment ECG assessment schedule to detect it and apply that rule.",
+   "cited_doc_id": "ICH-E6R3-2025",
+   "guidance_quote": "The processes, measures and approaches implemented in a trial should be proportionate to the risks to participants and the importance of the data collected."
+  },
+  {
+   "span": "Intensive PK sampling on Cycle 1 Day 1 and Day 15 (pre-dose, 0.5, 1, 2, 4, 6, 8 and 24 h post-dose) in all escalation subjects; steady-state trough sampling every cycle in the randomized cohorts.",
+   "category": "burden",
+   "severity": "medium",
+   "claim": "The 24-hour samples require collection on the days after Cycle 1 Day 1 and Day 15, but the visit schedule does not include those days or explain whether collection requires return visits, an overnight stay, or another arrangement. This leaves a material participation burden and sampling procedure unplanned.",
+   "cited_doc_id": "ICH-E6R3-2025",
+   "guidance_quote": "Clinical trials should be designed and conducted in ways that avoid unnecessary burden on participants and investigators."
+  }
+ ]
+}

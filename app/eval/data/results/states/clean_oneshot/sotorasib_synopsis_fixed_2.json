@@ -1,0 +1,79 @@
+{
+ "base": "sotorasib_synopsis_fixed.md",
+ "rep": 2,
+ "tokens": 5401,
+ "findings": [
+  {
+   "span": "Inclusion: age ≥18; histologically confirmed KRAS G12C-mutated locally advanced or metastatic solid tumor; ECOG 0–1; at least one prior line of systemic therapy; recovery of prior-treatment toxicities to Grade ≤1.",
+   "category": "eligibility",
+   "severity": "high",
+   "claim": "The primary Phase 2 endpoint is ORR, but eligibility does not require measurable disease at baseline. Participants without measurable disease may not be evaluable for the planned RECIST response analysis.",
+   "cited_doc_id": "ICH-E6R3-2025",
+   "guidance_quote": "A clinical trial should be scientifically sound and described in a clear, concise and operationally feasible protocol."
+  },
+  {
+   "span": "Inclusion: age ≥18; histologically confirmed KRAS G12C-mutated locally advanced or metastatic solid tumor; ECOG 0–1; at least one prior line of systemic therapy; recovery of prior-treatment toxicities to Grade ≤1.",
+   "category": "eligibility",
+   "severity": "medium",
+   "claim": "The synopsis does not specify how the eligibility-defining KRAS G12C result will be established, such as an acceptable assay or testing source. Inconsistent mutation ascertainment across sites could compromise enrollment and interpretation.",
+   "cited_doc_id": "ICH-E6R3-2025",
+   "guidance_quote": "Critical to quality factors are attributes of a trial that are fundamental to the protection of participants, the reliability of the trial results and the decisions made based on those results."
+  },
+  {
+   "span": "Primary (Phase 2): Objective response rate (ORR) per RECIST v1.1 at the selected recommended Phase 2 dose (RP2D).",
+   "category": "endpoint_ctq",
+   "severity": "high",
+   "claim": "A single ORR endpoint is stated for a study enrolling multiple solid-tumor types, without a stated tumor-specific estimand or analysis. A pooled response rate could be driven by the enrolled histology mix rather than reliably characterize activity in any intended population.",
+   "cited_doc_id": "ICH-E6R3-2025",
+   "guidance_quote": "Critical to quality factors are attributes of a trial that are fundamental to the protection of participants, the reliability of the trial results and the decisions made based on those results."
+  },
+  {
+   "span": "At least 60 subjects will be randomized 1:1 to the two candidate dose levels to compare safety, tolerability, PK, PD and preliminary antitumor activity before selecting the RP2D.",
+   "category": "dose_optimization",
+   "severity": "high",
+   "claim": "The dose comparison does not specify stratification or another approach to account for tumor type. With heterogeneous solid tumors and about 30 participants per dose, differences in histology mix could confound the antitumor-activity comparison used to choose the RP2D.",
+   "cited_doc_id": "FDA-DOSE-OPT-2024",
+   "guidance_quote": "Randomized, parallel dose-response trials can provide a more informative comparison of the safety and activity of multiple dosages."
+  },
+  {
+   "span": "At least 60 subjects will be randomized 1:1 to the two candidate dose levels to compare safety, tolerability, PK, PD and preliminary antitumor activity before selecting the RP2D.",
+   "category": "dose_optimization",
+   "severity": "medium",
+   "claim": "The synopsis gives no precision or sample-size justification for the multiple comparisons intended from at least 60 participants, including longer-term tolerability and antitumor activity across tumor types. It is unclear what differences this cohort can meaningfully distinguish when selecting a dose.",
+   "cited_doc_id": "FDA-EXPANSION-COHORTS-2022",
+   "guidance_quote": "The sample size of an expansion cohort should be justified based on the objectives of the cohort."
+  },
+  {
+   "span": "Primary (Phase 2): Objective response rate (ORR) per RECIST v1.1 at the selected recommended Phase 2 dose (RP2D).",
+   "category": "endpoint_ctq",
+   "severity": "medium",
+   "claim": "The stated Phase 2 objective has no specified analysis population, target precision, or criterion for interpreting ORR. The synopsis therefore does not establish how the primary endpoint will support a decision about activity at the RP2D.",
+   "cited_doc_id": "ICH-E6R3-2025",
+   "guidance_quote": "A clinical trial should be scientifically sound and described in a clear, concise and operationally feasible protocol."
+  },
+  {
+   "span": "Exclusion: active brain metastases; prior treatment with a KRAS G12C inhibitor; QTcF >470 ms; anti-PD-(L)1 therapy within 4 weeks prior to the first dose.",
+   "category": "safety_monitoring",
+   "severity": "medium",
+   "claim": "The four-week exclusion still permits enrollment soon after anti-PD-(L)1 treatment. For participants with this potentially relevant hepatotoxicity risk, the stated monitoring plan provides no risk-adapted liver-test schedule or other specified mitigation beyond routine testing.",
+   "cited_doc_id": "ICH-E6R3-2025",
+   "guidance_quote": "Trial processes should be proportionate to the risks inherent in the trial and the importance of the information collected."
+  },
+  {
+   "span": "Intensive PK sampling on Cycle 1 Day 1 and Day 15 (pre-dose, 0.5, 1, 2, 4, 6, 8 and 24 h post-dose) in all escalation subjects; steady-state trough sampling every cycle in the randomized cohorts.",
+   "category": "burden",
+   "severity": "medium",
+   "claim": "Requiring two intensive, eight-time-point profiles from every escalation participant imposes substantial blood-draw and attendance burden, including a 24-hour return, without a stated rationale for why full profiles are needed from all participants rather than a subset or less intensive design.",
+   "cited_doc_id": "ICH-E6R3-2025",
+   "guidance_quote": "Trial processes should be proportionate to the risks inherent in the trial and the importance of the information collected."
+  },
+  {
+   "span": "Screening (Day −28 to −1), Cycle 1 Day 1, Day 8, Day 15, then Day 1 of each 21-day cycle.",
+   "category": "feasibility",
+   "severity": "medium",
+   "claim": "The visit schedule omits Day 2 and Day 16, although the required 24-hour samples after Cycle 1 Day 1 and Day 15 would occur on those days. Sites and participants therefore lack an operationally consistent schedule for required PK collections.",
+   "cited_doc_id": "ICH-E6R3-2025",
+   "guidance_quote": "A clinical trial should be scientifically sound and described in a clear, concise and operationally feasible protocol."
+  }
+ ]
+}

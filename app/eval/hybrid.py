@@ -95,9 +95,37 @@ def report() -> None:
     res["verdict"] = v
     L += ["", f"1차 판정: **{v}** (사전 등록 규칙: CI 상한 < 0 → 원샷+판정기가 더 조용, 하한 > 0 → 에이전트가 더 조용, 그 외 차이 확인 안 됨).", "",
           "판정기는 인용 판정기(가이던스 문장 ↔ 인용 문서 조항)이며 에이전트 검증기 전체가 아니다. '에이전트 verified만'은 사전 등록의 2차 참고값이다."]
+    L += post_hoc_orig20(bd, res)
     (OUT / "hybrid.json").write_text(json.dumps(res, ensure_ascii=False, indent=1), encoding="utf-8")
     (OUT / "HYBRID_REPORT.md").write_text("\n".join(L) + "\n", encoding="utf-8")
     print("\n".join(L))
+
+
+def post_hoc_orig20(bd: dict, res: dict) -> list[str]:
+    """사후(사전 등록 밖): 원 20에서 원샷 각 팔의 문장 단위 민감도·특이도·J를 에이전트(평가 A)와 같은 규칙으로. 원샷 저장 결과 재사용, 토큰 0."""
+    from app.eval.specificity import DATA, _boot, eval_a
+    gold = {c["case_id"]: c for c in (json.loads(l) for l in (DATA / "gold_axis1.jsonl").read_text(encoding="utf-8").splitlines() if l.strip())}
+    base_s = sentences((ROOT / "app" / "demo" / BASES["AX1"]).read_text(encoding="utf-8"))
+    out = {}
+    for name, mode in (("원샷(원)", None), ("원샷 + 판정기(원문 일치 또는 NLI)", "nli"), ("원샷 + 판정기(원문 일치만)", "exact")):
+        for cfg in ("oneshot", "oneshot_r2"):
+            rows = []
+            for r in sorted(json.loads((OUT / f"{cfg}.json").read_text(encoding="utf-8"))["rows"], key=lambda r: r["case_id"]):
+                fs = [f for f in r.get("baseline_findings") or [] if mode is None or _support(f, bd, mode)]
+                sp = [f.get("span") or "" for f in fs]
+                inj = [d["protocol_sentence"] for d in gold[r["case_id"]]["defects"]]
+                rows.append({"inj_n": len(inj), "inj_hit": sum(flagged(inj, sp)), "base_n": len(base_s), "base_hit": sum(flagged(base_s, sp))})
+            out[f"{name} · {cfg}"] = _boot(rows)
+    a = eval_a([("lean_v3", "gold_axis1.jsonl"), ("lean_v3b", "gold_axis1.jsonl")])
+    for k in ("lean_v3", "lean_v3b"):
+        out[f"에이전트 · {k}"] = a[k]["summary"]
+    res["post_hoc_orig20"] = out
+    L = ["", "## 사후 분석(사전 등록 밖) — 원 20 문장 단위 민감도·특이도", "",
+         "원샷 저장 결과(`oneshot`, `oneshot_r2`)에 평가 A와 같은 규칙(주입 문장 = 양성, 기준 문장 = 음성, `run_eval.matches`)을 적용했다. 원 20 원샷 결과는 이미 본 데이터이고 이 분석은 결과를 본 뒤 추가했다.", "",
+         "| 팔 · 실행 | 민감도 [95% CI] | 특이도 [95% CI] | Youden J [95% CI] |", "|---|---|---|---|"]
+    for k, s in out.items():
+        L.append(f"| {k} | {s['sensitivity']:.3f} {s['sensitivity_ci']} | {s['specificity']:.3f} {s['specificity_ci']} | {s['youden_j']:.3f} {s['youden_ci']} |")
+    return L
 
 
 if __name__ == "__main__":

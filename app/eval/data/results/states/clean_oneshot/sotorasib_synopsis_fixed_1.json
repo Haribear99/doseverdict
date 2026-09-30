@@ -1,0 +1,71 @@
+{
+ "base": "sotorasib_synopsis_fixed.md",
+ "rep": 1,
+ "tokens": 4666,
+ "findings": [
+  {
+   "span": "Primary (Phase 2): Objective response rate (ORR) per RECIST v1.1 at the selected recommended Phase 2 dose (RP2D).",
+   "category": "endpoint_ctq",
+   "severity": "high",
+   "claim": "The synopsis gives no Phase 2 sample size, precision target, success criterion, or analysis population for ORR. Without these, it is unclear how the primary endpoint will support a decision.",
+   "cited_doc_id": "ICH-E6R3-2025",
+   "guidance_quote": "Clinical trials should be scientifically sound for their intended purpose and based on adequate and current scientific knowledge and approaches."
+  },
+  {
+   "span": "Inclusion: age ≥18; histologically confirmed KRAS G12C-mutated locally advanced or metastatic solid tumor; ECOG 0–1; at least one prior line of systemic therapy; recovery of prior-treatment toxicities to Grade ≤1.",
+   "category": "eligibility",
+   "severity": "high",
+   "claim": "Eligibility does not require RECIST-measurable disease, although ORR is the Phase 2 primary endpoint. The protocol should establish who can contribute an evaluable baseline tumor assessment.",
+   "cited_doc_id": "ICH-E6R3-2025",
+   "guidance_quote": "Clinical trials should be scientifically sound for their intended purpose and based on adequate and current scientific knowledge and approaches."
+  },
+  {
+   "span": "Primary (Phase 2): Objective response rate (ORR) per RECIST v1.1 at the selected recommended Phase 2 dose (RP2D).",
+   "category": "endpoint_ctq",
+   "severity": "high",
+   "claim": "A single ORR objective is stated for a population spanning advanced solid-tumor histologies. No tumor-specific cohorts, stratification, or prespecified histology-specific analyses are described, despite potentially different response rates and prior-treatment contexts.",
+   "cited_doc_id": "ICH-E6R3-2025",
+   "guidance_quote": "Clinical trials should be scientifically sound for their intended purpose and based on adequate and current scientific knowledge and approaches."
+  },
+  {
+   "span": "At least 60 subjects will be randomized 1:1 to the two candidate dose levels to compare safety, tolerability, PK, PD and preliminary antitumor activity before selecting the RP2D.",
+   "category": "dose_optimization",
+   "severity": "medium",
+   "claim": "The synopsis provides no justification that approximately 30 subjects per dose will be informative across the eligible tumor types, or a plan to account for tumor type when comparing preliminary activity between doses.",
+   "cited_doc_id": "FDA-DOSE-OPT-2024",
+   "guidance_quote": "Dosage selection should be based on an integrated assessment of pharmacokinetic, pharmacodynamic, safety, tolerability, and efficacy data."
+  },
+  {
+   "span": "At least 60 subjects will be randomized 1:1 to the two candidate dose levels to compare safety, tolerability, PK, PD and preliminary antitumor activity before selecting the RP2D.",
+   "category": "dose_optimization",
+   "severity": "medium",
+   "claim": "PD is named as a dose-selection input, but the synopsis specifies no PD measure, sampling time, or assay. It is therefore unclear whether comparable PD evidence will be available for the prespecified RP2D decision.",
+   "cited_doc_id": "FDA-DOSE-OPT-2024",
+   "guidance_quote": "Dosage selection should be based on an integrated assessment of pharmacokinetic, pharmacodynamic, safety, tolerability, and efficacy data."
+  },
+  {
+   "span": "Dose proportionality will be assessed by a power model.",
+   "category": "dose_optimization",
+   "severity": "medium",
+   "claim": "Dose proportionality alone does not specify how exposure will be related to adverse reactions or antitumor activity across the randomized doses. An exposure–response analysis would make the PK evidence more useful for RP2D selection.",
+   "cited_doc_id": "FDA-DOSE-OPT-2024",
+   "guidance_quote": "Sponsors should evaluate exposure-response relationships for both safety and efficacy to inform dosage selection."
+  },
+  {
+   "span": "Intensive PK sampling on Cycle 1 Day 1 and Day 15 (pre-dose, 0.5, 1, 2, 4, 6, 8 and 24 h post-dose) in all escalation subjects; steady-state trough sampling every cycle in the randomized cohorts.",
+   "category": "burden",
+   "severity": "medium",
+   "claim": "Sixteen timed samples, including two 24-hour samples, are required of every escalation subject. The synopsis does not justify why intensive sampling in all such subjects is needed rather than a fit-for-purpose subset or less burdensome schedule.",
+   "cited_doc_id": "ICH-E6R3-2025",
+   "guidance_quote": "Clinical trial processes, measures, and approaches should be implemented in a way that is proportionate to the risks to participants and to the importance of the data being collected."
+  },
+  {
+   "span": "Exclusion: active brain metastases; prior treatment with a KRAS G12C inhibitor; QTcF >470 ms; anti-PD-(L)1 therapy within 4 weeks prior to the first dose.",
+   "category": "safety_monitoring",
+   "severity": "medium",
+   "claim": "The fixed four-week checkpoint-inhibitor exclusion is not accompanied by a rationale or a risk-adapted plan for participants who received immunotherapy shortly before that window. Given potential overlapping hepatic toxicity, the washout and monitoring approach should be justified together.",
+   "cited_doc_id": "FDA-DOSE-OPT-2024",
+   "guidance_quote": "Safety and tolerability should be assessed throughout treatment, including adverse reactions that may occur after the initial dose-limiting toxicity assessment period."
+  }
+ ]
+}

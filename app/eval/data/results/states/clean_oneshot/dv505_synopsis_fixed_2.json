@@ -1,0 +1,87 @@
+{
+ "base": "dv505_synopsis_fixed.md",
+ "rep": 2,
+ "tokens": 5025,
+ "findings": [
+  {
+   "span": "Secondary: Pharmacokinetics (PK), duration of response, progression-free survival, dose intensity and tolerability over time.",
+   "category": "dose_optimization",
+   "severity": "medium",
+   "claim": "The synopsis names PK and clinical outcomes but does not specify analyses linking dose or exposure to efficacy, safety, and tolerability. Those analyses are important to choosing between the randomized doses.",
+   "cited_doc_id": "FDA-DOSE-OPT-2024",
+   "guidance_quote": "Dosage optimization should include evaluation of dose- and exposure-response relationships for efficacy, safety, and tolerability."
+  },
+  {
+   "span": "Two candidate dose levels will be selected from the escalation data.",
+   "category": "dose_optimization",
+   "severity": "medium",
+   "claim": "The synopsis does not state how the two doses will be chosen to provide a meaningfully informative comparison, although it refers to separate criteria for selecting the final RP2D. Two doses with similar exposures could leave the dose-response question unresolved.",
+   "cited_doc_id": "FDA-DOSE-OPT-2024",
+   "guidance_quote": "Sponsors should evaluate a range of dosages to characterize dose- and exposure-response relationships for efficacy, safety, and tolerability."
+  },
+  {
+   "span": "At least 60 subjects will be randomized 1:1 to the two candidate dose levels to compare safety, tolerability, PK, PD and preliminary antitumor activity before selecting the RP2D.",
+   "category": "endpoint_ctq",
+   "severity": "medium",
+   "claim": "PD is a stated basis for dose selection, but the synopsis identifies no PD measure, collection schedule, or analysis. Its contribution to the comparison is therefore not assessable.",
+   "cited_doc_id": "ICH-E6R3-2025",
+   "guidance_quote": "Factors critical to the quality of the trial should be identified prospectively and considered in the design of the trial."
+  },
+  {
+   "span": "steady-state trough sampling every cycle in the randomized cohorts.",
+   "category": "dose_optimization",
+   "severity": "medium",
+   "claim": "Trough-only sampling in the randomized comparison may not adequately characterize between-dose differences in peak or overall exposure, particularly if those exposures drive toxicity or activity. The synopsis gives no alternative exposure-characterization plan for these cohorts.",
+   "cited_doc_id": "FDA-DOSE-OPT-2024",
+   "guidance_quote": "Dosage optimization should include evaluation of dose- and exposure-response relationships for efficacy, safety, and tolerability."
+  },
+  {
+   "span": "Primary (Phase 2): Objective response rate (ORR) per RECIST v1.1 at the selected recommended Phase 2 dose (RP2D).",
+   "category": "endpoint_ctq",
+   "severity": "high",
+   "claim": "ORR is the Phase 2 primary endpoint, but the eligibility criteria do not require baseline RECIST-measurable disease. Participants without measurable disease could be enrolled without being evaluable for this endpoint.",
+   "cited_doc_id": "ICH-E6R3-2025",
+   "guidance_quote": "The trial should be designed to generate reliable results and protect the rights, safety and well-being of participants."
+  },
+  {
+   "span": "histologically confirmed KRAS G12D-mutated locally advanced or metastatic solid tumor",
+   "category": "endpoint_ctq",
+   "severity": "high",
+   "claim": "The trial pools different solid-tumor types, but the synopsis specifies no tumor-type cohorts, allocation controls, or tumor-specific analysis for the randomized activity comparison or Phase 2 ORR. Differences in tumor mix could confound dose comparisons and make a pooled ORR difficult to interpret.",
+   "cited_doc_id": "FDA-EXPANSION-COHORTS-2022",
+   "guidance_quote": "Expansion cohorts should be designed to evaluate specific objectives in defined patient populations."
+  },
+  {
+   "span": "Primary (Phase 2): Objective response rate (ORR) per RECIST v1.1 at the selected recommended Phase 2 dose (RP2D).",
+   "category": "endpoint_ctq",
+   "severity": "high",
+   "claim": "The synopsis states neither how many participants will receive the selected RP2D for the Phase 2 ORR analysis nor the analysis population, precision target, or decision criterion. The 60-person, two-dose comparison occurs before RP2D selection and does not resolve the Phase 2 analysis plan.",
+   "cited_doc_id": "ICH-E6R3-2025",
+   "guidance_quote": "The protocol should describe the statistical methods to be employed, including the planned sample size and its justification."
+  },
+  {
+   "span": "Dose modification rules for hepatotoxicity, gastrointestinal adverse reactions, QTc prolongation and other adverse reactions are specified in Appendix B.",
+   "category": "safety_monitoring",
+   "severity": "high",
+   "claim": "The synopsis specifies QTc-based exclusion and dose-modification rules but no on-treatment ECG assessment schedule. Without scheduled measurements, emergent QTc prolongation may not be detected in time to apply those rules.",
+   "cited_doc_id": "ICH-E6R3-2025",
+   "guidance_quote": "The trial should be designed to protect the rights, safety and well-being of participants and to generate reliable results."
+  },
+  {
+   "span": "recovery of prior-treatment toxicities to Grade ≤1.",
+   "category": "eligibility",
+   "severity": "medium",
+   "claim": "The blanket requirement does not exempt stable, clinically insignificant, or irreversible effects of prior therapy. It may exclude otherwise suitable patients without an apparent safety rationale.",
+   "cited_doc_id": "FDA-EXPANSION-COHORTS-2022",
+   "guidance_quote": "Eligibility criteria should be selected to protect patients while avoiding unnecessary restrictions that limit enrollment."
+  },
+  {
+   "span": "Intensive PK sampling on Cycle 1 Day 1 and Day 15 (pre-dose, 0.5, 1, 2, 4, 6, 8 and 24 h post-dose) in all escalation subjects; steady-state trough sampling every cycle in the randomized cohorts.",
+   "category": "burden",
+   "severity": "low",
+   "claim": "The schedule requires two eight-sample PK profiles, each extending to 24 hours, for every escalation participant and indefinite per-cycle troughs in the randomized cohorts. The synopsis does not explain whether all these collections are needed or how the additional visits or overnight stays will be managed.",
+   "cited_doc_id": "ICH-E6R3-2025",
+   "guidance_quote": "The burden of trial participation on participants should be considered in the design and conduct of the trial."
+  }
+ ]
+}

@@ -1,0 +1,87 @@
+{
+ "base": "adagrasib_synopsis_fixed.md",
+ "rep": 1,
+ "tokens": 4962,
+ "findings": [
+  {
+   "span": "Two candidate dose levels will be selected from the escalation data.",
+   "category": "dose_optimization",
+   "severity": "medium",
+   "claim": "The synopsis does not state how the two doses entering randomization will be chosen. Appendix D is described as governing final RP2D selection, not this earlier decision; prespecified candidate-selection rules are needed to avoid an ad hoc comparison.",
+   "cited_doc_id": "FDA-DOSE-OPT-2024",
+   "guidance_quote": "Sponsors should consider the totality of the data, including safety, tolerability, pharmacokinetics, pharmacodynamics, and efficacy, when selecting dosages for further evaluation."
+  },
+  {
+   "span": "At least 60 subjects will be randomized 1:1 to the two candidate dose levels to compare safety, tolerability, PK, PD and preliminary antitumor activity before selecting the RP2D.",
+   "category": "dose_optimization",
+   "severity": "high",
+   "claim": "A minimum total of 60 across heterogeneous solid tumors is given without a precision or sample-size rationale, or a plan to account for tumor type and prior therapy when comparing doses. Differences between the dose groups could therefore be difficult to interpret.",
+   "cited_doc_id": "FDA-DOSE-OPT-2024",
+   "guidance_quote": "Randomized, parallel dose-response trials can be used to compare dosages and characterize the relationships of dosage to efficacy and safety."
+  },
+  {
+   "span": "Dose proportionality and time-dependence of exposure will be assessed by a power model.",
+   "category": "dose_optimization",
+   "severity": "medium",
+   "claim": "The stated PK analysis addresses exposure across doses and time, but the synopsis does not describe an exposure–response analysis linking exposure to adverse reactions and antitumor activity for RP2D selection.",
+   "cited_doc_id": "FDA-DOSE-OPT-2024",
+   "guidance_quote": "Exposure-response analyses for efficacy and safety can inform dosage optimization."
+  },
+  {
+   "span": "At least 60 subjects will be randomized 1:1 to the two candidate dose levels to compare safety, tolerability, PK, PD and preliminary antitumor activity before selecting the RP2D.",
+   "category": "endpoint_ctq",
+   "severity": "medium",
+   "claim": "PD is identified as a dose-comparison measure, but no PD marker, specimen, collection time, or analysis is described in the synopsis. Its contribution to the integrated dose decision is consequently unclear.",
+   "cited_doc_id": "CTTI-QBD",
+   "guidance_quote": "Identify the factors that are critical to the quality of the trial and focus attention on the activities that are essential to achieving its objectives."
+  },
+  {
+   "span": "Primary (Phase 2): Objective response rate (ORR) per RECIST v1.1 at the selected recommended Phase 2 dose (RP2D).",
+   "category": "endpoint_ctq",
+   "severity": "high",
+   "claim": "The Phase 2 endpoint is named, but the synopsis gives no Phase 2 sample size, ORR decision criterion, or rule for whether patients treated at that dose during the randomized comparison enter the Phase 2 analysis. These choices are critical to interpreting the result.",
+   "cited_doc_id": "ICH-E6R3-2025",
+   "guidance_quote": "The protocol should describe the objectives, design, methodology and statistical considerations of the trial."
+  },
+  {
+   "span": "Liver function tests (ALT, AST, total bilirubin) will be assessed before the first dose and monthly for 3 months and as clinically indicated thereafter.",
+   "category": "safety_monitoring",
+   "severity": "high",
+   "claim": "The specified panel omits alkaline phosphatase, and routine testing begins only monthly despite Day 8 and Day 15 visits. The synopsis also does not specify intensified testing after an abnormal result, weakening detection and characterization of early hepatotoxicity.",
+   "cited_doc_id": "FDA-EXPANSION-COHORTS-2022",
+   "guidance_quote": "Safety monitoring should be adequate to identify and characterize adverse reactions, including toxicities that may emerge with continued treatment."
+  },
+  {
+   "span": "ECGs and electrolytes will be monitored at baseline and periodically for QTc prolongation.",
+   "category": "safety_monitoring",
+   "severity": "high",
+   "claim": "“Periodically” supplies no post-dose ECG or electrolyte schedule or trigger for additional assessments. That leaves QTc surveillance inconsistently implementable across sites, notwithstanding the dose-modification rules referenced in Appendix B.",
+   "cited_doc_id": "ICH-E6R3-2025",
+   "guidance_quote": "Trial processes should be designed to ensure participant safety and the reliability of trial results."
+  },
+  {
+   "span": "Recovery of prior-treatment toxicities to Grade ≤1.",
+   "category": "eligibility",
+   "severity": "medium",
+   "claim": "The blanket recovery requirement provides no exception for stable, nonclinically significant or irreversible residual effects of prior therapy. It may unnecessarily exclude otherwise suitable patients and constrain accrual and generalizability.",
+   "cited_doc_id": "FDA-EXPANSION-COHORTS-2022",
+   "guidance_quote": "Eligibility criteria should be sufficiently broad to allow enrollment of a population representative of the patients who may receive the drug, while protecting patient safety."
+  },
+  {
+   "span": "steady-state trough sampling every cycle in the randomized cohorts.",
+   "category": "burden",
+   "severity": "low",
+   "claim": "Trough collection has no stated stopping point, even after sufficient steady-state data are obtained. The value of sampling every subsequent cycle should be justified against cumulative patient and site burden.",
+   "cited_doc_id": "ICH-E6R3-2025",
+   "guidance_quote": "Trial processes, measures and approaches should be proportionate to the risks to participants and to the importance of the data being collected."
+  },
+  {
+   "span": "Screening (Day −28 to −1), Cycle 1 Day 1, Day 8, Day 15, then Day 1 of each 21-day cycle. Tumor assessments every 6 weeks.",
+   "category": "feasibility",
+   "severity": "medium",
+   "claim": "The synopsis specifies recurring visits and imaging for a multinational study but gives no accrual period, site assumptions, or feasibility rationale for enrolling up to 36 escalation subjects plus at least 60 randomized subjects under the stated eligibility restrictions. Enrollment feasibility cannot be assessed from the supplied plan.",
+   "cited_doc_id": "ICH-E6R3-2025",
+   "guidance_quote": "The trial design should be operationally feasible and should avoid unnecessary complexity."
+  }
+ ]
+}

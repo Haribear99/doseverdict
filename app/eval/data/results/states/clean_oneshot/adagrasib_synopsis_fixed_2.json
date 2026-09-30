@@ -1,0 +1,79 @@
+{
+ "base": "adagrasib_synopsis_fixed.md",
+ "rep": 2,
+ "tokens": 4711,
+ "findings": [
+  {
+   "span": "At least 60 subjects will be randomized 1:1 to the two candidate dose levels to compare safety, tolerability, PK, PD and preliminary antitumor activity before selecting the RP2D.",
+   "category": "dose_optimization",
+   "severity": "high",
+   "claim": "The synopsis gives no precision target or operating characteristics showing that approximately 30 subjects per dose can distinguish the candidate doses sufficiently to support RP2D selection, particularly across multiple tumor types.",
+   "cited_doc_id": "FDA-DOSE-OPT-2024",
+   "guidance_quote": "Sponsors should evaluate a range of dosages to identify a dosage that maximizes efficacy, safety, and tolerability."
+  },
+  {
+   "span": "At least 60 subjects will be randomized 1:1 to the two candidate dose levels to compare safety, tolerability, PK, PD and preliminary antitumor activity before selecting the RP2D.",
+   "category": "endpoint_ctq",
+   "severity": "high",
+   "claim": "The dose comparison pools advanced solid tumors without a stated tumor-type stratification or analysis plan. Differences in tumor mix could obscure or mimic a dose-related antitumor effect.",
+   "cited_doc_id": "FDA-DOSE-OPT-2024",
+   "guidance_quote": "Randomized, parallel dose-response trials can be used to evaluate the safety and efficacy of different dosages."
+  },
+  {
+   "span": "Steady-state trough sampling every cycle in the randomized cohorts.",
+   "category": "dose_optimization",
+   "severity": "medium",
+   "claim": "Trough-only sampling in the cohorts that select the RP2D may not adequately characterize differences in exposure across doses or support an exposure–response assessment for efficacy and adverse reactions.",
+   "cited_doc_id": "FDA-DOSE-OPT-2024",
+   "guidance_quote": "Exposure-response analyses for efficacy and safety should be considered to inform dosage optimization."
+  },
+  {
+   "span": "Intensive PK sampling on Cycle 1 Day 1 and Day 8 (pre-dose, 1, 2, 4, 6, 8 and 12 h post-dose) in all escalation subjects; steady-state trough sampling every cycle in the randomized cohorts.",
+   "category": "burden",
+   "severity": "medium",
+   "claim": "Two 12-hour, eight-sample visits are required of every escalation subject, while sampling is much lighter in the randomized dose-comparison cohorts. The synopsis does not justify this allocation of participant burden against the PK information needed for dose selection.",
+   "cited_doc_id": "ICH-E6R3-2025",
+   "guidance_quote": "Clinical trial processes should be proportionate to the risks to participants and to the importance of the data collected, and should avoid unnecessary burden on participants and investigators."
+  },
+  {
+   "span": "Liver function tests (ALT, AST, total bilirubin) will be assessed before the first dose and monthly for 3 months and as clinically indicated thereafter.",
+   "category": "safety_monitoring",
+   "severity": "high",
+   "claim": "The stated liver panel omits alkaline phosphatase, and the schedule does not specify more frequent testing when liver tests become abnormal. Those omissions weaken detection and characterization of hepatotoxicity during dose selection.",
+   "cited_doc_id": "FDA-DOSE-OPT-2024",
+   "guidance_quote": "Safety and tolerability assessments should include adverse reactions that may lead to dose interruption, reduction, or discontinuation."
+  },
+  {
+   "span": "ECGs and electrolytes will be monitored at baseline and periodically for QTc prolongation.",
+   "category": "safety_monitoring",
+   "severity": "high",
+   "claim": "“Periodically” leaves ECG and electrolyte timing undefined despite the specified QTc risk. Prespecified on-treatment assessments, including assessments after dose changes or relevant abnormalities, are needed for consistent detection and dose-modification decisions.",
+   "cited_doc_id": "ICH-E6R3-2025",
+   "guidance_quote": "The protocol should describe the procedures for assessing, recording, and reporting adverse events and other safety information."
+  },
+  {
+   "span": "recovery of prior-treatment toxicities to Grade ≤1.",
+   "category": "eligibility",
+   "severity": "medium",
+   "claim": "A blanket Grade ≤1 recovery requirement can exclude patients with stable, clinically irrelevant residual effects of prior therapy. Exceptions tied to safety or interpretation of outcomes would better support representative enrollment.",
+   "cited_doc_id": "FDA-DOSE-OPT-2024",
+   "guidance_quote": "A broad patient population should be studied to evaluate the safety and tolerability of dosages in patients likely to use the drug in clinical practice."
+  },
+  {
+   "span": "Primary (Phase 2): Objective response rate (ORR) per RECIST v1.1 at the selected recommended Phase 2 dose (RP2D).",
+   "category": "endpoint_ctq",
+   "severity": "medium",
+   "claim": "For an open-label phase with ORR as its primary endpoint, the synopsis does not state whether responses require confirmation or whether imaging will receive blinded independent review. These choices affect the reliability and interpretability of the response estimate.",
+   "cited_doc_id": "ICH-E6R3-2025",
+   "guidance_quote": "The purpose of a clinical trial is to generate reliable information to answer research questions and support decision making while protecting the rights, safety and well-being of trial participants."
+  },
+  {
+   "span": "At least 60 subjects will be randomized 1:1 to the two candidate dose levels to compare safety, tolerability, PK, PD and preliminary antitumor activity before selecting the RP2D.",
+   "category": "endpoint_ctq",
+   "severity": "medium",
+   "claim": "PD is named as a basis for dose comparison, but the synopsis identifies no PD measure, sampling schedule, or assessment method. Its contribution to the prespecified integrated RP2D decision is therefore unclear from the stated plan.",
+   "cited_doc_id": "FDA-DOSE-OPT-2024",
+   "guidance_quote": "Pharmacodynamic data, when available, can inform dosage optimization."
+  }
+ ]
+}

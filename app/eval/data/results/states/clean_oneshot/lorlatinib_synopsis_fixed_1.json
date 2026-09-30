@@ -1,0 +1,71 @@
+{
+ "base": "lorlatinib_synopsis_fixed.md",
+ "rep": 1,
+ "tokens": 5536,
+ "findings": [
+  {
+   "span": "Dose escalation will follow a Bayesian optimal interval (BOIN) design with a target dose-limiting toxicity (DLT) rate of 30% and a maximum of 36 subjects.",
+   "category": "dose_optimization",
+   "severity": "high",
+   "claim": "The synopsis does not state the DLT observation window or how later-cycle toxicities affect escalation. These rules are needed to interpret BOIN decisions for a continuously administered drug.",
+   "cited_doc_id": "FDA-DOSE-OPT-2024",
+   "guidance_quote": "Safety and tolerability should be evaluated over the course of treatment, not only during the DLT observation period."
+  },
+  {
+   "span": "The RP2D will be selected using prespecified integrated criteria (Appendix D), not solely because a dose level is the maximum tolerated dose.",
+   "category": "dose_optimization",
+   "severity": "medium",
+   "claim": "Although integrated criteria are referenced, the synopsis does not explain how longer-term tolerability or dose interruptions will be weighed against early activity when selecting the RP2D. The referenced appendix may resolve this; it cannot be verified from the supplied text.",
+   "cited_doc_id": "FDA-DOSE-OPT-2024",
+   "guidance_quote": "Dosage selection should be based on the totality of data, including efficacy, safety, tolerability, pharmacokinetics, and pharmacodynamics."
+  },
+  {
+   "span": "Serum cholesterol and triglycerides will be assessed before the first dose, at 1, 2, 4 and 8 weeks, and periodically thereafter.",
+   "category": "safety_monitoring",
+   "severity": "high",
+   "claim": "No blood-pressure or glucose monitoring schedule is specified in the safety synopsis, despite clinically important hypertension and hyperglycemia risks with lorlatinib. The protocol should specify assessments and management triggers.",
+   "cited_doc_id": "ICH-E6R3-2025",
+   "guidance_quote": "The rights, safety and well-being of trial participants are the most important considerations and should prevail over interests of science and society."
+  },
+  {
+   "span": "Serum cholesterol and triglycerides will be assessed before the first dose, at 1, 2, 4 and 8 weeks, and periodically thereafter.",
+   "category": "safety_monitoring",
+   "severity": "medium",
+   "claim": "“Periodically thereafter” leaves the monitoring interval undefined after week 8, when participants may remain on treatment for many cycles. A defined cadence is needed for consistent detection and management of persistent metabolic toxicity.",
+   "cited_doc_id": "FDA-DOSE-OPT-2024",
+   "guidance_quote": "Safety and tolerability should be assessed over multiple cycles of treatment to inform dosage selection."
+  },
+  {
+   "span": "Central nervous system effects (cognitive, mood, speech and psychotic effects) will be assessed at each visit.",
+   "category": "safety_monitoring",
+   "severity": "medium",
+   "claim": "The synopsis specifies visit frequency but not the assessment method, baseline characterization, grading approach, or triggers for an unscheduled assessment. Inconsistent ascertainment could undermine comparison of CNS tolerability between randomized doses.",
+   "cited_doc_id": "FDA-DOSE-OPT-2024",
+   "guidance_quote": "Safety and tolerability data should be collected and evaluated to compare the dosages under study."
+  },
+  {
+   "span": "Primary (Phase 2): Objective response rate (ORR) per RECIST v1.1, including intracranial response, at the selected recommended Phase 2 dose (RP2D).",
+   "category": "endpoint_ctq",
+   "severity": "high",
+   "claim": "Intracranial response is not operationally defined: the synopsis does not identify the baseline brain-lesion population or intracranial measurability and response rules. RECIST v1.1 ORR alone does not specify those analyses, so the endpoint may be interpreted inconsistently.",
+   "cited_doc_id": "ICH-E6R3-2025",
+   "guidance_quote": "Clinical trials should be scientifically sound for their intended purpose and designed to produce reliable results."
+  },
+  {
+   "span": "Primary (Phase 2): Objective response rate (ORR) per RECIST v1.1, including intracranial response, at the selected recommended Phase 2 dose (RP2D).",
+   "category": "endpoint_ctq",
+   "severity": "high",
+   "claim": "The synopsis gives no Phase 2 sample size, ORR precision or decision criterion, or analysis plan accounting for selection of the RP2D using preliminary activity data. It is therefore unclear how the stated primary objective will yield an interpretable result.",
+   "cited_doc_id": "ICH-E6R3-2025",
+   "guidance_quote": "Clinical trials should be scientifically sound for their intended purpose and designed to produce reliable results."
+  },
+  {
+   "span": "Tumor assessments, including brain MRI, every 6 weeks.",
+   "category": "burden",
+   "severity": "medium",
+   "claim": "Brain MRI every six weeks appears to apply even to participants without baseline CNS disease. The synopsis gives no risk-based rationale or alternative schedule for that group, creating potentially avoidable patient and site burden.",
+   "cited_doc_id": "ICH-E6R3-2025",
+   "guidance_quote": "Clinical trial processes, measures and approaches should be implemented in a way that is proportionate to the risks to participants and to the importance of the data collected."
+  }
+ ]
+}

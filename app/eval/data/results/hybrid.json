@@ -1,0 +1,206 @@
+{
+ "agent": {
+  "n_runs": 12,
+  "flagged_per_run": 8.0,
+  "specificity": 0.64,
+  "findings_per_run": 6.42,
+  "tokens_per_run": 38884
+ },
+ "arms": {
+  "원샷 + 판정기(1차, 원문 일치 또는 NLI)": {
+   "n_runs": 12,
+   "flagged_per_run": 6.0,
+   "specificity": 0.73,
+   "findings_per_run": 6.5,
+   "tokens_per_run": 5054,
+   "diff": [
+    -2.0,
+    -3.67,
+    -0.42
+   ]
+  },
+  "원샷 + 판정기(원문 일치만)": {
+   "n_runs": 12,
+   "flagged_per_run": 4.67,
+   "specificity": 0.79,
+   "findings_per_run": 5.0,
+   "tokens_per_run": 5054,
+   "diff": [
+    -3.33,
+    -5.0,
+    -1.83
+   ]
+  },
+  "원샷(원)": {
+   "n_runs": 12,
+   "flagged_per_run": 7.33,
+   "specificity": 0.67,
+   "findings_per_run": 8.25,
+   "tokens_per_run": 5054,
+   "diff": [
+    -0.67,
+    -2.25,
+    0.83
+   ]
+  },
+  "에이전트 verified만(참고)": {
+   "n_runs": 12,
+   "flagged_per_run": 7.5,
+   "specificity": 0.663,
+   "findings_per_run": 6.17,
+   "tokens_per_run": 38884,
+   "diff": [
+    -0.5,
+    -2.33,
+    1.33
+   ]
+  }
+ },
+ "verdict": "원샷+판정기가 결함 없는 판에서 더 조용하다",
+ "post_hoc_orig20": {
+  "원샷(원) · oneshot": {
+   "sensitivity": 0.975,
+   "sensitivity_ci": [
+    0.95,
+    1.0
+   ],
+   "specificity": 0.888,
+   "specificity_ci": [
+    0.852,
+    0.921
+   ],
+   "youden_j": 0.863,
+   "youden_ci": [
+    0.81,
+    0.908
+   ],
+   "n_cases": 20
+  },
+  "원샷(원) · oneshot_r2": {
+   "sensitivity": 0.992,
+   "sensitivity_ci": [
+    0.975,
+    1.0
+   ],
+   "specificity": 0.862,
+   "specificity_ci": [
+    0.812,
+    0.907
+   ],
+   "youden_j": 0.854,
+   "youden_ci": [
+    0.805,
+    0.899
+   ],
+   "n_cases": 20
+  },
+  "원샷 + 판정기(원문 일치 또는 NLI) · oneshot": {
+   "sensitivity": 0.717,
+   "sensitivity_ci": [
+    0.642,
+    0.792
+   ],
+   "specificity": 0.933,
+   "specificity_ci": [
+    0.91,
+    0.952
+   ],
+   "youden_j": 0.65,
+   "youden_ci": [
+    0.57,
+    0.73
+   ],
+   "n_cases": 20
+  },
+  "원샷 + 판정기(원문 일치 또는 NLI) · oneshot_r2": {
+   "sensitivity": 0.783,
+   "sensitivity_ci": [
+    0.717,
+    0.858
+   ],
+   "specificity": 0.888,
+   "specificity_ci": [
+    0.843,
+    0.929
+   ],
+   "youden_j": 0.671,
+   "youden_ci": [
+    0.581,
+    0.761
+   ],
+   "n_cases": 20
+  },
+  "원샷 + 판정기(원문 일치만) · oneshot": {
+   "sensitivity": 0.492,
+   "sensitivity_ci": [
+    0.417,
+    0.567
+   ],
+   "specificity": 0.938,
+   "specificity_ci": [
+    0.912,
+    0.96
+   ],
+   "youden_j": 0.43,
+   "youden_ci": [
+    0.349,
+    0.515
+   ],
+   "n_cases": 20
+  },
+  "원샷 + 판정기(원문 일치만) · oneshot_r2": {
+   "sensitivity": 0.508,
+   "sensitivity_ci": [
+    0.425,
+    0.592
+   ],
+   "specificity": 0.907,
+   "specificity_ci": [
+    0.869,
+    0.94
+   ],
+   "youden_j": 0.415,
+   "youden_ci": [
+    0.321,
+    0.508
+   ],
+   "n_cases": 20
+  },
+  "에이전트 · lean_v3": {
+   "sensitivity": 0.95,
+   "sensitivity_ci": [
+    0.908,
+    0.983
+   ],
+   "specificity": 0.812,
+   "specificity_ci": [
+    0.779,
+    0.845
+   ],
+   "youden_j": 0.762,
+   "youden_ci": [
+    0.704,
+    0.815
+   ],
+   "n_cases": 20
+  },
+  "에이전트 · lean_v3b": {
+   "sensitivity": 0.975,
+   "sensitivity_ci": [
+    0.95,
+    1.0
+   ],
+   "specificity": 0.786,
+   "specificity_ci": [
+    0.714,
+    0.85
+   ],
+   "youden_j": 0.761,
+   "youden_ci": [
+    0.675,
+    0.836
+   ],
+   "n_cases": 20
+  }
+ }
+}

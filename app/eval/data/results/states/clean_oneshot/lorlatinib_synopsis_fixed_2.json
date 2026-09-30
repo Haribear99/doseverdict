@@ -1,0 +1,71 @@
+{
+ "base": "lorlatinib_synopsis_fixed.md",
+ "rep": 2,
+ "tokens": 5343,
+ "findings": [
+  {
+   "span": "Dose escalation will follow a Bayesian optimal interval (BOIN) design with a target dose-limiting toxicity (DLT) rate of 30% and a maximum of 36 subjects.",
+   "category": "dose_optimization",
+   "severity": "high",
+   "claim": "The synopsis does not specify the DLT definition or observation window. Those specifications are needed to interpret the 30% target and implement escalation consistently; they should be explicit or clearly referenced.",
+   "cited_doc_id": "ICH-E6R3-2025",
+   "guidance_quote": "The protocol should describe the objectives, design, methodology, statistical considerations and organisation of the clinical trial."
+  },
+  {
+   "span": "Planned dose levels (once daily, oral): 25 mg, 50 mg, 75 mg, 100 mg, 150 mg, 200 mg.",
+   "category": "dose_optimization",
+   "severity": "medium",
+   "claim": "No rationale is given for the dose range or for escalating above lorlatinib's established 100 mg once-daily dosage. The proposed upper levels need an exposure, safety and potential-benefit justification rather than reliance on an MTD search.",
+   "cited_doc_id": "FDA-DOSE-OPT-2024",
+   "guidance_quote": "The goal of dosage optimization is to identify a dosage that maximizes the benefit-risk profile of a drug by balancing clinical benefit and tolerability."
+  },
+  {
+   "span": "At least 60 subjects will be randomized 1:1 to the two candidate dose levels to compare safety, tolerability, PK, PD and preliminary antitumor activity before selecting the RP2D.",
+   "category": "dose_optimization",
+   "severity": "medium",
+   "claim": "Although PD is named as dose-selection evidence, the synopsis specifies no PD measure, collection schedule or evaluability criteria. It is therefore unclear how PD will contribute to the prespecified comparison.",
+   "cited_doc_id": "FDA-DOSE-OPT-2024",
+   "guidance_quote": "Sponsors should consider the totality of the data, including pharmacokinetics, pharmacodynamics, clinical activity, and safety and tolerability, to select a dosage for further development."
+  },
+  {
+   "span": "Primary (Phase 2): Objective response rate (ORR) per RECIST v1.1, including intracranial response, at the selected recommended Phase 2 dose (RP2D).",
+   "category": "endpoint_ctq",
+   "severity": "high",
+   "claim": "Intracranial response is included in the primary endpoint without defining whether it is a separate endpoint or part of ORR, its assessment criteria, or its denominator. The eligibility criteria do not require measurable intracranial disease, so not every enrolled subject can contribute an intracranial response assessment.",
+   "cited_doc_id": "ICH-E6R3-2025",
+   "guidance_quote": "The protocol should describe the objectives, design, methodology, statistical considerations and organisation of the clinical trial."
+  },
+  {
+   "span": "Primary (Phase 2): Objective response rate (ORR) per RECIST v1.1, including intracranial response, at the selected recommended Phase 2 dose (RP2D).",
+   "category": "endpoint_ctq",
+   "severity": "medium",
+   "claim": "The synopsis does not distinguish the randomized dose-selection subjects from the population used to estimate the Phase 2 primary ORR, or describe an analysis accounting for selection of the RP2D using observed activity. If the same responses serve both purposes, the selected-dose ORR may be optimistic.",
+   "cited_doc_id": "ICH-E6R3-2025",
+   "guidance_quote": "The protocol should describe the objectives, design, methodology, statistical considerations and organisation of the clinical trial."
+  },
+  {
+   "span": "Serum cholesterol and triglycerides will be assessed before the first dose, at 1, 2, 4 and 8 weeks, and periodically thereafter.",
+   "category": "safety_monitoring",
+   "severity": "medium",
+   "claim": "“Periodically thereafter” leaves the monitoring interval unspecified during continuing treatment, despite hyperlipidemia being an identified toxicity. A defined later-cycle schedule is needed for consistent safety surveillance.",
+   "cited_doc_id": "ICH-E6R3-2025",
+   "guidance_quote": "The rights, safety, and well-being of trial participants are the most important considerations and should prevail over interests of science and society."
+  },
+  {
+   "span": "ECGs will be performed at baseline and periodically for PR interval prolongation.",
+   "category": "safety_monitoring",
+   "severity": "medium",
+   "claim": "No on-treatment ECG time points or interval are specified for monitoring PR prolongation, making implementation and timely detection of conduction changes inconsistent across sites.",
+   "cited_doc_id": "ICH-E6R3-2025",
+   "guidance_quote": "The rights, safety, and well-being of trial participants are the most important considerations and should prevail over interests of science and society."
+  },
+  {
+   "span": "Tumor assessments, including brain MRI, every 6 weeks.",
+   "category": "burden",
+   "severity": "medium",
+   "claim": "As written, every subject receives a brain MRI every six weeks, including subjects without known intracranial disease. The synopsis gives no justification or risk-adapted schedule for this repeated assessment.",
+   "cited_doc_id": "ICH-E6R3-2025",
+   "guidance_quote": "Clinical trial processes, measures and approaches should be implemented in a way that is proportionate to the risks to participants and the importance of the data collected and that avoids unnecessary burden on participants and investigators."
+  }
+ ]
+}

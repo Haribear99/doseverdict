@@ -1,0 +1,55 @@
+{
+ "base": "sotorasib_synopsis_fixed.md",
+ "rep": 0,
+ "tokens": 5643,
+ "findings": [
+  {
+   "span": "histologically confirmed KRAS G12C-mutated locally advanced or metastatic solid tumor",
+   "category": "endpoint_ctq",
+   "severity": "high",
+   "claim": "The eligible population spans multiple tumor types, but the Phase 2 ORR objective does not specify tumor-type strata or how differences in response across histologies will be handled. A pooled ORR could be difficult to interpret.",
+   "cited_doc_id": "CTTI-QBD",
+   "guidance_quote": "Critical to quality factors are attributes of a trial that are fundamental to the protection of participants, the reliability and interpretability of trial results, and the decisions made based on those results."
+  },
+  {
+   "span": "Primary (Phase 2): Objective response rate (ORR) per RECIST v1.1 at the selected recommended Phase 2 dose (RP2D).",
+   "category": "endpoint_ctq",
+   "severity": "high",
+   "claim": "The synopsis does not define the Phase 2 analysis population, planned sample size, or decision criterion for ORR. It also does not say whether subjects whose data helped select the RP2D will be included in the primary efficacy analysis, creating a risk of selection-biased interpretation.",
+   "cited_doc_id": "ICH-E6R3-2025",
+   "guidance_quote": "Clinical trials should be scientifically sound for their intended purpose and based on adequate and current scientific knowledge and approaches."
+  },
+  {
+   "span": "At least 60 subjects will be randomized 1:1 to the two candidate dose levels to compare safety, tolerability, PK, PD and preliminary antitumor activity before selecting the RP2D.",
+   "category": "dose_optimization",
+   "severity": "medium",
+   "claim": "PD is named as a basis for comparing doses, but the synopsis specifies no PD biomarker, sampling schedule, or analysis; the subsequent sampling section describes PK only. The proposed PD comparison is therefore not operationally defined.",
+   "cited_doc_id": "FDA-DOSE-OPT-2024",
+   "guidance_quote": "Sponsors should consider the totality of data, including safety, tolerability, pharmacokinetics, pharmacodynamics, and activity, when selecting a dosage for further evaluation."
+  },
+  {
+   "span": "anti-PD-(L)1 therapy within 4 weeks prior to the first dose.",
+   "category": "safety_monitoring",
+   "severity": "medium",
+   "claim": "Subjects treated with anti-PD-(L)1 therapy more than four weeks earlier remain eligible, but the synopsis does not identify recent immunotherapy as a hepatotoxicity risk requiring a tailored monitoring plan. This is a particular concern for sotorasib; it does not, by itself, establish that every such subject needs a longer washout.",
+   "cited_doc_id": "ICH-E6R3-2025",
+   "guidance_quote": "The rights, safety and well-being of trial participants are the most important considerations and should prevail over interests of science and society."
+  },
+  {
+   "span": "Liver function tests (ALT, AST, alkaline phosphatase, total bilirubin) will be assessed before the first dose, every 3 weeks for the first 3 months, and monthly thereafter or as clinically indicated.",
+   "category": "safety_monitoring",
+   "severity": "medium",
+   "claim": "The schedule gives no explicit intensified testing plan for eligible subjects recently exposed to anti-PD-(L)1 therapy or for subjects developing early liver-test abnormalities. The stated routine schedule alone does not address those higher-risk circumstances.",
+   "cited_doc_id": "ICH-E6R3-2025",
+   "guidance_quote": "The rights, safety and well-being of trial participants are the most important considerations and should prevail over interests of science and society."
+  },
+  {
+   "span": "Intensive PK sampling on Cycle 1 Day 1 and Day 15 (pre-dose, 0.5, 1, 2, 4, 6, 8 and 24 h post-dose) in all escalation subjects;",
+   "category": "burden",
+   "severity": "low",
+   "claim": "The schedule requires two days of intensive, potentially overnight sampling from every escalation subject, without a stated justification for why each subject needs both profiles or a plan to mitigate visit burden.",
+   "cited_doc_id": "ICH-E6R3-2025",
+   "guidance_quote": "Trial processes should be proportionate to the risks to participants and the importance of the data collected, and avoid unnecessary burden on participants and investigators."
+  }
+ ]
+}
