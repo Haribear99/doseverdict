@@ -5,7 +5,9 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>DoseVerdict 본선 발표</title>
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable-dynamic-subset.min.css">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Serif+KR:wght@400;600&display=swap">
 <style>
+/* 색 토큰: 단일 원천은 app/ui/tokens.py (docs/DESIGN.md) — 값을 바꾸면 함께 바꾼다 */
 :root {
   --ink: #1b2430;
   --muted: #5b6472;
@@ -45,10 +47,8 @@ body {
 }
 .kicker {
   font-size: 22px; font-weight: 600; color: var(--accent);
-  letter-spacing: 0.04em; margin-bottom: 18px;
-  display: flex; gap: 14px; align-items: center;
+  margin-bottom: 18px;
 }
-.kicker::before { content: ""; width: 36px; height: 3px; background: var(--accent); display: inline-block; }
 h1 {
   font-size: 54px; line-height: 1.24; font-weight: 700; letter-spacing: -0.02em;
   margin: 0 0 22px; max-width: 1640px; text-wrap: balance;
@@ -62,7 +62,7 @@ ul { margin: 0; padding-left: 1.1em; }
 li { margin-bottom: 8px; }
 .small { font-size: 21px; line-height: 1.5; color: var(--muted); }
 .note {
-  background: var(--soft); padding: 14px 22px; border-radius: 4px;
+  background: var(--soft); padding: 14px 22px;
   font-size: 22px; line-height: 1.5; color: var(--muted);
 }
 .note strong { color: var(--ink); }
@@ -72,8 +72,8 @@ li { margin-bottom: 8px; }
 .foot-l { left: 112px; font-variant-numeric: tabular-nums; }
 .foot-r { right: 112px; display: flex; gap: 10px; align-items: center; }
 .foot-r .tag {
-  border: 1.5px solid var(--accent); color: var(--accent);
-  padding: 5px 14px; border-radius: 4px; font-weight: 600; font-size: 19px;
+  border: 1px solid var(--accent); color: var(--accent);
+  padding: 4px 12px; border-radius: 2px; font-weight: 600; font-size: 19px;
 }
 .rule { position: absolute; left: 112px; right: 112px; bottom: 94px; border-top: 1px solid var(--line); }
 
@@ -95,7 +95,7 @@ tr.sub td { color: var(--muted); }
 table.tight td, table.tight th { padding: 9px 14px; }
 code, .mono { font-family: "Consolas", "D2Coding", monospace; font-size: 0.88em; color: var(--accent); }
 
-.chip { display: inline-block; font-size: 18px; font-weight: 700; padding: 3px 12px; border-radius: 4px; border: 1.5px solid; white-space: nowrap; }
+.chip { display: inline-block; font-size: 18px; font-weight: 700; padding: 2px 10px; border-radius: 2px; border: 1px solid; white-space: nowrap; }
 .c-ok { color: var(--ok); border-color: var(--ok); }
 .c-hold { color: var(--held-text); border-color: var(--held-text); }
 .c-reject { color: var(--reject); border-color: var(--reject); }
@@ -106,20 +106,23 @@ figure { margin: 0; display: flex; flex-direction: column; gap: 10px; min-height
 figure img { display: block; max-width: 100%; border: 1px solid var(--line); background: #fff; }
 figcaption { font-size: 19px; color: var(--muted); line-height: 1.4; }
 
-.card { border: 1px solid var(--line); background: #fff; padding: 18px 28px; border-radius: 6px; }
+.card { border-top: 1px solid var(--ink); padding: 14px 0 4px; }
 .card h2 { margin: 0 0 10px; font-size: 26px; font-weight: 700; letter-spacing: -0.01em; }
 .card p { font-size: 22px; color: var(--muted); }
 .quote {
-  font-family: Georgia, "Times New Roman", serif; font-size: 25px; line-height: 1.5;
+  font-family: Georgia, "Noto Serif KR", serif; font-size: 25px; line-height: 1.5;
   background: var(--soft); border-left: 2px solid var(--muted); padding: 18px 24px; color: var(--ink);
 }
 
-.tg { display:inline-block; font-size:18px; line-height:1.35; color:var(--muted); border:1px solid var(--line); border-radius:4px; padding:2px 10px; margin:4px 6px 0 0; background:#fff; }
+/* 주석 표기: 알약형 태그 대신 공문서식 ※ — 연속된 주석은 가운뎃점으로 잇는다 */
+.tg { font-size:0.9em; color:var(--muted); }
+.tg::before { content:"※ "; }
+.tg + .tg::before { content:" · "; }
 .todo-spec { display:inline-block; color:var(--reject); background:#fbeeec; border:1.5px dashed var(--reject); padding:0 10px; border-radius:4px; font-weight:700; }
 /* flow diagram */
 .flow { display: flex; align-items: center; gap: 0; }
 .node {
-  border: 1.5px solid var(--accent); border-radius: 6px; background: #fff;
+  border: 1px solid var(--accent); border-radius: 2px; background: #fff;
   padding: 14px 16px; text-align: center; min-width: 150px;
 }
 .node b { display: block; font-size: 22px; }
@@ -129,7 +132,7 @@ figcaption { font-size: 19px; color: var(--muted); line-height: 1.4; }
 .arrow { width: 34px; height: 2px; background: var(--muted); position: relative; flex: none; }
 .arrow::after { content: ""; position: absolute; right: -1px; top: -6px; border-left: 10px solid var(--muted); border-top: 7px solid transparent; border-bottom: 7px solid transparent; }
 .steps { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; }
-.step { border-top: 4px solid var(--accent); padding-top: 16px; }
+.step { border-top: 2px solid var(--ink); padding-top: 16px; }
 .step .k { font-size: 20px; color: var(--muted); font-weight: 600; }
 .step .h { font-size: 30px; font-weight: 700; margin: 6px 0 8px; }
 .step p { font-size: 22px; color: var(--muted); }
