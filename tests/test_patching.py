@@ -11,3 +11,16 @@ def test_apply_patches_only_defect_with_patch():
     new, applied = apply_patches(text, fs)
     assert new == "The MTD will be selected as the RP2D. LFTs every 3 weeks for 3 months."
     assert [a["finding_id"] for a in applied] == ["F01"]
+
+
+def test_calibrated_state_overrides_env(monkeypatch):
+    """UI '보수적 지적 모드'는 실행 상태로 전달 — 환경변수(다른 세션)보다 우선한다."""
+    from app.agents.findings import _calibrated, _instructions
+    from app.agents.graph import new_state
+    monkeypatch.setenv("DV_FINDINGS_CALIBRATED", "1")
+    st = new_state("x", "t")
+    st.scratch["calibrated"] = False
+    assert _calibrated(st) is False and "ONLY when" not in _instructions(st)
+    st.scratch["calibrated"] = True
+    monkeypatch.setenv("DV_FINDINGS_CALIBRATED", "0")
+    assert _calibrated(st) is True and "ONLY when" in _instructions(st)

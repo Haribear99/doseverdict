@@ -271,9 +271,10 @@ def calibration_lines() -> list[str]:
             f"| 결함 없는 기준 시놉시스 실행당 defect finding | {r['clean_defects_per_run'][0]} | {r['clean_defects_per_run'][1]} |",
             f"| 원 20 문장 민감도(현재 = 2회 평균) | {r['orig_sentence_sensitivity'][0]} | {r['orig_sentence_sensitivity'][1]} |",
             f"| 원 20 문장 특이도 | {r['orig_sentence_specificity'][0]} | {r['orig_sentence_specificity'][1]} |",
+            f"| 원 20 Youden J(민감도 + 특이도 − 1) | {r['orig_youden_j'][0]} | {r['orig_youden_j'][1]} |",
             f"| grounded 차이(보정 − 현재 2회 평균) [95% CI] | — | {g[0]:+.3f} [{g[1]:+.3f}, {g[2]:+.3f}] |",
             f"| span recall 차이 [95% CI] | — | {sp[0]:+.3f} [{sp[1]:+.3f}, {sp[2]:+.3f}] |", "",
-            f"사전 규칙 판정: **{r['verdict']}** — 특이도는 올랐지만 민감도 하락이 0.05를 넘었다. 민감도·특이도의 교환이며, 보정판은 기본값이 아닌 '보수적 지적' 선택지로만 둔다. 보정판 양성은 1회 실행이다.", ""]
+            f"사전 규칙 판정: **{r['verdict']}** — 특이도는 올랐지만 민감도 하락이 0.05를 넘었다. 운영점만 옮긴 것이 아니라 판별력(Youden J)도 낮아졌다. 보정판은 기본값이 아닌 '보수적 지적' 선택지로만 둔다. 보정판 양성은 1회 실행이다.", ""]
 
 
 def main() -> None:

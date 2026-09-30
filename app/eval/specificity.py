@@ -227,6 +227,7 @@ def calibration() -> None:
     adopt = d_spec >= 0.10 and (sens0 - sens1) <= 0.05 and g[0] >= -0.05
     res = {"clean_specificity": [b0["specificity"], b1["specificity"]], "clean_defects_per_run": [b0["mean_defect_findings"], b1["mean_defect_findings"]],
            "orig_sentence_sensitivity": [round(sens0, 3), round(sens1, 3)], "orig_sentence_specificity": [round(spec_inj0, 3), round(spec_inj1, 3)],
+           "orig_youden_j": [round(sens0 + spec_inj0 - 1, 3), round(sens1 + spec_inj1 - 1, 3)],
            "grounded_diff": [round(x, 3) for x in g[:3]], "span_diff": [round(x, 3) for x in sp[:3]],
            "tokens": [b1["tokens_total"], None], "verdict": "채택" if adopt else "기각(현재 설정 유지)"}
     (OUT / "calibration.json").write_text(json.dumps(res, ensure_ascii=False, indent=1), encoding="utf-8")

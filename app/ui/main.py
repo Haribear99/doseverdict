@@ -352,8 +352,7 @@ with st.sidebar:
                         help="기본은 규제 Reviewer 1인. 본평가에서 3인은 토큰 48%를 쓰고 규범 결함 탐지 기여가 측정되지 않았다.")
     conservative = st.checkbox("보수적 지적 모드(인용 요건 위반만 보고)", value=False,
                                help="09-30 사전 등록 A/B(docs/calibration_prereg.md): 결함 없는 프로토콜의 오경보는 줄지만(문장 특이도 0.64→0.91) "
-                                    "주입 결함 탐지도 크게 준다(민감도 0.962→0.583). 사전 규칙상 기본값으로 채택하지 않았다. 잘 쓴 최종 초안을 훑을 때만 권한다.")
-    os.environ["DV_FINDINGS_CALIBRATED"] = "1" if conservative else "0"
+                                    "주입 결함 탐지도 크게 준다(민감도 0.962→0.583, 판별력 Youden J 0.761→0.559로 오히려 낮아짐). 사전 규칙상 기본값으로 채택하지 않았다. 잘 쓴 최종 초안을 훑을 때만 권한다.")
     run = st.button("🔍 검토 실행", type="primary", disabled=not text.strip(), use_container_width=True)
     cached_path = (ROOT / "app/demo/results" / f"demo{demo_idx + 1}.json") if src == "예시 프로토콜" else None
     show_cached = st.button("⚡ 저장된 결과 즉시 보기 (LLM 호출 없음)", disabled=not (cached_path and cached_path.exists()), use_container_width=True,
@@ -433,7 +432,7 @@ if run:
         status.write("로컬 모델 예열이 끝나기를 기다리는 중(코퍼스 인덱스·NLI, 기동 후 최초 1회)…")
         _warm_thread().join()
     try:
-        g, cfg, rs = run_until_gate(text, on_step=on_step, reviewers=["regulatory", "site", "patient"] if three else ["regulatory"])
+        g, cfg, rs = run_until_gate(text, on_step=on_step, reviewers=["regulatory", "site", "patient"] if three else ["regulatory"], calibrated=conservative)
         st.session_state.update({"graph": g, "config": cfg, "review": rs, "current": "gate"})
         status.update(label=f"Human Gate 대기 — {rs.budget.used_tokens:,} 토큰, 도구 {rs.budget.used_tool_calls}회", state="complete", expanded=False)
     except Exception as e:  # noqa: BLE001
@@ -554,7 +553,7 @@ with tabs[0]:
             if _warm_thread().is_alive():
                 _warm_thread().join()
             with st.spinner("수정판 재검토 중…"):
-                _, _, rs2 = run_until_gate(patched_text, reviewers=["regulatory"])
+                _, _, rs2 = run_until_gate(patched_text, reviewers=["regulatory"], calibrated=bool(rs.scratch.get("calibrated", False)))
             st.session_state["repatch"] = {"run_id": rs.run_id, "applied": applied, "review": rs2}
         rp = st.session_state.get("repatch")
         if rp and rp["run_id"] == rs.run_id:

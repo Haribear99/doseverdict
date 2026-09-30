@@ -136,16 +136,19 @@ _CALIBRATION_RULE = """
 Report a finding ONLY when the protocol sentence itself fails a specific requirement stated in a cited evidence quote (name the requirement in evidence_fact). If the protocol already addresses the point (for example it plans a randomized comparison of dose levels, or its monitoring schedule matches the label), do not report it. Do not report generic wishes for more detail when the cited guidance does not require that detail. A well-written protocol may have few or zero findings; an empty findings list is a valid answer."""
 
 
-def _calibrated() -> bool:
-    """DV_FINDINGS_CALIBRATED=1이면 특이도 보정 규칙을 넣는다(A/B 판정 전 기본 끔)."""
+def _calibrated(state: ReviewState | None = None) -> bool:
+    """실행별 설정(state.scratch['calibrated'], UI '보수적 지적 모드')이 우선이고, 없으면 DV_FINDINGS_CALIBRATED(평가용, 기본 끔)를 본다.
+    UI가 환경변수를 쓰면 같은 프로세스의 다른 세션 실행에 새므로(red-judge 6차) 실행 상태로 넘긴다."""
+    if state is not None and "calibrated" in state.scratch:
+        return bool(state.scratch["calibrated"])
     return os.getenv("DV_FINDINGS_CALIBRATED", "0").lower() in ("1", "true", "on")
 
 
-def _instructions() -> str:
+def _instructions(state: ReviewState | None = None) -> str:
     """주제 규칙은 원래 위치(TCR 금지 문장 바로 앞)에 넣는다 — lean_d3와 같은 프롬프트를 재현해야 A/B가 비교 가능하다."""
     marker = "Do not write findings about target-coverage/exposure adequacy (TCR)"
     ins = _INSTR.replace("Cover every review question whose hypothesis the protocol_text confirms; one finding per distinct protocol sentence.",
-                         "One finding per distinct protocol sentence.", 1) + _CALIBRATION_RULE if _calibrated() else _INSTR
+                         "One finding per distinct protocol sentence.", 1) + _CALIBRATION_RULE if _calibrated(state) else _INSTR
     return ins.replace(marker, _TOPIC_RULE.lstrip(chr(10)) + chr(10) + marker, 1) if _topic_prompt() else ins
 
 
@@ -186,7 +189,7 @@ def draft_findings(gc: GatewayClient, state: ReviewState, purpose: str = "findin
         "protocol_text": (state.raw_protocol_text or "")[:4500],
     }
     out, meta = call_structured(gc, "planner", json.dumps(ctx, ensure_ascii=False), model=_FindingsOut, name="findings_draft", strict=strict_draft(),
-                                instructions=_instructions(), reasoning_effort="low", max_output_tokens=5000, purpose=purpose)
+                                instructions=_instructions(state), reasoning_effort="low", max_output_tokens=5000, purpose=purpose)
     if out is None:
         record_failure(state.scratch, "findings", meta)   # 초안 실패를 '결함 없음'으로 보이게 두지 않는다
     rows = [r.model_dump() for r in out.findings][:10] if out else []
