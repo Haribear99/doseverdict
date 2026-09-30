@@ -74,7 +74,7 @@ def _sha(text: str) -> str:
 
 
 class GatewayClient:
-    def __init__(self, audit_path: str | os.PathLike | None = None, max_retries: int = 4):
+    def __init__(self, audit_path: str | os.PathLike | None = None, max_retries: int = 8):   # 09-30: 로컬 DNS 장애(getaddrinfo)가 30초 백오프를 넘겨 평가가 멈춤 → 8회·상한 60초(총 약 5분)
         api_key = os.getenv("OPENAI_API_KEY")
         base_url = os.getenv("OPENAI_BASE_URL")
         if not api_key or api_key == "API_KEY_PLACEHOLDER":
@@ -148,20 +148,20 @@ class GatewayClient:
                 self._log(self._err_rec(role, model, purpose, prompt_hash, 0, t0, f"{type(e).__name__}: {e}"))
                 if attempt == self.max_retries:
                     raise
-                time.sleep(delay)
+                time.sleep(min(delay, 60.0))
                 delay *= 2
             except RateLimitError as e:  # 429
                 self._log(self._err_rec(role, model, purpose, prompt_hash, 429, t0, str(e)))
                 if attempt == self.max_retries:
                     raise
-                time.sleep(delay)
+                time.sleep(min(delay, 60.0))
                 delay *= 2
             except APIStatusError as e:
                 self._log(self._err_rec(role, model, purpose, prompt_hash, e.status_code, t0, str(e)))
                 if e.status_code == 403:
                     raise QuotaExhausted("팀 토큰 한도 소진(403). 운영진 문의 필요.") from e
                 if e.status_code >= 500 and attempt < self.max_retries:  # 게이트웨이/모델 일시 오류(500 model_error 등) — 같은 본문으로 재시도
-                    time.sleep(delay)
+                    time.sleep(min(delay, 60.0))
                     delay *= 2
                     continue
                 raise
