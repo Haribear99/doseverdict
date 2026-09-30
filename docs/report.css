@@ -1,0 +1,59 @@
+/* 상세기술서 인쇄 스타일 — make-pdf 기본 CSS 뒤에 덧씌운다(docs/render_report.py). 규칙은 docs/DESIGN.md.
+   색은 app/ui/tokens.py와 같은 값. 본문 크기(12pt)는 바꾸지 않는다 — 제출 체크리스트의 12pt 검사 기준이다. */
+@import url("https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable-dynamic-subset.min.css");
+@import url("https://fonts.googleapis.com/css2?family=Noto+Serif+KR:wght@400;600&display=swap");
+
+@page {
+  margin: 22mm 20mm 22mm;
+  @top-center { content: none; }
+  @top-left { content: "DoseVerdict 상세기술서"; font-family: "Pretendard Variable", "Malgun Gothic", sans-serif; font-size: 8.5pt; color: #5b6472; }
+  @bottom-center { content: none; }
+  @bottom-right { content: counter(page) " / " counter(pages); font-family: "Pretendard Variable", "Malgun Gothic", sans-serif; font-size: 8.5pt; color: #5b6472; font-variant-numeric: tabular-nums; }
+}
+@page :first {
+  @top-left { content: none; }
+  @bottom-right { content: none; }
+}
+
+body {
+  font-family: "Pretendard Variable", Pretendard, "Malgun Gothic", sans-serif;
+  color: #1b2430;
+  line-height: 1.62;
+  word-break: keep-all;
+  overflow-wrap: break-word;
+  font-variant-numeric: tabular-nums;
+}
+
+h1 { font-size: 24pt; letter-spacing: -0.02em; padding-top: 10pt; border-top: 2pt solid #1b2430; }
+h2 { font-size: 16pt; letter-spacing: -0.01em; margin: 28pt 0 8pt; padding-top: 7pt; border-top: 0.75pt solid #1b2430; }
+h3 { font-size: 13pt; text-transform: none; letter-spacing: 0; color: #1b2430; margin: 20pt 0 6pt; }
+h4 { font-size: 12pt; color: #1f3a5f; }
+
+a { color: #1f3a5f; }
+.footnote-ref { color: #1f3a5f; }
+
+code {
+  font-family: Consolas, "D2Coding", monospace;
+  font-size: 10pt;
+  color: #1f3a5f;
+  background: transparent;
+  border: 0;
+  padding: 0;
+}
+pre { background: #f2efe8; border: 0; border-left: 2pt solid #5b6472; border-radius: 0; font-family: Consolas, "D2Coding", monospace; }
+pre code { color: #1b2430; }
+
+blockquote {
+  border-left: 2pt solid #5b6472;
+  background: #f2efe8;
+  padding: 8pt 12pt;
+  color: #1b2430;
+}
+
+table { font-size: 10.5pt; }
+th { border-bottom: 1pt solid #1b2430; color: #5b6472; font-weight: 600; }
+th, td { border-bottom-color: #dcd6ca; padding: 4.5pt 7pt; }
+tbody tr:last-child td { border-bottom: 0.75pt solid #1b2430; }
+
+figcaption { font-style: normal; color: #5b6472; }
+figure img { border: 0.5pt solid #dcd6ca; }
