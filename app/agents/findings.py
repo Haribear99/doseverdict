@@ -130,10 +130,23 @@ def _topic_prompt() -> bool:
     return os.getenv("DV_TOPIC_PROMPT", "1").lower() not in ("0", "off", "false")
 
 
+# 09-30 특이도 보정(사전 등록 docs/calibration_prereg.md). 결함 없는 기준 시놉시스에서도 실행당 defect 6.4건이 나오던 원인:
+# "가설이 확인된 모든 검토 질문을 다루라"는 커버리지 지시. 보정판은 인용 조항의 구체 요건 위반만 보고하고 0건을 허용한다.
+_CALIBRATION_RULE = """
+Report a finding ONLY when the protocol sentence itself fails a specific requirement stated in a cited evidence quote (name the requirement in evidence_fact). If the protocol already addresses the point (for example it plans a randomized comparison of dose levels, or its monitoring schedule matches the label), do not report it. Do not report generic wishes for more detail when the cited guidance does not require that detail. A well-written protocol may have few or zero findings; an empty findings list is a valid answer."""
+
+
+def _calibrated() -> bool:
+    """DV_FINDINGS_CALIBRATED=1이면 특이도 보정 규칙을 넣는다(A/B 판정 전 기본 끔)."""
+    return os.getenv("DV_FINDINGS_CALIBRATED", "0").lower() in ("1", "true", "on")
+
+
 def _instructions() -> str:
     """주제 규칙은 원래 위치(TCR 금지 문장 바로 앞)에 넣는다 — lean_d3와 같은 프롬프트를 재현해야 A/B가 비교 가능하다."""
     marker = "Do not write findings about target-coverage/exposure adequacy (TCR)"
-    return _INSTR.replace(marker, _TOPIC_RULE.lstrip(chr(10)) + chr(10) + marker, 1) if _topic_prompt() else _INSTR
+    ins = _INSTR.replace("Cover every review question whose hypothesis the protocol_text confirms; one finding per distinct protocol sentence.",
+                         "One finding per distinct protocol sentence.", 1) + _CALIBRATION_RULE if _calibrated() else _INSTR
+    return ins.replace(marker, _TOPIC_RULE.lstrip(chr(10)) + chr(10) + marker, 1) if _topic_prompt() else ins
 
 
 def _doc_tags(e) -> list[str]:

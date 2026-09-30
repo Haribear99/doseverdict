@@ -68,9 +68,9 @@ def _boot(rows: list[dict], n: int = 5000, seed: int = 0) -> dict:
             "youden_j": round(point[2], 3), "youden_ci": ci(js), "n_cases": len(rows)}
 
 
-def eval_a() -> dict:
+def eval_a(runs: list[tuple[str, str]] | None = None) -> dict:
     res, base_counts = {}, {}
-    for cfg, gold in RUNS_A:
+    for cfg, gold in runs or RUNS_A:
         cases = [json.loads(l) for l in (DATA / gold).read_text(encoding="utf-8").splitlines() if l.strip()]
         rows = []
         for c in cases:
@@ -93,9 +93,9 @@ def eval_a() -> dict:
     return res
 
 
-def run_clean() -> None:
+def run_clean(tag: str = "") -> None:
     from app.agents.graph import run_until_gate
-    d = OUT / "states" / "clean_base"
+    d = OUT / "states" / f"clean_base{tag}"
     d.mkdir(parents=True, exist_ok=True)
     for base in BASES.values():
         text = (ROOT / "app" / "demo" / base).read_text(encoding="utf-8")
@@ -103,7 +103,7 @@ def run_clean() -> None:
             sp = d / f"{Path(base).stem}_{rep}.json"
             if sp.exists():
                 continue
-            _, _, st = run_until_gate(text, run_id=f"clean-{Path(base).stem}-{rep}", reviewers=["regulatory"])
+            _, _, st = run_until_gate(text, run_id=f"clean{tag}-{Path(base).stem}-{rep}", reviewers=["regulatory"])
             sp.write_text(st.model_dump_json(indent=1), encoding="utf-8")
             print(json.dumps({"base": base, "rep": rep, "tokens": st.budget.used_tokens, "findings": len(st.findings)}), flush=True)
 
@@ -116,12 +116,8 @@ def patched_cases() -> list[dict]:
             continue
         c = json.loads(line)
         st = json.loads((OUT / "states" / "lean_v3" / f"{c['case_id']}.json").read_text(encoding="utf-8"))
-        text, patches = c["synopsis"], []
-        for f in st["findings"]:
-            span, patch = f["protocol_span"]["text"], f.get("suggested_patch")
-            if f.get("verdict") == "defect" and patch and span in text:
-                text = text.replace(span, patch, 1)
-                patches.append({"finding_id": f["finding_id"], "span": span, "patch": patch})
+        from app.agents.patching import apply_patches   # UI "수정안 적용 후 재검토"와 같은 치환 규칙
+        text, patches = apply_patches(c["synopsis"], st["findings"])
         if patches:
             out.append({"case_id": c["case_id"], "synopsis": text, "patches": patches, "defects": c["defects"], "holdout_chunk_ids": c.get("holdout_chunk_ids")})
     return out
@@ -142,8 +138,8 @@ def run_patch() -> None:
         print(json.dumps({"case": c["case_id"], "patches": len(c["patches"]), "tokens": st.budget.used_tokens, "findings": len(st.findings)}), flush=True)
 
 
-def eval_b() -> dict | None:
-    d = OUT / "states" / "clean_base"
+def eval_b(tag: str = "") -> dict | None:
+    d = OUT / "states" / f"clean_base{tag}"
     if not d.exists():
         return None
     rows = []
@@ -215,9 +211,32 @@ def report() -> None:
     print("\n".join(L))
 
 
+def calibration() -> None:
+    """보정 A/B(사전 등록 docs/calibration_prereg.md): 현재(clean_base·lean_v3+v3b) 대 보정판(clean_base_cal·lean_cal)."""
+    from app.eval.oneshot import mean_runs, paired
+    b0, b1 = eval_b(""), eval_b("_cal")
+    a0 = eval_a([("lean_v3", "gold_axis1.jsonl"), ("lean_v3b", "gold_axis1.jsonl")])
+    a1 = eval_a([("lean_cal", "gold_axis1.jsonl")])
+    sens0 = (a0["lean_v3"]["summary"]["sensitivity"] + a0["lean_v3b"]["summary"]["sensitivity"]) / 2
+    sens1 = a1["lean_cal"]["summary"]["sensitivity"]
+    spec_inj0 = (a0["lean_v3"]["summary"]["specificity"] + a0["lean_v3b"]["summary"]["specificity"]) / 2
+    spec_inj1 = a1["lean_cal"]["summary"]["specificity"]
+    g = paired(mean_runs(["lean_v3", "lean_v3b"]), mean_runs(["lean_cal"]), "grounded_recall")
+    sp = paired(mean_runs(["lean_v3", "lean_v3b"]), mean_runs(["lean_cal"]), "recall")
+    d_spec = b1["specificity"] - b0["specificity"]
+    adopt = d_spec >= 0.10 and (sens0 - sens1) <= 0.05 and g[0] >= -0.05
+    res = {"clean_specificity": [b0["specificity"], b1["specificity"]], "clean_defects_per_run": [b0["mean_defect_findings"], b1["mean_defect_findings"]],
+           "orig_sentence_sensitivity": [round(sens0, 3), round(sens1, 3)], "orig_sentence_specificity": [round(spec_inj0, 3), round(spec_inj1, 3)],
+           "grounded_diff": [round(x, 3) for x in g[:3]], "span_diff": [round(x, 3) for x in sp[:3]],
+           "tokens": [b1["tokens_total"], None], "verdict": "채택" if adopt else "기각(현재 설정 유지)"}
+    (OUT / "calibration.json").write_text(json.dumps(res, ensure_ascii=False, indent=1), encoding="utf-8")
+    print(json.dumps(res, ensure_ascii=False, indent=1))
+
+
 if __name__ == "__main__":
     ap = argparse.ArgumentParser()
-    ap.add_argument("cmd", choices=["a", "run_clean", "run_patch", "report", "check"])
+    ap.add_argument("cmd", choices=["a", "run_clean", "run_patch", "report", "check", "calibration"])
+    ap.add_argument("--tag", default="", help="run_clean 저장 폴더 접미사(예: _cal)")
     a_ = ap.parse_args()
     if a_.cmd == "check":   # 실행 전 점검: 문장 분할·수정판 수(LLM 0)
         for b in BASES.values():
@@ -227,4 +246,4 @@ if __name__ == "__main__":
         print("patched cases", len(pc), "patches", sum(len(c["patches"]) for c in pc))
     else:
         {"a": lambda: print(json.dumps({k: v["summary"] for k, v in eval_a().items() if k != "base_flag_top"}, indent=1)),
-         "run_clean": run_clean, "run_patch": run_patch, "report": report}[a_.cmd]()
+         "run_clean": lambda: run_clean(a_.tag), "run_patch": run_patch, "report": report, "calibration": calibration}[a_.cmd]()

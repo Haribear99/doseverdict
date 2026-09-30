@@ -239,6 +239,26 @@ def abstain_lines() -> list[str]:
     return out
 
 
+def specificity_lines() -> list[str]:
+    """특이도 평가(`app/eval/specificity.py`, 사전 등록 `docs/specificity_prereg.md`)."""
+    fp = ROOT / "app/eval/data/results/specificity.json"
+    if not fp.exists():
+        return ["(결과 없음)", ""]
+    r = json.loads(fp.read_text(encoding="utf-8"))
+    out = ["A. 문장 단위(기준 문장 = 결함 없음으로 가정한 하한). 지적 = defect finding span이 문장과 겹침(F00 제외).", "",
+           "| 실행 | n | 민감도 [95% CI] | 특이도 [95% CI] | Youden J [95% CI] |", "|---|---|---|---|---|"]
+    for cfg in ("lean_v3", "lean_v3b", "lean_mdrug3"):
+        s_ = r["A"][cfg]["summary"]
+        out.append(f"| {cfg} | {s_['n_cases']} | {s_['sensitivity']:.3f} {s_['sensitivity_ci']} | {s_['specificity']:.3f} {s_['specificity_ci']} | {s_['youden_j']:.3f} {s_['youden_ci']} |")
+    b, c = r.get("B"), r.get("C")
+    if b:
+        out += ["", f"B. 결함 없는 기준 시놉시스 {len(b['runs'])}회: 특이도 {b['specificity']}, 실행당 지적된 기준 문장 {b['mean_flagged_base_sentences']}, defect finding {b['mean_defect_findings']}, 토큰 {b['tokens_total']:,}"]
+    if c:
+        out += [f"C. 수정안 적용 재검토 {c['n_cases']}케이스·수정안 {c['n_patches']}건: 수정된 문장 재지적률 {c['re_flag_rate']}, defect finding {c['defects_before_mean']} → {c['defects_after_mean']}, "
+                f"수정하지 않은 주입 문장 지적 {c['unpatched_inj_keep'][0]} → {c['unpatched_inj_keep'][1]}, 토큰 {c['tokens_total']:,}"]
+    return out + [""]
+
+
 def main() -> None:
     cfgs = [
         ("full", "09-11 본평가: Reviewer 3인"), ("lean", "09-11 기본: Reviewer 1인 + 재선택"),
@@ -259,6 +279,7 @@ def main() -> None:
              "## 1-4. 실사례 후향 검증(승인 전 1상 초록 → FDA 용량최적화 PMR/PMC, `retro.json`)", ""] + retro_lines() + [
              "## 1-5. 강한 LLM 원샷 베이스라인(원 20, `oneshot_compare.json`)", ""] + oneshot_lines() + [
              "## 1-6. 기권 평가(도구 없는 원샷의 표적 커버리지 판정, `abstain.json`)", ""] + abstain_lines() + [
+             "## 1-7. 특이도 평가(문장 단위·음성 대조·수정안 재검토, `specificity.json`)", ""] + specificity_lines() + [
              "## 2. 소토라십 240 mg TCR (`evidence/tcr_240mg.json`)", "",
              "| 가정 | C_max | C_avg | C_trough | 판정 |", "|---|---|---|---|---|"]
     for r in tcr["rows"]:

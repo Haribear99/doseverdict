@@ -33,6 +33,9 @@ DEMOS = {
     "③ 프롬프트 인젝션이 삽입된 판 (적대 테스트)": ROOT / "app/demo/sotorasib_synopsis_injection.md",
     "④ 다른 약물: 로를라티닙(ALK) — 매핑 표 밖 약물, DB·라벨 자동 조회": ROOT / "app/demo/lorlatinib_synopsis_fixed.md",
     "⑤ 미승인 후보 DV-505(가상) — 프로토콜 보고 PK로 계산": ROOT / "app/demo/dv505_synopsis_fixed.md",
+    "⑥ 적대: 폐기된 초안 가이던스를 현행처럼 인용": ROOT / "app/demo/adversarial_superseded_guidance.md",
+    "⑦ 적대: 한·미 규제 상충(식약처 의무화 주장)": ROOT / "app/demo/adversarial_kr_us_conflict.md",
+    "⑧ 적대: 근거 없는 용량 주장(내부 모델링 90% 커버)": ROOT / "app/demo/adversarial_unsupported_dose.md",
 }
 NODES = ["compile", "plan", "tools", "arena", "findings", "verify", "rewrite", "gate", "finalize"]
 NODE_LABEL = {"compile": "Protocol\nCompiler", "plan": "Orchestrator\n(과제 DAG)", "tools": "도구 호출\nRDKit·ChEMBL·openFDA\n시뮬·코퍼스·CT.gov",
@@ -534,6 +537,34 @@ with tabs[0]:
                 st.markdown(diff_html(f.protocol_span.text, f.suggested_patch), unsafe_allow_html=True)
             if f.required_additional_data:
                 st.markdown("**요청 자료**: " + " · ".join(f.required_additional_data))
+
+    # 수정안 적용 후 재검토 — 에이전트가 자기 수정안을 적용한 판을 다시 검토해, 고친 문장이 다시 지적되는지와 남은 문제를 보여 준다
+    from app.agents.patching import apply_patches, still_flagged
+    patched_text, applied = apply_patches(rs.raw_protocol_text or "", rs.findings)
+    st.markdown('<p class="dv-section">수정안 적용 후 재검토</p>', unsafe_allow_html=True)
+    if not applied:
+        st.caption("적용할 수정안이 없다(수정안이 붙은 결함 finding이 없거나 원문 span이 일치하지 않음).")
+    else:
+        st.caption(f"수정안 {len(applied)}건을 원문에 적용한 판을 같은 설정으로 다시 검토한다(라이브 실행, 토큰 약 3~4만). 특이도 평가 C(`docs/specificity_prereg.md`)와 같은 절차다.")
+        if st.button(f"🔁 수정안 {len(applied)}건 적용 후 재검토", key="repatch"):
+            if _warm_thread().is_alive():
+                _warm_thread().join()
+            with st.spinner("수정판 재검토 중…"):
+                _, _, rs2 = run_until_gate(patched_text, reviewers=["regulatory"])
+            st.session_state["repatch"] = {"run_id": rs.run_id, "applied": applied, "review": rs2}
+        rp = st.session_state.get("repatch")
+        if rp and rp["run_id"] == rs.run_id:
+            rs2 = rp["review"]
+            again = still_flagged(rp["applied"], rs2.findings)
+            n_def = lambda r: sum(1 for x in r.findings if x.verdict == "defect")
+            c1, c2, c3 = st.columns(3)
+            c1.metric("결함 finding", f"{n_def(rs)} → {n_def(rs2)}")
+            c2.metric("고친 문장 재지적", f"{sum(again)}/{len(again)}")
+            c3.metric("재검토 토큰", f"{rs2.budget.used_tokens:,}")
+            st.table([{"finding": a["finding_id"], "수정안": a["patch"][:120], "재검토에서 다시 지적": "예" if g else "아니오"} for a, g in zip(rp["applied"], again)])
+            with st.expander(f"재검토 finding {len(rs2.findings)}건"):
+                for x in rs2.findings:
+                    st.markdown(f"- `{x.finding_id}` [{x.verdict}/{x.verifier_status}] {x.protocol_span.text[:140]}")
 
 with tabs[1]:
     st.subheader("Human Approval Gate — 최종 결정은 사람만")

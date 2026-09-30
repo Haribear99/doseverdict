@@ -14,7 +14,9 @@ from pathlib import Path
 from app.agents.graph import run_until_gate
 
 ROOT = Path(__file__).resolve().parents[2]
-DEMO_FILES = ["sotorasib_synopsis.md", "sotorasib_synopsis_fixed.md", "sotorasib_synopsis_injection.md", "lorlatinib_synopsis_fixed.md", "dv505_synopsis_fixed.md"]
+DEMO_FILES = ["sotorasib_synopsis.md", "sotorasib_synopsis_fixed.md", "sotorasib_synopsis_injection.md", "lorlatinib_synopsis_fixed.md", "dv505_synopsis_fixed.md",
+              # 09-30: 적대 테스트 ①~③을 현재 기본 설정으로 다시 실행해 저장(이전 결과는 09-11 gpt-5.6·경화 전 코드)
+              "adversarial_superseded_guidance.md", "adversarial_kr_us_conflict.md", "adversarial_unsupported_dose.md"]
 OUT = ROOT / "app" / "demo" / "results"
 
 
