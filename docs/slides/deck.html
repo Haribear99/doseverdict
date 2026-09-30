@@ -272,7 +272,7 @@ figcaption { font-size: 19px; color: var(--muted); line-height: 1.4; }
       <thead><tr><th style="font-size:22px">PK 가정 · 값 = TCR(C_free/IC50 비율)</th><th class="num" style="font-size:22px">C_max</th><th class="num" style="font-size:22px">C_avg</th><th class="num" style="font-size:22px">C_trough</th><th style="font-size:22px">판정</th></tr></thead>
       <tbody>
         <tr><td>(가) 선형 CL/F</td><td class="num">8.615</td><td class="num">2.4964</td><td class="num">0.3093</td><td><span class="chip c-abstain">지표에 따라 갈림</span> <span class="mono" style="font-size:18px">abstain_metric_dependent</span></td></tr>
-        <tr><td>(나) 노출 유사 (라벨 12.3)</td><td class="num">34.4601</td><td class="num">9.9856</td><td class="num">1.237</td><td><span class="chip c-ok">커버</span> <span class="mono" style="font-size:18px">covered</span></td></tr>
+        <tr><td>(나) 노출 유사 (라벨 12.3)</td><td class="num">34.4601</td><td class="num">9.9856</td><td class="num">1.237</td><td><span class="chip">커버</span> <span class="mono" style="font-size:18px">covered</span></td></tr>
         <tr class="em"><td>종합</td><td colspan="3"></td><td><span class="chip c-abstain">기권</span> <span class="mono" style="font-size:18px">abstain_assumption_dependent</span></td></tr>
       </tbody>
     </table>
@@ -382,14 +382,14 @@ figcaption { font-size: 19px; color: var(--muted); line-height: 1.4; }
         </tbody>
       </table>
       <p class="small"><span class="tg">gpt-6-sol +0.117은 1회 실행 · 확장 40 +0.050 유의하지 않음 → 유지 근거는 토큰 절감(사후 판단)</span> <span class="tg">나머지 4개 팔 보류 · 전체 표: 기술서 6.2</span> <span class="tg">확장 40: 토큰 −17.8% · grounded +0.046(유의하지 않음)</span> <span class="tg">입력 70~80% · reasoning 1%</span> <span class="tg">캐시 절감 0</span> <span class="tg">누적 32,184,908 토큰(6,000만의 53.6%, 10-01 기준)</span></p>
+      <p class="small">쿼터를 줄이는 레버는 effort가 아니라 입력이었다. LLM 호출 전 예산 가드(run 기본 150,000)와 노드별 토큰 원장이 있다(Audit 탭).</p>
     </div>
     <div class="col" style="flex:1; gap:16px">
       <div class="note"><strong>원샷 대비 토큰 약 8배(6.9 결함 검토 과제 기준, 39,701 대 5,023)로 기대할 수 있는 것</strong> — 판단 입력의 도구 확보·재현성(10쪽, 순환성·사후 단서 있음), 원문에 묶인 인용(09쪽, 사후). 탐지율은 아니다.</div>
       <figure>
-        <img src="assets/pareto_tokens_grounded.png" alt="토큰 대 grounded 파레토" style="width:auto; max-height:330px; align-self:flex-start">
+        <img src="assets/pareto_tokens_grounded.png" alt="토큰 대 grounded 파레토" style="width:auto; max-height:450px; align-self:flex-start">
         <figcaption>설정별 케이스당 토큰 대 grounded(점추정). 세트가 다른 점끼리는 비교하지 않는다.</figcaption>
       </figure>
-      <p class="small">쿼터를 줄이는 레버는 effort가 아니라 입력이었다. LLM 호출 전 예산 가드(run 기본 150,000)와 노드별 토큰 원장이 있다(Audit 탭).</p>
     </div>
   </div>
   <div class="rule"></div>

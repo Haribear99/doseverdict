@@ -95,7 +95,7 @@ CSS = """
 .dv-kpi-sub { display: block; font-size: 0.75rem; color: var(--dv-muted); }
 [data-testid="stMetric"] { border-top: 1px solid var(--dv-ink); padding: 0.5rem 0 0.2rem; }
 [data-testid="stMetricValue"] { font-variant-numeric: tabular-nums; font-size: clamp(1.35rem, 2.1vw, 1.75rem); letter-spacing: -0.01em; font-weight: 700; }
-[data-testid="stCaptionContainer"] { color: var(--dv-muted); }
+[data-testid="stCaptionContainer"], [data-testid="stCaptionContainer"] * { color: var(--dv-muted); opacity: 1; }   /* Streamlit 기본 60% 불투명도를 끄고 muted(대비 5.7)로 */
 [data-testid="stTable"] table { border: 0; font-variant-numeric: tabular-nums; }
 [data-testid="stTable"] th, [data-testid="stTable"] td { border-left: 0; border-right: 0; border-top: 0; }
 [data-testid="stTable"] thead th { border-bottom: 1px solid var(--dv-ink); color: var(--dv-muted); font-weight: 600; }
