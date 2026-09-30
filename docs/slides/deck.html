@@ -432,7 +432,7 @@ figcaption { font-size: 19px; color: var(--muted); line-height: 1.4; }
       <p class="small"><span class="tg">기준 문장을 결함 없음으로 가정한 하한(기준 시놉시스에 실제 결함이 남아 있을 수 있음)</span></p>
     </div>
     <div class="col" style="flex:0.65; gap:26px">
-      <div class="small" style="font-weight:600; color:var(--ink)">평가 B — 결함을 넣지 않은 기준 시놉시스 12회</div>
+      <div class="small" style="font-weight:600; color:var(--ink)">평가 B — 결함을 넣지 않은 기준 시놉시스 12회 <span class="tg">12회·점추정</span></div>
       <div class="stat"><div class="n md">6.42</div><div class="l">실행당 defect finding. 결함 6개를 넣은 판은 8.35(원 20, 167/20)로 차이가 작다</div></div>
       <div class="stat"><div class="n md">0.64</div><div class="l">문장 특이도 — 결함을 넣었을 때(0.74~0.81)보다 낮다. 주입 결함이 없으면 기준 문장에서 지적을 찾는다</div></div>
       <p class="small"><span class="tg">반복 지적된 기준 문장의 타당성은 사람이 판정하지 않음</span></p>
@@ -446,7 +446,7 @@ figcaption { font-size: 19px; color: var(--muted); line-height: 1.4; }
 <!-- S10b correction -->
 <section class="slide">
   <div class="kicker">수정안 재검토 · 특이도 보정 A/B</div>
-  <h1>수정안은 대체로 지적을 해소한다. 지적을 줄이는 보정은 놓치는 결함을 늘려 기각했다.</h1>
+  <h1>수정한 문장의 80%는 다시 지적되지 않았다. 지적을 줄이는 보정은 판별력까지 낮춰 기각했다.</h1>
   <div class="body" style="gap:52px">
     <div class="col" style="flex:0.8; gap:24px">
       <div class="small" style="font-weight:600; color:var(--ink)">평가 C — 에이전트 수정안 30건을 적용한 판 재검토(14케이스)</div>
@@ -457,6 +457,7 @@ figcaption { font-size: 19px; color: var(--muted); line-height: 1.4; }
           <tr><td>수정하지 않은 주입 결함 지적</td><td class="num">49 → 53</td></tr>
         </tbody>
       </table>
+      <p class="small">비교 기준 <span class="tg">사후</span>: 같은 30개 문장을 수정하지 않은 재실행에서는 30/30 다시 지적.</p>
       <p class="small"><span class="tg">수정안이 붙은 결함 지적은 30/167(18%)</span> <span class="tg">수정안의 질은 미평가 — 다시 지적되지 않음 ≠ 옳게 고침</span></p>
     </div>
     <div class="col" style="flex:1.2; gap:18px">
@@ -467,11 +468,12 @@ figcaption { font-size: 19px; color: var(--muted); line-height: 1.4; }
           <tr><td>결함 없는 판: 실행당 defect finding</td><td class="num">6.42</td><td class="num t-ok">1.42</td></tr>
           <tr><td>원 20: 문장 민감도</td><td class="num">0.962</td><td class="num t-reject">0.583</td></tr>
           <tr><td>원 20: 문장 특이도</td><td class="num">0.799</td><td class="num">0.976</td></tr>
+          <tr><td>원 20: Youden J (민감도 + 특이도 − 1)</td><td class="num">0.761</td><td class="num t-reject">0.559</td></tr>
           <tr><td>원 20: grounded 차이 (보정 − 현재)</td><td class="num">—</td><td class="num t-reject">−0.233 [−0.300, −0.175]</td></tr>
         </tbody>
       </table>
-      <div class="note"><strong>사전 규칙 판정: 기각.</strong> 민감도·특이도의 교환이다. 기본값은 현재 설정(민감도 우선)으로 유지하고, 보정판은 UI의 보수적 지적 모드로만 제공한다.</div>
-      <p class="small"><span class="tg">보정판 1회 실행</span> <span class="tg">사전 등록은 B 결과를 본 뒤 설계</span> <span class="tg">오경보는 Human Gate에서 기각</span></p>
+      <div class="note"><strong>사전 규칙 판정: 기각.</strong> 운영점 이동이 아니라 판별력도 낮아졌다(원 20 Youden J 0.761→0.559). 기본값은 현재 설정(민감도 우선)으로 유지하고, 보정판은 UI의 보수적 지적 모드로만 제공한다.</div>
+      <p class="small"><span class="tg">보정판 1회 실행</span> <span class="tg">사전 등록은 B 결과를 본 뒤 설계</span> <span class="tg">불필요한 지적은 Human Gate에서 기각</span></p>
     </div>
   </div>
   <div class="rule"></div>
@@ -528,7 +530,7 @@ figcaption { font-size: 19px; color: var(--muted); line-height: 1.4; }
           <tr><td>케이스당 토큰</td><td class="num">3.9만 (최종 코드 39,759 · 39,643)</td></tr>
           <tr><td>토큰 구성 (gpt-6-sol)</td><td class="num">입력 70~80% · reasoning 1%</td></tr>
           <tr><td>프롬프트 캐시</td><td class="num">절감 0 — 계산에 넣지 않음</td></tr>
-          <tr><td>누적 사용량</td><td class="num">27,168,746 토큰 (총 쿼터 6,000만의 45.3%)</td></tr>
+          <tr><td>누적 사용량</td><td class="num">29,622,742 토큰 (총 쿼터 6,000만의 49.4%)</td></tr>
         </tbody>
       </table>
     </div>
@@ -574,7 +576,7 @@ figcaption { font-size: 19px; color: var(--muted); line-height: 1.4; }
     <div class="col" style="flex:0.9; gap:12px">
       <div class="small" style="font-weight:600; color:var(--ink)">한계</div>
       <div class="card"><h2>Silver Set: 단일 시놉시스 변형, 전문가 라벨 없음</h2><p>원·확장 세트는 기준 시놉시스 하나에 결함을 주입한 변형이고, 임상·규제 전문가가 판정한 정답이 아니다.</p></div>
-      <div class="card"><h2>오경보</h2><p>결함 없는 프로토콜에서도 실행당 약 6건 지적(6.11절).</p></div>
+      <div class="card"><h2>결함 없는 판에서도 지적한다</h2><p>결함 없는 프로토콜에서도 실행당 약 6건 지적(6.11절). 그 지적의 타당성은 사람이 판정하지 않았다.</p></div>
       <div class="card"><h2>후향 검증 null · 원샷 대비 탐지 우위 없음 · 기권 평가 순환성</h2><p>실제 약 43건에서 PMR 부과 약을 가르지 못했고(12쪽), 같은 모델 원샷과 탐지율(span)이 같은 수준이고 사전 등록 grounded 차이도 확인되지 않았다(07쪽). 인용 확인율 차이는 사후 분석이다. 기권 평가는 정답을 같은 도구로 만든 순환성이 있고, 재현성 근거(0.267)는 사후 분석이다.</p></div>
       <div class="card"><h2>TCR은 근사다</h2><p>PK 모형과 IC50 입력에 기댄 근사이며, 가정이 바뀌면 판정이 바뀐다(05쪽).</p></div>
     </div>
