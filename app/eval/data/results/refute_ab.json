@@ -1,0 +1,62 @@
+{
+ "clean": {
+  "current": {
+   "specificity": 0.64,
+   "mean_flagged_base_sentences": 8.0,
+   "mean_defect_findings": 6.42,
+   "tokens_total": 466603
+  },
+  "refute": {
+   "specificity": 0.712,
+   "mean_flagged_base_sentences": 6.42,
+   "mean_defect_findings": 4.83,
+   "tokens_total": 446122
+  },
+  "flagged_diff": [
+   -1.58,
+   -3.33,
+   0.17
+  ]
+ },
+ "orig20": {
+  "current": {
+   "sensitivity": 0.962,
+   "specificity": 0.799,
+   "youden_j": 0.762
+  },
+  "refute": {
+   "sensitivity": 0.883,
+   "specificity": 0.793,
+   "youden_j": 0.676
+  },
+  "grounded_diff": [
+   -0.008,
+   -0.075,
+   0.063
+  ]
+ },
+ "multidrug30": {
+  "current": {
+   "sensitivity": 0.933,
+   "specificity": 0.737,
+   "youden_j": 0.67
+  },
+  "refute": {
+   "sensitivity": 0.839,
+   "specificity": 0.796,
+   "youden_j": 0.634
+  },
+  "grounded_diff": [
+   -0.078,
+   -0.155,
+   0.0
+  ]
+ },
+ "rules": {
+  "1_clean_flagged_ci_upper_lt_0": false,
+  "2_sensitivity_drop_le_0.05": false,
+  "3_youden_j_not_lower": false,
+  "4_grounded_ci_lower_gt_-0.10": true
+ },
+ "verdict": "기각(현재 기본 유지)"
+}

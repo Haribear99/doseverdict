@@ -378,7 +378,7 @@ figcaption { font-size: 19px; color: var(--muted); line-height: 1.4; }
           <tr><td>findings effort medium</td><td class="num t-reject">+28.5%</td><td class="num">+0.033</td><td><span class="chip c-reject">기각</span></td></tr>
         </tbody>
       </table>
-      <p class="small"><span class="tg">gpt-6-sol +0.117은 1회 실행 · 확장 40 +0.050 유의하지 않음 → 유지 근거는 토큰 절감(사후 판단)</span> <span class="tg">나머지 4개 팔 보류 · 전체 표: 기술서 6.2</span> <span class="tg">확장 40: 토큰 −17.8% · grounded +0.046(유의하지 않음)</span> <span class="tg">입력 70~80% · reasoning 1%</span> <span class="tg">캐시 절감 0</span> <span class="tg">누적 29,683,390 토큰(6,000만의 49.5%, 09-30 기준)</span></p>
+      <p class="small"><span class="tg">gpt-6-sol +0.117은 1회 실행 · 확장 40 +0.050 유의하지 않음 → 유지 근거는 토큰 절감(사후 판단)</span> <span class="tg">나머지 4개 팔 보류 · 전체 표: 기술서 6.2</span> <span class="tg">확장 40: 토큰 −17.8% · grounded +0.046(유의하지 않음)</span> <span class="tg">입력 70~80% · reasoning 1%</span> <span class="tg">캐시 절감 0</span> <span class="tg">누적 32,184,908 토큰(6,000만의 53.6%, 10-01 기준)</span></p>
     </div>
     <div class="col" style="flex:1; gap:16px">
       <div class="note"><strong>원샷 대비 토큰 약 8배(6.9 결함 검토 과제 기준, 39,701 대 5,023)로 기대할 수 있는 것</strong> — 판단 입력의 도구 확보·재현성(10쪽, 순환성·사후 단서 있음), 원문에 묶인 인용(09쪽, 사후). 탐지율은 아니다.</div>
@@ -450,7 +450,7 @@ figcaption { font-size: 19px; color: var(--muted); line-height: 1.4; }
     <div class="col" style="gap:8px">
       <div class="small" style="font-weight:600; color:var(--ink)">지적을 줄이는 보정 A/B (사전 등록) — 기각</div>
       <p style="font-size:22px">결함 없는 판 특이도 0.64→0.91 · defect 6.42→1.42, 그러나 원 20 민감도 0.962→0.583, Youden J 0.761→0.559, grounded −0.233 [−0.300, −0.175]. 운영점 이동이 아니라 판별력도 낮아졌다.</p>
-      <p class="small"><span class="tg">“현재” = 2회 평균</span> <span class="tg">보정판 1회 실행</span> <span class="tg">사전 등록은 B 결과를 본 뒤 설계</span> <span class="tg">기본값 유지, 보수적 지적 모드로만 제공</span></p>
+      <p class="small"><span class="tg">“현재” = 2회 평균</span> <span class="tg">보정판 1회 실행</span> <span class="tg">사전 등록은 B 결과를 본 뒤 설계</span> <span class="tg">기본값 유지, 보수적 지적 모드로만 제공</span> <span class="tg">반박 가능한 Arena(사전 등록, 확인용 다약물 30)도 기각: 결함 없는 판 8.0→6.42(유의하지 않음), 민감도 0.962→0.883 · 0.933→0.839</span></p>
     </div>
     <div class="col" style="gap:8px">
       <div class="small" style="font-weight:600; color:var(--ink)">도구 없는 약리 판정 (기권 평가)</div>

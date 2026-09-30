@@ -297,6 +297,23 @@ def hybrid_lines() -> list[str]:
     return out + [""]
 
 
+def refute_lines() -> list[str]:
+    """반박 가능한 Review Arena A/B(`docs/refute_prereg.md`, `specificity.py::refute_ab`)."""
+    fp = ROOT / "app/eval/data/results/refute_ab.json"
+    if not fp.exists():
+        return ["(결과 없음)", ""]
+    r = json.loads(fp.read_text(encoding="utf-8"))
+    c, o, m = r["clean"], r["orig20"], r["multidrug30"]
+    d, g, gm = c["flagged_diff"], o["grounded_diff"], m["grounded_diff"]
+    out = ["| 지표 | 현재 기본 | 반박 모드 |", "|---|---|---|",
+           f"| 결함 없는 판(12회): 지적 기준 문장/실행 · 특이도 · defect finding/실행 | {c['current']['mean_flagged_base_sentences']} · {c['current']['specificity']} · {c['current']['mean_defect_findings']} | {c['refute']['mean_flagged_base_sentences']} · {c['refute']['specificity']} · {c['refute']['mean_defect_findings']} (차이 {d[0]:+.2f} [{d[1]:+.2f}, {d[2]:+.2f}]) |",
+           f"| 원 20: 민감도 · 특이도 · Youden J (현재 = 2회 평균) | {o['current']['sensitivity']} · {o['current']['specificity']} · {o['current']['youden_j']} | {o['refute']['sensitivity']} · {o['refute']['specificity']} · {o['refute']['youden_j']} |",
+           f"| 다약물 30(확인용): 민감도 · 특이도 · Youden J | {m['current']['sensitivity']} · {m['current']['specificity']} · {m['current']['youden_j']} | {m['refute']['sensitivity']} · {m['refute']['specificity']} · {m['refute']['youden_j']} |",
+           f"| grounded 차이(반박 − 현재) [95% CI] | — | 원 20 {g[0]:+.3f} [{g[1]:+.3f}, {g[2]:+.3f}] · 다약물 {gm[0]:+.3f} [{gm[1]:+.3f}, {gm[2]:+.3f}] |", ""]
+    rules = " · ".join(f"{k} {'충족' if v else '미충족'}" for k, v in r["rules"].items())
+    return out + [f"사전 규칙 판정: **{r['verdict']}** — {rules}.", ""]
+
+
 def main() -> None:
     cfgs = [
         ("full", "09-11 본평가: Reviewer 3인"), ("lean", "09-11 기본: Reviewer 1인 + 재선택"),
@@ -320,6 +337,7 @@ def main() -> None:
              "## 1-7. 특이도 평가(문장 단위·음성 대조·수정안 재검토, `specificity.json`)", ""] + specificity_lines() + [
              "## 1-8. 특이도 보정 A/B(`calibration.json`)", ""] + calibration_lines() + [
              "## 1-9. 원샷 + 같은 인용 판정기, 결함 없는 판(`hybrid.json`)", ""] + hybrid_lines() + [
+             "## 1-10. 반박 가능한 Review Arena A/B(`refute_ab.json`)", ""] + refute_lines() + [
              "## 2. 소토라십 240 mg TCR (`evidence/tcr_240mg.json`)", "",
              "| 가정 | C_max | C_avg | C_trough | 판정 |", "|---|---|---|---|---|"]
     for r in tcr["rows"]:
