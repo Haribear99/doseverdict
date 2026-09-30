@@ -107,17 +107,22 @@ def main() -> None:
         import matplotlib
         matplotlib.use("Agg")
         import matplotlib.pyplot as plt
+        from app.ui import tokens as T   # 색은 docs/DESIGN.md 토큰 — 원 세트만 강조색, 다른 세트는 회색
+        plt.rcParams.update({"font.family": ["Malgun Gothic", "DejaVu Sans"], "axes.edgecolor": T.MUTED, "axes.labelcolor": T.INK,
+                             "xtick.color": T.MUTED, "ytick.color": T.MUTED, "text.color": T.INK})
         fig, ax = plt.subplots(figsize=(6, 4))
         for name, x, y in pts:
             # 세트마다 모양을 달리한다 — 원(원 20) · 속 빈 사각형(확장 40) · 속 빈 세모(다약물 30). 세트 간 직접 비교하지 않는다
             kind = "ext" if name.endswith("ext") else ("mdrug" if "mdrug" in name else "orig")
-            marker, edge = {"orig": ("o", None), "ext": ("s", "C1"), "mdrug": ("^", "C2")}[kind]
-            ax.scatter(x / 1000, y, s=50, marker=marker, facecolors="none" if edge else None, edgecolors=edge, color=None if edge else "C0")
-            ax.annotate(name, (x / 1000, y), textcoords="offset points", xytext=(6, -12 if edge else 4), fontsize=8)
+            marker, edge = {"orig": ("o", None), "ext": ("s", T.MUTED), "mdrug": ("^", T.MUTED)}[kind]
+            ax.scatter(x / 1000, y, s=46, marker=marker, facecolors="none" if edge else T.ACCENT, edgecolors=edge or T.ACCENT, linewidths=1.1)
+            ax.annotate(name, (x / 1000, y), textcoords="offset points", xytext=(6, -12 if edge else 4), fontsize=8, color=T.MUTED if edge else T.INK)
         ax.set_xlabel("tokens per case (thousand, gateway quota)")
         ax.set_ylabel("grounded recall (point estimate)")
-        ax.set_title("Cost vs grounded citation (o n=20, □ *ext n=40, △ *mdrug n=30)")
-        ax.grid(alpha=0.3)
+        ax.set_title("Cost vs grounded citation (o n=20, □ *ext n=40, △ *mdrug n=30)", loc="left", fontsize=10, fontweight="bold")
+        ax.spines[["top", "right"]].set_visible(False)
+        ax.grid(color=T.LINE, linewidth=0.6)
+        ax.set_axisbelow(True)
         fig.tight_layout()
         fig.savefig(ROOT / "figures" / "pareto_tokens_grounded.png", dpi=160)
     print("\n".join(lines))
