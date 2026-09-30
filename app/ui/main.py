@@ -350,6 +350,10 @@ with st.sidebar:
     budget = st.number_input("run 토큰 상한", 20000, 300000, int(os.getenv("DV_RUN_TOKEN_BUDGET", "150000")), step=10000)
     three = st.checkbox("Reviewer 3인(규제·시험기관·환자) — 토큰 약 1.3배", value=False,
                         help="기본은 규제 Reviewer 1인. 본평가에서 3인은 토큰 48%를 쓰고 규범 결함 탐지 기여가 측정되지 않았다.")
+    conservative = st.checkbox("보수적 지적 모드(인용 요건 위반만 보고)", value=False,
+                               help="09-30 사전 등록 A/B(docs/calibration_prereg.md): 결함 없는 프로토콜의 오경보는 줄지만(문장 특이도 0.64→0.91) "
+                                    "주입 결함 탐지도 크게 준다(민감도 0.962→0.583). 사전 규칙상 기본값으로 채택하지 않았다. 잘 쓴 최종 초안을 훑을 때만 권한다.")
+    os.environ["DV_FINDINGS_CALIBRATED"] = "1" if conservative else "0"
     run = st.button("🔍 검토 실행", type="primary", disabled=not text.strip(), use_container_width=True)
     cached_path = (ROOT / "app/demo/results" / f"demo{demo_idx + 1}.json") if src == "예시 프로토콜" else None
     show_cached = st.button("⚡ 저장된 결과 즉시 보기 (LLM 호출 없음)", disabled=not (cached_path and cached_path.exists()), use_container_width=True,
