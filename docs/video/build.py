@@ -206,6 +206,9 @@ def boxes_vf(v: dict, d: float) -> str:
     for b in v.get("_boxes", v.get("boxes", [])):
         t0, t1 = b.get("from", 0.0) * d, b.get("to", 1.0) * d
         en = f"enable='gte(t,{t0:.3f})*lt(t,{t1:.3f})'"  # 반열린 구간 → 이어지는 박스가 경계 프레임에서 겹치지 않는다
+        if b.get("fill"):  # 가림막: 구판 캡처의 쪽 번호 등을 종이색으로 덮는다(선 없음)
+            out.append(f"drawbox=x={b['x']}:y={b['y']}:w={b['w']}:h={b['h']}:color=#{b.get('color', 'fbfaf7')}:t=fill:{en}")
+            continue
         if b.get("spot"):  # 강조 영역 밖을 종이색으로 덮어 시선을 모은다
             x, y, w, h = max(0, b["x"]), max(0, b["y"]), b["w"], b["h"]
             for rx, ry, rw, rh in [(0, 0, W, y), (0, y + h, W, H - y - h), (0, y, x, h), (x + w, y, W - x - w, h)]:
@@ -243,13 +246,31 @@ def render_segment(v: dict, d: float, frames: int, out: Path) -> None:
 
 
 # ---------- 자막 ----------
+# 자막에서 줄을 나누면 뜻이 끊기는 붙임 쌍(공백 하나로 잇는다)
+NOBREAK = ["960 대 240 mg", "수정안의 질은", "프로토콜에 적힌", "나온 값이라", "비공개 프로토콜로", "추정하지 않고",
+           "0.7에 못 미쳐", "표준 용량의", "검증 통과율은", "한 번 부른", "근거가 맞는", "후향 검증에서는",
+           "맞는 탐지가", "부른 원샷과는", "적힌 PK로", "다시 얻는다는"]
+
+
 def chunks(text: str, limit: int = 30) -> list[str]:
     parts = re.split(r"(?<=[.?!。])\s+|(?<=[,，])\s+", text.strip())
+    merged: list[str] = []
+    for p in parts:  # 6자 이하 쉼표 조각("10.0,"·"시각,")은 앞 조각에 붙인다
+        if merged and len(p) <= 6 and p.endswith((",", "，")) and not merged[-1].endswith((".", "?", "!")):
+            merged[-1] += " " + p
+        else:
+            merged.append(p)
     res: list[str] = []
-    for p in parts:
+    for p in merged:
         while len(p) > limit:
-            cut = p.rfind(" ", 0, limit)
-            cut = cut if cut > limit * 0.4 else limit
+            bad = {k + j for ph in NOBREAK for k in _finds(p, ph) for j in range(len(ph))}
+            sp = [i for i, ch in enumerate(p) if ch == " " and i not in bad]
+            if not sp:
+                break
+            before = [i for i in sp if limit * 0.4 < i <= limit]
+            cut = max(before) if before else min(sp, key=lambda i: abs(i - limit))
+            if len(p) - cut < limit * 0.35:  # 뒤 조각이 너무 짧으면("않았지만," 홀로) 가운데 가까운 공백에서 나눈다
+                cut = min(sp, key=lambda i: abs(i - len(p) // 2))
             res.append(p[:cut].strip())
             p = p[cut:].strip()
         if p:
@@ -257,10 +278,20 @@ def chunks(text: str, limit: int = 30) -> list[str]:
     return res
 
 
+def _finds(s: str, sub: str) -> list[int]:
+    out, i = [], s.find(sub)
+    while i >= 0:
+        out.append(i)
+        i = s.find(sub, i + 1)
+    return out
+
+
 def ass_time(t: float) -> str:
     h = int(t // 3600); m = int(t % 3600 // 60); s = t % 60
     return f"{h}:{m:02d}:{s:05.2f}"
 
+
+BAND = r"{n7\pos(0,0)\p1}m 0 0 l 1920 0 1920 72 0 72{\p0}"
 
 ASS_HEAD = """[Script Info]
 ScriptType: v4.00+
@@ -273,6 +304,7 @@ Format: Name, Fontname, Fontsize, PrimaryColour, SecondaryColour, OutlineColour,
 Style: Sub,Pretendard SemiBold,46,&H00FFFFFF,&H00FFFFFF,&H1A30241B,&H1A30241B,0,0,0,0,100,100,0,0,3,14,0,2,80,80,46,1
 Style: WM,Pretendard Medium,24,&H00303030,&H00FFFFFF,&H00E8EFF2,&H00E8EFF2,0,0,0,0,100,100,0,0,3,9,0,7,40,40,34,1
 Style: Q,Pretendard Bold,64,&H00FFFFFF,&H00FFFFFF,&H0030241B,&H0030241B,0,0,0,0,100,100,0,0,3,22,0,1,110,40,170,1
+Style: Band,Pretendard Medium,10,&H00F7FAFB,&H00F7FAFB,&H00F7FAFB,&H00F7FAFB,0,0,0,0,100,100,0,0,1,0,0,7,0,0,0,1
 Style: Tag,Pretendard Medium,26,&H00FFFFFF,&H00FFFFFF,&H005F3A1F,&H005F3A1F,0,0,0,0,100,100,1,0,3,10,0,9,40,40,34,1
 
 [Events]
@@ -294,7 +326,7 @@ def main() -> None:
     (TMP / "aud").mkdir(parents=True, exist_ok=True)
 
     t = 0.0
-    seg_list, aud_list, events, timeline = [], [], [], []
+    seg_list, aud_list, events, timeline, wm_runs = [], [], [], [], []
     for sc in board["scenes"]:
         sc_start = t
         for bi, b in enumerate(sc["beats"]):
@@ -332,11 +364,20 @@ def main() -> None:
                     events.append(f"Dialogue: 0,{ass_time(ct)},{ass_time(ct + cd)},Sub,,0,0,0,,{c}")
                     ct += cd
             timeline.append({"beat": bid, "start": round(t, 2), "dur": round(d, 2), "text": text[:40]})
+            wm = b.get("wm", sc.get("wm"))  # 비트의 wm이 장면 wm을 덮는다(장면 안에서 화면 출처가 바뀔 때)
+            if wm and wm_runs and wm_runs[-1][2] == wm and wm_runs[-1][1] == t:
+                wm_runs[-1][1] = t + d
+            elif wm:
+                wm_runs.append([t, t + d, wm])
             t += d
+        wm_band = bool(wm_runs)
+        if sc.get("tag") or sc.get("wm") or wm_band:  # 상단 종이색 띠: 워터마크·태그가 잘린 앞 줄 위에 얹히지 않게
+            events.append(f"Dialogue: 0,{ass_time(sc_start)},{ass_time(t)},Band,,0,0,0,,{BAND}")
         if sc.get("tag"):
             events.append(f"Dialogue: 1,{ass_time(sc_start)},{ass_time(t)},Tag,,0,0,0,,{sc['tag']}")
-        if sc.get("wm"):
-            events.append(f"Dialogue: 1,{ass_time(sc_start)},{ass_time(t)},WM,,0,0,0,,{sc['wm']}")
+        for w0, w1, wm in wm_runs:
+            events.append(f"Dialogue: 1,{ass_time(w0)},{ass_time(w1)},WM,,0,0,0,,{wm}")
+        wm_runs.clear()
         if sc.get("q"):
             events.append(f"Dialogue: 2,{ass_time(sc_start + 0.1)},{ass_time(sc_start + sc.get('q_dur', 1.6))},Q,,0,0,0,,{{\\fad(120,200)}}{sc['q']}")
 

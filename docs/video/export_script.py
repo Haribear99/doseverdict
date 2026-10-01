@@ -27,7 +27,9 @@ def screen(v: dict) -> str:
             return f"라이브 녹화 {v['freeze']:.1f}초 정지 화면"
         return f"라이브 녹화 {v['start']:.0f}–{v['end']:.0f}초"
     if name.startswith("deck"):
-        return f"덱 {name[4:]}장"
+        if name == "deck7":
+            return "구판 덱(10-01) 정량 요약 캡처"
+        return f"구판 덱(10-01) {name[4:]}장"
     demo, _, tab = name.partition("_")
     tab = {"find": "Findings", "tools": "도구 호출", "audit": "Audit", "retro": "후향 검증", "tl": "타임라인"}.get(tab, tab)
     return f"`?{demo.replace('d', 'demo=')}&cached=1` {tab}"
@@ -42,7 +44,7 @@ def main() -> None:
         for i, b in enumerate(sc["beats"]):
             e = tl[f"{sc['id']}_{i:02d}"]
             rows.append(f"| {mmss(e['start'])} | {screen(b['visual'])} | {b.get('text') or '(무음)'} | {sc.get('tag', '') if i == 0 else ''} |")
-    head = f"""# 시연 영상 스크립트 ({mmss(total)}, YouTube 일부 공개) — 2026-10-01 최종(제작본)
+    head = f"""# 시연 영상 스크립트 ({mmss(total)}, YouTube 일부 공개) — 2026-10-02 최종(재빌드본)
 
 ## 제작 방식
 

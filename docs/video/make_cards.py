@@ -179,14 +179,14 @@ cards["d8"] = ("""
 .kp .v{font-size:150px;font-weight:800;letter-spacing:-.03em;line-height:1}
 .kp .t{font-size:34px;font-weight:700;margin-top:16px}
 .kp .s{font-size:28px;color:var(--muted);margin-top:8px}
-ul{position:absolute;left:120px;right:120px;top:570px;list-style:none}
+ul{position:absolute;left:120px;right:120px;top:520px;list-style:none}
 li{font-size:34px;padding:16px 0;border-bottom:1px solid var(--line)}
-.end{position:absolute;left:120px;right:120px;top:850px;font-size:30px;font-weight:600;background:var(--soft);padding:22px 28px;line-height:1.5}""", """
+.end{position:absolute;left:120px;right:120px;top:785px;font-size:30px;font-weight:600;background:var(--soft);padding:22px 28px;line-height:1.5}""", """
 <div class="k kicker">비용</div>
-<div class="kp"><div class="c"><div class="v">3.9만</div><div class="t">검토 1회당 토큰</div><div class="s">39,759 · 39,643</div></div>
+<div class="kp"><div class="c"><div class="v">4.0만</div><div class="t">검토 1회당 토큰</div><div class="s">39,759 · 39,643</div></div>
 <div class="c"><div class="v">약 8배</div><div class="t">같은 모델 원샷 대비</div><div class="s">39,701 대 5,023</div></div></div>
 <ul><li>토큰의 70~80%가 입력 → 줄이는 레버는 입력 길이</li><li>캐시는 쿼터를 줄이지 않아 절감에서 제외</li><li>LLM 호출 전 예산 가드 · 노드별 토큰 원장</li></ul>
-<div class="end">기대할 몫은 탐지율이 아니다 — 도구로 확보한 입력의 재현성(순환성 단서) · 원문에 묶인 인용(사후 분석)</div>""")
+<div class="end">기대할 몫은 탐지율이 아니다 — <span id="e1">입력 재현성(고정 조회 규약·순환성)</span> · <span id="e2">원문에 묶인 인용(사후)</span><br><span id="e3">지적 문장 일관성은 원샷과 차이 확인 안 됨(에이전트 0.687 대 원샷 0.746), 방향은 에이전트가 낮음(사전 등록)</span></div>""")
 
 FCSS = """
 .k{position:absolute;left:120px;top:96px}
@@ -206,8 +206,9 @@ def flist(kicker, title, sub, items, foot):
 cards["f1"] = flist("한계", "아직 말할 수 없는 것", "앞 장면 요약", [
     ("전문가 라벨이 없는 합성 Silver Set", "외부 자문 미확보 · 지적의 타당성은 평가하지 않음"),
     ("실제 1상 초록 43건 후향 검증 null", "AUROC 0.440 · 모델이 가린 약을 재식별해 기억과 분리되지 않음"),
-    ("결함 없는 판에서 실행당 6.42건 지적", "줄이려던 두 시도는 결함까지 놓쳐 기각")],
-    "기술서 13.1 · 발표자료 09·10쪽")
+    ("결함 없는 판에서 실행당 6.42건 지적", "줄이려던 두 시도는 결함까지 놓쳐 기각"),
+    ("반복 일관성(사전 등록): 지적 문장 집합 차이 확인 안 됨(에이전트 0.687 대 원샷 0.746)", "방향은 에이전트가 낮음")],
+    "기술서 13.1 · 발표자료 10쪽·부록 B1~B3")
 cards["f2"] = flist("다음 단계", "판정 기준을 먼저 등록한다", "모두 계획 · 아직 실행하지 않음", [
     ("외부 전문가 2인 이상 맹검 라벨 → Gold Set", "평가자 간 κ ≥ 0.61일 때만 정답 세트로 쓴다(계획상 기준)"),
     ("재식별 탐침에서 약을 알아보지 못한 비공개 프로토콜로 재검증", "1차 지표: 전문가 라벨 대비 지적 정확성 · 규제 요구 기록이 쌓이면 AUROC CI 하한 > 0.5"),
@@ -246,7 +247,7 @@ cards["end"] = ("""
 <div class="m">정답을 맞히는 기계가 아니라,<br>근거가 얇을 때 멈추고<br>출처를 남기는 검토자</div>
 <div class="u">haribear99-doseverdict.hf.space</div>
 <div class="u2">?demo=1&amp;cached=1 저장 결과 · ?demo=1&amp;autorun=1 라이브 실행</div>
-<div class="f">평가는 전문가 라벨이 없는 합성 Silver Set 기준 · 부정적 결과 전체는 상세기술서와 발표자료 9~10쪽 · 제4회 JUMP AI Agentic Drug Challenge 본선</div>""")
+<div class="f">평가는 전문가 라벨이 없는 합성 Silver Set 기준 · 부정적 결과 전체는 상세기술서와 발표자료 10쪽·부록 B1~B3 · 제4회 JUMP AI Agentic Drug Challenge 본선</div>""")
 
 for k, (css, body) in cards.items():
     (HERE / f"{k}.html").write_text(HEAD.format(css=css, body=body), encoding="utf-8")
