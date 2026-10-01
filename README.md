@@ -15,6 +15,8 @@ pinned: false
 
 **바로 보기:** <https://haribear99-doseverdict.hf.space/?demo=1&cached=1> — 저장된 검토 결과를 LLM 호출 없이 바로 연다(기권 카드 → 원문 근거·수정 Diff → Human Gate).
 
+**시연 영상(8분 49초):** <https://youtu.be/oFvEqumzvyM>
+
 - 판정 권한 분리: 수치 판정은 도구, 규범 판정은 검색+NLI 검증기, 최종 승인은 사람. LLM(gpt-6-sol)은 구조화·가설·문장 초안만.
 - 근거가 결론을 지탱하지 못하면 결론을 만들지 않는다(기권). 예: TCR이 지표(C_max·C_avg·C_trough)에 따라 갈리면(예: C_avg 커버, C_trough 미커버) 보류하고 PK 자료를 요청.
 
