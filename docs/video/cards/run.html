@@ -1,0 +1,16 @@
+<!doctype html><html lang="ko"><head><meta charset="utf-8"><link rel="stylesheet" href="base.css"><style>
+.k{position:absolute;left:120px;top:96px}
+h1{position:absolute;left:120px;top:150px;font-size:58px;font-weight:800;letter-spacing:-.02em}
+table{position:absolute;left:120px;top:270px;width:1680px;border-collapse:collapse}
+td{font-size:32px;padding:20px 18px;border-bottom:1px solid var(--line);vertical-align:top}
+td:first-child{width:80px;font-weight:800;color:var(--accent);font-size:36px}
+td:nth-child(2){width:420px;font-weight:700}
+td code{font-family:Consolas,monospace;font-size:28px;background:var(--soft);padding:2px 8px}
+.f{position:absolute;left:120px;right:120px;bottom:120px;font-size:26px;color:var(--muted)}</style></head><body>
+<div class="k kicker">실행 방법</div><h1>로그인 없이 바로 열린다</h1>
+<table><tr><td>①</td><td>웹 UI</td><td>예시 프로토콜 선택 → 검토 실행</td></tr>
+<tr><td>②</td><td>원클릭 라이브</td><td><code>?demo=1&amp;autorun=1</code></td></tr>
+<tr><td>②′</td><td>저장 결과 즉시 보기</td><td><code>?demo=1&amp;cached=1</code> · LLM 호출 없음</td></tr>
+<tr><td>③</td><td>직접 입력 · CLI</td><td>직접 붙여넣기 · 파일 업로드 · <code>python -m app.cli review …</code></td></tr>
+<tr><td>④</td><td>로컬 Docker</td><td><code>docker build</code> → <code>docker run</code> · API 키 환경변수 필요</td></tr></table>
+<div class="f">haribear99-doseverdict.hf.space · github.com/Haribear99/doseverdict</div></body></html>

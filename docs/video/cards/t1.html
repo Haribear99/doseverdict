@@ -1,0 +1,21 @@
+<!doctype html><html lang="ko"><head><meta charset="utf-8"><link rel="stylesheet" href="base.css"><style>
+.band{position:absolute;left:0;right:0;top:0;background:var(--ink);color:#fff;font-size:27px;font-weight:600;padding:22px 120px}
+h1{position:absolute;left:120px;top:130px;font-size:54px;font-weight:800;letter-spacing:-.02em}
+h1 span{font-size:30px;color:var(--muted);font-weight:500;margin-left:16px}
+table{position:absolute;left:120px;top:250px;border-collapse:collapse;width:1680px}
+th{font-size:28px;color:var(--muted);font-weight:600;text-align:right;padding:16px 24px;border-bottom:2px solid var(--ink)}
+th:first-child,td:first-child{text-align:left}
+td{font-size:56px;font-weight:700;text-align:right;padding:24px 24px;border-bottom:1px solid var(--line)}
+td:first-child{font-size:34px;font-weight:700}
+td small{display:block;font-size:22px;color:var(--muted);font-weight:500}
+td.j{font-size:32px;font-weight:600}
+.hl{background:#efe9dc}
+.sum{position:absolute;left:120px;right:120px;top:650px;font-size:40px;font-weight:700;padding:26px 30px;background:var(--abstain-bg);border-left:8px solid var(--abstain);color:#3d4170}
+.foot{position:absolute;left:120px;right:120px;top:800px;font-size:24px;line-height:1.6;color:var(--muted)}</style></head><body>
+<div class="band">예시 프로토콜과 별개 · 실제 소토라십 240 mg · 라벨 PK · 별도 근거 계산(evidence/tcr_240mg.json) · 앱 실행 결과 아님</div>
+<h1>240 mg이면 표적을 덮는가<span>TCR = 유리 농도 / IC50</span></h1>
+<table><tr><th>PK 가정</th><th>C_max</th><th>C_avg</th><th>C_trough</th><th>지표별 판정</th></tr>
+<tr><td>(가) 선형 CL/F</td><td>8.6</td><td>2.5</td><td class="hl">0.31</td><td class="j">지표에 따라 갈림</td></tr>
+<tr><td>(나) 노출 유사<small>라벨 12.3</small></td><td>34.5</td><td>10.0</td><td>1.24</td><td class="j">셋 다 덮음</td></tr></table>
+<div class="sum">종합: 기권 — 가정과 지표에 따라 답이 갈린다. 용량군별 반복투여 PK를 요청한다.</div>
+<div class="foot">IC50 30 nM(ChEMBL 세포 기반 중앙값) · (나) C_avg 정확값 9.99(포화 의심 기준 &gt;10 미해당) · TCR &lt;1 미커버, &gt;10 포화 의심은 본 프로젝트 잠정 기준(문헌값 아님) · 공유결합 저해제라 C_trough 판정은 스크리닝 근사</div></body></html>

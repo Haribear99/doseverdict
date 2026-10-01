@@ -1,0 +1,405 @@
+[
+ {
+  "id": "d1_find",
+  "url": "?demo=1&cached=1",
+  "shot": "tall",
+  "steps": [
+   [
+    "hide_sidebar"
+   ],
+   [
+    "expand",
+    "F02"
+   ]
+  ],
+  "marks": {
+   "summary": "Findings 11건 — 검증 9",
+   "abstain": "기권 — 결론을 만들지 않음",
+   "span0": "The MTD will be selected as the RP2D.",
+   "fact0": "프로토콜 사실",
+   "req0": "용량군별 반복투여 PK(AUC",
+   "f01span": "every 6 weeks thereafter",
+   "f01nli": "NLI entailment=1.00",
+   "diff": "Patch Diff",
+   "f02nli": "entail=0.29",
+   "repatch": "적용 후 재검토",
+   "f03": "F03",
+   "f05": "F05"
+  }
+ },
+ {
+  "id": "d1_tl",
+  "url": "?demo=1&cached=1",
+  "shot": "tall",
+  "steps": [
+   [
+    "hide_sidebar"
+   ],
+   [
+    "expand",
+    "타임라인"
+   ]
+  ],
+  "marks": {
+   "reselect": "근거 재선택",
+   "held": "인용 보류",
+   "research": "보류 재검색",
+   "graph": "Protocol"
+  }
+ },
+ {
+  "id": "d1_tools",
+  "url": "?demo=1&cached=1",
+  "shot": "tall",
+  "steps": [
+   [
+    "hide_sidebar"
+   ],
+   [
+    "tab",
+    "도구 호출"
+   ]
+  ],
+  "marks": {
+   "title": "도구 호출 17회",
+   "rdkit": "rdkit.structure_profile",
+   "chembl": "n_censored_excluded",
+   "fda": "brand=LUMAKRAS",
+   "fda2": "brand=KRAZATI",
+   "tcr": "pharm.tcr_three_metrics",
+   "design": "design.compare_sample_matched",
+   "ctgov": "ctgov.search_analog_trials",
+   "usage": "usage_note"
+  }
+ },
+ {
+  "id": "d1_audit",
+  "url": "?demo=1&cached=1",
+  "shot": "tall",
+  "steps": [
+   [
+    "hide_sidebar"
+   ],
+   [
+    "tab",
+    "Audit"
+   ]
+  ],
+  "marks": {
+   "bars": "노드별 토큰",
+   "memo": "검토 메모 내려받기",
+   "toolsum": "도구 호출 요약",
+   "replan": "재계획",
+   "meta": "감사 메타"
+  }
+ },
+ {
+  "id": "d1_retro",
+  "url": "?demo=1&cached=1",
+  "shot": "tall",
+  "steps": [
+   [
+    "hide_sidebar"
+   ],
+   [
+    "tab",
+    "후향 검증"
+   ]
+  ],
+  "marks": {
+   "head": "실사례 후향 검증",
+   "verdict": "판정(사전 규칙)",
+   "s1": "1차: 검증된 용량최적화",
+   "reid": "재식별률",
+   "interp": "해석(사후 기술)",
+   "oneshot": "같은 모델을 한 번 부르면",
+   "grounded": "0.483",
+   "cite": "94.2%"
+  }
+ },
+ {
+  "id": "d4_audit",
+  "url": "?demo=4&cached=1",
+  "shot": "tall",
+  "steps": [
+   [
+    "hide_sidebar"
+   ],
+   [
+    "tab",
+    "Audit"
+   ]
+  ],
+  "marks": {
+   "fallback": "tool_fallback",
+   "replan": "재계획"
+  }
+ },
+ {
+  "id": "d4_tools",
+  "url": "?demo=4&cached=1",
+  "shot": "tall",
+  "steps": [
+   [
+    "hide_sidebar"
+   ],
+   [
+    "tab",
+    "도구 호출"
+   ]
+  ],
+  "marks": {
+   "ic50": "\"ic50_nM\": 9.0",
+   "lookup": "chembl.lookup",
+   "summary": "도구 호출"
+  }
+ },
+ {
+  "id": "d4_find",
+  "url": "?demo=4&cached=1",
+  "shot": "tall",
+  "steps": [
+   [
+    "hide_sidebar"
+   ]
+  ],
+  "marks": {
+   "summary": "Findings 5건"
+  }
+ },
+ {
+  "id": "d5_find",
+  "url": "?demo=5&cached=1",
+  "shot": "tall",
+  "steps": [
+   [
+    "hide_sidebar"
+   ]
+  ],
+  "marks": {
+   "summary": "Findings 6건",
+   "pk": "프로토콜 보고 PK",
+   "abstain": "기권 — 결론을 만들지 않음"
+  }
+ },
+ {
+  "id": "d5_tools",
+  "url": "?demo=5&cached=1",
+  "shot": "tall",
+  "steps": [
+   [
+    "hide_sidebar"
+   ],
+   [
+    "tab",
+    "도구 호출"
+   ]
+  ],
+  "marks": {
+   "err": "HTTPError: HTTP Error 404"
+  }
+ },
+ {
+  "id": "d3_audit",
+  "url": "?demo=3&cached=1",
+  "shot": "tall",
+  "steps": [
+   [
+    "hide_sidebar"
+   ],
+   [
+    "tab",
+    "Audit"
+   ]
+  ],
+  "marks": {
+   "inj": "prompt_injection",
+   "zero": "zero findings"
+  }
+ },
+ {
+  "id": "d3_tl",
+  "url": "?demo=3&cached=1",
+  "shot": "tall",
+  "steps": [
+   [
+    "hide_sidebar"
+   ],
+   [
+    "expand",
+    "타임라인"
+   ]
+  ],
+  "marks": {
+   "inj": "인젝션",
+   "inj2": "prompt_injection"
+  }
+ },
+ {
+  "id": "d6_tl",
+  "url": "?demo=6&cached=1",
+  "shot": "tall",
+  "steps": [
+   [
+    "hide_sidebar"
+   ],
+   [
+    "expand",
+    "타임라인"
+   ],
+   [
+    "expand",
+    "V01"
+   ]
+  ],
+  "marks": {
+   "svc": "source_version_conflict",
+   "v01": "V01"
+  }
+ },
+ {
+  "id": "d7_find",
+  "url": "?demo=7&cached=1",
+  "shot": "tall",
+  "steps": [
+   [
+    "hide_sidebar"
+   ],
+   [
+    "expand",
+    "F06"
+   ]
+  ],
+  "marks": {
+   "civil": "민원인 안내서",
+   "f06": "F06"
+  }
+ },
+ {
+  "id": "d8_tools",
+  "url": "?demo=8&cached=1",
+  "shot": "tall",
+  "steps": [
+   [
+    "hide_sidebar"
+   ],
+   [
+    "tab",
+    "도구 호출"
+   ]
+  ],
+  "marks": {
+   "warn": "근거 미확보 축: "
+  }
+ },
+ {
+  "id": "d8_find",
+  "url": "?demo=8&cached=1",
+  "shot": "tall",
+  "steps": [
+   [
+    "hide_sidebar"
+   ]
+  ],
+  "marks": {
+   "gap": "근거 미확보",
+   "f01": "F01",
+   "held": "보류"
+  }
+ },
+ {
+  "id": "home",
+  "url": "?demo=1&cached=1",
+  "shot": "viewport",
+  "steps": []
+ },
+ {
+  "id": "deck1",
+  "url": "file:///C:/Users/user/Desktop/dev/공모전/AI 신약개발 경진대회/docs/slides/deck.html",
+  "streamlit": false,
+  "element": "section.slide >> nth=0",
+  "steps": [
+   [
+    "wait",
+    1500
+   ]
+  ],
+  "marks": {
+   "abs": "1상 초록은 용량제한독성",
+   "para": "RP2D를 정하고 확장"
+  }
+ },
+ {
+  "id": "deck3",
+  "url": "file:///C:/Users/user/Desktop/dev/공모전/AI 신약개발 경진대회/docs/slides/deck.html",
+  "streamlit": false,
+  "element": "section.slide >> nth=2",
+  "steps": [
+   [
+    "wait",
+    1500
+   ]
+  ],
+  "marks": {
+   "llm": "LLM (gpt-6-sol)",
+   "tool": "TCR 판정과 노출비",
+   "search": "검색 + NLI 검증기",
+   "human": "승인 · 부분승인"
+  }
+ },
+ {
+  "id": "deck7",
+  "url": "file:///C:/Users/user/Desktop/dev/공모전/AI 신약개발 경진대회/docs/slides/deck.html",
+  "streamlit": false,
+  "element": "section.slide >> nth=6",
+  "steps": [
+   [
+    "wait",
+    1500
+   ]
+  ],
+  "marks": {
+   "gain": "+0.044",
+   "foot": "2회 평균 비교는",
+   "r1": "원 20 · 1차",
+   "r2": "원 20 · 2차",
+   "os": "원샷·도구 없음",
+   "oscap": "원샷 행은 사후",
+   "rp": "수정안 재검토",
+   "rp2": "0.20"
+  }
+ },
+ {
+  "id": "deck9",
+  "url": "file:///C:/Users/user/Desktop/dev/공모전/AI 신약개발 경진대회/docs/slides/deck.html",
+  "streamlit": false,
+  "element": "section.slide >> nth=8",
+  "steps": [
+   [
+    "wait",
+    1500
+   ]
+  ],
+  "marks": {
+   "abl": "Ablation (09-11",
+   "full": "full · Reviewer 3인",
+   "sing": "single_rag (checklist"
+  }
+ },
+ {
+  "id": "deck10",
+  "url": "file:///C:/Users/user/Desktop/dev/공모전/AI 신약개발 경진대회/docs/slides/deck.html",
+  "streamlit": false,
+  "element": "section.slide >> nth=9",
+  "steps": [
+   [
+    "wait",
+    1500
+   ]
+  ],
+  "marks": {
+   "clean": "결함 없는 기준 시놉시스",
+   "cal": "지적을 줄이는 보정"
+  }
+ }
+]

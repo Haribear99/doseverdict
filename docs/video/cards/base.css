@@ -1,0 +1,16 @@
+/* 영상 카드 공통 — 색은 app/ui/tokens.py와 같은 값(docs/DESIGN.md). 상태 4색은 판정 상태에만 쓴다. */
+@font-face { font-family: "Pretendard"; font-weight: 400; src: url("../fonts/Pretendard-Regular.otf"); }
+@font-face { font-family: "Pretendard"; font-weight: 500; src: url("../fonts/Pretendard-Medium.otf"); }
+@font-face { font-family: "Pretendard"; font-weight: 600; src: url("../fonts/Pretendard-SemiBold.otf"); }
+@font-face { font-family: "Pretendard"; font-weight: 700; src: url("../fonts/Pretendard-Bold.otf"); }
+@font-face { font-family: "Pretendard"; font-weight: 800; src: url("../fonts/Pretendard-ExtraBold.otf"); }
+:root { --ink:#1b2430; --muted:#5b6472; --paper:#fbfaf7; --panel:#ffffff; --soft:#f2efe8; --line:#dcd6ca; --accent:#1f3a5f;
+  --verified:#2f7d4f; --held:#b7791f; --rejected:#b4372f; --abstain:#5a5f96; --abstain-bg:#dfe0ef; }
+* { box-sizing: border-box; margin: 0; padding: 0; }
+html, body { width: 1920px; height: 1080px; overflow: hidden; background: var(--paper); color: var(--ink);
+  font-family: "Pretendard", "Malgun Gothic", sans-serif; font-feature-settings: "tnum" 1; -webkit-font-smoothing: antialiased; }
+.serif { font-family: Georgia, "Noto Serif KR", serif; }
+.kicker { font-size: 24px; letter-spacing: .14em; text-transform: uppercase; color: var(--muted); font-weight: 600; }
+.muted { color: var(--muted); }
+.hair { border-left: 2px solid var(--line); }
+.src { position: absolute; left: 120px; bottom: 150px; font-size: 22px; color: var(--muted); }
