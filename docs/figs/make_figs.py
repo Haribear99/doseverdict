@@ -59,7 +59,7 @@ def fig_tcr240(w=7.6, name="tcr240.png"):
             v = r[k]
             below = v < 1
             ax.scatter(v, y, marker=mk, s=70, color=T.ACCENT if below else T.INK, zorder=3, edgecolor=T.PAPER, linewidth=1.5)
-            ax.annotate(f"{lab} {v:.2f}" if v < 2 else f"{lab} {v:.1f}", (v, y), xytext=(0, 11), textcoords="offset points",
+            ax.annotate(f"{lab} {v:.2f}" if v < 2 or (v < 10 <= round(v, 1)) else f"{lab} {v:.1f}", (v, y), xytext=(0, 11), textcoords="offset points",
                         ha="center", fontsize=9.5 * FS, color=T.ACCENT if below else T.INK, fontweight=700 if below else 500,
                         bbox=dict(fc=T.PAPER, ec="none", pad=1.2), zorder=5)
     ax.set_yticks(range(len(rows)))
@@ -69,7 +69,7 @@ def fig_tcr240(w=7.6, name="tcr240.png"):
     ax.set_ylim(-0.6, len(rows) - 0.25)
     ax.set_xticks([0.1, 1, 10, 100])
     ax.set_xticklabels(["0.1", "1", "10", "100"])
-    for x, lab in [(1, "1 미만 = 표적 미커버"), (10, "10 초과 = 포화 의심(잠정)")]:
+    for x, lab in [(1, "1 미만 = 미커버(잠정)"), (10, "10 초과 = 포화 의심(잠정)")]:
         ax.axvline(x, color=T.MUTED, lw=0.8, ls=(0, (3, 3)), zorder=0)
         ax.text(x * 1.06, -0.55, lab, fontsize=8.5 * FS, color=T.MUTED, va="bottom")
     ax.set_xlabel("TCR = 유리 농도 / IC50 (로그 축) · 소토라십 240 mg · 라벨 PK · IC50 30 nM", fontsize=9 * FS)
@@ -128,7 +128,7 @@ def fig_oneshot(w=7.6, name="oneshot_diff.png"):
     ax.set_yticklabels([r[0] for r in reversed(rows)], fontsize=10 * FS)
     ax.set_xlim(-0.47, 0.25)
     ax.set_ylim(-0.6, len(rows) - 0.15)
-    ax.set_xlabel("차이(원샷 − 에이전트) [95% CI] · 합성 원 20 · 왼쪽일수록 에이전트가 높음 · 사후 판정기는 에이전트 검증기와 같은 NLI", fontsize=8.5 * FS)
+    ax.set_xlabel("차이(원샷 − 에이전트) [95% CI] · 합성 원 20 · 왼쪽일수록 에이전트가 높음 · 의역 판정기는 에이전트 검증기와 같은 NLI", fontsize=8.5 * FS)
     ax.tick_params(axis="y", length=0)
     save(fig, name)
 
