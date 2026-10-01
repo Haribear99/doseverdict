@@ -158,7 +158,9 @@ figcaption { font-size: 19px; color: var(--muted); line-height: 1.4; }
     .s1 .two { display: grid; grid-template-columns: 1fr 1fr; gap: 40px; }
     .s1 .two p { font-size: 24px; line-height: 1.5; word-break: keep-all; }
     .s1 .two .full { grid-column: 1 / -1; font-size: 20px; }
+    .s1 .edge { position: absolute; top: 0; right: 0; bottom: 0; width: 64px; height: 100%; object-fit: cover; object-position: 88% 50%; }
   </style>
+  <img class="edge" src="../figs/cover_fold.png" alt="">
   <div class="grid">
     <div class="nums">
       <div class="stat"><div class="n">960<small>mg</small></div><div class="l">소토라십 승인 용량</div></div>
@@ -181,7 +183,7 @@ figcaption { font-size: 19px; color: var(--muted); line-height: 1.4; }
     </div>
   </div>
   <div class="rule"></div>
-  <div class="foot-l">01 / 12 · 팀 경기대 지피티 전공 · 제4회 JUMP AI Agentic Drug Challenge 본선</div>
+  <div class="foot-l">01 / 12 · 팀 경기대 지피티 전공 · 제4회 JUMP AI Agentic Drug Challenge 본선 · 오른쪽 띠는 생성 이미지(장식)</div>
   <div class="foot-r"><span class="tag">과학적 타당성·혁신성</span></div>
 </section>
 
@@ -291,22 +293,18 @@ figcaption { font-size: 19px; color: var(--muted); line-height: 1.4; }
 <section class="slide">
   <div class="kicker">240 mg: 결론을 만들지 않는 판정</div>
   <h1>소토라십 240 mg은 PK 가정에 따라 답이 달라진다. 그래서 기권하고 용량군별 반복투여 PK를 요청한다.</h1>
-  <div class="body" style="flex-direction:column; gap:36px">
-    <table style="font-size:30px">
-      <thead><tr><th style="font-size:22px">PK 가정 · 값 = TCR(C_free/IC50 비율)</th><th class="num" style="font-size:22px">C_max</th><th class="num" style="font-size:22px">C_avg</th><th class="num" style="font-size:22px">C_trough</th><th style="font-size:22px">판정</th></tr></thead>
-      <tbody>
-        <tr><td>(가) 선형 CL/F</td><td class="num">8.615</td><td class="num">2.4964</td><td class="num">0.3093</td><td><span class="chip c-abstain">지표에 따라 갈림</span> <span class="mono" style="font-size:18px">abstain_metric_dependent</span></td></tr>
-        <tr><td>(나) 노출 유사 (라벨 12.3)</td><td class="num">34.4601</td><td class="num">9.9856</td><td class="num">1.237</td><td><span class="chip">커버</span> <span class="mono" style="font-size:18px">covered</span></td></tr>
-        <tr class="em"><td>종합</td><td colspan="3"></td><td><span class="chip c-abstain">기권</span> <span class="mono" style="font-size:18px">abstain_assumption_dependent</span></td></tr>
-      </tbody>
-    </table>
+  <div class="body" style="flex-direction:column; gap:22px">
+    <div class="col" style="gap:6px">
+      <img src="../figs/tcr240_deck.png" alt="소토라십 240 mg TCR 점 도표" style="width:1000px; border:0">
+      <p style="font-size:22px">판정: (가) <span class="chip c-abstain">지표에 따라 갈림</span> <span class="mono" style="font-size:18px">abstain_metric_dependent</span> · (나) <span class="chip">커버</span> <span class="mono" style="font-size:18px">covered</span> · 종합 <span class="chip c-abstain">기권</span> <span class="mono" style="font-size:18px">abstain_assumption_dependent</span></p>
+    </div>
     <div style="display:flex; gap:56px">
       <div class="col" style="flex:1">
         <p>TCR = C_free / IC50. 입력은 라벨 CL/F 26.2 L/h, t½ 5 h, f_u 0.11(단백결합 89%), IC50 30 nM(ChEMBL 세포 기반 중앙값).</p>
         <p class="small">(가)를 단일 지표로 보면 C_avg로는 “커버”, C_trough로는 “미커버”다. 그래서 세 지표를 함께 낸다. TCR&lt;1 미커버, &gt;10 포화 의심은 본 프로젝트의 잠정 기준이다(문헌값 아님). 소토라십은 비가역 공유결합 저해제라 가역 평형을 가정한 TCR, 특히 C_trough는 스크리닝 근사다. 기권할 때 kinact/K_I를 추가 자료로 요청한다.</p>
       </div>
       <div class="col" style="flex:1">
-        <div class="note"><strong>시판 후 비교 뒤에도 닫히지 않은 질문.</strong> 209명 무작위 비교에서 240 mg의 ORR은 24.8%로 960 mg(32.7%)보다 수치상 낮았다(Hochmair 2024). 10개 연구 메타분석(Aung 2026, JCO OP)에서는 고용량의 ORR·PFS 개선이 유의하지 않았고, 감량 용량 범위는 초록으로 확인하지 못했다. DoseVerdict는 결과가 아니라 근거 사슬의 결측을 판정한다.</div>
+        <div class="note"><strong>시판 후 비교 뒤에도 닫히지 않은 질문.</strong> 209명 무작위 비교에서 240 mg의 ORR은 24.8%로 960 mg(32.7%)보다 수치상 낮았다(Hochmair 2024). 표준 대 감량 용량 10개 연구 메타분석(Aung 2026, JCO OP)에서는 표준 용량의 ORR·PFS 개선이 유의하지 않았고, 감량 용량 범위는 초록으로 확인하지 못했다. DoseVerdict는 결과가 아니라 근거 사슬의 결측을 판정한다.</div>
       </div>
     </div>
   </div>
@@ -435,8 +433,9 @@ figcaption { font-size: 19px; color: var(--muted); line-height: 1.4; }
           <tr><td>원샷 (2회 평균)</td><td class="num">0.979</td><td class="num">0.392</td><td class="num">5,023</td></tr>
         </tbody>
       </table>
-      <div class="note"><strong>사전 등록 판정: 차이 확인 안 됨.</strong> grounded 차이(원샷 − 에이전트) −0.092 [−0.208, +0.021].</div>
-      <p class="small">사후 분석: 근거 문장의 원문 일치는 에이전트 94.2%, 원샷 54.7%다(NLI 의역 포함 97.6%, 76.7%). 같은 필터를 양쪽에 걸면 grounded 차이는 −0.338 [−0.433, −0.246], −0.208 [−0.325, −0.096]. 원샷 84/360건은 인용 문서의 가까운 조항 3개로 확인되지 않았다.</p>
+      <div class="note"><strong>사전 등록 판정: 차이 확인 안 됨.</strong> grounded 차이(원샷 − 에이전트) −0.092 [−0.208, +0.021]. 아래 두 줄은 사후 분석이다.</div>
+      <img src="../figs/oneshot_diff_deck.png" alt="원샷 대비 grounded 차이와 95% CI" style="width:74%; border:0">
+      <p class="small">사후 분석: 근거 문장의 원문 일치는 에이전트 94.2%, 원샷 54.7%다(NLI 의역 포함 97.6%, 76.7%). 원샷 84/360건은 인용 문서의 가까운 조항 3개로 확인되지 않았다.</p>
       <p class="small"><span class="tg">원샷에 유리: 에이전트만 hold-out</span> <span class="tg">사후 판정기는 에이전트 검증기와 같은 NLI라 에이전트에 유리, 한국어 인용 14건 불인정은 불리 · single_rag는 1회, 조건 다름 · 일치 정의: 기술서 6.9</span></p>
     </div>
     <div class="col" style="flex:0.9; gap:14px">
@@ -466,7 +465,8 @@ figcaption { font-size: 19px; color: var(--muted); line-height: 1.4; }
   <div class="body" style="display:grid; grid-template-columns:1fr 1fr; gap:22px 52px">
     <div class="col" style="gap:8px">
       <div class="small" style="font-weight:600; color:var(--ink)">후향 검증 · 승인 전 1상 초록 43건(양성 14)</div>
-      <p style="font-size:22px">S1 AUROC <b>0.440 [0.270, 0.621]</b>, 신호 확인 안 됨(null). B1 키워드 0.466, B2 승인연도 0.499, B4 모델 기억(사후) 0.709. 43/43에서 용량 결함을 지적했다.</p>
+      <img src="../figs/retro_auroc_deck.png" alt="후향 검증 AUROC와 95% CI" style="width:64%; border:0">
+      <p style="font-size:20px">S1 AUROC <b>0.440 [0.270, 0.621]</b>, 신호 확인 안 됨(null). 43/43에서 용량 결함을 지적했다.</p>
       <p class="small">지적의 정확성은 평가하지 않아 판별력 없음과 구별되지 않는다. 모델은 가린 약을 43/43 재식별했고, 11/43에서는 약 이름을 복원해 오염을 배제할 수 없다. 템플릿 문장 유발 지적, 재식별 탐침, 막지 못한 누설 경로는 기술서 6.8에 있다.</p>
     </div>
     <div class="col" style="gap:8px">

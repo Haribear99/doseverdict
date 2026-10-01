@@ -45,10 +45,10 @@ def save(fig, name):
     print(name)
 
 
-def fig_tcr240():
+def fig_tcr240(w=7.6, name="tcr240.png"):
     d = json.loads((ROOT / "evidence" / "tcr_240mg.json").read_text(encoding="utf-8"))
     rows = d["rows"]
-    fig, ax = plt.subplots(figsize=(7.6, 2.5))
+    fig, ax = plt.subplots(figsize=(w, 2.5 * w / 7.6 + 0.25 * (7.6 - w)))
     metrics = [("TCR_max", "C_max", "^"), ("TCR_avg", "C_avg", "o"), ("TCR_trough", "C_trough", "s")]
     for yi, r in enumerate(rows):
         y = len(rows) - 1 - yi
@@ -72,10 +72,10 @@ def fig_tcr240():
         ax.text(x * 1.06, -0.55, lab, fontsize=8.5, color=T.MUTED, va="bottom")
     ax.set_xlabel("TCR = 유리 농도 / IC50 (로그 축) · 소토라십 240 mg · 라벨 PK · IC50 30 nM", fontsize=9)
     ax.tick_params(axis="y", length=0)
-    save(fig, "tcr240.png")
+    save(fig, name)
 
 
-def fig_retro():
+def fig_retro(w=7.6, name="retro_auroc.png"):
     sec = NUM[NUM.index("## 1-4."):NUM.index("## 1-5.")]
     rows = []
     for line in sec.splitlines():
@@ -85,7 +85,7 @@ def fig_retro():
     assert len(rows) == 6, rows
     names = {"S1": "S1 에이전트 1차 점수(사전 등록)", "S2": "S2 에이전트 2차 점수", "B1": "B1 키워드 규칙", "B2": "B2 승인연도",
              "B3": "B3 승인 후 라벨 규칙(참고)", "B4": "B4 약 이름을 준 모델 기억(사후)"}
-    fig, ax = plt.subplots(figsize=(7.6, 3.1))
+    fig, ax = plt.subplots(figsize=(w, 3.1 + 0.3 * (7.6 - w)))
     for i, (k, _, n, est, lo, hi) in enumerate(rows):
         y = len(rows) - 1 - i
         c = T.ACCENT if k == "S1" else T.MUTED
@@ -101,10 +101,10 @@ def fig_retro():
     ax.set_ylim(-0.6, len(rows) - 0.1)
     ax.set_xlabel("AUROC [95% CI] · 승인 전 1상 초록 43건(양성 14) · FDA 용량최적화 PMR/PMC", fontsize=9)
     ax.tick_params(axis="y", length=0)
-    save(fig, "retro_auroc.png")
+    save(fig, name)
 
 
-def fig_oneshot():
+def fig_oneshot(w=7.6, name="oneshot_diff.png"):
     sec = NUM[NUM.index("## 1-5."):NUM.index("## 1-6.")]
     pre = next(l for l in sec.splitlines() if l.startswith("| oneshot(2회 평균)"))
     p1 = next(l for l in sec.splitlines() if "대칭 필터(원문 일치만)" in l)
@@ -112,7 +112,7 @@ def fig_oneshot():
     rows = [("사전 등록 · grounded 차이", ci(pre.split("|")[4]), True),
             ("사후 · 원문 일치 필터를 양쪽에", ci(p1.split("차이(원샷 − 에이전트)")[1]), False),
             ("사후 · 일치 또는 NLI 의역 필터를 양쪽에", ci(p2.split("차이(원샷 − 에이전트)")[1]), False)]
-    fig, ax = plt.subplots(figsize=(7.6, 2.4))
+    fig, ax = plt.subplots(figsize=(w, 2.4 + 0.3 * (7.6 - w)))
     for i, (lab, (est, lo, hi), prereg) in enumerate(rows):
         y = len(rows) - 1 - i
         c = T.ACCENT if prereg else T.MUTED
@@ -128,10 +128,14 @@ def fig_oneshot():
     ax.set_ylim(-0.6, len(rows) - 0.15)
     ax.set_xlabel("차이(원샷 − 에이전트) [95% CI] · 합성 원 20 · 왼쪽일수록 에이전트가 높음 · 사후 판정기는 에이전트 검증기와 같은 NLI", fontsize=8.5)
     ax.tick_params(axis="y", length=0)
-    save(fig, "oneshot_diff.png")
+    save(fig, name)
 
 
 if __name__ == "__main__":
     fig_tcr240()
     fig_retro()
     fig_oneshot()
+    # 덱용: 폭을 줄여 슬라이드에서 글자가 상대적으로 크게 보이게 한다(값·구성 동일)
+    fig_tcr240(6.4, "tcr240_deck.png")
+    fig_retro(5.6, "retro_auroc_deck.png")
+    fig_oneshot(5.6, "oneshot_diff_deck.png")
