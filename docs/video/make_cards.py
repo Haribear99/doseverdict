@@ -188,6 +188,37 @@ li{font-size:34px;padding:16px 0;border-bottom:1px solid var(--line)}
 <ul><li>토큰의 70~80%가 입력 → 줄이는 레버는 입력 길이</li><li>캐시는 쿼터를 줄이지 않아 절감에서 제외</li><li>LLM 호출 전 예산 가드 · 노드별 토큰 원장</li></ul>
 <div class="end">기대할 몫은 탐지율이 아니다 — 도구로 확보한 입력의 재현성(순환성 단서) · 원문에 묶인 인용(사후 분석)</div>""")
 
+FCSS = """
+.k{position:absolute;left:120px;top:96px}
+h1{position:absolute;left:120px;top:150px;font-size:58px;font-weight:800;letter-spacing:-.02em}
+h1 span{font-size:30px;color:var(--muted);font-weight:600;margin-left:18px}
+ul{position:absolute;left:120px;right:120px;top:300px;list-style:none}
+li{font-size:38px;font-weight:600;line-height:1.4;padding:26px 0 26px 0;border-top:2px solid var(--line)}
+li small{display:block;font-size:27px;color:var(--muted);font-weight:500;margin-top:6px}
+.f{position:absolute;left:120px;right:120px;bottom:120px;font-size:25px;color:var(--muted)}"""
+
+
+def flist(kicker, title, sub, items, foot):
+    lis = "".join(f"<li>{a}<small>{b}</small></li>" for a, b in items)
+    return (FCSS, f"""<div class="k kicker">{kicker}</div><h1>{title}<span>{sub}</span></h1><ul>{lis}</ul><div class="f">{foot}</div>""")
+
+
+cards["f1"] = flist("한계", "아직 말할 수 없는 것", "앞 장면 요약", [
+    ("전문가 라벨이 없는 합성 Silver Set", "외부 자문 미확보 · 지적의 타당성은 평가하지 않음"),
+    ("실제 1상 초록 43건 후향 검증 null", "AUROC 0.440 · 모델이 가린 약을 재식별해 기억과 분리되지 않음"),
+    ("결함 없는 판에서 실행당 6.42건 지적", "줄이려던 두 시도는 결함까지 놓쳐 기각")],
+    "기술서 13.1 · 발표자료 09·10쪽")
+cards["f2"] = flist("다음 단계", "판정 기준을 먼저 등록한다", "모두 계획 · 아직 실행하지 않음", [
+    ("외부 전문가 2인 이상 맹검 라벨 → Gold Set", "평가자 간 κ ≥ 0.61일 때만 정답 세트로 쓴다(계획상 기준)"),
+    ("재식별 탐침에서 약을 알아보지 못한 비공개 프로토콜로 재검증", "1차 지표: 전문가 라벨 대비 지적 정확성 · 규제 요구 기록이 쌓이면 AUROC CI 하한 > 0.5"),
+    ("원샷 + 인용 판정기 + 도구 기권 구성과 비교", "비열등이면 다단계 구조를 기본값에서 내린다")],
+    "단계별 자원·반증 조건: 기술서 13.2·13.4 · 발표자료 11쪽")
+cards["f3"] = flist("의의", "확인된 범위까지만", "", [
+    ("240 mg: PK 가정에 따라 판정이 갈려 기권", "결론 대신 용량군별 반복투여 PK 요청"),
+    ("아다그라십·DV-505: 지표에 따라 갈려 기권", "로를라티닙은 갈리지 않아 기권하지 않음"),
+    ("후향 43건: 입력이 비면 전형값으로 채우지 않음", "F00 43/43 기권(입력을 차단한 조건) · 승인은 사람이 한다")],
+    "원샷 대비 우위·실제 약 판별력·도구 판정의 정확도는 의의로 주장하지 않는다")
+
 cards["run"] = ("""
 .k{position:absolute;left:120px;top:96px}
 h1{position:absolute;left:120px;top:150px;font-size:58px;font-weight:800;letter-spacing:-.02em}
