@@ -8,6 +8,7 @@
 """
 from __future__ import annotations
 
+import re
 import time
 from datetime import datetime, timezone
 from typing import Any
@@ -21,6 +22,37 @@ _CHEMBL_BY_GENERIC = {"sotorasib": "CHEMBL4535757", "adagrasib": "CHEMBL4594350"
 
 def _now() -> str:
     return datetime.now(timezone.utc).isoformat()
+
+
+def cohort_exposure_sentences(state: ReviewState, rows: list[dict]) -> tuple[str, str]:
+    """증량 코호트 인원을 프로토콜에서 읽어 AUC 비 95% CI 폭(exposure_power rows)과 묶은 문장 (근거 꼬리, F00 claim 문장).
+
+    인원은 고정값을 쓰지 않는다(10-01: CodeBreaK 100의 '용량당 2~4명'이 모든 프로토콜에 찍히던 결함).
+    3+3이면 용량당 3명·DLT 확인 시 6명, 그 밖에는 'cohorts of N' 명시값만 쓰고, 없으면 인원을 만들지 않는다.
+    """
+    ds = state.trial.design.dose_strategy
+    text = state.raw_protocol_text or ""
+    m = re.search(r"[Cc]ohorts? of (\d+)", text)
+    method = ds.escalation_method or ""
+    by = {x["n_per_arm"]: x["fold"] for x in rows}
+    if "3+3" in method or (not method and re.search(r"3\s*\+\s*3 design", text)):
+        n = int(m.group(1)) if m else 3
+        ns, basis = [n, 2 * n], f"3+3: 용량당 {n}명, DLT 확인 시 {2 * n}명"
+    elif m:
+        ns = [int(m.group(1))]
+        basis = f"용량당 {ns[0]}명"
+    else:
+        ns, basis = [], ""
+    if ns and all(n in by for n in ns):
+        folds = "·".join(f"n={n} {by[n]}배" for n in ns)
+        if min(by[n] for n in ns) >= 2:   # CI 폭이 2배 이상이면 '평평하다'와 '2배 증가'를 구분할 수 없다
+            claim = f"증량 코호트 규모({basis})로는 노출 포화를 확정할 수 없다."
+            return f"증량 코호트({basis})의 CI 폭은 {folds}라 노출 포화를 확정할 수 없다.", claim
+        return f"증량 코호트({basis})의 CI 폭은 {folds}다.", ""
+    if ns:
+        return "", ""
+    claim = "프로토콜에 증량 단계의 용량당 인원이 명시되지 않아, 증량 코호트로 노출 포화를 판단할 근거를 확인할 수 없다."
+    return "증량 단계의 용량당 인원은 프로토콜에 명시되지 않았다.", claim
 
 
 def _log(state: ReviewState, tool: str, args: dict[str, Any], r: ToolResult) -> str:
@@ -220,7 +252,8 @@ def run_exposure_dose(state: ReviewState, task: Task) -> None:
         cid2 = _log(state, "pharm.exposure_power", {"cv": pk["cv"] / 100}, r2)
         if r2.ok:
             by = {x["n_per_arm"]: x for x in r2.data["rows"]}
-            _ev(state, "calculation", "DoseVerdict", f"CL/F CV {pk['cv']}%({pk_src}) 기준 두 용량군 AUC 비 95% CI 폭: n=2 {by[2]['fold']}배, n=4 {by[4]['fold']}배, n=12 {by[12]['fold']}배. 증량 코호트 규모(2~4명)로는 노출 포화를 확정할 수 없다.", tool_call_id=cid2, tier=3)
+            tail, state.scratch["cohort_claim"] = cohort_exposure_sentences(state, r2.data["rows"])
+            _ev(state, "calculation", "DoseVerdict", f"CL/F CV {pk['cv']}%({pk_src}) 기준 두 용량군 AUC 비 95% CI 폭: n=2 {by[2]['fold']}배, n=4 {by[4]['fold']}배, n=12 {by[12]['fold']}배. {tail}".rstrip(), tool_call_id=cid2, tier=3)
     state.scratch["tcr_split"] = split
     state.scratch["tcr_source"] = pk_src
     task.status = "abstained" if split else "done"

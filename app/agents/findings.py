@@ -97,8 +97,8 @@ def deterministic_tcr_finding(state: ReviewState) -> Finding | None:
     return Finding(finding_id="F00", category="dose_optimization", severity=Severity.high, protocol_span=ProtocolSpan(section="Dose Expansion / PK", text=span),
                    claim="Target Coverage Ratio 판정이 지표(C_avg 커버 / C_trough 미커버)"
                          + ("와 가정(선형 CL/F vs 라벨의 노출 유사)" if nonlinear else "")
-                         + f"에 따라 갈리므로 '커버된다'는 결론을 만들지 않는다(PK 출처: {src}). "
-                         "증량 코호트 규모(용량당 2~4명)로는 노출 포화를 확정할 수 없다.",
+                         + f"에 따라 갈리므로 '커버된다'는 결론을 만들지 않는다(PK 출처: {src})."
+                         + (f" {state.scratch['cohort_claim']}" if state.scratch.get("cohort_claim") else ""),
                    evidence_ids=ev_ids, reviewer_positions=pos, conflict_unresolved=_gap(pos) >= 2, suggested_patch=None,
                    required_additional_data=["용량군별 반복투여 PK(AUC, C_max, C_trough) — 확장 코호트 진입 전",
                                              "어세이 조건이 명시된 세포 기반 IC50" + (" 또는 kinact/K_I(공유결합 저해제)" if covalent else "")],
