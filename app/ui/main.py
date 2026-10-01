@@ -86,7 +86,7 @@ CSS = """
 .dv-diff ins { background: var(--dv-ins-bg); color: var(--dv-verified); text-decoration: none; }
 .dv-runhead { border-top: 2px solid var(--dv-ink); padding: 0.75rem 0 0.2rem; margin-bottom: 0.2rem; }
 .dv-runmeta { font-size: 0.8rem; color: var(--dv-muted); margin: 0 0 0.25rem; }
-.dv-runtitle { font-size: clamp(1.25rem, 2.6vw, 1.6rem); font-weight: 700; letter-spacing: -0.015em; line-height: 1.3; color: var(--dv-ink); margin: 0 0 0.25rem; }
+.dv-runtitle { font-size: clamp(1.4rem, 3vw, 2rem); font-weight: 700; letter-spacing: -0.015em; line-height: 1.3; color: var(--dv-ink); margin: 0 0 0.25rem; }
 .dv-runsub { font-size: 0.92rem; color: var(--dv-muted); margin: 0; }
 .dv-kpis { display: grid; grid-template-columns: repeat(auto-fit, minmax(96px, 1fr)); margin: 0.6rem 0 0.3rem; border-top: 1px solid var(--dv-ink); border-bottom: 1px solid var(--dv-line); }
 .dv-kpi { padding: 0.5rem 0.8rem 0.55rem; }

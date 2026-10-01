@@ -30,6 +30,7 @@ plt.rcParams.update({
     "axes.spines.left": False, "figure.facecolor": T.PAPER, "axes.facecolor": T.PAPER, "savefig.facecolor": T.PAPER,
     "axes.unicode_minus": False,
 })
+FS = 1.0  # 글자 배율(덱용 판에서 키운다)
 NUM = (ROOT / "docs" / "numbers.md").read_text(encoding="utf-8")
 CI = r"(-?[\d.]+) \[(-?[\d.+]+), (-?[\d.+]+)\]"
 
@@ -40,7 +41,7 @@ def ci(s: str) -> tuple[float, float, float]:
 
 
 def save(fig, name):
-    fig.savefig(OUT / name, dpi=300, bbox_inches="tight", pad_inches=0.08)
+    fig.savefig(OUT / name, dpi=300, bbox_inches="tight", pad_inches=0.08, transparent=True)
     plt.close(fig)
     print(name)
 
@@ -59,9 +60,10 @@ def fig_tcr240(w=7.6, name="tcr240.png"):
             below = v < 1
             ax.scatter(v, y, marker=mk, s=70, color=T.ACCENT if below else T.INK, zorder=3, edgecolor=T.PAPER, linewidth=1.5)
             ax.annotate(f"{lab} {v:.2f}" if v < 2 else f"{lab} {v:.1f}", (v, y), xytext=(0, 11), textcoords="offset points",
-                        ha="center", fontsize=9.5, color=T.ACCENT if below else T.INK, fontweight=700 if below else 500)
+                        ha="center", fontsize=9.5 * FS, color=T.ACCENT if below else T.INK, fontweight=700 if below else 500,
+                        bbox=dict(fc=T.PAPER, ec="none", pad=1.2), zorder=5)
     ax.set_yticks(range(len(rows)))
-    ax.set_yticklabels([r["assumption"] for r in reversed(rows)], fontsize=11)
+    ax.set_yticklabels([r["assumption"] for r in reversed(rows)], fontsize=11 * FS)
     ax.set_xscale("log")
     ax.set_xlim(0.1, 100)
     ax.set_ylim(-0.6, len(rows) - 0.25)
@@ -69,8 +71,8 @@ def fig_tcr240(w=7.6, name="tcr240.png"):
     ax.set_xticklabels(["0.1", "1", "10", "100"])
     for x, lab in [(1, "1 미만 = 표적 미커버"), (10, "10 초과 = 포화 의심(잠정)")]:
         ax.axvline(x, color=T.MUTED, lw=0.8, ls=(0, (3, 3)), zorder=0)
-        ax.text(x * 1.06, -0.55, lab, fontsize=8.5, color=T.MUTED, va="bottom")
-    ax.set_xlabel("TCR = 유리 농도 / IC50 (로그 축) · 소토라십 240 mg · 라벨 PK · IC50 30 nM", fontsize=9)
+        ax.text(x * 1.06, -0.55, lab, fontsize=8.5 * FS, color=T.MUTED, va="bottom")
+    ax.set_xlabel("TCR = 유리 농도 / IC50 (로그 축) · 소토라십 240 mg · 라벨 PK · IC50 30 nM", fontsize=9 * FS)
     ax.tick_params(axis="y", length=0)
     save(fig, name)
 
@@ -92,14 +94,14 @@ def fig_retro(w=7.6, name="retro_auroc.png"):
         ax.plot([lo, hi], [y, y], color=c, lw=2.2 if k == "S1" else 1.6, solid_capstyle="round")
         ax.scatter(est, y, s=60 if k == "S1" else 40, color=c, zorder=3, edgecolor=T.PAPER, linewidth=1.5)
         ax.text(hi + 0.012, y, f"{est:.3f} [{lo:.3f}, {hi:.3f}]" + (f" · n={n}" if n != 43 else ""), va="center",
-                fontsize=9, color=T.INK if k == "S1" else T.MUTED, fontweight=700 if k == "S1" else 400)
+                fontsize=9 * FS, color=T.INK if k == "S1" else T.MUTED, fontweight=700 if k == "S1" else 400)
     ax.axvline(0.5, color=T.INK, lw=0.9)
-    ax.text(0.495, len(rows) - 0.35, "0.5 = 무작위", ha="right", fontsize=8.5, color=T.INK)
+    ax.text(0.495, len(rows) - 0.35, "0.5 = 무작위", ha="right", fontsize=8.5 * FS, color=T.INK)
     ax.set_yticks(range(len(rows)))
-    ax.set_yticklabels([names[r[0]] for r in reversed(rows)], fontsize=10)
+    ax.set_yticklabels([names[r[0]] for r in reversed(rows)], fontsize=10 * FS)
     ax.set_xlim(0.2, 1.08)
     ax.set_ylim(-0.6, len(rows) - 0.1)
-    ax.set_xlabel("AUROC [95% CI] · 승인 전 1상 초록 43건(양성 14) · FDA 용량최적화 PMR/PMC", fontsize=9)
+    ax.set_xlabel("AUROC [95% CI] · 승인 전 1상 초록 43건(양성 14) · FDA 용량최적화 PMR/PMC", fontsize=9 * FS)
     ax.tick_params(axis="y", length=0)
     save(fig, name)
 
@@ -118,15 +120,15 @@ def fig_oneshot(w=7.6, name="oneshot_diff.png"):
         c = T.ACCENT if prereg else T.MUTED
         ax.plot([lo, hi], [y, y], color=c, lw=2.2 if prereg else 1.6, solid_capstyle="round")
         ax.scatter(est, y, s=60 if prereg else 40, color=c, zorder=3, edgecolor=T.PAPER, linewidth=1.5)
-        ax.text(max(hi, 0) + 0.012, y, f"{est:+.3f} [{lo:+.3f}, {hi:+.3f}]", va="center", fontsize=9,
+        ax.text(max(hi, 0) + 0.012, y, f"{est:+.3f} [{lo:+.3f}, {hi:+.3f}]", va="center", fontsize=9 * FS,
                 color=T.INK if prereg else T.MUTED, fontweight=700 if prereg else 400)
     ax.axvline(0, color=T.INK, lw=0.9)
-    ax.text(0.005, len(rows) - 0.4, "0 = 차이 없음", fontsize=8.5, color=T.INK)
+    ax.text(0.005, len(rows) - 0.4, "0 = 차이 없음", fontsize=8.5 * FS, color=T.INK)
     ax.set_yticks(range(len(rows)))
-    ax.set_yticklabels([r[0] for r in reversed(rows)], fontsize=10)
+    ax.set_yticklabels([r[0] for r in reversed(rows)], fontsize=10 * FS)
     ax.set_xlim(-0.47, 0.25)
     ax.set_ylim(-0.6, len(rows) - 0.15)
-    ax.set_xlabel("차이(원샷 − 에이전트) [95% CI] · 합성 원 20 · 왼쪽일수록 에이전트가 높음 · 사후 판정기는 에이전트 검증기와 같은 NLI", fontsize=8.5)
+    ax.set_xlabel("차이(원샷 − 에이전트) [95% CI] · 합성 원 20 · 왼쪽일수록 에이전트가 높음 · 사후 판정기는 에이전트 검증기와 같은 NLI", fontsize=8.5 * FS)
     ax.tick_params(axis="y", length=0)
     save(fig, name)
 
@@ -136,6 +138,7 @@ if __name__ == "__main__":
     fig_retro()
     fig_oneshot()
     # 덱용: 폭을 줄여 슬라이드에서 글자가 상대적으로 크게 보이게 한다(값·구성 동일)
-    fig_tcr240(6.4, "tcr240_deck.png")
-    fig_retro(5.6, "retro_auroc_deck.png")
-    fig_oneshot(5.6, "oneshot_diff_deck.png")
+    FS = 1.45
+    fig_tcr240(7.6, "tcr240_deck.png")
+    fig_retro(7.6, "retro_auroc_deck.png")
+    fig_oneshot(7.6, "oneshot_diff_deck.png")
