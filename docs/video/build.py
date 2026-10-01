@@ -26,6 +26,7 @@ W, H = 1920, 1080
 SR = 48000
 
 INK = "1b2430"
+BOX_T = 4  # 강조 박스 선 두께(px). 선은 박스 바깥쪽에 그려 안쪽 여백(pad)을 글자에서 떼어 둔다
 
 
 def run(cmd: list[str]) -> None:
@@ -114,6 +115,9 @@ def vf_image(v: dict, d: float) -> tuple[list[str], str]:
     z0, z1 = v.get("zoom", [1.0, 1.0])
     ox, oy = v.get("focus", [0.5, 0.5])  # 확대 중심(비율)
     inp = ["-loop", "1", "-framerate", str(FPS), "-t", f"{d:.3f}", "-i", str(src)]
+    # 카드는 1920x1080 좌표 그대로 → pad만 적용(확대가 있으면 좌표가 어긋나므로 박스와 함께 쓰지 않는다)
+    v["_boxes"] = [dict(b, x=b["x"] - b.get("pad", 12), y=b["y"] - b.get("pad", 12),
+                        w=b["w"] + 2 * b.get("pad", 12), h=b["h"] + 2 * b.get("pad", 12)) for b in v.get("boxes", [])]
     if z0 == z1 == 1.0:
         vf = f"scale={W}:{H}:flags=lanczos,setsar=1"
     else:
@@ -136,11 +140,16 @@ def vf_scroll(v: dict, d: float) -> tuple[list[str], str]:
 
 def vf_clip(v: dict, d: float) -> tuple[list[str], str]:
     src = HERE / v["src"]
+    crop = v.get("crop")  # [x, y, w] CSS px, 16:9
+    pre = f"crop={crop[2]}:{int(crop[2]*9/16)}:{crop[0]}:{crop[1]}," if crop else ""
+    if "freeze" in v:  # 녹화의 한 프레임을 비트 내내 정지(과속 배속 구간 대체). 나머지 길이는 render_segment의 tpad가 채운다
+        inp = ["-ss", f"{v['freeze']:.3f}", "-i", str(src)]
+        vf = (f"{pre}trim=end_frame=1,setpts=PTS-STARTPTS,scale={W}:{H}:force_original_aspect_ratio=decrease:flags=lanczos,"
+              f"pad={W}:{H}:(ow-iw)/2:(oh-ih)/2:color=#fbfaf7,setsar=1")
+        return inp, vf
     s, e = v["start"], v["end"]
     k = d / (e - s)
     inp = ["-ss", f"{s:.3f}", "-to", f"{e:.3f}", "-i", str(src)]
-    crop = v.get("crop")  # [x, y, w] CSS px, 16:9
-    pre = f"crop={crop[2]}:{int(crop[2]*9/16)}:{crop[0]}:{crop[1]}," if crop else ""
     vf = (f"{pre}setpts=(PTS-STARTPTS)*{k:.5f},fps={FPS},scale={W}:{H}:force_original_aspect_ratio=decrease:flags=lanczos,"
           f"pad={W}:{H}:(ow-iw)/2:(oh-ih)/2:color=#fbfaf7,setsar=1")
     return inp, vf
@@ -196,14 +205,15 @@ def boxes_vf(v: dict, d: float) -> str:
     out = []
     for b in v.get("_boxes", v.get("boxes", [])):
         t0, t1 = b.get("from", 0.0) * d, b.get("to", 1.0) * d
-        en = f"enable='between(t,{t0:.2f},{t1:.2f})'"
+        en = f"enable='gte(t,{t0:.3f})*lt(t,{t1:.3f})'"  # 반열린 구간 → 이어지는 박스가 경계 프레임에서 겹치지 않는다
         if b.get("spot"):  # 강조 영역 밖을 종이색으로 덮어 시선을 모은다
             x, y, w, h = max(0, b["x"]), max(0, b["y"]), b["w"], b["h"]
             for rx, ry, rw, rh in [(0, 0, W, y), (0, y + h, W, H - y - h), (0, y, x, h), (x + w, y, W - x - w, h)]:
                 if rw > 0 and rh > 0:
                     out.append(f"drawbox=x={rx}:y={ry}:w={rw}:h={rh}:color=#fbfaf7@0.84:t=fill:{en}")
-        out.append(f"drawbox=x={b['x']}:y={b['y']}:w={b['w']}:h={b['h']}:color=#{b.get('color', INK)}@0.95:t=5:"
-                   f"enable='between(t,{t0:.2f},{t1:.2f})'")
+        # drawbox는 선을 사각형 안쪽으로 그린다 → 두께만큼 키워 선이 pad 바깥에 놓이게 한다
+        out.append(f"drawbox=x={b['x'] - BOX_T}:y={b['y'] - BOX_T}:w={b['w'] + 2 * BOX_T}:h={b['h'] + 2 * BOX_T}:"
+                   f"color=#{b.get('color', INK)}@0.95:t={BOX_T}:{en}")
     return ("," + ",".join(out)) if out else ""
 
 

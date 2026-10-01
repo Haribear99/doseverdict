@@ -23,6 +23,8 @@ def screen(v: dict) -> str:
     if src.startswith("cards/"):
         return f"카드 `{name}`"
     if src.startswith("clips/"):
+        if "freeze" in v:
+            return f"라이브 녹화 {v['freeze']:.1f}초 정지 화면"
         return f"라이브 녹화 {v['start']:.0f}–{v['end']:.0f}초"
     if name.startswith("deck"):
         return f"덱 {name[4:]}장"
