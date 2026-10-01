@@ -141,24 +141,43 @@ figcaption { font-size: 19px; color: var(--muted); line-height: 1.4; }
 <body>
 
 <!-- 1 -->
-<section class="slide">
-  <div class="kicker">DoseVerdict · 항암 1/2상 용량 근거 검증 에이전트</div>
-  <h1 style="font-size:96px; margin-bottom:30px">MTD는 RP2D가 아니다</h1>
-  <div class="stats" style="grid-template-columns:0.8fr 1.35fr 1fr; gap:56px; margin-bottom:30px">
-    <div class="stat"><div class="n">960<small>mg</small></div><div class="l">소토라십 승인 용량</div></div>
-    <div class="stat"><div class="n">180~960<small>mg</small></div><div class="l">라벨 12.3: 정상상태 노출이 비슷한 범위</div></div>
-    <div class="stat"><div class="n">209<small>명</small></div><div class="l">960 대 240 mg 무작위 비교에 배정</div></div>
-  </div>
-  <p class="lead" style="font-size:30px; color:var(--ink); max-width:1660px; margin-bottom:32px">FDA는 2021년 5월 가속승인과 함께 이 비교를 시판 후 요구사항으로 부과했다. 2023년 12월 이행이 확인됐고 960 mg은 라벨 용량으로 유지됐다. 용량 질문이 공식 요구가 된 시점은 승인 때였다.</p>
-  <div class="body" style="gap:64px; align-items:flex-start">
-    <div class="col" style="flex:1.35; gap:14px">
-      <div class="small" style="font-weight:600; color:var(--ink)">LUMAKRAS 라벨 12.3 원문 · effective 2025-01-22 · openFDA 조회</div>
-      <div class="quote">“Sotorasib exhibited non-linear, time-dependent, pharmacokinetics over the dose range of 180 mg to 960 mg (0.19 to 1 time the approved recommended dosage) once daily with similar systemic exposure (i.e., AUC 0-24h and C max ) across doses at steady state.”</div>
+<!-- 구도: GPT image 시안 a(숫자 세로 스택)+c(라벨 원문 주인공·핵심 구절 밑줄) 결합, 10-01. 글자·수치는 모두 HTML(라벨 원문은 openFDA 조회본 그대로) -->
+<section class="slide s1">
+  <style>
+    .s1 .grid { flex: 1; min-height: 0; display: grid; grid-template-columns: 450px 1fr; gap: 0 60px; }
+    .s1 .nums { border-right: 1px solid var(--line); padding-right: 44px; display: flex; flex-direction: column; }
+    .s1 .nums .stat { flex: 1; }
+    .s1 .nums .stat { padding: 26px 0 30px; border-top: 1px solid var(--line); }
+    .s1 .nums .stat:first-child { border-top: 2px solid var(--ink); }
+    .s1 .nums .n { font-size: 84px; color: var(--accent); white-space: nowrap; margin-left: -4px; }
+    .s1 .main { display: flex; flex-direction: column; min-width: 0; }
+    .s1 h1 { font-size: 88px; margin: 0 0 30px; }
+    .s1 .quote { font-size: 31px; line-height: 1.5; padding: 24px 30px; }
+    .s1 .quote u { text-decoration: none; border-bottom: 3px solid var(--accent); }
+    .s1 .src { font-size: 19px; color: var(--muted); margin: 10px 0 26px; }
+    .s1 .two { display: grid; grid-template-columns: 1fr 1fr; gap: 40px; }
+    .s1 .two p { font-size: 24px; line-height: 1.5; word-break: keep-all; }
+    .s1 .two .full { grid-column: 1 / -1; font-size: 20px; }
+  </style>
+  <div class="grid">
+    <div class="nums">
+      <div class="stat"><div class="n">960<small>mg</small></div><div class="l">소토라십 승인 용량</div></div>
+      <div class="stat"><div class="n">180~960<small>mg</small></div><div class="l">라벨 12.3: 정상상태 노출이 비슷한 범위</div></div>
+      <div class="stat"><div class="n">209<small>명</small></div><div class="l">960 대 240 mg 무작위 비교에 배정</div></div>
     </div>
-    <div class="col" style="flex:1; gap:14px">
-      <div class="small" style="font-weight:600; color:var(--ink)">DoseVerdict가 같은 질문을 묻는 시점</div>
-      <p style="font-size:26px">RP2D를 정하고 확장 코호트로 넘어가는 프로토콜 개정 단계다. 1상 초록은 용량제한독성이 관찰되지 않았다고 보고한다. 묻는 것은 그 용량을 비교 없이 RP2D로 넘긴 근거다. 증량 코호트 규모로는 노출 포화를 확정할 수 없으므로, 판정 대신 용량군별 반복투여 PK를 요청한다.</p>
-      <p class="small">실제 승인 전 1상 초록 43건 후향 검증에서는 시판 후 요구사항이 부과된 약을 가르지 못했다(10쪽).</p>
+    <div class="main">
+      <div class="kicker">DoseVerdict · 항암 1/2상 용량 근거 검증 에이전트</div>
+      <h1>MTD는 RP2D가 아니다</h1>
+      <div class="quote">“Sotorasib exhibited non-linear, time-dependent, pharmacokinetics over the dose range of <u>180 mg to 960 mg</u> (0.19 to 1 time the approved recommended dosage) once daily with <u>similar systemic exposure</u> (i.e., AUC 0-24h and C max ) across doses at steady state.”</div>
+      <div class="src">LUMAKRAS 라벨 12.3 원문 · effective 2025-01-22 · openFDA 조회 · 밑줄은 인용자</div>
+      <div class="two">
+        <p>FDA는 2021년 5월 가속승인과 함께 이 비교를 시판 후 요구사항으로 부과했다. 2023년 12월 이행이 확인됐고 960&nbsp;mg은 라벨 용량으로 유지됐다. 용량 질문이 공식 요구가 된 시점은 승인 때였다.</p>
+        <div class="col" style="gap:10px">
+          <div class="small" style="font-weight:600; color:var(--ink)">DoseVerdict가 같은 질문을 묻는 시점</div>
+          <p>RP2D를 정하고 확장 코호트로 넘어가는 프로토콜 개정 단계다. 1상 초록은 용량제한독성이 관찰되지 않았다고 보고한다. 묻는 것은 그 용량을 비교 없이 RP2D로 넘긴 근거다. 증량 코호트 규모로는 노출 포화를 확정할 수 없으므로, 판정 대신 용량군별 반복투여 PK를 요청한다.</p>
+        </div>
+        <p class="small full">실제 승인 전 1상 초록 43건 후향 검증에서는 시판 후 요구사항이 부과된 약을 가르지 못했다(10쪽).</p>
+      </div>
     </div>
   </div>
   <div class="rule"></div>

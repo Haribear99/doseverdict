@@ -66,3 +66,13 @@ h2 + p, h3 + p, h4 + p { break-before: avoid; }
 
 figcaption { font-style: normal; color: #5b6472; }
 figure img { border: 0.5pt solid #dcd6ca; }
+
+/* 표지(10-01, GPT image 시안 b 구도): 왼쪽 ink 가는 세로선(위·가운데 여백 상자) + 제목 아래 메타 줄. 첫 쪽에만 걸린다.
+   red-judge: 굵은 accent 막대는 장식으로 읽혀 0.75pt ink 선으로 낮춤 */
+@page :first {
+  @left-top { content: ""; background: #1b2430; width: 0.75pt; margin-right: 9mm; }
+  @left-middle { content: ""; background: #1b2430; width: 0.75pt; margin-right: 9mm; }
+}
+.chapter:first-of-type h1 { border-top: 0; padding-top: 0; font-size: 28pt; margin-bottom: 6pt; }
+.chapter:first-of-type h1 + p { font-size: 9.5pt; color: #5b6472; padding-bottom: 9pt; border-bottom: 0.75pt solid #1b2430; margin-bottom: 16pt; }
+.chapter:first-of-type h1 + p + p { font-size: 13pt; line-height: 1.45; margin-bottom: 14pt; }
