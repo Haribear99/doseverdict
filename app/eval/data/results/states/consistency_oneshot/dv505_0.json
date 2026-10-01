@@ -1,0 +1,114 @@
+{
+ "drug": "dv505",
+ "case_id": "AXD-DV505-001",
+ "rep": 0,
+ "tokens": 5066,
+ "model": "gpt-6-sol",
+ "parse_ok": true,
+ "raw": null,
+ "findings": [
+  {
+   "span": "Dose–response analyses will use only participants enrolled in the randomized expansion cohort; data from the escalation cohort, pharmacokinetic substudy, and other sources will be excluded, and no covariate analyses are planned.",
+   "category": "dose_optimization",
+   "severity": "high",
+   "claim": "Excluding escalation and PK-substudy data by design discards relevant evidence for selecting and characterizing the dose.",
+   "cited_doc_id": "FDA-DOSE-OPT-2024",
+   "guidance_quote": "Sponsors should consider the totality of relevant data, including nonclinical and clinical safety, tolerability, pharmacokinetic, pharmacodynamic, and efficacy data, when optimizing a dosage."
+  },
+  {
+   "span": "Dose–response analyses will use only participants enrolled in the randomized expansion cohort; data from the escalation cohort, pharmacokinetic substudy, and other sources will be excluded, and no covariate analyses are planned.",
+   "category": "dose_optimization",
+   "severity": "medium",
+   "claim": "The categorical decision not to assess covariates leaves potentially important variation in exposure and response unexplored.",
+   "cited_doc_id": "FDA-DOSE-OPT-2024",
+   "guidance_quote": "Exposure–response analyses should evaluate the effects of relevant patient characteristics and other covariates on exposure, safety, and efficacy."
+  },
+  {
+   "span": "Dose–response and exposure–response analyses will be conducted only after completion of the Phase 2 expansion, with no interim reassessment planned as pharmacokinetic or clinical efficacy data accumulate.",
+   "category": "dose_optimization",
+   "severity": "high",
+   "claim": "Deferring all reassessment until expansion ends prevents accumulating PK, efficacy, and safety evidence from informing an ongoing dose-optimization study.",
+   "cited_doc_id": "FDA-DOSE-OPT-2024",
+   "guidance_quote": "Sponsors should use emerging data throughout development to inform and refine dosage selection and optimization."
+  },
+  {
+   "span": "The combination expansion cohort will open after the first six participants complete cycle 1 of the investigational antibody plus pembrolizumab, without requiring prior monotherapy evaluation of the antibody at its recommended phase 2 dose.",
+   "category": "safety_monitoring",
+   "severity": "high",
+   "claim": "Combination exposure is permitted without first characterizing the investigational antibody alone at the proposed dose. The antibody and pembrolizumab are also not defined in the investigational-product description.",
+   "cited_doc_id": "FDA-EXPANSION-COHORTS-2022",
+   "guidance_quote": "Before initiating an expansion cohort evaluating a drug combination, sponsors should have sufficient information about the safety and tolerability of the individual drugs and the proposed combination."
+  },
+  {
+   "span": "The combination expansion cohort will open after the first six participants complete cycle 1 of the investigational antibody plus pembrolizumab, without requiring prior monotherapy evaluation of the antibody at its recommended phase 2 dose.",
+   "category": "safety_monitoring",
+   "severity": "high",
+   "claim": "Completion of cycle 1 by six participants is an enrollment milestone, not a specified review of their safety data or a safety-based criterion for opening the cohort.",
+   "cited_doc_id": "FDA-EXPANSION-COHORTS-2022",
+   "guidance_quote": "Protocols should prespecify criteria for initiating expansion cohorts and rules for pausing or stopping enrollment based on emerging safety data."
+  },
+  {
+   "span": "The pediatric expansion cohort will proceed under the adult development plan, with pediatric assessments documented separately and added to the pediatric study plan after the cohort is completed.",
+   "category": "eligibility",
+   "severity": "high",
+   "claim": "A pediatric cohort is proposed although the stated inclusion criterion is age ≥18; no pediatric eligibility or development plan is established before enrollment.",
+   "cited_doc_id": "ICH-E6R3-2025",
+   "guidance_quote": "The trial protocol should clearly describe the trial population, including the inclusion and exclusion criteria."
+  },
+  {
+   "span": "The pediatric expansion cohort will proceed under the adult development plan, with pediatric assessments documented separately and added to the pediatric study plan after the cohort is completed.",
+   "category": "safety_monitoring",
+   "severity": "high",
+   "claim": "Deferring pediatric-specific assessments until after the cohort is completed precludes prospective planning of appropriate dosing and safety evaluation for children.",
+   "cited_doc_id": "FDA-EXPANSION-COHORTS-2022",
+   "guidance_quote": "When pediatric patients are included in an expansion cohort, the protocol should address pediatric-specific considerations, including dosing and safety monitoring."
+  },
+  {
+   "span": "Tumor biopsies will be collected during the expansion phase, with specimen handling procedures and biomarker testing and analysis methods to be finalized after enrollment begins.",
+   "category": "endpoint_ctq",
+   "severity": "high",
+   "claim": "Biopsy handling and biomarker methods are left undefined when enrollment begins, jeopardizing specimen integrity and interpretability of the PD comparisons used for dose selection.",
+   "cited_doc_id": "ICH-E6R3-2025",
+   "guidance_quote": "Factors that are critical to the quality of the trial should be identified prospectively and managed throughout the trial."
+  },
+  {
+   "span": "Tumor biopsies will be collected during the expansion phase, with specimen handling procedures and biomarker testing and analysis methods to be finalized after enrollment begins.",
+   "category": "burden",
+   "severity": "medium",
+   "claim": "Invasive biopsies are planned before their testing and analysis methods are defined, so the protocol does not establish that the participant burden will yield usable information.",
+   "cited_doc_id": "ICH-E6R3-2025",
+   "guidance_quote": "Trial procedures and data collection should be proportionate to the risks to participants and the importance of the data being collected."
+  },
+  {
+   "span": "The sponsor will include serious and unexpected adverse safety findings in the next scheduled annual safety report, unless the medical monitor requests earlier submission.",
+   "category": "safety_monitoring",
+   "severity": "critical",
+   "claim": "Annual reporting at the medical monitor’s discretion cannot replace required expedited reporting of qualifying serious, unexpected suspected adverse reactions.",
+   "cited_doc_id": "ICH-E6R3-2025",
+   "guidance_quote": "The sponsor should expedite the reporting of suspected unexpected serious adverse reactions to the regulatory authority(ies) in accordance with applicable regulatory requirement(s)."
+  },
+  {
+   "span": "Primary (Phase 2): Objective response rate (ORR) per RECIST v1.1 at the selected recommended Phase 2 dose (RP2D).",
+   "category": "endpoint_ctq",
+   "severity": "medium",
+   "claim": "For a study spanning multiple solid-tumor types, the stated Phase 2 objective does not specify whether ORR will be assessed by tumor type or pooled, or how the primary ORR result will be interpreted; no Phase 2 sample size or decision criterion is stated.",
+   "cited_doc_id": "FDA-EXPANSION-COHORTS-2022",
+   "guidance_quote": "The protocol should specify the objectives, sample size, and statistical analysis plan for each expansion cohort, including criteria for evaluating antitumor activity."
+  }
+ ],
+ "consistency": {
+  "attempt": 0,
+  "infra_failure": [],
+  "env": {
+   "DV_MODEL_BULK": "gpt-5.6-luna",
+   "DV_MODEL_EXTRACT": "gpt-6-sol",
+   "DV_MODEL_PLANNER": "gpt-6-sol",
+   "DV_MODEL_REVIEWER": "gpt-6-sol",
+   "DV_RUN_TOKEN_BUDGET": "150000",
+   "DV_TEAM_TOTAL_QUOTA": "30000000",
+   "rerank_enabled": true
+  },
+  "saved_at": "2026-10-02T00:09:08+0900",
+  "infra_failure_final": false
+ }
+}

@@ -1,0 +1,133 @@
+{
+ "drug": "lorlatinib",
+ "case_id": "AXD-LORLATINIB-001",
+ "rep": 1,
+ "answer": {
+  "doses": [
+   {
+    "dose_mg": 25,
+    "verdict": "indeterminate",
+    "tcr_max": 4.02,
+    "tcr_avg": 1.64,
+    "tcr_trough": 0.45,
+    "rationale": "Estimated peak and average free concentrations exceed the assumed cellular IC50, but trough falls below it. Coverage depends on the concentration metric."
+   },
+   {
+    "dose_mg": 50,
+    "verdict": "indeterminate",
+    "tcr_max": 8.04,
+    "tcr_avg": 3.28,
+    "tcr_trough": 0.91,
+    "rationale": "Estimated peak and average exceed the assumed cellular IC50, but trough is slightly below it."
+   },
+   {
+    "dose_mg": 75,
+    "verdict": "covered",
+    "tcr_max": 12.07,
+    "tcr_avg": 4.92,
+    "tcr_trough": 1.36,
+    "rationale": "Estimated free concentration remains above the assumed cellular IC50 through trough."
+   },
+   {
+    "dose_mg": 100,
+    "verdict": "covered",
+    "tcr_max": 16.09,
+    "tcr_avg": 6.57,
+    "tcr_trough": 1.82,
+    "rationale": "Estimated free concentration remains above the assumed cellular IC50 through trough."
+   },
+   {
+    "dose_mg": 150,
+    "verdict": "covered",
+    "tcr_max": 24.13,
+    "tcr_avg": 9.85,
+    "tcr_trough": 2.73,
+    "rationale": "Estimated free concentration remains above the assumed cellular IC50 through trough."
+   },
+   {
+    "dose_mg": 200,
+    "verdict": "covered",
+    "tcr_max": 32.18,
+    "tcr_avg": 13.13,
+    "tcr_trough": 3.64,
+    "rationale": "Estimated free concentration remains above the assumed cellular IC50 through trough."
+   }
+  ],
+  "numbers_used": [
+   {
+    "name": "Planned dose levels",
+    "value": "25, 50, 75, 100, 150, 200 mg",
+    "source": "protocol"
+   },
+   {
+    "name": "Dosing interval",
+    "value": "24 hours (once daily)",
+    "source": "protocol"
+   },
+   {
+    "name": "Reference steady-state dose",
+    "value": "100 mg once daily",
+    "source": "prior_knowledge"
+   },
+   {
+    "name": "Approximate steady-state Cmax at reference dose",
+    "value": "577 ng/mL",
+    "source": "prior_knowledge"
+   },
+   {
+    "name": "Approximate steady-state AUC over dosing interval at reference dose",
+    "value": "5650 ng·h/mL",
+    "source": "prior_knowledge"
+   },
+   {
+    "name": "Free fraction of lorlatinib in plasma",
+    "value": "0.34 (approximately 66% protein bound)",
+    "source": "prior_knowledge"
+   },
+   {
+    "name": "Lorlatinib molecular weight",
+    "value": "406.4 g/mol",
+    "source": "prior_knowledge"
+   },
+   {
+    "name": "Cellular ALK IC50 used for this estimate",
+    "value": "30 nM; illustrative estimate, not a protocol-specified or variant-specific value",
+    "source": "assumption"
+   },
+   {
+    "name": "Adequate-coverage threshold",
+    "value": "TCR ≥1, including at trough for coverage across the interval",
+    "source": "assumption"
+   },
+   {
+    "name": "Dose-exposure relationship",
+    "value": "Linear scaling from 100 mg to each planned dose",
+    "source": "assumption"
+   },
+   {
+    "name": "Estimated reference-dose Ctrough",
+    "value": "65 ng/mL; inferred from Cmax and AUC using a simplified exponential decline",
+    "source": "assumption"
+   }
+  ]
+ },
+ "parse_ok": true,
+ "raw": null,
+ "tokens": 3533,
+ "model": "gpt-6-sol",
+ "consistency": {
+  "attempt": 0,
+  "infra_failure": [],
+  "env": {
+   "DV_MODEL_BULK": "gpt-5.6-luna",
+   "DV_MODEL_EXTRACT": "gpt-6-sol",
+   "DV_MODEL_PLANNER": "gpt-6-sol",
+   "DV_MODEL_REVIEWER": "gpt-6-sol",
+   "DV_RUN_TOKEN_BUDGET": "150000",
+   "DV_TEAM_TOTAL_QUOTA": "30000000",
+   "rerank_enabled": true
+  },
+  "saved_at": "2026-10-02T00:01:49+0900",
+  "infra_failure_final": false
+ }
+}

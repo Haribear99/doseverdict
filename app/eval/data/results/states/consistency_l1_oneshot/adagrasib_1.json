@@ -1,0 +1,117 @@
+{
+ "drug": "adagrasib",
+ "case_id": "AXD-ADAGRASIB-001",
+ "rep": 1,
+ "answer": {
+  "doses": [
+   {
+    "dose_mg": 150,
+    "verdict": "not_covered",
+    "tcr_max": 0.43,
+    "tcr_avg": 0.34,
+    "tcr_trough": 0.27,
+    "rationale": "Estimated free concentration remains below the assumed cellular IC50 throughout the interval."
+   },
+   {
+    "dose_mg": 300,
+    "verdict": "not_covered",
+    "tcr_max": 0.87,
+    "tcr_avg": 0.67,
+    "tcr_trough": 0.54,
+    "rationale": "Estimated free concentration remains below the assumed cellular IC50 throughout the interval."
+   },
+   {
+    "dose_mg": 400,
+    "verdict": "indeterminate",
+    "tcr_max": 1.16,
+    "tcr_avg": 0.9,
+    "tcr_trough": 0.72,
+    "rationale": "Estimated peak exceeds the IC50, but average and trough concentrations do not; the verdict depends on the concentration metric."
+   },
+   {
+    "dose_mg": 600,
+    "verdict": "covered",
+    "tcr_max": 1.74,
+    "tcr_avg": 1.35,
+    "tcr_trough": 1.08,
+    "rationale": "All three estimated metrics exceed the assumed cellular IC50, although trough coverage is marginal."
+   }
+  ],
+  "numbers_used": [
+   {
+    "name": "Planned dose levels",
+    "value": "150, 300, 400, and 600 mg twice daily",
+    "source": "protocol"
+   },
+   {
+    "name": "Dosing interval",
+    "value": "12 hours",
+    "source": "protocol"
+   },
+   {
+    "name": "Reference-dose steady-state Cmax",
+    "value": "approximately 2.1 µg/mL at 600 mg twice daily",
+    "source": "prior_knowledge"
+   },
+   {
+    "name": "Reference-dose steady-state AUC over dosing interval",
+    "value": "approximately 19.5 µg·h/mL at 600 mg twice daily",
+    "source": "prior_knowledge"
+   },
+   {
+    "name": "Reference-dose steady-state Cavg",
+    "value": "1.625 µg/mL, calculated from AUC/12 hours",
+    "source": "prior_knowledge"
+   },
+   {
+    "name": "Reference-dose steady-state trough",
+    "value": "1.3 µg/mL",
+    "source": "assumption"
+   },
+   {
+    "name": "Plasma unbound fraction",
+    "value": "0.015 (approximately 98.5% protein bound)",
+    "source": "prior_knowledge"
+   },
+   {
+    "name": "Adagrasib molecular weight",
+    "value": "approximately 604.12 g/mol",
+    "source": "prior_knowledge"
+   },
+   {
+    "name": "Cellular IC50",
+    "value": "30 nM; illustrative estimate, as the protocol specifies no cellular assay or IC50",
+    "source": "assumption"
+   },
+   {
+    "name": "Dose-exposure relationship",
+    "value": "Exposure proportional to dose across 150–600 mg twice daily",
+    "source": "assumption"
+   },
+   {
+    "name": "Coverage threshold",
+    "value": "TCR ≥1",
+    "source": "assumption"
+   }
+  ]
+ },
+ "parse_ok": true,
+ "raw": null,
+ "tokens": 3474,
+ "model": "gpt-6-sol",
+ "consistency": {
+  "attempt": 0,
+  "infra_failure": [],
+  "env": {
+   "DV_MODEL_BULK": "gpt-5.6-luna",
+   "DV_MODEL_EXTRACT": "gpt-6-sol",
+   "DV_MODEL_PLANNER": "gpt-6-sol",
+   "DV_MODEL_REVIEWER": "gpt-6-sol",
+   "DV_RUN_TOKEN_BUDGET": "150000",
+   "DV_TEAM_TOTAL_QUOTA": "30000000",
+   "rerank_enabled": true
+  },
+  "saved_at": "2026-10-02T00:01:04+0900",
+  "infra_failure_final": false
+ }
+}

@@ -1,0 +1,58 @@
+{
+ "drug": "adagrasib",
+ "case_id": "AXD-ADAGRASIB-001",
+ "rep": 1,
+ "answer": {
+  "inputs": {
+   "cl_f_L_per_hr": {
+    "value": 25.8,
+    "source": "prior_knowledge",
+    "note": "Approximate published steady-state apparent oral clearance for adagrasib."
+   },
+   "t_half_hr": {
+    "value": 23,
+    "source": "prior_knowledge",
+    "note": "Approximate published elimination half-life for adagrasib."
+   },
+   "tau_hr": {
+    "value": 12,
+    "source": "protocol",
+    "note": "All planned dose levels are administered twice daily."
+   },
+   "fu": {
+    "value": 0.017,
+    "source": "prior_knowledge",
+    "note": "Calculated from approximately 98.3% plasma protein binding."
+   },
+   "ic50_nM": {
+    "value": 10,
+    "source": "assumption",
+    "note": "Representative estimate of cellular KRAS G12C inhibitory potency; the protocol does not specify a cellular assay or IC50."
+   },
+   "mw": {
+    "value": 604.11,
+    "source": "prior_knowledge",
+    "note": "Molecular weight of adagrasib, in g/mol."
+   }
+  }
+ },
+ "parse_ok": true,
+ "raw": null,
+ "tokens": 2610,
+ "model": "gpt-6-sol",
+ "consistency": {
+  "attempt": 0,
+  "infra_failure": [],
+  "env": {
+   "DV_MODEL_BULK": "gpt-5.6-luna",
+   "DV_MODEL_EXTRACT": "gpt-6-sol",
+   "DV_MODEL_PLANNER": "gpt-6-sol",
+   "DV_MODEL_REVIEWER": "gpt-6-sol",
+   "DV_RUN_TOKEN_BUDGET": "150000",
+   "DV_TEAM_TOTAL_QUOTA": "30000000",
+   "rerank_enabled": true
+  },
+  "saved_at": "2026-10-02T00:03:43+0900",
+  "infra_failure_final": false
+ }
+}

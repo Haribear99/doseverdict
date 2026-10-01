@@ -1,0 +1,107 @@
+{
+ "drug": "adagrasib",
+ "case_id": "AXD-ADAGRASIB-001",
+ "rep": 2,
+ "answer": {
+  "doses": [
+   {
+    "dose_mg": 150,
+    "verdict": "not_covered",
+    "tcr_max": 0.68,
+    "tcr_avg": 0.47,
+    "tcr_trough": 0.31,
+    "rationale": "Estimated free concentration remains below the assumed cellular IC50 throughout the interval."
+   },
+   {
+    "dose_mg": 300,
+    "verdict": "indeterminate",
+    "tcr_max": 1.36,
+    "tcr_avg": 0.94,
+    "tcr_trough": 0.62,
+    "rationale": "Estimated peak exceeds the IC50, but average and trough do not; the verdict depends on the concentration metric."
+   },
+   {
+    "dose_mg": 400,
+    "verdict": "indeterminate",
+    "tcr_max": 1.81,
+    "tcr_avg": 1.25,
+    "tcr_trough": 0.83,
+    "rationale": "Estimated peak and average exceed the IC50, but trough does not. Coverage across the full interval is therefore uncertain."
+   },
+   {
+    "dose_mg": 600,
+    "verdict": "covered",
+    "tcr_max": 2.72,
+    "tcr_avg": 1.87,
+    "tcr_trough": 1.24,
+    "rationale": "Estimated free concentration exceeds the assumed cellular IC50 even at trough."
+   }
+  ],
+  "numbers_used": [
+   {
+    "name": "Planned twice-daily doses",
+    "value": "150, 300, 400, and 600 mg",
+    "source": "protocol"
+   },
+   {
+    "name": "Dosing interval",
+    "value": "12 hours",
+    "source": "protocol"
+   },
+   {
+    "name": "Steady-state Cmax at 600 mg twice daily",
+    "value": "2.19 micrograms/mL",
+    "source": "prior_knowledge"
+   },
+   {
+    "name": "Steady-state AUC over 12 hours at 600 mg twice daily",
+    "value": "18.1 microgram-hours/mL",
+    "source": "prior_knowledge"
+   },
+   {
+    "name": "Approximate plasma protein binding",
+    "value": "98.5% (free fraction 0.015)",
+    "source": "prior_knowledge"
+   },
+   {
+    "name": "Approximate adagrasib molecular weight",
+    "value": "604 g/mol",
+    "source": "prior_knowledge"
+   },
+   {
+    "name": "Estimated steady-state trough at 600 mg twice daily",
+    "value": "1.0 micrograms/mL",
+    "source": "assumption"
+   },
+   {
+    "name": "Representative cellular IC50",
+    "value": "20 nM; assay- and cell-line-dependent",
+    "source": "assumption"
+   },
+   {
+    "name": "Exposure scaling and coverage threshold",
+    "value": "Exposure proportional to dose; TCR of at least 1 denotes coverage",
+    "source": "assumption"
+   }
+  ]
+ },
+ "parse_ok": true,
+ "raw": null,
+ "tokens": 3629,
+ "model": "gpt-6-sol",
+ "consistency": {
+  "attempt": 0,
+  "infra_failure": [],
+  "env": {
+   "DV_MODEL_BULK": "gpt-5.6-luna",
+   "DV_MODEL_EXTRACT": "gpt-6-sol",
+   "DV_MODEL_PLANNER": "gpt-6-sol",
+   "DV_MODEL_REVIEWER": "gpt-6-sol",
+   "DV_RUN_TOKEN_BUDGET": "150000",
+   "DV_TEAM_TOTAL_QUOTA": "30000000",
+   "rerank_enabled": true
+  },
+  "saved_at": "2026-10-02T00:01:20+0900",
+  "infra_failure_final": false
+ }
+}

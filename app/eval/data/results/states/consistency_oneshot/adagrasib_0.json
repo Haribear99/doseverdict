@@ -1,0 +1,114 @@
+{
+ "drug": "adagrasib",
+ "case_id": "AXD-ADAGRASIB-001",
+ "rep": 0,
+ "tokens": 4991,
+ "model": "gpt-6-sol",
+ "parse_ok": true,
+ "raw": null,
+ "findings": [
+  {
+   "span": "The study will assess treatment activity using weekly change in body weight",
+   "category": "endpoint_ctq",
+   "severity": "high",
+   "claim": "Weekly weight change is not a valid substitute for the stated RECIST v1.1 objective response endpoint.",
+   "cited_doc_id": "ICH-E6R3-2025",
+   "guidance_quote": "Clinical trials should be scientifically sound for their intended purpose and based on adequate and current scientific knowledge and approaches."
+  },
+  {
+   "span": "evaluate safety primarily through investigator-recorded tumor response",
+   "category": "safety_monitoring",
+   "severity": "critical",
+   "claim": "Tumor response does not assess adverse reactions or the safety and tolerability that are primary Phase 1 objectives.",
+   "cited_doc_id": "FDA-DOSE-OPT-2024",
+   "guidance_quote": "Dosage optimization should consider efficacy, safety, and tolerability when identifying an appropriate dosage."
+  },
+  {
+   "span": "without requiring disease-specific imaging or routine laboratory monitoring.",
+   "category": "endpoint_ctq",
+   "severity": "critical",
+   "claim": "Omitting imaging makes the RECIST v1.1 ORR endpoint unverifiable; omitting routine laboratory monitoring also undermines detection of treatment toxicity. The sentence conflicts with the later tumor-assessment and laboratory schedules.",
+   "cited_doc_id": "ICH-E6R3-2025",
+   "guidance_quote": "Critical to quality factors should be identified and managed to protect participants and ensure the reliability of trial results."
+  },
+  {
+   "span": "The recommended Phase 2 dose will be the highest dose tested with acceptable early laboratory findings, even if persistent grade 2 fatigue, nausea, and reduced daily activity cause substantial treatment interruptions or discontinuations.",
+   "category": "dose_optimization",
+   "severity": "critical",
+   "claim": "This rule overrides the stated integrated RP2D criteria and disregards persistent symptomatic toxicity and impaired dose delivery in favor of the highest dose.",
+   "cited_doc_id": "FDA-DOSE-OPT-2024",
+   "guidance_quote": "Dosage optimization should evaluate safety and tolerability over time, including adverse reactions that lead to dose interruptions, reductions, or discontinuations."
+  },
+  {
+   "span": "The study will select the recommended Phase 2 dose from tolerability and pharmacokinetic findings alone; no dose–response efficacy assessment or post-approval confirmatory study is planned.",
+   "category": "dose_optimization",
+   "severity": "high",
+   "claim": "Selecting the RP2D without assessing efficacy across candidate doses defeats the randomized dose comparison. The absence of a post-approval study is not independently a defect without a stated accelerated-approval strategy.",
+   "cited_doc_id": "ICH-E4-1994",
+   "guidance_quote": "Knowledge of the relationships among dose, drug concentration in blood, and clinical response (effectiveness and undesirable effects) is important for the safe and effective use of drugs in individual patients."
+  },
+  {
+   "span": "Dose selection for expansion will be based solely on observed tumor response rates, without adjustment for treatment adherence, concomitant medications, organ-function changes, or measured drug exposure.",
+   "category": "dose_optimization",
+   "severity": "high",
+   "claim": "Raw response rates alone can misattribute differences between doses when actual treatment received, exposure, and patient factors differ; the rule also contradicts the specified integrated safety, tolerability, PK, and PD comparison.",
+   "cited_doc_id": "FDA-DOSE-OPT-2024",
+   "guidance_quote": "The selection of an optimized dosage should be based on the totality of available data, including efficacy, safety, tolerability, pharmacokinetics, and pharmacodynamics."
+  },
+  {
+   "span": "For the randomized Phase 2 portion, each of the three active-dose arms will be compared independently with placebo",
+   "category": "feasibility",
+   "severity": "high",
+   "claim": "Three active-dose arms plus placebo are incompatible with the stated plan to randomize at least 60 subjects 1:1 between two candidate doses. The protocol does not define recruitment or allocation for the additional arms.",
+   "cited_doc_id": "ICH-E6R3-2025",
+   "guidance_quote": "Clinical trials should be designed and conducted in ways that ensure their results are reliable and their conclusions can be interpreted."
+  },
+  {
+   "span": "using an unadjusted two-sided α=0.05 test, with the study considered positive if any single dose comparison reaches nominal significance.",
+   "category": "endpoint_ctq",
+   "severity": "high",
+   "claim": "Declaring success after any of three unadjusted comparisons inflates the study-level false-positive probability; no multiplicity strategy is specified.",
+   "cited_doc_id": "ICH-E6R3-2025",
+   "guidance_quote": "Clinical trials should be scientifically sound for their intended purpose and based on adequate and current scientific knowledge and approaches."
+  },
+  {
+   "span": "Liver function tests (ALT, AST, total bilirubin) will be assessed before the first dose and monthly for 3 months and as clinically indicated thereafter.",
+   "category": "safety_monitoring",
+   "severity": "high",
+   "claim": "The protocol does not specify scheduled liver testing after month 3, despite ongoing dosing, and its monthly schedule is not reconciled with 21-day cycles or the assertion that routine laboratory monitoring is unnecessary.",
+   "cited_doc_id": "ICH-E6R3-2025",
+   "guidance_quote": "The protocol should describe the safety parameters and the methods and timing for their assessment."
+  },
+  {
+   "span": "ECGs and electrolytes will be monitored at baseline and periodically for QTc prolongation.",
+   "category": "safety_monitoring",
+   "severity": "medium",
+   "claim": "“Periodically” leaves the post-baseline ECG and electrolyte schedule undefined, preventing consistent assessment and timely application of the specified QTc dose-modification rules.",
+   "cited_doc_id": "ICH-E6R3-2025",
+   "guidance_quote": "The protocol should describe the safety parameters and the methods and timing for their assessment."
+  },
+  {
+   "span": "The sponsor will issue a single cumulative safety update to investigators and the IRB at the end of each calendar year, with any interim adverse-event findings reserved for the next scheduled annual review.",
+   "category": "safety_monitoring",
+   "severity": "critical",
+   "claim": "Deferring safety findings that could affect participant protection or trial conduct until an annual review prevents timely communication to investigators and the IRB.",
+   "cited_doc_id": "ICH-E6R3-2025",
+   "guidance_quote": "The sponsor should inform investigators/institutions and regulatory authorities in a timely manner of findings that could adversely affect the safety of participants or the conduct of the trial."
+  }
+ ],
+ "consistency": {
+  "attempt": 0,
+  "infra_failure": [],
+  "env": {
+   "DV_MODEL_BULK": "gpt-5.6-luna",
+   "DV_MODEL_EXTRACT": "gpt-6-sol",
+   "DV_MODEL_PLANNER": "gpt-6-sol",
+   "DV_MODEL_REVIEWER": "gpt-6-sol",
+   "DV_RUN_TOKEN_BUDGET": "150000",
+   "DV_TEAM_TOTAL_QUOTA": "30000000",
+   "rerank_enabled": true
+  },
+  "saved_at": "2026-10-02T00:06:35+0900",
+  "infra_failure_final": false
+ }
+}

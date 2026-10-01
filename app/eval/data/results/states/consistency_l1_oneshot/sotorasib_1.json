@@ -1,0 +1,130 @@
+{
+ "drug": "sotorasib",
+ "case_id": "AX1-001",
+ "rep": 1,
+ "answer": {
+  "doses": [
+   {
+    "dose_mg": 180,
+    "verdict": "indeterminate",
+    "tcr_max": 2.76,
+    "tcr_avg": 1.0,
+    "tcr_trough": 0.11,
+    "rationale": "Estimated peak reaches the cellular IC50, but trough does not. The verdict therefore depends on the concentration metric. Estimates assume the planned dose is administered, despite the protocol's conflicting fixed-dose statement."
+   },
+   {
+    "dose_mg": 360,
+    "verdict": "indeterminate",
+    "tcr_max": 5.52,
+    "tcr_avg": 2.0,
+    "tcr_trough": 0.23,
+    "rationale": "Estimated peak and average exceed the cellular IC50, but trough does not; the answer depends on the metric used."
+   },
+   {
+    "dose_mg": 540,
+    "verdict": "indeterminate",
+    "tcr_max": 8.27,
+    "tcr_avg": 3.0,
+    "tcr_trough": 0.34,
+    "rationale": "Estimated peak and average exceed the cellular IC50, but trough does not; the answer depends on the metric used."
+   },
+   {
+    "dose_mg": 720,
+    "verdict": "indeterminate",
+    "tcr_max": 11.03,
+    "tcr_avg": 4.0,
+    "tcr_trough": 0.45,
+    "rationale": "Estimated peak and average exceed the cellular IC50, but trough does not; the answer depends on the metric used."
+   },
+   {
+    "dose_mg": 960,
+    "verdict": "indeterminate",
+    "tcr_max": 14.72,
+    "tcr_avg": 5.34,
+    "tcr_trough": 0.61,
+    "rationale": "Estimated peak and average exceed the cellular IC50, but trough does not; the answer depends on the metric used."
+   }
+  ],
+  "numbers_used": [
+   {
+    "name": "Planned dose levels",
+    "value": "180, 360, 540, 720, and 960 mg",
+    "source": "protocol"
+   },
+   {
+    "name": "Dosing interval",
+    "value": "24 hours (once daily)",
+    "source": "protocol"
+   },
+   {
+    "name": "Conflicting fixed dose stated elsewhere in protocol",
+    "value": "200 mg",
+    "source": "protocol"
+   },
+   {
+    "name": "Sotorasib reference steady-state Cmax at 960 mg once daily",
+    "value": "7.50 µg/mL",
+    "source": "prior_knowledge"
+   },
+   {
+    "name": "Sotorasib reference steady-state AUC over 24 hours at 960 mg once daily",
+    "value": "65.3 µg·h/mL",
+    "source": "prior_knowledge"
+   },
+   {
+    "name": "Sotorasib molecular weight",
+    "value": "560.6 g/mol",
+    "source": "prior_knowledge"
+   },
+   {
+    "name": "Plasma protein binding; corresponding free fraction",
+    "value": "89%; 0.11",
+    "source": "prior_knowledge"
+   },
+   {
+    "name": "Approximate elimination half-life",
+    "value": "5 hours",
+    "source": "prior_knowledge"
+   },
+   {
+    "name": "Estimated time from dose to peak; resulting time from peak to next trough",
+    "value": "1 hour; 23 hours",
+    "source": "assumption"
+   },
+   {
+    "name": "Illustrative cellular IC50 for KRAS G12C inhibition",
+    "value": "0.10 µM",
+    "source": "assumption"
+   },
+   {
+    "name": "Coverage threshold",
+    "value": "TCR ≥1",
+    "source": "assumption"
+   },
+   {
+    "name": "Exposure scaling below the reference dose",
+    "value": "Linear with dose relative to 960 mg; simplified assumption despite reported less-than-dose-proportional sotorasib exposure",
+    "source": "assumption"
+   }
+  ]
+ },
+ "parse_ok": true,
+ "raw": null,
+ "tokens": 3622,
+ "model": "gpt-6-sol",
+ "consistency": {
+  "attempt": 0,
+  "infra_failure": [],
+  "env": {
+   "DV_MODEL_BULK": "gpt-5.6-luna",
+   "DV_MODEL_EXTRACT": "gpt-6-sol",
+   "DV_MODEL_PLANNER": "gpt-6-sol",
+   "DV_MODEL_REVIEWER": "gpt-6-sol",
+   "DV_RUN_TOKEN_BUDGET": "150000",
+   "DV_TEAM_TOTAL_QUOTA": "30000000",
+   "rerank_enabled": true
+  },
+  "saved_at": "2026-10-02T00:00:19+0900",
+  "infra_failure_final": false
+ }
+}

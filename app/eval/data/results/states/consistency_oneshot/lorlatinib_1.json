@@ -1,0 +1,106 @@
+{
+ "drug": "lorlatinib",
+ "case_id": "AXD-LORLATINIB-001",
+ "rep": 1,
+ "tokens": 5392,
+ "model": "gpt-6-sol",
+ "parse_ok": true,
+ "raw": null,
+ "findings": [
+  {
+   "span": "After the recommended starting dose is established, all subsequent participants will receive the same fixed dose throughout the Phase 1/2 study, with no lower- or higher-dose cohorts planned.",
+   "category": "dose_optimization",
+   "severity": "critical",
+   "claim": "This rules out the later planned escalation and randomized comparison of two candidate doses. The protocol does not establish which dose-allocation plan governs enrollment.",
+   "cited_doc_id": "FDA-DOSE-OPT-2024",
+   "guidance_quote": "FDA recommends that sponsors evaluate multiple dosages to determine the dosage that provides the optimal balance of efficacy, safety, and tolerability."
+  },
+  {
+   "span": "For the randomized Phase 2 portion, each of the three active-dose arms will be compared independently with placebo using an unadjusted two-sided α=0.05 test, with the study considered positive if any single dose comparison reaches nominal significance.",
+   "category": "endpoint_ctq",
+   "severity": "critical",
+   "claim": "The stated three active-dose arms and placebo contradict the specified 1:1 randomization between two candidate doses. Declaring success on any of three unadjusted tests also fails to control the study-wide false-positive rate.",
+   "cited_doc_id": "ICH-E6R3-2025",
+   "guidance_quote": "Clinical trials should be scientifically sound and designed to produce reliable results."
+  },
+  {
+   "span": "For the randomized Phase 2 portion, each of the three active-dose arms will be compared independently with placebo using an unadjusted two-sided α=0.05 test, with the study considered positive if any single dose comparison reaches nominal significance.",
+   "category": "eligibility",
+   "severity": "high",
+   "claim": "The synopsis introduces placebo for participants with advanced ALK-positive NSCLC after prior ALK-inhibitor treatment without specifying background treatment, rescue treatment, or a justification for withholding active therapy.",
+   "cited_doc_id": "ICH-E6R3-2025",
+   "guidance_quote": "The rights, safety and well-being of participants are the most important considerations and should prevail over interests of science and society."
+  },
+  {
+   "span": "Dose selection for expansion will be based solely on the dose-limiting toxicity rate observed during the first treatment cycle, without incorporating findings from other studies or analyses of the complete clinical database.",
+   "category": "dose_optimization",
+   "severity": "critical",
+   "claim": "Selecting the expansion dose solely from first-cycle DLTs excludes later-emerging toxicity, dose interruptions and reductions, PK/PD, and antitumor activity. It also contradicts the prespecified integrated RP2D criteria.",
+   "cited_doc_id": "FDA-DOSE-OPT-2024",
+   "guidance_quote": "The selection of a dosage for further development should be based on the totality of the data, including safety, tolerability, efficacy, pharmacokinetic, and pharmacodynamic data, as applicable."
+  },
+  {
+   "span": "For the new pembrolizumab–investigational-agent combination in metastatic colorectal cancer, the study will proceed directly to the expansion cohort at 200 mg every three weeks without evaluating alternative dose levels.",
+   "category": "dose_optimization",
+   "severity": "high",
+   "claim": "A new combination proceeds directly to expansion at one dose without evaluating its combination-specific safety, exposure, or alternative dosages.",
+   "cited_doc_id": "FDA-DOSE-OPT-2024",
+   "guidance_quote": "For drugs used in combination, dosage optimization should consider the safety and tolerability of the combination."
+  },
+  {
+   "span": "For the new pembrolizumab–investigational-agent combination in metastatic colorectal cancer, the study will proceed directly to the expansion cohort at 200 mg every three weeks without evaluating alternative dose levels.",
+   "category": "feasibility",
+   "severity": "critical",
+   "claim": "The colorectal-cancer combination has no matching objective, eligibility criteria, endpoint, or treatment arm in this ALK-positive NSCLC protocol. Its every-three-weeks regimen also conflicts with the specified once-daily oral dose levels.",
+   "cited_doc_id": "ICH-E6R3-2025",
+   "guidance_quote": "Clinical trials should be scientifically sound and designed to produce reliable results."
+  },
+  {
+   "span": "Pharmacokinetic blood samples will be collected only before dosing and at 1 hour after the first administration; no samples will be obtained after repeat dosing or during the expected accumulation period.",
+   "category": "dose_optimization",
+   "severity": "high",
+   "claim": "This contradicts the intensive Day 1 and Day 15 PK schedule. If followed, it would prevent the planned characterization of repeat-dose exposure, accumulation, and autoinduction needed for dose selection.",
+   "cited_doc_id": "FDA-DOSE-OPT-2024",
+   "guidance_quote": "Pharmacokinetic data, including exposure at the dosages evaluated, should inform dosage optimization."
+  },
+  {
+   "span": "Concomitant medications will be recorded at enrollment, but no interaction studies or dedicated pharmacokinetic analyses will be conducted before selecting the recommended Phase 3 dose.",
+   "category": "dose_optimization",
+   "severity": "high",
+   "claim": "Enrollment-only medication records cannot capture treatment-emergent co-medications, and the plan omits evaluation of interactions that could change lorlatinib exposure before selecting a later-phase dose.",
+   "cited_doc_id": "FDA-DOSE-OPT-2024",
+   "guidance_quote": "Factors that may affect exposure, such as drug interactions, should be considered when selecting a dosage."
+  },
+  {
+   "span": "Primary (Phase 2): Objective response rate (ORR) per RECIST v1.1, including intracranial response, at the selected recommended Phase 2 dose (RP2D).",
+   "category": "endpoint_ctq",
+   "severity": "medium",
+   "claim": "The synopsis does not distinguish overall ORR from intracranial response or define the intracranial-response population, baseline measurable brain-disease requirement, or assessment rule. Those omissions matter because participants without brain metastases may enroll.",
+   "cited_doc_id": "CTTI-QBD",
+   "guidance_quote": "Critical to quality factors are those factors that are critical to the integrity and reliability of the trial data and the protection of participants."
+  },
+  {
+   "span": "Intensive PK sampling on Cycle 1 Day 1 and Day 15 (pre-dose, 0.5, 1, 2, 4, 6, 8 and 24 h post-dose) in all escalation subjects to characterize autoinduction; steady-state trough sampling every cycle in the randomized cohorts.",
+   "category": "burden",
+   "severity": "medium",
+   "claim": "The two 24-hour profiles impose substantial time and sampling demands on every escalation participant, yet the visit schedule makes no provision for the next-day collections on Days 2 and 16. The protocol should reconcile the schedule and explain how those collections will be obtained without avoidable participant burden.",
+   "cited_doc_id": "ICH-E6R3-2025",
+   "guidance_quote": "Trial processes should be operationally feasible and avoid unnecessary complexity, procedures and data collection."
+  }
+ ],
+ "consistency": {
+  "attempt": 0,
+  "infra_failure": [],
+  "env": {
+   "DV_MODEL_BULK": "gpt-5.6-luna",
+   "DV_MODEL_EXTRACT": "gpt-6-sol",
+   "DV_MODEL_PLANNER": "gpt-6-sol",
+   "DV_MODEL_REVIEWER": "gpt-6-sol",
+   "DV_RUN_TOKEN_BUDGET": "150000",
+   "DV_TEAM_TOTAL_QUOTA": "30000000",
+   "rerank_enabled": true
+  },
+  "saved_at": "2026-10-02T00:08:22+0900",
+  "infra_failure_final": false
+ }
+}

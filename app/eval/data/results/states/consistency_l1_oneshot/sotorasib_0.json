@@ -1,0 +1,135 @@
+{
+ "drug": "sotorasib",
+ "case_id": "AX1-001",
+ "rep": 0,
+ "answer": {
+  "doses": [
+   {
+    "dose_mg": 180,
+    "verdict": "indeterminate",
+    "tcr_max": 9.2,
+    "tcr_avg": 3.3,
+    "tcr_trough": 0.38,
+    "rationale": "Estimated peak and average free concentrations exceed the assumed cellular IC50, but trough falls below it. Coverage therefore depends on the concentration metric."
+   },
+   {
+    "dose_mg": 360,
+    "verdict": "indeterminate",
+    "tcr_max": 18.4,
+    "tcr_avg": 6.7,
+    "tcr_trough": 0.76,
+    "rationale": "Estimated peak and average coverage exceed the assumed threshold, but trough coverage does not."
+   },
+   {
+    "dose_mg": 540,
+    "verdict": "covered",
+    "tcr_max": 27.6,
+    "tcr_avg": 10.0,
+    "tcr_trough": 1.14,
+    "rationale": "The estimated trough is just above the assumed coverage threshold. This borderline verdict is sensitive to the PK and IC50 estimates."
+   },
+   {
+    "dose_mg": 720,
+    "verdict": "covered",
+    "tcr_max": 36.8,
+    "tcr_avg": 13.4,
+    "tcr_trough": 1.52,
+    "rationale": "Estimated free concentration remains above the assumed cellular IC50 through the dosing interval."
+   },
+   {
+    "dose_mg": 960,
+    "verdict": "covered",
+    "tcr_max": 49.1,
+    "tcr_avg": 17.8,
+    "tcr_trough": 2.02,
+    "rationale": "Estimated free concentration remains above the assumed cellular IC50 through the dosing interval."
+   }
+  ],
+  "numbers_used": [
+   {
+    "name": "Planned once-daily dose levels",
+    "value": "180, 360, 540, 720, 960 mg",
+    "source": "protocol"
+   },
+   {
+    "name": "Conflicting fixed dose specified elsewhere in protocol",
+    "value": "200 mg; these verdicts concern the planned levels, not the conflicting fixed-dose instruction",
+    "source": "protocol"
+   },
+   {
+    "name": "Dosing interval",
+    "value": "24 h",
+    "source": "protocol"
+   },
+   {
+    "name": "Reference steady-state Cmax at 960 mg",
+    "value": "approximately 7.5 µg/mL",
+    "source": "prior_knowledge"
+   },
+   {
+    "name": "Reference steady-state AUC over 24 h at 960 mg",
+    "value": "approximately 65.3 µg·h/mL",
+    "source": "prior_knowledge"
+   },
+   {
+    "name": "Unbound plasma fraction",
+    "value": "approximately 0.11",
+    "source": "prior_knowledge"
+   },
+   {
+    "name": "Sotorasib molecular weight",
+    "value": "approximately 560.6 g/mol",
+    "source": "prior_knowledge"
+   },
+   {
+    "name": "Elimination half-life used to estimate trough",
+    "value": "approximately 5 h",
+    "source": "prior_knowledge"
+   },
+   {
+    "name": "Time of peak used to estimate trough",
+    "value": "approximately 1 h after dosing",
+    "source": "prior_knowledge"
+   },
+   {
+    "name": "Representative cellular IC50",
+    "value": "0.03 µM; assay-dependent estimate, not supplied by the protocol",
+    "source": "assumption"
+   },
+   {
+    "name": "Adequate-coverage threshold",
+    "value": "TCR ≥ 1",
+    "source": "assumption"
+   },
+   {
+    "name": "Exposure scaling between planned doses",
+    "value": "Proportional to dose relative to 960 mg; actual sotorasib exposure may not be dose-proportional",
+    "source": "assumption"
+   },
+   {
+    "name": "Trough estimation method",
+    "value": "Cmax × 2^[-(24 − 1)/5]; approximate post-peak exponential decline",
+    "source": "assumption"
+   }
+  ]
+ },
+ "parse_ok": true,
+ "raw": null,
+ "tokens": 3214,
+ "model": "gpt-6-sol",
+ "consistency": {
+  "attempt": 0,
+  "infra_failure": [],
+  "env": {
+   "DV_MODEL_BULK": "gpt-5.6-luna",
+   "DV_MODEL_EXTRACT": "gpt-6-sol",
+   "DV_MODEL_PLANNER": "gpt-6-sol",
+   "DV_MODEL_REVIEWER": "gpt-6-sol",
+   "DV_RUN_TOKEN_BUDGET": "150000",
+   "DV_TEAM_TOTAL_QUOTA": "30000000",
+   "rerank_enabled": true
+  },
+  "saved_at": "2026-10-02T00:00:02+0900",
+  "infra_failure_final": false
+ }
+}

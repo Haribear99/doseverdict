@@ -1,0 +1,106 @@
+{
+ "drug": "lorlatinib",
+ "case_id": "AXD-LORLATINIB-001",
+ "rep": 2,
+ "tokens": 4620,
+ "model": "gpt-6-sol",
+ "parse_ok": true,
+ "raw": null,
+ "findings": [
+  {
+   "span": "After the recommended starting dose is established, all subsequent participants will receive the same fixed dose throughout the Phase 1/2 study, with no lower- or higher-dose cohorts planned.",
+   "category": "dose_optimization",
+   "severity": "critical",
+   "claim": "This rules out the planned dose escalation and randomized comparison of two candidate doses. It also prevents evaluation of dose–response before selecting the RP2D.",
+   "cited_doc_id": "FDA-DOSE-OPT-2024",
+   "guidance_quote": "The goal of dosage optimization is to identify the dosage(s) that maximizes the efficacy, safety, and tolerability of the drug."
+  },
+  {
+   "span": "For the randomized Phase 2 portion, each of the three active-dose arms will be compared independently with placebo using an unadjusted two-sided α=0.05 test, with the study considered positive if any single dose comparison reaches nominal significance.",
+   "category": "endpoint_ctq",
+   "severity": "critical",
+   "claim": "The three active-dose arms and placebo contradict the stated two-candidate-dose randomization and single-RP2D Phase 2 objective. Declaring success after any of three unadjusted tests also fails to control the overall false-positive rate.",
+   "cited_doc_id": "ICH-E6R3-2025",
+   "guidance_quote": "Critical to quality factors are attributes of a trial that are fundamental to the protection of participants, the reliability and interpretability of the trial results, and the decisions made based on the trial results."
+  },
+  {
+   "span": "Dose selection for expansion will be based solely on the dose-limiting toxicity rate observed during the first treatment cycle, without incorporating findings from other studies or analyses of the complete clinical database.",
+   "category": "dose_optimization",
+   "severity": "critical",
+   "claim": "First-cycle DLT alone excludes later toxicity, tolerability, PK, PD, efficacy and relevant external data, contradicting the stated integrated RP2D criteria.",
+   "cited_doc_id": "FDA-DOSE-OPT-2024",
+   "guidance_quote": "The selected dosage should be supported by a comprehensive evaluation of available data, including pharmacokinetic, pharmacodynamic, safety, and efficacy data."
+  },
+  {
+   "span": "For the new pembrolizumab–investigational-agent combination in metastatic colorectal cancer, the study will proceed directly to the expansion cohort at 200 mg every three weeks without evaluating alternative dose levels.",
+   "category": "feasibility",
+   "severity": "critical",
+   "claim": "This is a different cancer population and combination regimen from the ALK-positive NSCLC study of once-daily oral DV-301. As written, it cannot be implemented under the stated objectives and eligibility criteria; it also bypasses combination-dose evaluation.",
+   "cited_doc_id": "FDA-DOSE-OPT-2024",
+   "guidance_quote": "When a drug is intended for use in combination with another drug, the dosage of the combination regimen should be optimized."
+  },
+  {
+   "span": "Pharmacokinetic blood samples will be collected only before dosing and at 1 hour after the first administration; no samples will be obtained after repeat dosing or during the expected accumulation period.",
+   "category": "dose_optimization",
+   "severity": "high",
+   "claim": "This contradicts the intensive Day 1/Day 15 and repeated trough-sampling plan. If followed, it would not characterize the stated autoinduction, accumulation or steady-state exposure needed for dose selection.",
+   "cited_doc_id": "FDA-DOSE-OPT-2024",
+   "guidance_quote": "Pharmacokinetic and pharmacodynamic data should be collected to characterize exposure–response relationships for efficacy and safety."
+  },
+  {
+   "span": "Concomitant medications will be recorded at enrollment, but no interaction studies or dedicated pharmacokinetic analyses will be conducted before selecting the recommended Phase 3 dose.",
+   "category": "dose_optimization",
+   "severity": "high",
+   "claim": "Enrollment-only medication recording misses changes during treatment, while the categorical absence of interaction or dedicated PK evaluation leaves drug-interaction effects on exposure unresolved before Phase 3 dose selection.",
+   "cited_doc_id": "ICH-E4-1994",
+   "guidance_quote": "Information on the effects of demographic factors, concomitant disease, and concomitant drugs on the dose-response relationship should also be obtained."
+  },
+  {
+   "span": "ECGs will be performed at baseline and periodically for PR interval prolongation.",
+   "category": "safety_monitoring",
+   "severity": "medium",
+   "claim": "“Periodically” gives no timed ECG schedule or trigger-based assessment for early or worsening PR prolongation and AV block, despite specifying AV-block dose-modification rules.",
+   "cited_doc_id": "ICH-E6R3-2025",
+   "guidance_quote": "The rights, safety, and well-being of trial participants are the most important considerations and should prevail over interests of science and society."
+  },
+  {
+   "span": "Primary (Phase 2): Objective response rate (ORR) per RECIST v1.1, including intracranial response, at the selected recommended Phase 2 dose (RP2D).",
+   "category": "endpoint_ctq",
+   "severity": "high",
+   "claim": "The endpoint does not distinguish overall ORR from intracranial response or specify the intracranial analysis population, including whether baseline measurable brain lesions are required. This leaves a stated primary efficacy assessment insufficiently defined.",
+   "cited_doc_id": "ICH-E6R3-2025",
+   "guidance_quote": "Critical to quality factors are attributes of a trial that are fundamental to the protection of participants, the reliability and interpretability of the trial results, and the decisions made based on the trial results."
+  },
+  {
+   "span": "Intensive PK sampling on Cycle 1 Day 1 and Day 15 (pre-dose, 0.5, 1, 2, 4, 6, 8 and 24 h post-dose) in all escalation subjects to characterize autoinduction; steady-state trough sampling every cycle in the randomized cohorts.",
+   "category": "burden",
+   "severity": "medium",
+   "claim": "Nine scheduled samples on each of two days for every escalation participant impose substantial sampling and visit burden. The protocol does not justify why all participants, rather than a fit-for-purpose subset, need this schedule.",
+   "cited_doc_id": "ICH-E6R3-2025",
+   "guidance_quote": "The trial should be designed to be operationally feasible and avoid unnecessary complexity, procedures and data collection."
+  },
+  {
+   "span": "Tumor assessments, including brain MRI, every 6 weeks.",
+   "category": "burden",
+   "severity": "medium",
+   "claim": "The unqualified schedule appears to require repeated brain MRI even for participants without baseline CNS disease. Its necessity for all participants is not established despite the time and procedural burden.",
+   "cited_doc_id": "ICH-E6R3-2025",
+   "guidance_quote": "The trial should be designed to be operationally feasible and avoid unnecessary complexity, procedures and data collection."
+  }
+ ],
+ "consistency": {
+  "attempt": 0,
+  "infra_failure": [],
+  "env": {
+   "DV_MODEL_BULK": "gpt-5.6-luna",
+   "DV_MODEL_EXTRACT": "gpt-6-sol",
+   "DV_MODEL_PLANNER": "gpt-6-sol",
+   "DV_MODEL_REVIEWER": "gpt-6-sol",
+   "DV_RUN_TOKEN_BUDGET": "150000",
+   "DV_TEAM_TOTAL_QUOTA": "30000000",
+   "rerank_enabled": true
+  },
+  "saved_at": "2026-10-02T00:08:42+0900",
+  "infra_failure_final": false
+ }
+}

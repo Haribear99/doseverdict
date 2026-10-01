@@ -1,0 +1,98 @@
+{
+ "drug": "sotorasib",
+ "case_id": "AX1-001",
+ "rep": 0,
+ "tokens": 4445,
+ "model": "gpt-6-sol",
+ "parse_ok": true,
+ "raw": null,
+ "findings": [
+  {
+   "span": "All participants will receive the fixed 200 mg dose supplied in a single capsule strength throughout the study, with no alternative strengths available for dose evaluation.",
+   "category": "feasibility",
+   "severity": "critical",
+   "claim": "A fixed 200 mg dose makes the specified 180–960 mg escalation and randomized comparison of two dose levels impossible as written. The dose and formulation plan must be reconciled before the study can implement its objectives.",
+   "cited_doc_id": "FDA-DOSE-OPT-2024",
+   "guidance_quote": "Sponsors should evaluate a range of dosages to characterize the relationships between dosage, efficacy, safety, and tolerability."
+  },
+  {
+   "span": "The formulation-bridging expansion cohort will enroll participants receiving the new tablet or legacy capsule, with safety and pharmacokinetic results summarized descriptively and no prespecified comparison objectives or analysis methods.",
+   "category": "endpoint_ctq",
+   "severity": "high",
+   "claim": "The cohort has no prespecified bridging question or analysis to determine whether tablet and capsule results are comparable. Descriptive summaries alone leave the formulation change uninterpretable for dose selection.",
+   "cited_doc_id": "FDA-EXPANSION-COHORTS-2022",
+   "guidance_quote": "Each expansion cohort should have a specific objective and a corresponding statistical analysis plan."
+  },
+  {
+   "span": "After the recommended Phase 2 dose is selected from tolerability data, all subsequent participants will receive that dose without any randomized comparison of alternative dose levels or formal dose-response analysis.",
+   "category": "dose_optimization",
+   "severity": "high",
+   "claim": "Selection from tolerability alone contradicts the stated integrated RP2D criteria. The protocol also does not commit to a formal dose–response analysis of data from its planned randomized dose comparison; randomization after RP2D selection is not itself required.",
+   "cited_doc_id": "FDA-DOSE-OPT-2024",
+   "guidance_quote": "The goal of dosage optimization is to identify a dosage that provides an optimal balance between efficacy, safety, and tolerability."
+  },
+  {
+   "span": "Patients with moderate hepatic impairment and the CYP2C19 poor-metabolizer genotype will be enrolled in the same dose-escalation cohort without separate PK, PD, safety, or efficacy analyses.",
+   "category": "dose_optimization",
+   "severity": "high",
+   "claim": "Pooling these participants without planned analyses could conceal exposure or tolerability differences relevant to dose selection. The protocol should prespecify how these characteristics will be evaluated, while justifying which are pharmacologically relevant to DV-101.",
+   "cited_doc_id": "FDA-DOSE-OPT-2024",
+   "guidance_quote": "Sponsors should consider the potential effects of intrinsic and extrinsic factors on exposure, efficacy, safety, and tolerability when optimizing dosage."
+  },
+  {
+   "span": "Dose–response analyses will be conducted only in the overall enrolled population, with no evaluations by age, sex, race, or other demographic subgroup.",
+   "category": "dose_optimization",
+   "severity": "medium",
+   "claim": "The analysis plan forecloses assessment of potentially important demographic differences in exposure or dose–response, even where subgroup data permit an informative evaluation.",
+   "cited_doc_id": "FDA-DOSE-OPT-2024",
+   "guidance_quote": "Sponsors should consider whether the relationships between dosage, exposure, efficacy, safety, and tolerability differ across relevant patient subgroups."
+  },
+  {
+   "span": "The study team will review emerging adverse-event data periodically and decide during the trial whether enrollment or dosing should be halted for unacceptable toxicity.",
+   "category": "safety_monitoring",
+   "severity": "high",
+   "claim": "Neither the review frequency nor prospective criteria for pausing dosing or enrollment are specified. Ad hoc decisions are inadequate for a dose-escalation trial with potentially serious toxicity.",
+   "cited_doc_id": "ICH-E6R3-2025",
+   "guidance_quote": "The protocol should describe stopping rules or discontinuation criteria for individual participants, parts of the trial, and the entire trial."
+  },
+  {
+   "span": "Primary (Phase 2): Objective response rate (ORR) per RECIST v1.1 at the selected recommended Phase 2 dose (RP2D).",
+   "category": "endpoint_ctq",
+   "severity": "medium",
+   "claim": "For a pooled advanced-solid-tumor population, the synopsis does not define how ORR will be interpreted across tumor types or specify key response-assessment features such as confirmation and assessor. These choices are critical to interpreting the primary endpoint.",
+   "cited_doc_id": "ICH-E6R3-2025",
+   "guidance_quote": "The protocol should describe the trial objectives and endpoints, including how the endpoints will be assessed."
+  },
+  {
+   "span": "At least 60 subjects will be randomized 1:1 to the two candidate dose levels to compare safety, tolerability, PK, PD and preliminary antitumor activity before selecting the RP2D.",
+   "category": "feasibility",
+   "severity": "medium",
+   "claim": "The synopsis gives no rationale showing that approximately 30 participants per dose, potentially spread across multiple tumor types, can inform the stated comparisons and integrated RP2D decision. A prespecified precision or operating-characteristic justification is needed.",
+   "cited_doc_id": "FDA-DOSE-OPT-2024",
+   "guidance_quote": "The design and sample size of dosage-optimization trials should be adequate to inform selection of a dosage based on efficacy, safety, and tolerability."
+  },
+  {
+   "span": "Intensive PK sampling on Cycle 1 Day 1 and Day 15 (pre-dose, 0.5, 1, 2, 4, 6, 8 and 24 h post-dose) in all escalation subjects; steady-state trough sampling every cycle in the randomized cohorts.",
+   "category": "burden",
+   "severity": "low",
+   "claim": "Requiring two intensive sampling days from every escalation participant, including 24-hour samples, may impose avoidable burden. The protocol should justify why the full schedule is needed in all participants rather than an informative subset.",
+   "cited_doc_id": "ICH-E6R3-2025",
+   "guidance_quote": "Trial processes should be proportionate to the risks to participants and the importance of the data collected, and should avoid unnecessary burden on participants and investigators."
+  }
+ ],
+ "consistency": {
+  "attempt": 0,
+  "infra_failure": [],
+  "env": {
+   "DV_MODEL_BULK": "gpt-5.6-luna",
+   "DV_MODEL_EXTRACT": "gpt-6-sol",
+   "DV_MODEL_PLANNER": "gpt-6-sol",
+   "DV_MODEL_REVIEWER": "gpt-6-sol",
+   "DV_RUN_TOKEN_BUDGET": "150000",
+   "DV_TEAM_TOTAL_QUOTA": "30000000",
+   "rerank_enabled": true
+  },
+  "saved_at": "2026-10-02T00:05:10+0900",
+  "infra_failure_final": false
+ }
+}

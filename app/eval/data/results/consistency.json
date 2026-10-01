@@ -1,0 +1,1524 @@
+{
+ "prereg": {
+  "head": "232aae6fd40034d858f62a3585ef6ecdd101d75c",
+  "prereg_last_commit": "232aae6fd40034d858f62a3585ef6ecdd101d75c 2026-10-01T23:59:33+09:00",
+  "dirty_or_untracked": []
+ },
+ "completed": {
+  "l1_oneshot": 12,
+  "l1_inputs": 12,
+  "oneshot": 12,
+  "agent": 12
+ },
+ "expected_per_kind": 12,
+ "arm_complete": {
+  "L1": {
+   "oneshot": true,
+   "oneshot_tool": true,
+   "agent": true
+  },
+  "L2": {
+   "oneshot": true,
+   "oneshot_tool": true,
+   "agent": true
+  }
+ },
+ "L1": {
+  "oneshot": {
+   "overall": 0.65,
+   "per_drug": {
+    "adagrasib": {
+     "consistent": 2,
+     "items": 4
+    },
+    "dv505": {
+     "consistent": 5,
+     "items": 5
+    },
+    "lorlatinib": {
+     "consistent": 4,
+     "items": 6
+    },
+    "sotorasib": {
+     "consistent": 2,
+     "items": 5
+    }
+   },
+   "per_drug_mean": 0.6416666666666666,
+   "overall_excl_missing": 0.65,
+   "dist": {
+    "counts": {
+     "covered": 35,
+     "not_covered": 4,
+     "indeterminate": 21,
+     "cannot_assess": 0,
+     "missing": 0
+    },
+    "all3_missing_or_cannot_assess": 0
+   }
+  },
+  "oneshot_tool": {
+   "overall": 0.7,
+   "per_drug": {
+    "adagrasib": {
+     "consistent": 3,
+     "items": 4
+    },
+    "dv505": {
+     "consistent": 5,
+     "items": 5
+    },
+    "lorlatinib": {
+     "consistent": 6,
+     "items": 6
+    },
+    "sotorasib": {
+     "consistent": 0,
+     "items": 5
+    }
+   },
+   "per_drug_mean": 0.6875,
+   "overall_excl_missing": 0.7,
+   "dist": {
+    "counts": {
+     "covered": 48,
+     "not_covered": 0,
+     "indeterminate": 12,
+     "cannot_assess": 0,
+     "missing": 0
+    },
+    "all3_missing_or_cannot_assess": 0
+   }
+  },
+  "agent": {
+   "overall": 1.0,
+   "per_drug": {
+    "adagrasib": {
+     "consistent": 4,
+     "items": 4
+    },
+    "dv505": {
+     "consistent": 5,
+     "items": 5
+    },
+    "lorlatinib": {
+     "consistent": 6,
+     "items": 6
+    },
+    "sotorasib": {
+     "consistent": 5,
+     "items": 5
+    }
+   },
+   "per_drug_mean": 1.0,
+   "overall_excl_missing": 1.0,
+   "dist": {
+    "counts": {
+     "covered": 39,
+     "not_covered": 0,
+     "indeterminate": 21,
+     "cannot_assess": 0,
+     "missing": 0
+    },
+    "all3_missing_or_cannot_assess": 0
+   }
+  }
+ },
+ "L2": {
+  "oneshot": {
+   "overall": 0.7459498834498834,
+   "per_drug": {
+    "adagrasib": 0.7156177156177156,
+    "dv505": 0.6439393939393939,
+    "lorlatinib": 0.8666666666666667,
+    "sotorasib": 0.7575757575757577
+   },
+   "overall_excl_empty_pairs": 0.7459498834498834,
+   "per_drug_excl_empty_pairs": {
+    "adagrasib": 0.7156177156177156,
+    "dv505": 0.6439393939393939,
+    "lorlatinib": 0.8666666666666667,
+    "sotorasib": 0.7575757575757577
+   },
+   "interim_min2": {
+    "adagrasib": 0.7156177156177156,
+    "dv505": 0.6439393939393939,
+    "lorlatinib": 0.8666666666666667,
+    "sotorasib": 0.7575757575757577
+   },
+   "shape": {
+    "sizes": {
+     "adagrasib": {
+      "0": 8,
+      "1": 11,
+      "2": 11
+     },
+     "dv505": {
+      "0": 7,
+      "1": 10,
+      "2": 11
+     },
+     "lorlatinib": {
+      "0": 8,
+      "1": 8,
+      "2": 10
+     },
+     "sotorasib": {
+      "0": 9,
+      "1": 10,
+      "2": 10
+     }
+    },
+    "empty_pairs": 0,
+    "failed_runs": 0
+   },
+   "sets": {
+    "adagrasib": {
+     "0": [
+      5,
+      12,
+      13,
+      14,
+      15,
+      22,
+      23,
+      25
+     ],
+     "1": [
+      5,
+      12,
+      13,
+      14,
+      15,
+      16,
+      18,
+      19,
+      22,
+      23,
+      25
+     ],
+     "2": [
+      5,
+      10,
+      12,
+      13,
+      14,
+      15,
+      19,
+      20,
+      22,
+      23,
+      25
+     ]
+    },
+    "dv505": {
+     "0": [
+      5,
+      13,
+      14,
+      15,
+      16,
+      19,
+      26
+     ],
+     "1": [
+      13,
+      14,
+      15,
+      16,
+      17,
+      19,
+      20,
+      21,
+      26,
+      27
+     ],
+     "2": [
+      5,
+      11,
+      13,
+      14,
+      15,
+      16,
+      17,
+      19,
+      20,
+      21,
+      26
+     ]
+    },
+    "lorlatinib": {
+     "0": [
+      3,
+      8,
+      12,
+      13,
+      14,
+      15,
+      17,
+      18
+     ],
+     "1": [
+      3,
+      8,
+      12,
+      13,
+      14,
+      15,
+      17,
+      18
+     ],
+     "2": [
+      3,
+      8,
+      12,
+      13,
+      14,
+      15,
+      17,
+      18,
+      25,
+      28
+     ]
+    },
+    "sotorasib": {
+     "0": [
+      3,
+      9,
+      11,
+      12,
+      13,
+      14,
+      15,
+      16,
+      24
+     ],
+     "1": [
+      3,
+      5,
+      11,
+      12,
+      13,
+      14,
+      15,
+      16,
+      19,
+      24
+     ],
+     "2": [
+      3,
+      11,
+      12,
+      13,
+      14,
+      15,
+      16,
+      18,
+      19,
+      24
+     ]
+    }
+   }
+  },
+  "oneshot_tool": {
+   "overall": 0.4974717412217412,
+   "per_drug": {
+    "adagrasib": 0.7185185185185184,
+    "dv505": 0.4966329966329966,
+    "lorlatinib": 0.5154761904761904,
+    "sotorasib": 0.25925925925925924
+   },
+   "overall_excl_empty_pairs": 0.4974717412217412,
+   "per_drug_excl_empty_pairs": {
+    "adagrasib": 0.7185185185185184,
+    "dv505": 0.4966329966329966,
+    "lorlatinib": 0.5154761904761904,
+    "sotorasib": 0.25925925925925924
+   },
+   "interim_min2": {
+    "adagrasib": 0.7185185185185184,
+    "dv505": 0.4966329966329966,
+    "lorlatinib": 0.5154761904761904,
+    "sotorasib": 0.25925925925925924
+   },
+   "shape": {
+    "sizes": {
+     "adagrasib": {
+      "0": 8,
+      "1": 7,
+      "2": 9
+     },
+     "dv505": {
+      "0": 6,
+      "1": 7,
+      "2": 11
+     },
+     "lorlatinib": {
+      "0": 4,
+      "1": 4,
+      "2": 7
+     },
+     "sotorasib": {
+      "0": 4,
+      "1": 7,
+      "2": 4
+     }
+    },
+    "empty_pairs": 0,
+    "failed_runs": 0
+   },
+   "sets": {
+    "adagrasib": {
+     "0": [
+      5,
+      12,
+      13,
+      14,
+      15,
+      22,
+      23,
+      25
+     ],
+     "1": [
+      5,
+      12,
+      15,
+      16,
+      22,
+      23,
+      25
+     ],
+     "2": [
+      5,
+      10,
+      12,
+      13,
+      14,
+      15,
+      22,
+      23,
+      25
+     ]
+    },
+    "dv505": {
+     "0": [
+      5,
+      13,
+      14,
+      15,
+      16,
+      26
+     ],
+     "1": [
+      13,
+      14,
+      15,
+      20,
+      21,
+      26,
+      27
+     ],
+     "2": [
+      5,
+      11,
+      13,
+      14,
+      15,
+      16,
+      17,
+      19,
+      20,
+      21,
+      26
+     ]
+    },
+    "lorlatinib": {
+     "0": [
+      3,
+      12,
+      13,
+      15
+     ],
+     "1": [
+      12,
+      13,
+      14,
+      15
+     ],
+     "2": [
+      3,
+      12,
+      13,
+      15,
+      18,
+      25,
+      28
+     ]
+    },
+    "sotorasib": {
+     "0": [
+      11,
+      12,
+      16,
+      24
+     ],
+     "1": [
+      5,
+      11,
+      13,
+      14,
+      15,
+      16,
+      19
+     ],
+     "2": [
+      3,
+      12,
+      13,
+      16
+     ]
+    }
+   }
+  },
+  "agent": {
+   "overall": 0.6874479686979686,
+   "per_drug": {
+    "adagrasib": 0.6858974358974358,
+    "dv505": 0.6217948717948718,
+    "lorlatinib": 0.6845238095238096,
+    "sotorasib": 0.7575757575757575
+   },
+   "overall_excl_empty_pairs": 0.6874479686979686,
+   "per_drug_excl_empty_pairs": {
+    "adagrasib": 0.6858974358974358,
+    "dv505": 0.6217948717948718,
+    "lorlatinib": 0.6845238095238096,
+    "sotorasib": 0.7575757575757575
+   },
+   "interim_min2": {
+    "adagrasib": 0.6858974358974358,
+    "dv505": 0.6217948717948718,
+    "lorlatinib": 0.6845238095238096,
+    "sotorasib": 0.7575757575757575
+   },
+   "shape": {
+    "sizes": {
+     "adagrasib": {
+      "0": 10,
+      "1": 11,
+      "2": 11
+     },
+     "dv505": {
+      "0": 10,
+      "1": 9,
+      "2": 11
+     },
+     "lorlatinib": {
+      "0": 14,
+      "1": 12,
+      "2": 11
+     },
+     "sotorasib": {
+      "0": 11,
+      "1": 8,
+      "2": 10
+     }
+    },
+    "empty_pairs": 0,
+    "failed_runs": 0
+   },
+   "sets": {
+    "adagrasib": {
+     "0": [
+      5,
+      12,
+      13,
+      14,
+      15,
+      16,
+      22,
+      23,
+      24,
+      25
+     ],
+     "1": [
+      5,
+      12,
+      13,
+      14,
+      15,
+      16,
+      17,
+      18,
+      19,
+      22,
+      25
+     ],
+     "2": [
+      5,
+      10,
+      12,
+      13,
+      14,
+      15,
+      16,
+      17,
+      22,
+      23,
+      25
+     ]
+    },
+    "dv505": {
+     "0": [
+      2,
+      13,
+      14,
+      15,
+      16,
+      17,
+      19,
+      22,
+      23,
+      26
+     ],
+     "1": [
+      2,
+      11,
+      13,
+      14,
+      15,
+      16,
+      19,
+      24,
+      26
+     ],
+     "2": [
+      11,
+      13,
+      14,
+      15,
+      16,
+      19,
+      22,
+      23,
+      24,
+      25,
+      26
+     ]
+    },
+    "lorlatinib": {
+     "0": [
+      0,
+      1,
+      8,
+      10,
+      12,
+      13,
+      14,
+      17,
+      18,
+      19,
+      20,
+      23,
+      24,
+      25
+     ],
+     "1": [
+      8,
+      9,
+      10,
+      12,
+      13,
+      14,
+      17,
+      18,
+      23,
+      24,
+      25,
+      26
+     ],
+     "2": [
+      8,
+      12,
+      13,
+      14,
+      17,
+      18,
+      19,
+      20,
+      23,
+      24,
+      25
+     ]
+    },
+    "sotorasib": {
+     "0": [
+      9,
+      11,
+      12,
+      13,
+      14,
+      15,
+      16,
+      17,
+      20,
+      21,
+      24
+     ],
+     "1": [
+      9,
+      11,
+      12,
+      13,
+      14,
+      15,
+      16,
+      24
+     ],
+     "2": [
+      9,
+      11,
+      12,
+      13,
+      14,
+      15,
+      17,
+      20,
+      21,
+      24
+     ]
+    }
+   }
+  }
+ },
+ "primary": {
+  "n_drugs": 4,
+  "diff": -0.058501914751914796,
+  "per_drug_diff": {
+   "adagrasib": -0.029720279720279796,
+   "dv505": -0.022144522144522116,
+   "lorlatinib": -0.18214285714285705,
+   "sotorasib": -2.220446049250313e-16
+  },
+  "direction": "양수 0·음수 3·0 1 / 약 4종",
+  "p_signflip": 0.25,
+  "p_min_attainable": 0.125,
+  "ci95_boot_exact": [
+   -0.14214327339327337,
+   -0.007430069930070116
+  ],
+  "metric": "L2",
+  "comparison": "agent - oneshot",
+  "role": "1차",
+  "verdict": "이 시놉시스 4종에서 차이 확인 안 됨"
+ },
+ "sensitivity": {
+  "n_drugs": 4,
+  "diff": 0.18997622747622744,
+  "per_drug_diff": {
+   "adagrasib": -0.03262108262108265,
+   "dv505": 0.1251618751618752,
+   "lorlatinib": 0.16904761904761922,
+   "sotorasib": 0.4983164983164982
+  },
+  "direction": "양수 3·음수 1·0 0 / 약 4종",
+  "p_signflip": 0.25,
+  "p_min_attainable": 0.125,
+  "ci95_boot_exact": [
+   0.017796092796092733,
+   0.4050278425278425
+  ],
+  "metric": "L2",
+  "comparison": "agent - oneshot_nli",
+  "role": "민감도(같은 원샷 출력의 부분집합, 독립 비교 아님)"
+ },
+ "descriptive": [
+  {
+   "n_drugs": 4,
+   "diff": 0.35,
+   "per_drug_diff": {
+    "adagrasib": 0.5,
+    "dv505": 0.0,
+    "lorlatinib": 0.33333333333333337,
+    "sotorasib": 0.6
+   },
+   "direction": "양수 3·음수 0·0 1 / 약 4종",
+   "p_signflip": 0.25,
+   "p_min_attainable": 0.125,
+   "ci95_boot_exact": [
+    0.10526315789473684,
+    0.5555555555555556
+   ],
+   "metric": "L1",
+   "comparison": "agent - oneshot",
+   "role": "기술(판정 문구 없음)"
+  },
+  {
+   "n_drugs": 4,
+   "diff": 0.30000000000000004,
+   "per_drug_diff": {
+    "adagrasib": 0.25,
+    "dv505": 0.0,
+    "lorlatinib": 0.0,
+    "sotorasib": 1.0
+   },
+   "direction": "양수 2·음수 0·0 2 / 약 4종",
+   "p_signflip": 0.5,
+   "p_min_attainable": 0.125,
+   "ci95_boot_exact": [
+    0.0,
+    0.75
+   ],
+   "metric": "L1",
+   "comparison": "agent - oneshot_tool",
+   "role": "기술(판정 문구 없음)"
+  },
+  {
+   "n_drugs": 4,
+   "diff": 0.04999999999999993,
+   "per_drug_diff": {
+    "adagrasib": 0.25,
+    "dv505": 0.0,
+    "lorlatinib": 0.33333333333333337,
+    "sotorasib": -0.4
+   },
+   "direction": "양수 2·음수 1·0 1 / 약 4종",
+   "p_signflip": 1.0,
+   "p_min_attainable": 0.125,
+   "ci95_boot_exact": [
+    -0.2631578947368421,
+    0.30000000000000004
+   ],
+   "metric": "L1",
+   "comparison": "oneshot_tool - oneshot",
+   "role": "기술(판정 문구 없음)"
+  }
+ ],
+ "tokens": {
+  "state": {
+   "l1_oneshot": 42945,
+   "l1_inputs": 28800,
+   "oneshot": 61983,
+   "agent": 481530
+  },
+  "failed_attempts_state": {
+   "l1_oneshot": 0,
+   "l1_inputs": 0,
+   "oneshot": 0,
+   "agent": 0
+  },
+  "audit": {
+   "l1_oneshot": {
+    "calls": 12,
+    "total_tokens": 42945,
+    "models": [
+     "gpt-6-sol"
+    ]
+   },
+   "l1_inputs": {
+    "calls": 12,
+    "total_tokens": 28800,
+    "models": [
+     "gpt-6-sol"
+    ]
+   },
+   "agent": {
+    "calls": 48,
+    "total_tokens": 481530,
+    "models": [
+     "gpt-6-sol"
+    ]
+   }
+  },
+  "arm_oneshot": 104928,
+  "arm_oneshot_tool": 28800,
+  "shared_l2_oneshot": 61983,
+  "arm_agent_audit": 481530,
+  "arm_agent_state": 481530,
+  "models": {
+   "l1_oneshot": [
+    "gpt-6-sol"
+   ],
+   "l1_inputs": [
+    "gpt-6-sol"
+   ],
+   "oneshot": [
+    "gpt-6-sol"
+   ]
+  }
+ },
+ "reproducibility": {
+  "oneshot_tool_inputs_same": {
+   "adagrasib": false,
+   "dv505": false,
+   "lorlatinib": false,
+   "sotorasib": false
+  },
+  "agent_inputs_same": {
+   "adagrasib": true,
+   "dv505": true,
+   "lorlatinib": true,
+   "sotorasib": true
+  },
+  "agent_dose_set_same": {
+   "adagrasib": true,
+   "dv505": true,
+   "lorlatinib": true,
+   "sotorasib": true
+  }
+ },
+ "runs": {
+  "l1_oneshot": {
+   "adagrasib_0": {
+    "attempt": 0,
+    "infra_failure_final": false,
+    "parse_ok": true
+   },
+   "adagrasib_1": {
+    "attempt": 0,
+    "infra_failure_final": false,
+    "parse_ok": true
+   },
+   "adagrasib_2": {
+    "attempt": 0,
+    "infra_failure_final": false,
+    "parse_ok": true
+   },
+   "dv505_0": {
+    "attempt": 0,
+    "infra_failure_final": false,
+    "parse_ok": true
+   },
+   "dv505_1": {
+    "attempt": 0,
+    "infra_failure_final": false,
+    "parse_ok": true
+   },
+   "dv505_2": {
+    "attempt": 0,
+    "infra_failure_final": false,
+    "parse_ok": true
+   },
+   "lorlatinib_0": {
+    "attempt": 0,
+    "infra_failure_final": false,
+    "parse_ok": true
+   },
+   "lorlatinib_1": {
+    "attempt": 0,
+    "infra_failure_final": false,
+    "parse_ok": true
+   },
+   "lorlatinib_2": {
+    "attempt": 0,
+    "infra_failure_final": false,
+    "parse_ok": true
+   },
+   "sotorasib_0": {
+    "attempt": 0,
+    "infra_failure_final": false,
+    "parse_ok": true
+   },
+   "sotorasib_1": {
+    "attempt": 0,
+    "infra_failure_final": false,
+    "parse_ok": true
+   },
+   "sotorasib_2": {
+    "attempt": 0,
+    "infra_failure_final": false,
+    "parse_ok": true
+   }
+  },
+  "l1_inputs": {
+   "adagrasib_0": {
+    "attempt": 0,
+    "infra_failure_final": false,
+    "parse_ok": true
+   },
+   "adagrasib_1": {
+    "attempt": 0,
+    "infra_failure_final": false,
+    "parse_ok": true
+   },
+   "adagrasib_2": {
+    "attempt": 0,
+    "infra_failure_final": false,
+    "parse_ok": true
+   },
+   "dv505_0": {
+    "attempt": 0,
+    "infra_failure_final": false,
+    "parse_ok": true
+   },
+   "dv505_1": {
+    "attempt": 0,
+    "infra_failure_final": false,
+    "parse_ok": true
+   },
+   "dv505_2": {
+    "attempt": 0,
+    "infra_failure_final": false,
+    "parse_ok": true
+   },
+   "lorlatinib_0": {
+    "attempt": 0,
+    "infra_failure_final": false,
+    "parse_ok": true
+   },
+   "lorlatinib_1": {
+    "attempt": 0,
+    "infra_failure_final": false,
+    "parse_ok": true
+   },
+   "lorlatinib_2": {
+    "attempt": 0,
+    "infra_failure_final": false,
+    "parse_ok": true
+   },
+   "sotorasib_0": {
+    "attempt": 0,
+    "infra_failure_final": false,
+    "parse_ok": true
+   },
+   "sotorasib_1": {
+    "attempt": 0,
+    "infra_failure_final": false,
+    "parse_ok": true
+   },
+   "sotorasib_2": {
+    "attempt": 0,
+    "infra_failure_final": false,
+    "parse_ok": true
+   }
+  },
+  "oneshot": {
+   "adagrasib_0": {
+    "attempt": 0,
+    "infra_failure_final": false,
+    "parse_ok": true
+   },
+   "adagrasib_1": {
+    "attempt": 0,
+    "infra_failure_final": false,
+    "parse_ok": true
+   },
+   "adagrasib_2": {
+    "attempt": 0,
+    "infra_failure_final": false,
+    "parse_ok": true
+   },
+   "dv505_0": {
+    "attempt": 0,
+    "infra_failure_final": false,
+    "parse_ok": true
+   },
+   "dv505_1": {
+    "attempt": 0,
+    "infra_failure_final": false,
+    "parse_ok": true
+   },
+   "dv505_2": {
+    "attempt": 0,
+    "infra_failure_final": false,
+    "parse_ok": true
+   },
+   "lorlatinib_0": {
+    "attempt": 0,
+    "infra_failure_final": false,
+    "parse_ok": true
+   },
+   "lorlatinib_1": {
+    "attempt": 0,
+    "infra_failure_final": false,
+    "parse_ok": true
+   },
+   "lorlatinib_2": {
+    "attempt": 0,
+    "infra_failure_final": false,
+    "parse_ok": true
+   },
+   "sotorasib_0": {
+    "attempt": 0,
+    "infra_failure_final": false,
+    "parse_ok": true
+   },
+   "sotorasib_1": {
+    "attempt": 0,
+    "infra_failure_final": false,
+    "parse_ok": true
+   },
+   "sotorasib_2": {
+    "attempt": 0,
+    "infra_failure_final": false,
+    "parse_ok": true
+   }
+  },
+  "agent": {
+   "adagrasib_0": {
+    "attempt": 0,
+    "infra_failure_final": false,
+    "terminal_status": "running",
+    "llm_failures": 0,
+    "infra": []
+   },
+   "adagrasib_1": {
+    "attempt": 0,
+    "infra_failure_final": false,
+    "terminal_status": "running",
+    "llm_failures": 0,
+    "infra": []
+   },
+   "adagrasib_2": {
+    "attempt": 0,
+    "infra_failure_final": false,
+    "terminal_status": "running",
+    "llm_failures": 0,
+    "infra": []
+   },
+   "dv505_0": {
+    "attempt": 0,
+    "infra_failure_final": false,
+    "terminal_status": "running",
+    "llm_failures": 0,
+    "infra": []
+   },
+   "dv505_1": {
+    "attempt": 0,
+    "infra_failure_final": false,
+    "terminal_status": "running",
+    "llm_failures": 0,
+    "infra": []
+   },
+   "dv505_2": {
+    "attempt": 0,
+    "infra_failure_final": false,
+    "terminal_status": "running",
+    "llm_failures": 0,
+    "infra": []
+   },
+   "lorlatinib_0": {
+    "attempt": 0,
+    "infra_failure_final": false,
+    "terminal_status": "running",
+    "llm_failures": 0,
+    "infra": []
+   },
+   "lorlatinib_1": {
+    "attempt": 0,
+    "infra_failure_final": false,
+    "terminal_status": "running",
+    "llm_failures": 0,
+    "infra": []
+   },
+   "lorlatinib_2": {
+    "attempt": 0,
+    "infra_failure_final": false,
+    "terminal_status": "running",
+    "llm_failures": 0,
+    "infra": []
+   },
+   "sotorasib_0": {
+    "attempt": 0,
+    "infra_failure_final": false,
+    "terminal_status": "running",
+    "llm_failures": 0,
+    "infra": []
+   },
+   "sotorasib_1": {
+    "attempt": 0,
+    "infra_failure_final": false,
+    "terminal_status": "running",
+    "llm_failures": 0,
+    "infra": []
+   },
+   "sotorasib_2": {
+    "attempt": 0,
+    "infra_failure_final": false,
+    "terminal_status": "running",
+    "llm_failures": 0,
+    "infra": []
+   }
+  }
+ },
+ "failed_attempts": {
+  "l1_oneshot": 0,
+  "l1_inputs": 0,
+  "oneshot": 0,
+  "agent": 0
+ },
+ "env_combos": {
+  "l1_oneshot": 1,
+  "l1_inputs": 1,
+  "oneshot": 1,
+  "agent": 1
+ },
+ "envs": {
+  "l1_oneshot": [
+   {
+    "DV_MODEL_BULK": "gpt-5.6-luna",
+    "DV_MODEL_EXTRACT": "gpt-6-sol",
+    "DV_MODEL_PLANNER": "gpt-6-sol",
+    "DV_MODEL_REVIEWER": "gpt-6-sol",
+    "DV_RUN_TOKEN_BUDGET": "150000",
+    "DV_TEAM_TOTAL_QUOTA": "30000000",
+    "rerank_enabled": true
+   }
+  ],
+  "l1_inputs": [
+   {
+    "DV_MODEL_BULK": "gpt-5.6-luna",
+    "DV_MODEL_EXTRACT": "gpt-6-sol",
+    "DV_MODEL_PLANNER": "gpt-6-sol",
+    "DV_MODEL_REVIEWER": "gpt-6-sol",
+    "DV_RUN_TOKEN_BUDGET": "150000",
+    "DV_TEAM_TOTAL_QUOTA": "30000000",
+    "rerank_enabled": true
+   }
+  ],
+  "oneshot": [
+   {
+    "DV_MODEL_BULK": "gpt-5.6-luna",
+    "DV_MODEL_EXTRACT": "gpt-6-sol",
+    "DV_MODEL_PLANNER": "gpt-6-sol",
+    "DV_MODEL_REVIEWER": "gpt-6-sol",
+    "DV_RUN_TOKEN_BUDGET": "150000",
+    "DV_TEAM_TOTAL_QUOTA": "30000000",
+    "rerank_enabled": true
+   }
+  ],
+  "agent": [
+   {
+    "DV_AUDIT_LOG": "C:\\Users\\user\\Desktop\\dev\\공모전\\AI 신약개발 경진대회\\logs\\eval_runs.jsonl",
+    "DV_MODEL_BULK": "gpt-5.6-luna",
+    "DV_MODEL_EXTRACT": "gpt-6-sol",
+    "DV_MODEL_PLANNER": "gpt-6-sol",
+    "DV_MODEL_REVIEWER": "gpt-6-sol",
+    "DV_RUN_TOKEN_BUDGET": "150000",
+    "DV_TEAM_TOTAL_QUOTA": "30000000",
+    "rerank_enabled": true
+   }
+  ]
+ },
+ "first_state_saved_at": "2026-10-02T00:00:02+0900",
+ "arm2_inputs": {
+  "adagrasib": {
+   "0": {
+    "cl_f_L_per_hr": 37.0,
+    "t_half_hr": 23.0,
+    "tau_hr": 12.0,
+    "fu": 0.016,
+    "ic50_nM": 10.0,
+    "mw": 604.12
+   },
+   "1": {
+    "cl_f_L_per_hr": 25.8,
+    "t_half_hr": 23.0,
+    "tau_hr": 12.0,
+    "fu": 0.017,
+    "ic50_nM": 10.0,
+    "mw": 604.11
+   },
+   "2": {
+    "cl_f_L_per_hr": 37.0,
+    "t_half_hr": 23.0,
+    "tau_hr": 12.0,
+    "fu": 0.016,
+    "ic50_nM": 5.0,
+    "mw": 604.13
+   }
+  },
+  "dv505": {
+   "0": {
+    "cl_f_L_per_hr": 18.0,
+    "t_half_hr": 9.0,
+    "tau_hr": 24.0,
+    "fu": 0.06,
+    "ic50_nM": 12.0,
+    "mw": 501.56
+   },
+   "1": {
+    "cl_f_L_per_hr": 18.0,
+    "t_half_hr": 9.0,
+    "tau_hr": 24.0,
+    "fu": 0.06,
+    "ic50_nM": 12.0,
+    "mw": 501.56
+   },
+   "2": {
+    "cl_f_L_per_hr": 18.0,
+    "t_half_hr": 9.0,
+    "tau_hr": 24.0,
+    "fu": 0.06,
+    "ic50_nM": 12.0,
+    "mw": 473.34
+   }
+  },
+  "lorlatinib": {
+   "0": {
+    "cl_f_L_per_hr": 18.0,
+    "t_half_hr": 24.0,
+    "tau_hr": 24.0,
+    "fu": 0.34,
+    "ic50_nM": 10.0,
+    "mw": 406.41
+   },
+   "1": {
+    "cl_f_L_per_hr": 18.0,
+    "t_half_hr": 24.0,
+    "tau_hr": 24.0,
+    "fu": 0.34,
+    "ic50_nM": 1.3,
+    "mw": 406.41
+   },
+   "2": {
+    "cl_f_L_per_hr": 18.0,
+    "t_half_hr": 14.0,
+    "tau_hr": 24.0,
+    "fu": 0.34,
+    "ic50_nM": 1.3,
+    "mw": 406.41
+   }
+  },
+  "sotorasib": {
+   "0": {
+    "cl_f_L_per_hr": 26.2,
+    "t_half_hr": 5.0,
+    "tau_hr": 24.0,
+    "fu": 0.11,
+    "ic50_nM": 90.0,
+    "mw": 560.6
+   },
+   "1": {
+    "cl_f_L_per_hr": 26.2,
+    "t_half_hr": 5.0,
+    "tau_hr": 24.0,
+    "fu": 0.11,
+    "ic50_nM": 6.0,
+    "mw": 560.6
+   },
+   "2": {
+    "cl_f_L_per_hr": 26.2,
+    "t_half_hr": 5.0,
+    "tau_hr": 24.0,
+    "fu": 0.11,
+    "ic50_nM": 6.0,
+    "mw": 560.6
+   }
+  }
+ },
+ "agent_inputs": {
+  "adagrasib": {
+   "0": {
+    "cl_f": 37.0,
+    "t_half": 23.0,
+    "tau": 12.0,
+    "fu": 0.02,
+    "ic50": 10.0,
+    "mw": 604.13,
+    "pk_src": "FDA 라벨 12.3(KRAZATI)",
+    "ic50_src": "ChEMBL 세포 기반 중앙값",
+    "doses": [
+     150.0,
+     300.0,
+     400.0,
+     600.0
+    ]
+   },
+   "1": {
+    "cl_f": 37.0,
+    "t_half": 23.0,
+    "tau": 12.0,
+    "fu": 0.02,
+    "ic50": 10.0,
+    "mw": 604.13,
+    "pk_src": "FDA 라벨 12.3(KRAZATI)",
+    "ic50_src": "ChEMBL 세포 기반 중앙값",
+    "doses": [
+     150.0,
+     300.0,
+     400.0,
+     600.0
+    ]
+   },
+   "2": {
+    "cl_f": 37.0,
+    "t_half": 23.0,
+    "tau": 12.0,
+    "fu": 0.02,
+    "ic50": 10.0,
+    "mw": 604.13,
+    "pk_src": "FDA 라벨 12.3(KRAZATI)",
+    "ic50_src": "ChEMBL 세포 기반 중앙값",
+    "doses": [
+     150.0,
+     300.0,
+     400.0,
+     600.0
+    ]
+   }
+  },
+  "dv505": {
+   "0": {
+    "cl_f": 18.0,
+    "t_half": 9.0,
+    "tau": 24.0,
+    "fu": 0.06,
+    "ic50": 12.0,
+    "mw": 501.566,
+    "pk_src": "프로토콜 보고 PK",
+    "ic50_src": "프로토콜 보고 IC50",
+    "doses": [
+     50.0,
+     100.0,
+     200.0,
+     400.0,
+     600.0
+    ]
+   },
+   "1": {
+    "cl_f": 18.0,
+    "t_half": 9.0,
+    "tau": 24.0,
+    "fu": 0.06,
+    "ic50": 12.0,
+    "mw": 501.566,
+    "pk_src": "프로토콜 보고 PK",
+    "ic50_src": "프로토콜 보고 IC50",
+    "doses": [
+     50.0,
+     100.0,
+     200.0,
+     400.0,
+     600.0
+    ]
+   },
+   "2": {
+    "cl_f": 18.0,
+    "t_half": 9.0,
+    "tau": 24.0,
+    "fu": 0.06,
+    "ic50": 12.0,
+    "mw": 501.566,
+    "pk_src": "프로토콜 보고 PK",
+    "ic50_src": "프로토콜 보고 IC50",
+    "doses": [
+     50.0,
+     100.0,
+     200.0,
+     400.0,
+     600.0
+    ]
+   }
+  },
+  "lorlatinib": {
+   "0": {
+    "cl_f": 18.0,
+    "t_half": 24.0,
+    "tau": 24.0,
+    "fu": 0.34,
+    "ic50": 9.0,
+    "mw": 406.421,
+    "pk_src": "FDA 라벨 12.3(Lorbrena)",
+    "ic50_src": "ChEMBL 세포 기반 중앙값",
+    "doses": [
+     25.0,
+     50.0,
+     75.0,
+     100.0,
+     150.0,
+     200.0
+    ]
+   },
+   "1": {
+    "cl_f": 18.0,
+    "t_half": 24.0,
+    "tau": 24.0,
+    "fu": 0.34,
+    "ic50": 9.0,
+    "mw": 406.421,
+    "pk_src": "FDA 라벨 12.3(Lorbrena)",
+    "ic50_src": "ChEMBL 세포 기반 중앙값",
+    "doses": [
+     25.0,
+     50.0,
+     75.0,
+     100.0,
+     150.0,
+     200.0
+    ]
+   },
+   "2": {
+    "cl_f": 18.0,
+    "t_half": 24.0,
+    "tau": 24.0,
+    "fu": 0.34,
+    "ic50": 9.0,
+    "mw": 406.421,
+    "pk_src": "FDA 라벨 12.3(Lorbrena)",
+    "ic50_src": "ChEMBL 세포 기반 중앙값",
+    "doses": [
+     25.0,
+     50.0,
+     75.0,
+     100.0,
+     150.0,
+     200.0
+    ]
+   }
+  },
+  "sotorasib": {
+   "0": {
+    "cl_f": 26.2,
+    "t_half": 5.0,
+    "tau": 24.0,
+    "fu": 0.11,
+    "ic50": 30.0,
+    "mw": 560.605,
+    "pk_src": "FDA 라벨 12.3(LUMAKRAS)",
+    "ic50_src": "ChEMBL 세포 기반 중앙값",
+    "doses": [
+     180.0,
+     360.0,
+     540.0,
+     720.0,
+     960.0
+    ]
+   },
+   "1": {
+    "cl_f": 26.2,
+    "t_half": 5.0,
+    "tau": 24.0,
+    "fu": 0.11,
+    "ic50": 30.0,
+    "mw": 560.605,
+    "pk_src": "FDA 라벨 12.3(LUMAKRAS)",
+    "ic50_src": "ChEMBL 세포 기반 중앙값",
+    "doses": [
+     180.0,
+     360.0,
+     540.0,
+     720.0,
+     960.0
+    ]
+   },
+   "2": {
+    "cl_f": 26.2,
+    "t_half": 5.0,
+    "tau": 24.0,
+    "fu": 0.11,
+    "ic50": 30.0,
+    "mw": 560.605,
+    "pk_src": "FDA 라벨 12.3(LUMAKRAS)",
+    "ic50_src": "ChEMBL 세포 기반 중앙값",
+    "doses": [
+     180.0,
+     360.0,
+     540.0,
+     720.0,
+     960.0
+    ]
+   }
+  }
+ }
+}

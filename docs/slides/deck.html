@@ -118,6 +118,11 @@ figcaption { font-size: 19px; color: var(--muted); line-height: 1.4; }
 .tg { font-size:0.9em; color:var(--muted); }
 .tg::before { content:"※ "; }
 .tg + .tg::before { content:" · "; }
+/* 결과 대기 장: 메인이 채우기 전까지 렌더·PDF에 나오지 않는다 */
+.slide[data-pending] { display: none !important; }
+/* 데모 캡처: 예시 ① 저장 결과(로컬 ?demo=1&cached=1, 1240px·2배) 부분 캡처를 세로로 잇는다 */
+.shots { display: flex; flex-direction: column; gap: 10px; min-height: 0; }
+.shots img { display: block; width: 100%; border: 1px solid var(--line); background: var(--paper); }
 .todo-spec { display:inline-block; color:var(--reject); background:#fbeeec; border:1.5px dashed var(--reject); padding:0 10px; border-radius:4px; font-weight:700; }
 /* flow diagram */
 .flow { display: flex; align-items: center; gap: 0; }
@@ -176,33 +181,83 @@ figcaption { font-size: 19px; color: var(--muted); line-height: 1.4; }
           <div class="small" style="font-weight:600; color:var(--ink)">DoseVerdict가 같은 질문을 묻는 시점</div>
           <p>RP2D를 정하고 확장 코호트로 넘어가는 프로토콜 개정 단계다. 1상 초록은 용량제한독성이 관찰되지 않았다고 보고한다. 묻는 것은 그 용량을 비교 없이 RP2D로 넘긴 근거다. 증량 코호트 규모로는 노출 포화를 확정할 수 없으므로, 판정 대신 용량군별 반복투여 PK를 요청한다.</p>
         </div>
-        <p class="small full">실제 승인 전 1상 초록 43건 후향 검증에서는 시판 후 요구사항이 부과된 약을 가르지 못했다(10쪽).</p>
+        <p class="small full">실제 승인 전 1상 초록 43건 후향 검증에서는 시판 후 요구사항이 부과된 약을 가르지 못했다(06쪽).</p>
       </div>
     </div>
   </div>
   <div class="rule"></div>
-  <div class="foot-l">01 / 12 · 팀 경기대 지피티 전공 · 제4회 JUMP AI Agentic Drug Challenge 본선</div>
+  <div class="foot-l">01 / 14 · 팀 경기대 지피티 전공 · 제4회 JUMP AI Agentic Drug Challenge 본선</div>
   <div class="foot-r"><span class="tag">과학적 타당성·혁신성</span></div>
 </section>
 
-<!-- S2 demo -->
+<!-- 02 데모 ① (현 2장) — 캡처: assets/demo1_f00*.png, 로컬 ?demo=1&cached=1 -->
 <section class="slide">
-  <div class="kicker">접근 · 데모 화면</div>
+  <div class="kicker">데모 60초 ① · 예시 ① 저장 결과 · 기권 카드</div>
   <h1>가이던스를 인용하는 데서 멈추지 않고 계산한다. 근거가 결론을 받치지 못하면 멈춘다.</h1>
   <div class="body" style="gap:56px">
-    <div class="col" style="flex:0.62; gap:28px">
+    <div class="col" style="flex:0.52; gap:28px">
       <div class="step"><div class="k">1 · 읽는다</div><div class="h">규제 문서를 찾아 인용한다</div><p>FDA·ICH·식약처 코퍼스에서 조항을 찾고, 인용이 주장을 받치는지 NLI로 확인한다.</p></div>
       <div class="step"><div class="k">2 · 계산한다</div><div class="h">용량 논리를 도구로 계산한다</div><p>TCR 3지표(C_max·C_avg·C_trough), 노출비 검정력, 3+3/BOIN 표본 정합.</p></div>
       <div class="step" style="border-color:var(--abstain)"><div class="k">3 · 멈춘다</div><div class="h t-abstain">결론을 만들지 않는다(기권)</div><p>판정이 지표나 가정에 따라 갈리면 결론 대신 필요한 자료를 요청한다.</p></div>
     </div>
-    <figure style="flex:1.38">
-      <img src="assets/demo1_summary_f00.png" alt="예시 ① 요약 바와 F00 기권 카드" style="max-height:590px; width:auto; align-self:flex-start">
-      <figcaption>예시 ① 저장 결과(finding 11: 검증 9·보류 1·기권 1). F00 기권 카드는 원문 “The MTD will be selected as the RP2D.”에 결론 대신 용량군별 반복투여 PK를 요청한다.</figcaption>
+    <figure style="flex:1.48">
+      <div class="shots">
+        <img src="assets/demo1_f00.png" alt="예시 ① Findings 제목과 F00 기권 카드">
+        <img src="assets/demo1_f00_req.png" alt="F00 요청 자료">
+      </div>
+      <figcaption>예시 ① 저장 결과(finding 11: 검증 9·보류 1·기권 1). F00 기권 카드는 원문 “The MTD will be selected as the RP2D.”에 결론 대신 용량군별 반복투여 PK를 요청한다. <span class="tg">합성 예시 프로토콜(실제 소토라십 프로토콜 아님)</span> <span class="tg">F00 근거 목록은 생략</span></figcaption>
     </figure>
   </div>
   <div class="rule"></div>
-  <div class="foot-l">02 / 12</div>
+  <div class="foot-l">02 / 14</div>
   <div class="foot-r"><span class="tag">과학적 타당성·혁신성</span><span class="tag">시연·완성도</span></div>
+</section>
+
+<!-- 03 데모 ② 수정 Diff (신규) — 캡처: assets/demo1_f01_*.png(evidence는 10-01 같은 조건 재캡처에서 ev_004 줄·검증기 줄 발췌). 문구는 영상 3:26~3:49 대사 발췌 -->
+<section class="slide">
+  <div class="kicker">데모 60초 ② · 예시 ① 저장 결과 · 수정 Diff</div>
+  <h1>다른 지적에는 규제 원문이 붙고, 수정 문장은 Diff로 나온다.</h1>
+  <div class="body" style="gap:56px">
+    <div class="col" style="flex:0.52; gap:28px">
+      <div class="stat"><div class="n md">1.00</div><div class="l">F01 인용의 NLI 함의(라벨 경고 원문)</div></div>
+      <p>간기능 검사가 6주 간격인데 라벨은 첫 3개월 3주 간격을 요구한다. 이 인용은 문장 함의 판정, NLI에서 1.00으로 검증됐다.</p>
+      <p class="small">평가에서 고친 문장 30개 중 24개는 다시 지적되지 않았지만, 비교 기준은 사후였고 수정안의 질은 평가하지 않았다(10쪽).</p>
+    </div>
+    <figure style="flex:1.48">
+      <div class="shots">
+        <img src="assets/demo1_f01_span.png" alt="F01 원문 span">
+        <img src="assets/demo1_f01_evidence.png" alt="F01 인용 라벨 경고 원문과 검증기 NLI 함의 1.00">
+        <img src="assets/demo1_f01_diff.png" alt="F01 Patch Diff">
+      </div>
+      <figcaption>예시 ① F01(검증). 원문 span → 인용한 라벨 경고 원문과 검증기 판정(NLI 함의 1.00) → Patch Diff. <span class="tg">프로토콜·근거 사실, Reviewer 의견은 생략</span></figcaption>
+    </figure>
+  </div>
+  <div class="rule"></div>
+  <div class="foot-l">03 / 14</div>
+  <div class="foot-r"><span class="tag">과학적 타당성·혁신성</span><span class="tag">시연·완성도</span></div>
+</section>
+
+<!-- 04 데모 ③ Human Gate (신규) — 캡처: assets/demo1_gate*.png. 문구는 UI 안내문·영상 4:00~4:32 대사 발췌 -->
+<section class="slide">
+  <div class="kicker">데모 60초 ③ · 예시 ① 저장 결과 · Human Gate</div>
+  <h1>승인은 사람만 한다. 에이전트는 승인하지 않는다.</h1>
+  <div class="body" style="gap:56px">
+    <div class="col" style="flex:0.52; gap:28px">
+      <p>finding별로 승인·기각·보류를 정해 감사로그에 남긴다.</p>
+      <p class="small">라이브 실행에서 승인하면 승인자, 시각, 모델, 프롬프트 해시, 도구 호출, 노드별 토큰이 감사로그에 남고, 검토 메모로 내려받는다.</p>
+      <p class="small">MTD를 RP2D로 정한다는 지적(F02)은 식약처 안내서를 인용했지만, 다국어 NLI 함의가 0.29로 기준 0.7에 못 미쳐 보류됐다. 자동 통과 대신 사람에게 넘긴다(교차언어 NLI의 거짓 음성일 수 있다).</p>
+    </div>
+    <figure style="flex:1.48">
+      <div class="shots">
+        <img src="assets/demo1_gate.png" alt="Human Approval Gate 승인자와 finding별 결정">
+        <img src="assets/demo1_gate_info.png" alt="저장된 결과 보기 모드 안내와 승인 확정 버튼">
+      </div>
+      <figcaption>예시 ① Human Gate 탭(F00~F02, 이하 생략). 저장된 결과 보기 모드에서는 승인 버튼이 꺼져 있고, 승인은 라이브 실행에서만 감사로그에 기록된다. <span class="tg">선택값은 검증기 상태로 채운 초기값(검증→approved, 그 외→on_hold)이며, 사람이 확정하기 전에는 기록되지 않는다</span></figcaption>
+    </figure>
+  </div>
+  <div class="rule"></div>
+  <div class="foot-l">04 / 14</div>
+  <div class="foot-r"><span class="tag">시연·완성도</span><span class="tag">자율성·지능</span></div>
 </section>
 
 <!-- S3 authority+autonomy -->
@@ -234,7 +289,7 @@ figcaption { font-size: 19px; color: var(--muted); line-height: 1.4; }
             <tr><td class="mono">tool_fallback</td><td class="num">20</td><td class="num">10</td></tr>
           </tbody>
         </table>
-        <p class="small">트리거 12종 중 평가 70케이스에서 발동한 것은 4종이다. 적대 판에서는 <span class="mono">source_version_conflict</span>·<span class="mono">citation_rejected</span>(예시 ⑥ 폐기 초안)와 <span class="mono">prompt_injection_detected</span>(인젝션 판)가 발동했다(06쪽). 나머지 5종은 단위 테스트로만 확인했다. <span class="tg">재선택은 GPU에서만, 기술서 3.3</span></p>
+        <p class="small">트리거 12종 중 평가 70케이스에서 발동한 것은 4종이다. 적대 판에서는 <span class="mono">source_version_conflict</span>·<span class="mono">citation_rejected</span>(예시 ⑥ 폐기 초안)와 <span class="mono">prompt_injection_detected</span>(인젝션 판)가 발동했다(09쪽). 나머지 5종은 단위 테스트로만 확인했다. <span class="tg">재선택은 GPU에서만, 기술서 3.3</span></p>
       </div>
     </div>
     <div class="flow">
@@ -250,8 +305,32 @@ figcaption { font-size: 19px; color: var(--muted); line-height: 1.4; }
     <p class="small">LangGraph 9노드 · <b class="t-reject">verify → rewrite → verify</b> 인용이 기각되면 재작성 · <b class="t-abstain">arena → finalize</b> 결론이 없으면 종료 · <b style="color:var(--ink)">불변식</b>: LLM finding이 TCR 판정을 담으면 보류(held).</p>
   </div>
   <div class="rule"></div>
-  <div class="foot-l">03 / 12</div>
+  <div class="foot-l">05 / 14</div>
   <div class="foot-r"><span class="tag">자율성·지능</span></div>
+</section>
+
+<!-- 06 부정적 결과 요약 (신규) — 문구·수치는 현 9·10장(부록 A1·A2)에서 그대로 발췌 -->
+<section class="slide">
+  <div class="kicker">부정적 결과 · null·부정이었던 것</div>
+  <h1>에이전트 구조가 결함 탐지를 낫게 한다는 증거는 없다. 실제 약에서 PMR 부과 약을 가르지 못했다.</h1>
+  <div class="body col" style="gap:16px">
+    <table class="tight" style="font-size:21px">
+      <thead><tr><th style="width:27%">물은 것</th><th style="width:21%">결과</th><th>핵심 수치</th></tr></thead>
+      <tbody>
+        <tr><td>원샷 베이스라인 (원 20, gpt-6-sol 단일 호출·도구 없음)</td><td><b>사전 등록 판정: 차이 확인 안 됨</b></td><td>grounded 차이(원샷 − 에이전트) −0.092 [−0.208, +0.021] · 토큰/케이스 39,701 대 5,023</td></tr>
+        <tr><td>Ablation (09-11, 원 20, 사전 등록 아님)</td><td><b>어느 구성요소를 빼도 하락이 없었다</b></td><td>full · Reviewer 3인 0.358 [0.267, 0.450] · Reviewer 없음 0.383 [0.300, 0.467] · 계산 도구 없음 0.425 [0.333, 0.517] · 검증기 없음 0.400 [0.325, 0.483]</td></tr>
+        <tr><td>후향 검증 · 승인 전 1상 초록 43건(양성 14)</td><td><b>신호 확인 안 됨(null)</b></td><td>S1 AUROC 0.440 [0.270, 0.621]. 43/43에서 용량 결함을 지적했다 <span class="tg">재식별 43/43 · 오염 배제 불가</span></td></tr>
+        <tr><td>결함 없는 기준 시놉시스 12회 (평가 B)</td><td><b>원샷+판정기가 더 조용하다</b></td><td>실행당 defect finding 6.42(결함 6개 판 8.35와 차이가 작다), 문장 특이도 0.64 · 원샷+같은 인용 판정기 지적 기준 문장 6.0 대 8.0/실행, 차이 −2.00 [−3.67, −0.42] <span class="tg">판정기는 인용 판정기만 · 12회 반복이라 CI 과소 가능</span></td></tr>
+        <tr><td>반복 일관성 · 지적 문장 집합 (사전 등록, 약 4종 × 3회)</td><td><b>사전 등록 판정: 이 시놉시스 4종에서 차이 확인 안 됨</b></td><td>3회 쌍별 Jaccard 에이전트 0.687 대 원샷 0.746, 차이 −0.059, 약별 음수 3·0 1(12쪽)</td></tr>
+        <tr><td>지적을 줄이는 보정 A/B (사전 등록, 보정판 1회 실행)</td><td><b>기각</b></td><td>원 20 민감도 0.962→0.583, Youden J 0.761→0.559. 운영점 이동이 아니라 판별력도 낮아졌다</td></tr>
+      </tbody>
+    </table>
+    <p class="small">사후 분석: 근거 문장의 원문 일치는 에이전트 94.2%, 원샷 54.7%다(NLI 의역 포함 97.6%, 76.7%). <span class="tg">원샷에 유리: 에이전트만 hold-out</span> <span class="tg">의역 판정기는 에이전트 검증기와 같은 NLI이고 설정을 결과를 본 뒤 정해 에이전트에 유리</span></p>
+    <div class="note"><strong>상세와 단서는 부록에 있다.</strong> 부록 A1: 원샷 베이스라인·ablation 표. 부록 A2: 후향 검증·결함 없는 판·보정 A/B·도구 없는 약리 판정(기권 평가).</div>
+  </div>
+  <div class="rule"></div>
+  <div class="foot-l">06 / 14</div>
+  <div class="foot-r"><span class="tag">과학적 타당성·혁신성</span></div>
 </section>
 
 <!-- S4 tools+multidrug -->
@@ -283,7 +362,7 @@ figcaption { font-size: 19px; color: var(--muted); line-height: 1.4; }
     </div>
   </div>
   <div class="rule"></div>
-  <div class="foot-l">04 / 12</div>
+  <div class="foot-l">07 / 14</div>
   <div class="foot-r"><span class="tag">도구 활용</span><span class="tag">과학적 타당성·혁신성</span></div>
 </section>
 
@@ -305,7 +384,7 @@ figcaption { font-size: 19px; color: var(--muted); line-height: 1.4; }
     </div>
   </div>
   <div class="rule"></div>
-  <div class="foot-l">05 / 12</div>
+  <div class="foot-l">08 / 14</div>
   <div class="foot-r"><span class="tag">과학적 타당성·혁신성</span></div>
 </section>
 
@@ -333,7 +412,7 @@ figcaption { font-size: 19px; color: var(--muted); line-height: 1.4; }
     </div>
   </div>
   <div class="rule"></div>
-  <div class="foot-l">06 / 12</div>
+  <div class="foot-l">09 / 14</div>
   <div class="foot-r"><span class="tag">자율성·지능</span><span class="tag">시연·완성도</span></div>
 </section>
 
@@ -373,11 +452,11 @@ figcaption { font-size: 19px; color: var(--muted); line-height: 1.4; }
     </div>
     <div class="col" style="gap:10px">
       <div class="small" style="font-weight:600; color:var(--ink)">사전 등록 판정이 null·부정이었던 것</div>
-      <p style="font-size:22px; line-height:1.55">같은 모델 원샷 대비 탐지 차이, 실제 약 후향 검증, 지적을 줄이는 보정 A/B는 확인되지 않았거나 기각됐다. 결함 없는 판에서는 원샷+인용 판정기가 더 조용했다. 09·10쪽에 모았다.</p>
+      <p style="font-size:22px; line-height:1.55">같은 모델 원샷 대비 탐지 차이, 실제 약 후향 검증, 지적 문장의 반복 일관성(방향은 에이전트가 낮음)은 확인되지 않았고, 지적을 줄이는 보정 A/B는 기각됐다. 결함 없는 판에서는 원샷+인용 판정기가 더 조용했다. 06·12쪽과 부록 A1·A2에 모았다.</p>
     </div>
   </div>
   <div class="rule"></div>
-  <div class="foot-l">07 / 12</div>
+  <div class="foot-l">10 / 14</div>
   <div class="foot-r"><span class="tag">과학적 타당성·혁신성</span><span class="tag">리소스 효율</span></div>
 </section>
 
@@ -399,11 +478,11 @@ figcaption { font-size: 19px; color: var(--muted); line-height: 1.4; }
           <tr><td>findings effort medium</td><td class="num">+28.5%</td><td class="num">+0.033</td><td><span class="chip c-reject">기각</span></td></tr>
         </tbody>
       </table>
-      <p class="small"><span class="tg">gpt-6-sol +0.117은 1회 실행이다. 확장 40에서는 +0.050으로 유의하지 않아, 유지 근거는 토큰 절감이다(사후 판단).</span> <span class="tg">나머지 4개 팔 보류 · 캐시 절감 0 · 확장 40 결과 포함 전체 표: 기술서 6.2·6.3·6.7</span> <span class="tg">누적 32,184,908 토큰(6,000만의 53.6%, 10-01 기준)</span></p>
+      <p class="small"><span class="tg">gpt-6-sol +0.117은 1회 실행이다. 확장 40에서는 +0.050으로 유의하지 않아, 유지 근거는 토큰 절감이다(사후 판단).</span> <span class="tg">나머지 4개 팔 보류 · 캐시 절감 0 · 확장 40 결과 포함 전체 표: 기술서 6.2·6.3·6.7</span> <span class="tg">누적 32,800,166 토큰(6,000만의 54.7%, 일관성 비교 포함)</span></p>
       <p class="small">토큰의 70~80%가 입력이고 reasoning은 1%다. 쿼터를 줄이는 레버는 effort가 아니라 입력이었다. LLM 호출 전 예산 가드(run 기본 150,000)와 노드별 토큰 원장이 있다(Audit 탭).</p>
     </div>
     <div class="col" style="flex:1; gap:16px">
-      <div class="note"><strong>원샷 대비 토큰 약 8배로 기대할 수 있는 것:</strong> 판단 입력의 도구 확보와 재현성(10쪽, 순환성·사후 단서), 원문에 묶인 인용(09쪽, 사후). 탐지율은 아니다. 기준은 기술서 6.9 결함 검토 과제(39,701 대 5,023)다.</div>
+      <div class="note"><strong>원샷 대비 토큰 약 8배로 기대할 수 있는 것:</strong> 판단 입력의 도구 확보와 용량 판정 재현성(12쪽 L1 기술 통계·순환적, 1차 지표인 지적 문장 일관성은 차이 확인 안 됨), 원문에 묶인 인용(부록 A1, 사후). 탐지율은 아니다. 기준은 기술서 6.9 결함 검토 과제(39,701 대 5,023)다.</div>
       <figure>
         <img src="assets/pareto_tokens_grounded.png" alt="토큰 대 grounded 파레토" style="width:auto; max-height:450px; align-self:flex-start">
         <figcaption>설정별 케이스당 토큰 대 grounded(점추정). 세트가 다른 점끼리는 비교하지 않는다.</figcaption>
@@ -411,13 +490,112 @@ figcaption { font-size: 19px; color: var(--muted); line-height: 1.4; }
     </div>
   </div>
   <div class="rule"></div>
-  <div class="foot-l">08 / 12</div>
+  <div class="foot-l">11 / 14</div>
   <div class="foot-r"><span class="tag">리소스 효율</span></div>
 </section>
 
-<!-- N9 negative1 -->
+<!-- 12 사전 등록 반복 일관성(10-01 등록·10-02 실행, KST). 1차 L2를 왼쪽·큰 숫자로, 기술 통계 L1은 오른쪽. 수치 단일 출처: app/eval/data/results/CONSISTENCY_REPORT.md·consistency.json, 사전 등록 docs/consistency_prereg.md(232aae6) -->
 <section class="slide">
-  <div class="kicker">한계와 부정적 결과 ①</div>
+  <div class="kicker">사전 등록 반복 일관성 · 1차 L2 · 기술 통계 L1 (10-01 등록 · 10-02 실행)</div>
+  <h1 style="font-size:46px">지적 문장 일관성(1차)은 이 시놉시스 4종에서 원샷과 차이 확인 안 됨, 방향은 에이전트가 낮다. 용량 판정은 약 4종 × 3회 같았지만 고정 조회 규약의 결과다(기관측·순환).</h1>
+  <div class="body" style="gap:52px">
+    <div class="col" style="flex:0.92; gap:14px">
+      <div class="small" style="font-weight:600; color:var(--ink)">L2 지적 문장 집합 · 1차 지표(사전 등록)</div>
+      <div class="stat"><div class="n md">−0.059</div><div class="l">3회 쌍별 Jaccard 에이전트 0.687 − 원샷 0.746<br>p 0.250 · 약 4종 중 3종에서 에이전트가 낮음</div></div>
+      <div class="note"><strong>사전 등록 판정: 이 시놉시스 4종에서 차이 확인 안 됨.</strong> 약별로 음수 3·0 1, 정확 부호 뒤집기 p 0.250. 약 4종이면 최소 p가 0.125라 실행 전부터 확증할 수 없게 등록했다. 방향은 에이전트가 덜 일관된 쪽이다.</div>
+      <p class="small">에이전트가 회차당 더 많이 지적했다(8~14 대 7~11). Jaccard는 집합 크기에 기계적으로 좌우된다. 민감도: 원샷 + NLI 필터 0.497(같은 출력의 부분집합, 독립 비교 아님).</p>
+    </div>
+    <div class="col" style="flex:1.08; gap:14px">
+      <div class="small" style="font-weight:600; color:var(--ink)">L1 용량군 판정 · 약 4종(용량군 20개) × 3회 · 기술 통계(판정 문구 없음) · 에이전트 값은 기관측·도구 정답과 같은 계산 경로(순환)</div>
+      <div class="stat"><div class="n md" style="color:var(--muted)">4/4 <small>대</small> 0/4</div><div class="l">PK 입력 6개가 3회 모두 같은 약 수, 에이전트 대 원샷 입력 팔 (에이전트는 조회 규약상 예상된 값)</div></div>
+      <table class="tight" style="font-size:20px">
+        <thead><tr><th>팔</th><th class="num">3회 판정 일치</th><th>판정값 분포(60)</th></tr></thead>
+        <tbody>
+          <tr><td>에이전트 (lean, 도구로 입력 확보)</td><td class="num">1.000</td><td>커버 39 · 판정 보류 21</td></tr>
+          <tr><td>원샷 입력 + 결정론 계산기</td><td class="num">0.700</td><td>커버 48 · 판정 보류 12</td></tr>
+          <tr><td>원샷 (도구 없음)</td><td class="num">0.650</td><td>커버 35 · 미커버 4 · 판정 보류 21</td></tr>
+        </tbody>
+      </table>
+      <p class="small">원샷 입력 팔은 세 약에서 IC50을 회차마다 다시 골랐다(소토라십 90 / 6 / 6 nM → 일치 0/5, 로를라티닙 10 / 1.3 / 1.3 nM). 에이전트는 ChEMBL 세포 기반 중앙값(30·9 nM)을 고정했다. 계산기를 붙여도 0.700이라 일관성은 입력 확보 규약에서 오는 것으로 보인다. 1.000은 입력을 한 값으로 고정한 결과이며, 입력 범위에 대한 판정 안정성은 평가하지 않았다. <span class="tg">유의성·동등성 주장 없음 · 3회 모두 입력 없음·판단 불가 0</span></p>
+    </div>
+  </div>
+  <p class="small" style="margin-top:10px"><span class="tg">L1 일관성은 결정론 조회 규약의 성질이며 LLM 에이전트 고유의 효과라는 근거가 아니다(LLM 없는 규칙 조회 팔 미실행)</span> <span class="tg">일관성은 정확성이 아니다</span> <span class="tg">약 4종, 팀이 만든 시놉시스</span> <span class="tg">호출 설정·샘플링 다름</span> <span class="tg">원샷 입력 팔은 지시문(기억·추정 권장)에 좌우될 수 있음</span> <span class="tg">09-29 사후값 0.267(라벨 PK 약 3종)은 같은 지시문·같은 3종의 이번 실행에서 0.533으로 재현되지 않았다. 3회 일치 지표 자체가 실행 간에 흔들린다</span></p>
+  <p class="small" style="margin-top:4px">토큰 에이전트 481,530 · 원샷 104,928 · 원샷 입력 추출 28,800 · 사전 등록 <span class="mono">docs/consistency_prereg.md</span>(실행 전 커밋 232aae6) · 결과 <span class="mono">CONSISTENCY_REPORT.md</span></p>
+  <div class="rule"></div>
+  <div class="foot-l">12 / 14</div>
+  <div class="foot-r"><span class="tag">과학적 타당성·혁신성</span><span class="tag">자율성·지능</span></div>
+</section>
+
+<!-- 11 roadmap (new) -->
+<section class="slide">
+  <div class="kicker">한계에서 다음 단계로</div>
+  <h1>다음 단계는 모두 계획이다. 한계마다 판정 기준을 먼저 등록하고, 기준에 못 미치면 주장을 접는다.</h1>
+  <div class="body col" style="gap:18px">
+    <table class="tight" style="font-size:21px">
+      <thead><tr><th>확인된 한계</th><th>다음 단계 (계획)</th><th>판정 기준 (계획상) → 결정</th></tr></thead>
+      <tbody>
+        <tr><td>전문가 라벨 없는 합성 Silver Set, 지적 타당성 미평가, 외부 자문 미확보</td><td>임상약리·규제 외부 자문 2인 이상의 맹검 독립 라벨로 Gold Set 구축</td><td>평가자 간 κ ≥ 0.61일 때만 Gold Set으로 쓴다. 재라벨 후에도 미달이면 정량 성능 주장을 접는다</td></tr>
+        <tr><td>실제 1상 초록 43건 후향 검증 null(AUROC 0.440), 모델이 가린 약을 재식별</td><td>재식별 탐침을 통과한 비공개 프로토콜을 전용 LLM·외부 조회 차단 환경에서 검토</td><td>전문가 라벨 대비 지적 정확성. 규제 요구 기록이 쌓이면 AUROC CI 하한 &gt; 0.5. 0.5를 포함하면 '위험 선별' 주장을 접는다</td></tr>
+        <tr><td>같은 모델 원샷과 탐지 차이 확인 안 됨, 토큰 약 8배</td><td>Gold Set·새 세트에서 원샷, 원샷 + 인용 판정기 + 도구 기권 구성과 3팔 비교 <span class="tg">반복 일관성 지표로만 축소판 수행(12쪽), 지적 타당·민감도 비교는 미수행</span></td><td>지적 타당 비율·민감도가 모두 비열등(마진 −5pp 사전 고정)이면 다단계 구조를 기본값에서 내린다</td></tr>
+        <tr><td>결함 없는 판에서 실행당 6.42건 지적, 줄이면 놓침</td><td>실제 제출 전 검토와 병행하는 섀도 운영</td><td>오경보 기각 시간이 인용 재확인으로 아낀 시간보다 크면 현장 도입을 멈춘다</td></tr>
+      </tbody>
+    </table>
+    <p class="small">발표(10-29) 전: 안정성 감사 15케이스 × 2회(기준선 포함), 확장 40·배포 조건 재실행, TCR 포화 의심 표시. 결과는 발표에서만 보고하고 제출물 수치는 바꾸지 않는다.</p>
+    <div class="note"><strong>의의 · 확인된 범위:</strong> 수치 판정은 도구가 내고, 판정이 갈리거나 입력이 비면 추정하지 않고 멈춘다. 240 mg(08쪽), 아다그라십·DV-505(07쪽), 후향 43/43 F00 기권(입력을 차단한 조건). 승인은 사람이 한다.</div>
+    <p class="small"><span class="tg">로드맵은 모두 계획이며 실행하지 않았다(3행의 반복 일관성 축소판만 12쪽에서 수행)</span> <span class="tg">κ 0.61은 Landis·Koch 'substantial' 하한 관행</span> <span class="tg">단계별 자원과 반증 조건은 기술서 13.2·13.4</span></p>
+  </div>
+  <div class="rule"></div>
+  <div class="foot-l">13 / 14</div>
+  <div class="foot-r"><span class="tag">과학적 타당성·혁신성</span></div>
+</section>
+
+<!-- 12 -->
+<section class="slide">
+  <div class="kicker">지금 실행 · 한계</div>
+  <h1 style="font-size:60px; max-width:1700px; margin-bottom:36px">정답을 맞히는 기계가 아니라, 근거가 얇을 때 멈추고 출처를 남기는 검토자</h1>
+  <div class="body" style="gap:64px">
+    <div class="col" style="flex:1.1; gap:24px">
+      <div style="display:flex; gap:36px; align-items:center">
+        <img src="assets/qr_space.svg" alt="배포 URL QR" style="width:220px; height:220px; border:1px solid var(--line)">
+        <div class="col" style="gap:10px">
+          <div class="mono" style="font-size:26px; white-space:nowrap">huggingface.co/spaces/Haribear99/doseverdict</div>
+          <div class="mono" style="font-size:28px">?demo=1&amp;cached=1</div>
+          <div class="small">저장된 검토 결과를 LLM 호출 없이 바로 연다.</div>
+          <div class="stat" style="margin-top:6px"><div class="n md">83<small>초</small></div><div class="l">HF Spaces 라이브 검토 · 웜 · 1회 측정</div></div>
+        </div>
+      </div>
+      <table class="tight" style="font-size:21px">
+        <thead><tr><th>실행 방법</th><th>주소 · 명령</th></tr></thead>
+        <tbody>
+          <tr><td>저장 결과 즉시 보기</td><td class="mono">?demo=1&amp;cached=1</td></tr>
+          <tr><td>원클릭 라이브</td><td class="mono">?demo=1&amp;autorun=1</td></tr>
+          <tr><td>웹 UI</td><td>예시 선택 또는 직접 붙여넣기 → 검토 실행</td></tr>
+          <tr><td>CLI / Docker</td><td class="mono">python -m app.cli review …</td></tr>
+        </tbody>
+      </table>
+      <p class="small">앱 직접 주소 <span class="mono">haribear99-doseverdict.hf.space</span>. 검토 메모는 마크다운으로 내려받는다. 배포 검증에서 규제 조항 검색 결함을 발견해 고쳤다.</p>
+    </div>
+    <div class="col" style="flex:0.9; gap:12px">
+      <div class="small" style="font-weight:600; color:var(--ink)">한계</div>
+      <div class="card"><h2>평가는 전문가 라벨이 없는 합성 세트 위에 있다</h2><p>원·확장 세트는 기준 시놉시스 하나에 결함을 주입한 변형이다. TCR은 PK 모형과 IC50 입력에 기댄 근사다(08쪽).</p></div>
+      <div class="card"><h2>부정적 결과는 06쪽·부록 A1·A2, 다음 단계는 13쪽에 있다</h2>
+        <p>· 같은 모델 원샷과 탐지 차이 없음, ablation 부정적(기여 미측정)</p>
+        <p>· 실제 1상 초록 43건 후향 검증 null</p>
+        <p>· 결함 없는 판에서 실행당 defect finding 6.42</p>
+        <p>· 오지적을 줄이려던 보정 2회 모두 기각</p>
+        <p>· 지적 문장 반복 일관성 차이 확인 안 됨(에이전트가 낮은 방향, 12쪽)</p>
+        <p>· 인용 차이와 기권 평가는 사후 분석, 순환성 단서</p>
+      </div>
+    </div>
+  </div>
+  <div class="rule"></div>
+  <div class="foot-l">14 / 14</div>
+  <div class="foot-r"><span class="tag">시연·완성도</span></div>
+</section>
+
+<!-- 부록 A1 (현 9장, 내용 그대로) -->
+<section class="slide">
+  <div class="kicker">부록 A1 · 백업 · 한계와 부정적 결과 ①</div>
   <h1>에이전트 구조가 결함 탐지를 낫게 한다는 증거는 없다. 같은 모델 원샷과 차이가 확인되지 않았고, ablation도 부정적이었다.</h1>
   <div class="body" style="gap:52px">
     <div class="col" style="flex:1; gap:14px">
@@ -450,13 +628,13 @@ figcaption { font-size: 19px; color: var(--muted); line-height: 1.4; }
     </div>
   </div>
   <div class="rule"></div>
-  <div class="foot-l">09 / 12</div>
+  <div class="foot-l">부록 A1 / A2</div>
   <div class="foot-r"><span class="tag">과학적 타당성·혁신성</span></div>
 </section>
 
-<!-- N10 negative2 -->
+<!-- 부록 A2 (현 10장, 내용 그대로) -->
 <section class="slide">
-  <div class="kicker">한계와 부정적 결과 ②</div>
+  <div class="kicker">부록 A2 · 백업 · 한계와 부정적 결과 ②</div>
   <h1>실제 약에서 PMR 부과 약을 가르지 못했다. 결함 없는 판에서는 원샷+인용 판정기보다 많이 지적하고, 지적을 줄이면 놓친다.</h1>
   <div class="body" style="display:grid; grid-template-columns:1fr 1fr; gap:22px 52px">
     <div class="col" style="gap:8px">
@@ -477,79 +655,13 @@ figcaption { font-size: 19px; color: var(--muted); line-height: 1.4; }
     </div>
     <div class="col" style="gap:8px">
       <div class="small" style="font-weight:600; color:var(--ink)">도구 없는 약리 판정 (기권 평가)</div>
-      <p style="font-size:22px">시놉시스만 주고 지시문에 기권 선택지를 주면 판정 범위 <b>0.25</b>(정답이 판정 보류인 항목에서 확정 판정 0). 기억·추정을 권하면(사후, PK가 라벨에만 있는 약 3종) 3회 판정 일관성 <b>0.267</b>. IC50을 매번 다르게 가정했다(소토라십 30 nM / 6 nM / 0.09 µM).</p>
+      <p style="font-size:22px">시놉시스만 주고 지시문에 기권 선택지를 주면 판정 범위 <b>0.25</b>(정답이 판정 보류인 항목에서 확정 판정 0). 기억·추정을 권하면(사후, PK가 라벨에만 있는 약 3종) 3회 판정 일관성 <b>0.267</b>. IC50을 매번 다르게 가정했다(소토라십 30 nM / 6 nM / 0.09 µM). 같은 지시문의 사전 등록 재측정(다른 실행)에서는 같은 3종 0.533, 4종 0.650으로 0.267이 재현되지 않았다(12쪽).</p>
       <p class="small"><span class="tg">순환성: 정답을 같은 도구로 만들어 정확도 비교가 아님 · 재현성은 입력 규약 고정에서 오며 규약이 옳다는 뜻은 아님 · 표본(DV-505 용량군 5개)과 불일치 내역: 기술서 6.10</span></p>
     </div>
   </div>
   <div class="rule"></div>
-  <div class="foot-l">10 / 12</div>
+  <div class="foot-l">부록 A2 / A2</div>
   <div class="foot-r"><span class="tag">과학적 타당성·혁신성</span></div>
-</section>
-
-<!-- 11 roadmap (new) -->
-<section class="slide">
-  <div class="kicker">한계에서 다음 단계로</div>
-  <h1>다음 단계는 모두 계획이다. 한계마다 판정 기준을 먼저 등록하고, 기준에 못 미치면 주장을 접는다.</h1>
-  <div class="body col" style="gap:18px">
-    <table class="tight" style="font-size:21px">
-      <thead><tr><th>확인된 한계</th><th>다음 단계 (계획)</th><th>판정 기준 (계획상) → 결정</th></tr></thead>
-      <tbody>
-        <tr><td>전문가 라벨 없는 합성 Silver Set, 지적 타당성 미평가, 외부 자문 미확보</td><td>임상약리·규제 외부 자문 2인 이상의 맹검 독립 라벨로 Gold Set 구축</td><td>평가자 간 κ ≥ 0.61일 때만 Gold Set으로 쓴다. 재라벨 후에도 미달이면 정량 성능 주장을 접는다</td></tr>
-        <tr><td>실제 1상 초록 43건 후향 검증 null(AUROC 0.440), 모델이 가린 약을 재식별</td><td>재식별 탐침을 통과한 비공개 프로토콜을 전용 LLM·외부 조회 차단 환경에서 검토</td><td>전문가 라벨 대비 지적 정확성. 규제 요구 기록이 쌓이면 AUROC CI 하한 &gt; 0.5. 0.5를 포함하면 '위험 선별' 주장을 접는다</td></tr>
-        <tr><td>같은 모델 원샷과 탐지 차이 확인 안 됨, 토큰 약 8배</td><td>Gold Set·새 세트에서 원샷, 원샷 + 인용 판정기 + 도구 기권 구성과 3팔 비교</td><td>지적 타당 비율·민감도가 모두 비열등(마진 −5pp 사전 고정)이면 다단계 구조를 기본값에서 내린다</td></tr>
-        <tr><td>결함 없는 판에서 실행당 6.42건 지적, 줄이면 놓침</td><td>실제 제출 전 검토와 병행하는 섀도 운영</td><td>오경보 기각 시간이 인용 재확인으로 아낀 시간보다 크면 현장 도입을 멈춘다</td></tr>
-      </tbody>
-    </table>
-    <p class="small">발표(10-29) 전: 안정성 감사 15케이스 × 2회(기준선 포함), 확장 40·배포 조건 재실행, TCR 포화 의심 표시. 결과는 발표에서만 보고하고 제출물 수치는 바꾸지 않는다.</p>
-    <div class="note"><strong>의의 · 확인된 범위:</strong> 수치 판정은 도구가 내고, 판정이 갈리거나 입력이 비면 추정하지 않고 멈춘다. 240 mg(05쪽), 아다그라십·DV-505(04쪽), 후향 43/43 F00 기권(입력을 차단한 조건). 승인은 사람이 한다.</div>
-    <p class="small"><span class="tg">로드맵은 모두 계획이며 실행하지 않았다</span> <span class="tg">κ 0.61은 Landis·Koch 'substantial' 하한 관행</span> <span class="tg">단계별 자원과 반증 조건은 기술서 13.2·13.4</span></p>
-  </div>
-  <div class="rule"></div>
-  <div class="foot-l">11 / 12</div>
-  <div class="foot-r"><span class="tag">과학적 타당성·혁신성</span></div>
-</section>
-
-<!-- 12 -->
-<section class="slide">
-  <div class="kicker">지금 실행 · 한계</div>
-  <h1 style="font-size:60px; max-width:1700px; margin-bottom:36px">정답을 맞히는 기계가 아니라, 근거가 얇을 때 멈추고 출처를 남기는 검토자</h1>
-  <div class="body" style="gap:64px">
-    <div class="col" style="flex:1.1; gap:24px">
-      <div style="display:flex; gap:36px; align-items:center">
-        <img src="assets/qr_space.svg" alt="배포 URL QR" style="width:220px; height:220px; border:1px solid var(--line)">
-        <div class="col" style="gap:10px">
-          <div class="mono" style="font-size:26px; white-space:nowrap">huggingface.co/spaces/Haribear99/doseverdict</div>
-          <div class="mono" style="font-size:28px">?demo=1&amp;cached=1</div>
-          <div class="small">저장된 검토 결과를 LLM 호출 없이 바로 연다.</div>
-          <div class="stat" style="margin-top:6px"><div class="n md">83<small>초</small></div><div class="l">HF Spaces 라이브 검토 · 웜 · 1회 측정</div></div>
-        </div>
-      </div>
-      <table class="tight" style="font-size:21px">
-        <thead><tr><th>실행 방법</th><th>주소 · 명령</th></tr></thead>
-        <tbody>
-          <tr><td>저장 결과 즉시 보기</td><td class="mono">?demo=1&amp;cached=1</td></tr>
-          <tr><td>원클릭 라이브</td><td class="mono">?demo=1&amp;autorun=1</td></tr>
-          <tr><td>웹 UI</td><td>예시 선택 또는 직접 붙여넣기 → 검토 실행</td></tr>
-          <tr><td>CLI / Docker</td><td class="mono">python -m app.cli review …</td></tr>
-        </tbody>
-      </table>
-      <p class="small">앱 직접 주소 <span class="mono">haribear99-doseverdict.hf.space</span>. 검토 메모는 마크다운으로 내려받는다. 배포 검증에서 규제 조항 검색 결함을 발견해 고쳤다.</p>
-    </div>
-    <div class="col" style="flex:0.9; gap:12px">
-      <div class="small" style="font-weight:600; color:var(--ink)">한계</div>
-      <div class="card"><h2>평가는 전문가 라벨이 없는 합성 세트 위에 있다</h2><p>원·확장 세트는 기준 시놉시스 하나에 결함을 주입한 변형이다. TCR은 PK 모형과 IC50 입력에 기댄 근사다(05쪽).</p></div>
-      <div class="card"><h2>부정적 결과는 09·10쪽, 다음 단계는 11쪽에 있다</h2>
-        <p>· 같은 모델 원샷과 탐지 차이 없음, ablation 부정적(기여 미측정)</p>
-        <p>· 실제 1상 초록 43건 후향 검증 null</p>
-        <p>· 결함 없는 판에서 실행당 defect finding 6.42</p>
-        <p>· 오지적을 줄이려던 보정 2회 모두 기각</p>
-        <p>· 인용 차이와 기권 평가는 사후 분석, 순환성 단서</p>
-      </div>
-    </div>
-  </div>
-  <div class="rule"></div>
-  <div class="foot-l">12 / 12</div>
-  <div class="foot-r"><span class="tag">시연·완성도</span></div>
 </section>
 
 </body>

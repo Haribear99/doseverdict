@@ -1,0 +1,130 @@
+{
+ "drug": "dv505",
+ "case_id": "AXD-DV505-001",
+ "rep": 1,
+ "answer": {
+  "doses": [
+   {
+    "dose_mg": 50,
+    "verdict": "indeterminate",
+    "tcr_max": 2.53,
+    "tcr_avg": 1.15,
+    "tcr_trough": 0.4,
+    "rationale": "Estimated peak and average exceed the IC50, but trough does not. Coverage therefore depends on the concentration metric."
+   },
+   {
+    "dose_mg": 100,
+    "verdict": "indeterminate",
+    "tcr_max": 5.07,
+    "tcr_avg": 2.31,
+    "tcr_trough": 0.8,
+    "rationale": "Estimated peak and average exceed the IC50, but trough does not. Coverage therefore depends on the concentration metric."
+   },
+   {
+    "dose_mg": 200,
+    "verdict": "covered",
+    "tcr_max": 10.14,
+    "tcr_avg": 4.62,
+    "tcr_trough": 1.6,
+    "rationale": "Estimated trough remains above the IC50, indicating coverage throughout the interval under the stated PK assumptions."
+   },
+   {
+    "dose_mg": 400,
+    "verdict": "covered",
+    "tcr_max": 20.28,
+    "tcr_avg": 9.23,
+    "tcr_trough": 3.19,
+    "rationale": "Estimated trough remains above the IC50 under the stated PK assumptions."
+   },
+   {
+    "dose_mg": 600,
+    "verdict": "covered",
+    "tcr_max": 30.42,
+    "tcr_avg": 13.85,
+    "tcr_trough": 4.79,
+    "rationale": "Estimated trough remains above the IC50, but this dose requires extrapolating the reported clearance beyond the studied 400 mg dose."
+   }
+  ],
+  "numbers_used": [
+   {
+    "name": "Planned doses",
+    "value": "50, 100, 200, 400, 600 mg",
+    "source": "protocol"
+   },
+   {
+    "name": "Dosing interval",
+    "value": "24 h (once daily)",
+    "source": "protocol"
+   },
+   {
+    "name": "Apparent oral clearance (CL/F)",
+    "value": "18 L/h",
+    "source": "protocol"
+   },
+   {
+    "name": "Terminal half-life",
+    "value": "9 h",
+    "source": "protocol"
+   },
+   {
+    "name": "Plasma protein binding",
+    "value": "94%",
+    "source": "protocol"
+   },
+   {
+    "name": "Cellular pERK IC50",
+    "value": "12 nM",
+    "source": "protocol"
+   },
+   {
+    "name": "Upper dose with reported human PK",
+    "value": "400 mg",
+    "source": "protocol"
+   },
+   {
+    "name": "Estimated molecular weight from supplied SMILES",
+    "value": "501.56 g/mol",
+    "source": "assumption"
+   },
+   {
+    "name": "Unbound plasma fraction, derived from binding",
+    "value": "0.06",
+    "source": "assumption"
+   },
+   {
+    "name": "Adequate coverage threshold",
+    "value": "TCR ≥1 throughout the dosing interval",
+    "source": "assumption"
+   },
+   {
+    "name": "PK model for peak and trough estimates",
+    "value": "Linear, one-compartment, instantaneous-absorption model; elimination rate ln(2)/9 = 0.0770 h⁻¹. Clearance is assumed unchanged through 600 mg.",
+    "source": "assumption"
+   },
+   {
+    "name": "Unit conversion",
+    "value": "1 mg/L = (1,000,000 / molecular weight in g/mol) nM",
+    "source": "assumption"
+   }
+  ]
+ },
+ "parse_ok": true,
+ "raw": null,
+ "tokens": 3594,
+ "model": "gpt-6-sol",
+ "consistency": {
+  "attempt": 0,
+  "infra_failure": [],
+  "env": {
+   "DV_MODEL_BULK": "gpt-5.6-luna",
+   "DV_MODEL_EXTRACT": "gpt-6-sol",
+   "DV_MODEL_PLANNER": "gpt-6-sol",
+   "DV_MODEL_REVIEWER": "gpt-6-sol",
+   "DV_RUN_TOKEN_BUDGET": "150000",
+   "DV_TEAM_TOTAL_QUOTA": "30000000",
+   "rerank_enabled": true
+  },
+  "saved_at": "2026-10-02T00:02:36+0900",
+  "infra_failure_final": false
+ }
+}

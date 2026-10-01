@@ -1,0 +1,58 @@
+{
+ "drug": "lorlatinib",
+ "case_id": "AXD-LORLATINIB-001",
+ "rep": 1,
+ "answer": {
+  "inputs": {
+   "cl_f_L_per_hr": {
+    "value": 18,
+    "source": "prior_knowledge",
+    "note": "Approximate steady-state apparent oral clearance for lorlatinib; clearance increases from about 11 L/h after a single dose due to autoinduction."
+   },
+   "t_half_hr": {
+    "value": 24,
+    "source": "prior_knowledge",
+    "note": "Approximate reported lorlatinib elimination half-life after a single dose; used as an estimate for the model."
+   },
+   "tau_hr": {
+    "value": 24,
+    "source": "protocol",
+    "note": "Planned oral dosing is once daily."
+   },
+   "fu": {
+    "value": 0.34,
+    "source": "prior_knowledge",
+    "note": "Estimated from approximately 66% plasma protein binding."
+   },
+   "ic50_nM": {
+    "value": 1.3,
+    "source": "prior_knowledge",
+    "note": "Approximate cellular IC50 against wild-type ALK; potency varies across resistance mutations."
+   },
+   "mw": {
+    "value": 406.41,
+    "source": "prior_knowledge",
+    "note": "Molecular weight of lorlatinib in g/mol."
+   }
+  }
+ },
+ "parse_ok": true,
+ "raw": null,
+ "tokens": 2595,
+ "model": "gpt-6-sol",
+ "consistency": {
+  "attempt": 0,
+  "infra_failure": [],
+  "env": {
+   "DV_MODEL_BULK": "gpt-5.6-luna",
+   "DV_MODEL_EXTRACT": "gpt-6-sol",
+   "DV_MODEL_PLANNER": "gpt-6-sol",
+   "DV_MODEL_REVIEWER": "gpt-6-sol",
+   "DV_RUN_TOKEN_BUDGET": "150000",
+   "DV_TEAM_TOTAL_QUOTA": "30000000",
+   "rerank_enabled": true
+  },
+  "saved_at": "2026-10-02T00:04:06+0900",
+  "infra_failure_final": false
+ }
+}

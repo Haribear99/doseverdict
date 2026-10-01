@@ -1,0 +1,114 @@
+{
+ "drug": "adagrasib",
+ "case_id": "AXD-ADAGRASIB-001",
+ "rep": 1,
+ "tokens": 5299,
+ "model": "gpt-6-sol",
+ "parse_ok": true,
+ "raw": null,
+ "findings": [
+  {
+   "span": "The study will assess treatment activity using weekly change in body weight and evaluate safety primarily through investigator-recorded tumor response, without requiring disease-specific imaging or routine laboratory monitoring.",
+   "category": "endpoint_ctq",
+   "severity": "critical",
+   "claim": "Weekly weight change is not an adequate measure of antitumor activity, and omitting disease-specific imaging conflicts with the stated RECIST v1.1 ORR endpoint and scheduled tumor assessments.",
+   "cited_doc_id": "ICH-E6R3-2025",
+   "guidance_quote": "The quality and amount of the information generated in a clinical trial should be sufficient to support good decision making."
+  },
+  {
+   "span": "The study will assess treatment activity using weekly change in body weight and evaluate safety primarily through investigator-recorded tumor response, without requiring disease-specific imaging or routine laboratory monitoring.",
+   "category": "safety_monitoring",
+   "severity": "critical",
+   "claim": "Tumor response cannot serve as the primary safety assessment. The stated absence of routine laboratory monitoring also conflicts with the protocol’s scheduled liver tests and would undermine detection of treatment toxicity.",
+   "cited_doc_id": "ICH-E6R3-2025",
+   "guidance_quote": "Clinical trials should be designed and conducted in ways that ensure the rights, safety and well-being of participants."
+  },
+  {
+   "span": "The recommended Phase 2 dose will be the highest dose tested with acceptable early laboratory findings, even if persistent grade 2 fatigue, nausea, and reduced daily activity cause substantial treatment interruptions or discontinuations.",
+   "category": "dose_optimization",
+   "severity": "high",
+   "claim": "This RP2D rule overrides the prespecified integrated selection criteria and disregards sustained symptomatic toxicity, impaired daily function, and treatment discontinuation in favor of the highest dose.",
+   "cited_doc_id": "FDA-DOSE-OPT-2024",
+   "guidance_quote": "Dosage selection should consider the totality of the data, including safety, tolerability, efficacy, pharmacokinetic, and pharmacodynamic data."
+  },
+  {
+   "span": "The study will select the recommended Phase 2 dose from tolerability and pharmacokinetic findings alone; no dose–response efficacy assessment or post-approval confirmatory study is planned.",
+   "category": "dose_optimization",
+   "severity": "high",
+   "claim": "Selecting between randomized candidate doses without assessing their comparative antitumor activity defeats a central purpose of dose optimization. The absence of a confirmatory study would additionally need justification if an accelerated-approval pathway were intended.",
+   "cited_doc_id": "FDA-DOSE-OPT-2024",
+   "guidance_quote": "Sponsors should evaluate a range of dosages to identify a dosage that optimizes efficacy, safety, and tolerability."
+  },
+  {
+   "span": "Dose selection for expansion will be based solely on observed tumor response rates, without adjustment for treatment adherence, concomitant medications, organ-function changes, or measured drug exposure.",
+   "category": "dose_optimization",
+   "severity": "high",
+   "claim": "Response rates alone cannot support dose selection when adherence and exposure may differ between doses; this rule also contradicts the synopsis’s integrated safety, tolerability, PK, and PD selection criteria.",
+   "cited_doc_id": "FDA-DOSE-OPT-2024",
+   "guidance_quote": "Dosage selection should be based on the totality of the data, including exposure–response relationships for efficacy and safety."
+  },
+  {
+   "span": "For the randomized Phase 2 portion, each of the three active-dose arms will be compared independently with placebo using an unadjusted two-sided α=0.05 test, with the study considered positive if any single dose comparison reaches nominal significance.",
+   "category": "feasibility",
+   "severity": "high",
+   "claim": "The proposed three active-dose arms and placebo are incompatible with the specified 1:1 randomization between two candidate doses and the Phase 2 ORR assessment at a selected RP2D. The comparison groups and decision sequence cannot both be implemented as written.",
+   "cited_doc_id": "ICH-E6R3-2025",
+   "guidance_quote": "Clinical trials should be described in a clear, concise, scientifically sound and operationally feasible protocol."
+  },
+  {
+   "span": "For the randomized Phase 2 portion, each of the three active-dose arms will be compared independently with placebo using an unadjusted two-sided α=0.05 test, with the study considered positive if any single dose comparison reaches nominal significance.",
+   "category": "endpoint_ctq",
+   "severity": "high",
+   "claim": "Declaring success after any of three unadjusted nominal tests inflates the familywise false-positive probability; the protocol gives no multiplicity-control strategy.",
+   "cited_doc_id": "ICH-E6R3-2025",
+   "guidance_quote": "The quality and amount of the information generated in a clinical trial should be sufficient to support good decision making."
+  },
+  {
+   "span": "Intensive PK sampling on Cycle 1 Day 1 and Day 8 (pre-dose, 1, 2, 4, 6, 8 and 12 h post-dose) in all escalation subjects; steady-state trough sampling every cycle in the randomized cohorts.",
+   "category": "burden",
+   "severity": "medium",
+   "claim": "Two 12-hour, eight-sample PK visits for every escalation participant impose substantial blood-draw and visit burden; the synopsis does not justify why all participants require this schedule rather than a proportionate sampling design.",
+   "cited_doc_id": "ICH-E6R3-2025",
+   "guidance_quote": "Clinical trial processes should be proportionate to the risks to participants and the importance of the data collected, and should avoid unnecessary burden on participants and investigators."
+  },
+  {
+   "span": "- Inclusion: age ≥18; histologically confirmed KRAS G12C-mutated locally advanced or metastatic solid tumor; ECOG 0–1; at least one prior line of systemic therapy; recovery of prior-treatment toxicities to Grade ≤1.",
+   "category": "eligibility",
+   "severity": "medium",
+   "claim": "A blanket Grade ≤1 recovery requirement, without exceptions for stable, irreversible, or clinically insignificant prior-treatment effects, may unnecessarily exclude otherwise suitable patients from dose-optimization and expansion cohorts.",
+   "cited_doc_id": "FDA-EXPANSION-COHORTS-2022",
+   "guidance_quote": "Eligibility criteria for expansion cohorts should be justified by the objectives of the cohort and should not be unnecessarily restrictive."
+  },
+  {
+   "span": "Liver function tests (ALT, AST, total bilirubin) will be assessed before the first dose and monthly for 3 months and as clinically indicated thereafter. ECGs and electrolytes will be monitored at baseline and periodically for QTc prolongation.",
+   "category": "safety_monitoring",
+   "severity": "medium",
+   "claim": "“Periodically” does not define when ECGs and electrolytes are required or what findings trigger additional assessments, leaving QTc-risk monitoring inconsistent across sites.",
+   "cited_doc_id": "ICH-E6R3-2025",
+   "guidance_quote": "Clinical trials should be described in a clear, concise, scientifically sound and operationally feasible protocol."
+  },
+  {
+   "span": "The sponsor will issue a single cumulative safety update to investigators and the IRB at the end of each calendar year, with any interim adverse-event findings reserved for the next scheduled annual review.",
+   "category": "safety_monitoring",
+   "severity": "critical",
+   "claim": "Reserving potentially important interim safety findings for an annual update prevents timely communication and action; an annual cumulative report cannot replace prompt reporting of qualifying serious, unexpected, or otherwise consequential safety information.",
+   "cited_doc_id": "ICH-E6R3-2025",
+   "guidance_quote": "The sponsor should promptly notify investigators, the IRB/IEC and regulatory authorities, as appropriate, of findings that could adversely affect the safety of participants or the conduct of the trial."
+  }
+ ],
+ "consistency": {
+  "attempt": 0,
+  "infra_failure": [],
+  "env": {
+   "DV_MODEL_BULK": "gpt-5.6-luna",
+   "DV_MODEL_EXTRACT": "gpt-6-sol",
+   "DV_MODEL_PLANNER": "gpt-6-sol",
+   "DV_MODEL_REVIEWER": "gpt-6-sol",
+   "DV_RUN_TOKEN_BUDGET": "150000",
+   "DV_TEAM_TOTAL_QUOTA": "30000000",
+   "rerank_enabled": true
+  },
+  "saved_at": "2026-10-02T00:07:04+0900",
+  "infra_failure_final": false
+ }
+}

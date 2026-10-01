@@ -1,0 +1,154 @@
+{
+ "drug": "adagrasib",
+ "case_id": "AXD-ADAGRASIB-001",
+ "rep": 2,
+ "tokens": 5597,
+ "model": "gpt-6-sol",
+ "parse_ok": true,
+ "raw": null,
+ "findings": [
+  {
+   "span": "The study will assess treatment activity using weekly change in body weight",
+   "category": "endpoint_ctq",
+   "severity": "high",
+   "claim": "Weekly weight change is not an adequate measure of antitumor activity and cannot substantiate the stated RECIST v1.1 ORR endpoint.",
+   "cited_doc_id": "ICH-E6R3-2025",
+   "guidance_quote": "Clinical trials should be scientifically sound for their intended purpose and based on adequate and current scientific knowledge and approaches."
+  },
+  {
+   "span": "without requiring disease-specific imaging",
+   "category": "endpoint_ctq",
+   "severity": "critical",
+   "claim": "This contradicts the planned tumor assessments and leaves no reliable means to establish RECIST v1.1 responses in the affected patients.",
+   "cited_doc_id": "ICH-E6R3-2025",
+   "guidance_quote": "Clinical trials should be designed and conducted to produce reliable results."
+  },
+  {
+   "span": "evaluate safety primarily through investigator-recorded tumor response, without requiring disease-specific imaging or routine laboratory monitoring.",
+   "category": "safety_monitoring",
+   "severity": "critical",
+   "claim": "Tumor response is not a primary safety assessment. Omitting routine laboratory monitoring would also undermine adverse-event and DLT assessment, and conflicts with the specified liver-test schedule.",
+   "cited_doc_id": "ICH-E6R3-2025",
+   "guidance_quote": "The rights, safety, and well-being of participants are the most important considerations and should prevail over interests of science and society."
+  },
+  {
+   "span": "The recommended Phase 2 dose will be the highest dose tested with acceptable early laboratory findings, even if persistent grade 2 fatigue, nausea, and reduced daily activity cause substantial treatment interruptions or discontinuations.",
+   "category": "dose_optimization",
+   "severity": "critical",
+   "claim": "The rule overrides the stated integrated RP2D criteria and disregards persistent toxicity, functioning, and dose modifications in favor of the highest dose.",
+   "cited_doc_id": "FDA-DOSE-OPT-2024",
+   "guidance_quote": "The dosage selected for further development should be based on the totality of the data regarding efficacy, safety, tolerability, pharmacokinetics, and pharmacodynamics, as applicable."
+  },
+  {
+   "span": "The study will select the recommended Phase 2 dose from tolerability and pharmacokinetic findings alone; no dose–response efficacy assessment or post-approval confirmatory study is planned.",
+   "category": "dose_optimization",
+   "severity": "high",
+   "claim": "Selecting the RP2D without assessing efficacy across the randomized candidate doses defeats a central purpose of the comparison. A post-approval confirmatory study is not universally required, but its absence does not remedy the missing preselection efficacy assessment.",
+   "cited_doc_id": "FDA-DOSE-OPT-2024",
+   "guidance_quote": "Sponsors should evaluate the relationship between dosage and efficacy, safety, and tolerability when selecting a dosage for further development."
+  },
+  {
+   "span": "Dose selection for expansion will be based solely on observed tumor response rates, without adjustment for treatment adherence, concomitant medications, organ-function changes, or measured drug exposure.",
+   "category": "dose_optimization",
+   "severity": "high",
+   "claim": "This conflicting selection rule ignores exposure and factors that can alter exposure or make observed response rates misleading, despite planned PK and tolerability assessments.",
+   "cited_doc_id": "FDA-DOSE-OPT-2024",
+   "guidance_quote": "The dosage selected for further development should be based on the totality of the data regarding efficacy, safety, tolerability, pharmacokinetics, and pharmacodynamics, as applicable."
+  },
+  {
+   "span": "For the randomized Phase 2 portion, each of the three active-dose arms will be compared independently with placebo",
+   "category": "feasibility",
+   "severity": "high",
+   "claim": "A three-active-dose-plus-placebo Phase 2 design is incompatible with the specified two-candidate-dose, 1:1 randomization; the protocol does not define how the additional arms are supplied or allocated.",
+   "cited_doc_id": "ICH-E6R3-2025",
+   "guidance_quote": "The trial protocol should be clear, concise, and operationally feasible."
+  },
+  {
+   "span": "using an unadjusted two-sided α=0.05 test, with the study considered positive if any single dose comparison reaches nominal significance.",
+   "category": "endpoint_ctq",
+   "severity": "high",
+   "claim": "Declaring success after any of three unadjusted comparisons does not control the study-wide false-positive risk; a multiplicity strategy and success criterion are needed.",
+   "cited_doc_id": "ICH-E6R3-2025",
+   "guidance_quote": "Clinical trials should be scientifically sound for their intended purpose and based on adequate and current scientific knowledge and approaches."
+  },
+  {
+   "span": "each of the three active-dose arms will be compared independently with placebo",
+   "category": "eligibility",
+   "severity": "high",
+   "claim": "For previously treated advanced-cancer patients, a placebo arm requires a defined background treatment, rescue or crossover provisions as appropriate, and an ethical justification; none is stated here.",
+   "cited_doc_id": "ICH-E6R3-2025",
+   "guidance_quote": "The rights, safety, and well-being of participants are the most important considerations and should prevail over interests of science and society."
+  },
+  {
+   "span": "Liver function tests (ALT, AST, total bilirubin) will be assessed before the first dose and monthly for 3 months and as clinically indicated thereafter.",
+   "category": "safety_monitoring",
+   "severity": "high",
+   "claim": "Monthly-only scheduled tests may miss hepatotoxicity during the first 21-day DLT cycle despite Day 8 and Day 15 visits. The plan also lacks a specified intensified schedule after abnormal results.",
+   "cited_doc_id": "ICH-E6R3-2025",
+   "guidance_quote": "Trial processes, measures, and approaches should be proportionate to the risks to participants and to the importance of the data being collected."
+  },
+  {
+   "span": "ECGs and electrolytes will be monitored at baseline and periodically for QTc prolongation.",
+   "category": "safety_monitoring",
+   "severity": "medium",
+   "claim": "“Periodically” does not specify repeat-assessment timing or triggers, making QTc surveillance difficult to implement consistently across sites.",
+   "cited_doc_id": "ICH-E6R3-2025",
+   "guidance_quote": "The trial protocol should be clear, concise, and operationally feasible."
+  },
+  {
+   "span": "The sponsor will issue a single cumulative safety update to investigators and the IRB at the end of each calendar year, with any interim adverse-event findings reserved for the next scheduled annual review.",
+   "category": "safety_monitoring",
+   "severity": "critical",
+   "claim": "Reserving consequential emerging safety findings for an annual update would delay necessary investigator and ethics-committee action; expedited safety-reporting obligations cannot be replaced by annual review.",
+   "cited_doc_id": "ICH-E6R3-2025",
+   "guidance_quote": "The sponsor should report adverse reactions that are both serious and unexpected to the regulatory authority(ies) and to investigators in an expedited manner."
+  },
+  {
+   "span": "ECOG 0–1",
+   "category": "eligibility",
+   "severity": "medium",
+   "claim": "Restricting enrollment to ECOG 0–1 may unnecessarily exclude patients likely to receive the eventual dose in practice; the synopsis provides no rationale for the restriction.",
+   "cited_doc_id": "FDA-DOSE-OPT-2024",
+   "guidance_quote": "Sponsors should consider evaluating dosages in a patient population that is representative of the population likely to receive the drug in clinical practice."
+  },
+  {
+   "span": "active brain metastases",
+   "category": "eligibility",
+   "severity": "medium",
+   "claim": "The blanket exclusion provides no criteria distinguishing unstable or symptomatic disease from patients whose brain metastases could be safely managed and assessed.",
+   "cited_doc_id": "FDA-DOSE-OPT-2024",
+   "guidance_quote": "Sponsors should consider evaluating dosages in a patient population that is representative of the population likely to receive the drug in clinical practice."
+  },
+  {
+   "span": "recovery of prior-treatment toxicities to Grade ≤1.",
+   "category": "eligibility",
+   "severity": "medium",
+   "claim": "Requiring every prior-treatment toxicity to resolve to Grade ≤1, without exceptions for stable residual effects, may unnecessarily exclude otherwise eligible patients and narrow the dose-optimization population.",
+   "cited_doc_id": "FDA-DOSE-OPT-2024",
+   "guidance_quote": "Sponsors should consider evaluating dosages in a patient population that is representative of the population likely to receive the drug in clinical practice."
+  },
+  {
+   "span": "At least 60 subjects will be randomized 1:1 to the two candidate dose levels to compare safety, tolerability, PK, PD and preliminary antitumor activity before selecting the RP2D.",
+   "category": "endpoint_ctq",
+   "severity": "medium",
+   "claim": "PD is a specified basis of comparison, but the synopsis identifies PK sampling only; it does not identify a PD measure, collection schedule, or method for using PD in dose selection.",
+   "cited_doc_id": "FDA-DOSE-OPT-2024",
+   "guidance_quote": "The dosage selected for further development should be based on the totality of the data regarding efficacy, safety, tolerability, pharmacokinetics, and pharmacodynamics, as applicable."
+  }
+ ],
+ "consistency": {
+  "attempt": 0,
+  "infra_failure": [],
+  "env": {
+   "DV_MODEL_BULK": "gpt-5.6-luna",
+   "DV_MODEL_EXTRACT": "gpt-6-sol",
+   "DV_MODEL_PLANNER": "gpt-6-sol",
+   "DV_MODEL_REVIEWER": "gpt-6-sol",
+   "DV_RUN_TOKEN_BUDGET": "150000",
+   "DV_TEAM_TOTAL_QUOTA": "30000000",
+   "rerank_enabled": true
+  },
+  "saved_at": "2026-10-02T00:07:33+0900",
+  "infra_failure_final": false
+ }
+}

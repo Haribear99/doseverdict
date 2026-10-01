@@ -1,0 +1,90 @@
+{
+ "drug": "lorlatinib",
+ "case_id": "AXD-LORLATINIB-001",
+ "rep": 0,
+ "tokens": 4554,
+ "model": "gpt-6-sol",
+ "parse_ok": true,
+ "raw": null,
+ "findings": [
+  {
+   "span": "After the recommended starting dose is established, all subsequent participants will receive the same fixed dose throughout the Phase 1/2 study, with no lower- or higher-dose cohorts planned.",
+   "category": "dose_optimization",
+   "severity": "critical",
+   "claim": "A single fixed dose for all subsequent participants precludes the planned BOIN escalation and randomized comparison of two candidate doses.",
+   "cited_doc_id": "FDA-DOSE-OPT-2024",
+   "guidance_quote": "Sponsors should evaluate a range of dosages to identify an optimized dosage."
+  },
+  {
+   "span": "For the randomized Phase 2 portion, each of the three active-dose arms will be compared independently with placebo using an unadjusted two-sided α=0.05 test, with the study considered positive if any single dose comparison reaches nominal significance.",
+   "category": "endpoint_ctq",
+   "severity": "critical",
+   "claim": "Three active-dose arms and a placebo arm conflict with the specified two-candidate-dose randomization and open-label Phase 2 ORR objective. The unadjusted ‘any significant comparison’ rule also fails to control the study-wide false-positive rate.",
+   "cited_doc_id": "ICH-E6R3-2025",
+   "guidance_quote": "The protocol should describe the statistical methods to be employed, including the criteria for the termination of the trial."
+  },
+  {
+   "span": "Dose selection for expansion will be based solely on the dose-limiting toxicity rate observed during the first treatment cycle, without incorporating findings from other studies or analyses of the complete clinical database.",
+   "category": "dose_optimization",
+   "severity": "critical",
+   "claim": "This overrides the stated integrated RP2D criteria and excludes later toxicity, PK, PD, activity, and other relevant evidence from expansion-dose selection.",
+   "cited_doc_id": "FDA-DOSE-OPT-2024",
+   "guidance_quote": "Dosage optimization should be based on the totality of relevant data, including nonclinical and clinical data on pharmacokinetics, pharmacodynamics, safety, tolerability, and efficacy."
+  },
+  {
+   "span": "For the new pembrolizumab–investigational-agent combination in metastatic colorectal cancer, the study will proceed directly to the expansion cohort at 200 mg every three weeks without evaluating alternative dose levels.",
+   "category": "dose_optimization",
+   "severity": "critical",
+   "claim": "The proposed combination, cancer population, and every-three-week regimen are outside this ALK-positive NSCLC lorlatinib study. No combination-specific dose evaluation is described before expansion.",
+   "cited_doc_id": "FDA-DOSE-OPT-2024",
+   "guidance_quote": "When a drug is developed for use in combination with another drug, the dosage of each drug in the combination should be optimized."
+  },
+  {
+   "span": "Pharmacokinetic blood samples will be collected only before dosing and at 1 hour after the first administration; no samples will be obtained after repeat dosing or during the expected accumulation period.",
+   "category": "dose_optimization",
+   "severity": "high",
+   "claim": "This contradicts the specified Day 1 and Day 15 intensive sampling and cycle-by-cycle troughs. It cannot characterize repeat-dose exposure, accumulation or autoinduction needed for dose selection.",
+   "cited_doc_id": "FDA-DOSE-OPT-2024",
+   "guidance_quote": "Sponsors should collect adequate pharmacokinetic data to characterize exposure at the dosages evaluated and inform exposure-response analyses."
+  },
+  {
+   "span": "Concomitant medications will be recorded at enrollment, but no interaction studies or dedicated pharmacokinetic analyses will be conducted before selecting the recommended Phase 3 dose.",
+   "category": "dose_optimization",
+   "severity": "high",
+   "claim": "Enrollment-only medication recording misses treatment-emergent co-medications, while the stated absence of interaction or dedicated PK evaluation leaves their effects on exposure unresolved at dose selection.",
+   "cited_doc_id": "FDA-DOSE-OPT-2024",
+   "guidance_quote": "Factors that may affect drug exposure, including drug-drug interactions, should be considered when optimizing the dosage."
+  },
+  {
+   "span": "Primary (Phase 2): Objective response rate (ORR) per RECIST v1.1, including intracranial response, at the selected recommended Phase 2 dose (RP2D).",
+   "category": "endpoint_ctq",
+   "severity": "high",
+   "claim": "The synopsis does not distinguish systemic ORR from intracranial response or define the intracranial-evaluable population, measurement rules, and analysis. Intracranial response cannot simply be included in RECIST ORR without those specifications.",
+   "cited_doc_id": "ICH-E6R3-2025",
+   "guidance_quote": "The protocol should describe the trial objectives and endpoints."
+  },
+  {
+   "span": "Intensive PK sampling on Cycle 1 Day 1 and Day 15 (pre-dose, 0.5, 1, 2, 4, 6, 8 and 24 h post-dose) in all escalation subjects to characterize autoinduction; steady-state trough sampling every cycle in the randomized cohorts.",
+   "category": "burden",
+   "severity": "medium",
+   "claim": "Two 24-hour sampling profiles for every escalation participant, followed by troughs every cycle, create substantial visit and blood-draw burden. The synopsis does not explain why this intensity is needed in all participants rather than a targeted PK subset.",
+   "cited_doc_id": "ICH-E6R3-2025",
+   "guidance_quote": "Clinical trial processes, measures, and approaches should be proportionate to the risks to participants and the importance of the data being collected, and should avoid unnecessary burden on participants and investigators."
+  }
+ ],
+ "consistency": {
+  "attempt": 0,
+  "infra_failure": [],
+  "env": {
+   "DV_MODEL_BULK": "gpt-5.6-luna",
+   "DV_MODEL_EXTRACT": "gpt-6-sol",
+   "DV_MODEL_PLANNER": "gpt-6-sol",
+   "DV_MODEL_REVIEWER": "gpt-6-sol",
+   "DV_RUN_TOKEN_BUDGET": "150000",
+   "DV_TEAM_TOTAL_QUOTA": "30000000",
+   "rerank_enabled": true
+  },
+  "saved_at": "2026-10-02T00:07:54+0900",
+  "infra_failure_final": false
+ }
+}

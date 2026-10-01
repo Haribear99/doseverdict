@@ -1,0 +1,130 @@
+{
+ "drug": "dv505",
+ "case_id": "AXD-DV505-001",
+ "rep": 2,
+ "tokens": 5411,
+ "model": "gpt-6-sol",
+ "parse_ok": true,
+ "raw": null,
+ "findings": [
+  {
+   "span": "Dose–response analyses will use only participants enrolled in the randomized expansion cohort; data from the escalation cohort, pharmacokinetic substudy, and other sources will be excluded, and no covariate analyses are planned.",
+   "category": "dose_optimization",
+   "severity": "high",
+   "claim": "Excluding escalation and PK-substudy data prevents the dose–response assessment from using relevant evidence already collected in the trial.",
+   "cited_doc_id": "FDA-DOSE-OPT-2024",
+   "guidance_quote": "Sponsors should consider all available data when selecting a dosage, including clinical pharmacology, safety, and efficacy data."
+  },
+  {
+   "span": "Dose–response analyses will use only participants enrolled in the randomized expansion cohort; data from the escalation cohort, pharmacokinetic substudy, and other sources will be excluded, and no covariate analyses are planned.",
+   "category": "dose_optimization",
+   "severity": "medium",
+   "claim": "The plan rules out assessing whether patient or disease characteristics explain variation in exposure, response, or toxicity across a heterogeneous solid-tumor population.",
+   "cited_doc_id": "FDA-DOSE-OPT-2024",
+   "guidance_quote": "Exposure–response analyses should consider relevant covariates that may affect efficacy or safety."
+  },
+  {
+   "span": "Dose–response and exposure–response analyses will be conducted only after completion of the Phase 2 expansion, with no interim reassessment planned as pharmacokinetic or clinical efficacy data accumulate.",
+   "category": "dose_optimization",
+   "severity": "high",
+   "claim": "Waiting until expansion is complete forfeits the opportunity to use accumulating exposure, efficacy, and safety evidence to reassess the candidate doses before RP2D selection and continued enrollment.",
+   "cited_doc_id": "FDA-DOSE-OPT-2024",
+   "guidance_quote": "Dose- and exposure–response relationships for efficacy and safety should be evaluated throughout drug development to inform dosage selection."
+  },
+  {
+   "span": "The combination expansion cohort will open after the first six participants complete cycle 1 of the investigational antibody plus pembrolizumab, without requiring prior monotherapy evaluation of the antibody at its recommended phase 2 dose.",
+   "category": "safety_monitoring",
+   "severity": "high",
+   "claim": "The combination is allowed to expand without adequate monotherapy characterization of the investigational antibody; one cycle of combination follow-up cannot substitute for that assessment.",
+   "cited_doc_id": "FDA-EXPANSION-COHORTS-2022",
+   "guidance_quote": "Before initiating a combination cohort, sponsors should have sufficient monotherapy safety information about the investigational drug to support administering the combination."
+  },
+  {
+   "span": "The combination expansion cohort will open after the first six participants complete cycle 1 of the investigational antibody plus pembrolizumab, without requiring prior monotherapy evaluation of the antibody at its recommended phase 2 dose.",
+   "category": "feasibility",
+   "severity": "medium",
+   "claim": "The synopsis identifies DV-505 as the investigational product but does not identify the investigational antibody, its dose, or its relationship to DV-505. The combination cohort therefore lacks a defined intervention that sites can implement or reviewers can assess.",
+   "cited_doc_id": "ICH-E6R3-2025",
+   "guidance_quote": "The protocol should include a description of the investigational product(s), the dosage and dosage regimen, and the method of administration."
+  },
+  {
+   "span": "The pediatric expansion cohort will proceed under the adult development plan, with pediatric assessments documented separately and added to the pediatric study plan after the cohort is completed.",
+   "category": "endpoint_ctq",
+   "severity": "high",
+   "claim": "Pediatric assessments and their analysis are deferred until after the cohort, rather than being prospectively specified before pediatric participants are enrolled.",
+   "cited_doc_id": "ICH-E6R3-2025",
+   "guidance_quote": "The protocol should describe the trial objectives and endpoints and the methods and timing for assessing, recording, and analysing them."
+  },
+  {
+   "span": "Inclusion: age ≥18; histologically confirmed KRAS G12D-mutated locally advanced or metastatic solid tumor; ECOG 0–1; at least one prior line of systemic therapy; recovery of prior-treatment toxicities to Grade ≤1.",
+   "category": "eligibility",
+   "severity": "high",
+   "claim": "The age-≥18 inclusion rule excludes every potential participant in the stated pediatric expansion cohort; cohort-specific pediatric eligibility is absent.",
+   "cited_doc_id": "ICH-E6R3-2025",
+   "guidance_quote": "The protocol should specify the criteria for inclusion and exclusion of trial participants."
+  },
+  {
+   "span": "Tumor biopsies will be collected during the expansion phase, with specimen handling procedures and biomarker testing and analysis methods to be finalized after enrollment begins.",
+   "category": "endpoint_ctq",
+   "severity": "high",
+   "claim": "Deferring specimen handling and biomarker methods until enrollment starts risks inconsistent specimens and uninterpretable PD or biomarker comparisons across dose groups and sites.",
+   "cited_doc_id": "CTTI-QBD",
+   "guidance_quote": "Identify the factors that are critical to quality for the trial and prospectively address risks to those factors."
+  },
+  {
+   "span": "Tumor biopsies will be collected during the expansion phase, with specimen handling procedures and biomarker testing and analysis methods to be finalized after enrollment begins.",
+   "category": "burden",
+   "severity": "medium",
+   "claim": "The biopsy plan does not specify timing, number, whether biopsies are mandatory, or how their risks and burden will be limited before participants enroll.",
+   "cited_doc_id": "ICH-E6R3-2025",
+   "guidance_quote": "Clinical trial processes should be proportionate to the risks to participants and the importance of the data being collected, and should avoid unnecessary burden on participants."
+  },
+  {
+   "span": "Intensive PK sampling on Cycle 1 Day 1 and Day 15 (pre-dose, 0.5, 1, 2, 4, 6, 8 and 24 h post-dose) in all escalation subjects; steady-state trough sampling every cycle in the randomized cohorts.",
+   "category": "burden",
+   "severity": "medium",
+   "claim": "Two nine-time-point PK profiles are imposed on every escalation participant without a stated justification for why less burdensome sampling could not answer the PK questions.",
+   "cited_doc_id": "ICH-E6R3-2025",
+   "guidance_quote": "Clinical trial processes should be proportionate to the risks to participants and the importance of the data being collected, and should avoid unnecessary burden on participants."
+  },
+  {
+   "span": "The sponsor will include serious and unexpected adverse safety findings in the next scheduled annual safety report, unless the medical monitor requests earlier submission.",
+   "category": "safety_monitoring",
+   "severity": "critical",
+   "claim": "An annual report is not an adequate default for serious, unexpected suspected adverse reactions requiring expedited reporting; earlier action cannot depend solely on a medical-monitor request.",
+   "cited_doc_id": "ICH-E6R3-2025",
+   "guidance_quote": "The sponsor should expedite the reporting to the regulatory authority(ies) of all serious and unexpected suspected adverse reactions."
+  },
+  {
+   "span": "Primary (Phase 2): Objective response rate (ORR) per RECIST v1.1 at the selected recommended Phase 2 dose (RP2D).",
+   "category": "endpoint_ctq",
+   "severity": "medium",
+   "claim": "ORR is the primary Phase 2 endpoint, but the eligibility criteria do not require RECIST-measurable disease. As written, participants could enroll without a lesion suitable for the primary response assessment.",
+   "cited_doc_id": "ICH-E6R3-2025",
+   "guidance_quote": "The protocol should specify the criteria for inclusion and exclusion of trial participants and the methods and timing for assessing efficacy endpoints."
+  },
+  {
+   "span": "At least 60 subjects will be randomized 1:1 to the two candidate dose levels to compare safety, tolerability, PK, PD and preliminary antitumor activity before selecting the RP2D.",
+   "category": "feasibility",
+   "severity": "medium",
+   "claim": "The synopsis gives a fixed minimum for a biomarker-selected, two-country randomized cohort but no accrual assumptions, screening-yield estimate, or precision rationale showing that enrollment and the planned dose comparison are feasible.",
+   "cited_doc_id": "ICH-E6R3-2025",
+   "guidance_quote": "The feasibility of operational processes and other factors essential for successful trial completion should be considered when designing the trial."
+  }
+ ],
+ "consistency": {
+  "attempt": 0,
+  "infra_failure": [],
+  "env": {
+   "DV_MODEL_BULK": "gpt-5.6-luna",
+   "DV_MODEL_EXTRACT": "gpt-6-sol",
+   "DV_MODEL_PLANNER": "gpt-6-sol",
+   "DV_MODEL_REVIEWER": "gpt-6-sol",
+   "DV_RUN_TOKEN_BUDGET": "150000",
+   "DV_TEAM_TOTAL_QUOTA": "30000000",
+   "rerank_enabled": true
+  },
+  "saved_at": "2026-10-02T00:10:06+0900",
+  "infra_failure_final": false
+ }
+}

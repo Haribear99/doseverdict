@@ -1,0 +1,58 @@
+{
+ "drug": "sotorasib",
+ "case_id": "AX1-001",
+ "rep": 2,
+ "answer": {
+  "inputs": {
+   "cl_f_L_per_hr": {
+    "value": 26.2,
+    "source": "prior_knowledge",
+    "note": "Published sotorasib apparent clearance estimate."
+   },
+   "t_half_hr": {
+    "value": 5,
+    "source": "prior_knowledge",
+    "note": "Approximately 5-hour terminal elimination half-life reported for sotorasib."
+   },
+   "tau_hr": {
+    "value": 24,
+    "source": "protocol",
+    "note": "Planned dose levels are specified as once-daily oral dosing."
+   },
+   "fu": {
+    "value": 0.11,
+    "source": "prior_knowledge",
+    "note": "Estimated from approximately 89% plasma protein binding."
+   },
+   "ic50_nM": {
+    "value": 6,
+    "source": "prior_knowledge",
+    "note": "Reported cellular proliferation IC50 for sotorasib in KRAS G12C-mutant NCI-H358 cells; assay-dependent."
+   },
+   "mw": {
+    "value": 560.6,
+    "source": "prior_knowledge",
+    "note": "Molecular weight of sotorasib, in g/mol."
+   }
+  }
+ },
+ "parse_ok": true,
+ "raw": null,
+ "tokens": 2379,
+ "model": "gpt-6-sol",
+ "consistency": {
+  "attempt": 0,
+  "infra_failure": [],
+  "env": {
+   "DV_MODEL_BULK": "gpt-5.6-luna",
+   "DV_MODEL_EXTRACT": "gpt-6-sol",
+   "DV_MODEL_PLANNER": "gpt-6-sol",
+   "DV_MODEL_REVIEWER": "gpt-6-sol",
+   "DV_RUN_TOKEN_BUDGET": "150000",
+   "DV_TEAM_TOTAL_QUOTA": "30000000",
+   "rerank_enabled": true
+  },
+  "saved_at": "2026-10-02T00:03:27+0900",
+  "infra_failure_final": false
+ }
+}
