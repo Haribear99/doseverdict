@@ -84,6 +84,10 @@ CSS = """
 .dv-diff { line-height: 1.8; overflow-wrap: anywhere; background: var(--dv-panel); border: 1px solid var(--dv-line); border-radius: 2px; padding: 0.6rem 0.9rem; }
 .dv-diff del { background: var(--dv-del-bg); color: var(--dv-rejected); }
 .dv-diff ins { background: var(--dv-ins-bg); color: var(--dv-verified); text-decoration: none; }
+.dv-runhead { border-top: 2px solid var(--dv-ink); padding: 0.75rem 0 0.2rem; margin-bottom: 0.2rem; }
+.dv-runmeta { font-size: 0.8rem; color: var(--dv-muted); margin: 0 0 0.25rem; }
+.dv-runtitle { font-size: clamp(1.25rem, 2.6vw, 1.6rem); font-weight: 700; letter-spacing: -0.015em; line-height: 1.3; color: var(--dv-ink); margin: 0 0 0.25rem; }
+.dv-runsub { font-size: 0.92rem; color: var(--dv-muted); margin: 0; }
 .dv-kpis { display: grid; grid-template-columns: repeat(auto-fit, minmax(96px, 1fr)); margin: 0.6rem 0 0.3rem; border-top: 1px solid var(--dv-ink); border-bottom: 1px solid var(--dv-line); }
 .dv-kpi { padding: 0.5rem 0.8rem 0.55rem; }
 .dv-kpi + .dv-kpi { border-left: 1px solid var(--dv-line); }
@@ -508,6 +512,19 @@ if rs is None and not run:
 if rs is None:
     st.stop()
 
+# 결과 머리줄: 결론(기권 여부)과 지적 상태를 먼저 보이고, 근거는 아래 탭에 둔다(CDS "결론 → 근거 → 한계" 순서). 문구는 데이터에서 만든다.
+_cnt = {k: sum(1 for f in rs.findings if finding_status(f) == k) for k in STATUS}
+_abst = [f for f in rs.findings if getattr(f, "verdict", "") == "abstain"]
+with hero_box:
+    _src = "저장 결과 · LLM 재호출 없음" if st.session_state.get("graph") is None else "라이브 실행"
+    _head = (f"기권 {len(_abst)}건: 판정이 지표·가정에 따라 갈려 결론 대신 추가 자료를 요청했다" if _abst
+             else "기권 없음: 도구 계산이 결론을 받쳤다")
+    st.markdown(
+        f'<div class="dv-runhead"><div class="dv-runmeta">{html.escape(_src)} · run <code>{html.escape(rs.run_id)}</code></div>'
+        f'<div class="dv-runtitle">{html.escape(_head)}</div>'
+        f'<div class="dv-runsub">지적 {len(rs.findings) - len(_abst)}건 중 검증 {_cnt["verified"]} · 보류 {_cnt["held"]} · 기각 {_cnt["rejected"]}. '
+        '이 화면은 검토 보조이며, 승인은 Human Gate에서 사람이 한다.</div></div>', unsafe_allow_html=True)
+
 graph_box.graphviz_chart(graph_dot(st.session_state.current, st.session_state.done), use_container_width=True)
 if st.session_state.events:
     with timeline.expander("타임라인 (판단 전환 지점은 굵게)", expanded=False):
@@ -516,7 +533,7 @@ if st.session_state.events:
             st.markdown(f":{dot}[●] " + m)
 
 # ----------------------------------------------------------------- summary bar
-_n = {k: sum(1 for f in rs.findings if finding_status(f) == k) for k in STATUS}
+_n = _cnt
 _fail = sum(1 for c in rs.tool_log if not c.ok)
 _kpis = [("Findings", f"{len(rs.findings)}건", "", "")] + [(f"{STATUS[k][0]}", f"{_n[k]}건", k if _n[k] else "", "") for k in ("verified", "held", "rejected", "abstain")] + [
     ("토큰", f"{rs.budget.used_tokens:,}", "", f"상한 {rs.budget.max_tokens:,}"),
