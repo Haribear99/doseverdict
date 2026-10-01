@@ -157,7 +157,7 @@ figcaption { font-size: 19px; color: var(--muted); line-height: 1.4; }
     </div>
     <div class="col" style="flex:1; gap:14px">
       <div class="small" style="font-weight:600; color:var(--ink)">DoseVerdict가 같은 질문을 묻는 시점</div>
-      <p style="font-size:26px">RP2D를 정하고 확장 코호트로 넘어가는 프로토콜 개정 단계다. 용량 근거를 TCR과 설계 시뮬레이션으로 계산한다. TCR은 C_max·C_avg·C_trough로 함께 내고, 판정이 갈리면 결론을 내리지 않고 PK 자료를 요청한다.</p>
+      <p style="font-size:26px">RP2D를 정하고 확장 코호트로 넘어가는 프로토콜 개정 단계다. 1상 초록은 용량제한독성이 관찰되지 않았다고 보고한다. 묻는 것은 그 용량을 비교 없이 RP2D로 넘긴 근거다. 증량 코호트 규모로는 노출 포화를 확정할 수 없으므로, 판정 대신 용량군별 반복투여 PK를 요청한다.</p>
       <p class="small">실제 승인 전 1상 초록 43건 후향 검증에서는 시판 후 요구사항이 부과된 약을 가르지 못했다(10쪽).</p>
     </div>
   </div>
@@ -196,7 +196,7 @@ figcaption { font-size: 19px; color: var(--muted); line-height: 1.4; }
         <thead><tr><th>주체</th><th>맡는 일</th></tr></thead>
         <tbody>
           <tr><td><b>LLM</b> (gpt-6-sol)</td><td>프로토콜 구조화, 검토 가설, 문장 초안. 수치·규범 판정은 하지 않는다</td></tr>
-          <tr><td><b>도구</b></td><td>TCR·노출비·표본수 등 모든 수치 판정</td></tr>
+          <tr><td><b>도구</b></td><td>TCR 판정과 노출비·설계·표본수 계산</td></tr>
           <tr><td><b>검색 + NLI 검증기</b></td><td>규범 근거 검색, 인용이 주장을 받치는지 판정</td></tr>
           <tr><td><b>사람</b></td><td>승인 · 부분승인 · 보류 (Human Approval Gate)</td></tr>
         </tbody>
@@ -260,7 +260,7 @@ figcaption { font-size: 19px; color: var(--muted); line-height: 1.4; }
         </tbody>
       </table>
       <p class="small">로를라티닙(매핑 표 밖)은 ChEMBL·라벨을 검색으로 찾았다. 합성 입력인 DV-505는 프로토콜 PK로 계산했다. 약리 축은 30/30에서 끝까지 돌았다(아다그라십 1일 2회 τ 12 h).</p>
-      <p class="small"><span class="tg">주장 범위: 결함 문장 84개 모두 원 세트 풀, 66개 동일. 약이 바뀌어도 같은 결함을 찾는다는 데까지(기술서 6.4)</span></p>
+      <p class="small"><span class="tg">주장 범위: 결함 문장 84개 모두 원 세트 풀, 66개 동일. 약이 바뀌어도 같은 결함 문장을 찾는다는 데까지(기술서 6.4)</span></p>
     </div>
   </div>
   <div class="rule"></div>
@@ -287,7 +287,7 @@ figcaption { font-size: 19px; color: var(--muted); line-height: 1.4; }
         <p class="small">(가)를 단일 지표로 보면 C_avg로는 “커버”, C_trough로는 “미커버”다. 그래서 세 지표를 함께 낸다. TCR&lt;1 미커버, &gt;10 포화 의심은 본 프로젝트의 잠정 기준이다(문헌값 아님). 소토라십은 비가역 공유결합 저해제라 가역 평형을 가정한 TCR, 특히 C_trough는 스크리닝 근사다. 기권할 때 kinact/K_I를 추가 자료로 요청한다.</p>
       </div>
       <div class="col" style="flex:1">
-        <div class="note"><strong>시판 후 비교 뒤에도 닫히지 않은 질문.</strong> 무작위 비교(Hochmair 2024)와 2026 메타분석(Aung, JCO OP)에서 ORR·PFS는 모두 유의하지 않았고, 감량 용량 범위는 초록으로 확인하지 못했다. DoseVerdict는 결과가 아니라 근거 사슬의 결측을 판정한다.</div>
+        <div class="note"><strong>시판 후 비교 뒤에도 닫히지 않은 질문.</strong> 209명 무작위 비교에서 240 mg의 ORR은 24.8%로 960 mg(32.7%)보다 수치상 낮았다(Hochmair 2024). 이 비교와 2026 메타분석(Aung, JCO OP)에서 ORR·PFS는 모두 유의하지 않았고, 감량 용량 범위는 초록으로 확인하지 못했다. DoseVerdict는 결과가 아니라 근거 사슬의 결측을 판정한다.</div>
       </div>
     </div>
   </div>
@@ -386,7 +386,7 @@ figcaption { font-size: 19px; color: var(--muted); line-height: 1.4; }
           <tr><td>findings effort medium</td><td class="num">+28.5%</td><td class="num">+0.033</td><td><span class="chip c-reject">기각</span></td></tr>
         </tbody>
       </table>
-      <p class="small"><span class="tg">gpt-6-sol +0.117은 1회 실행이다. 확장 40에서는 +0.050으로 유의하지 않아, 유지 근거는 토큰 절감이다(사후 판단)</span> <span class="tg">나머지 4개 팔 보류 · 캐시 절감 0 · 확장 40 결과 포함 전체 표: 기술서 6.2·6.3·6.7</span> <span class="tg">누적 32,184,908 토큰(6,000만의 53.6%, 10-01 기준)</span></p>
+      <p class="small"><span class="tg">gpt-6-sol +0.117은 1회 실행이다. 확장 40에서는 +0.050으로 유의하지 않아, 유지 근거는 토큰 절감이다(사후 판단).</span> <span class="tg">나머지 4개 팔 보류 · 캐시 절감 0 · 확장 40 결과 포함 전체 표: 기술서 6.2·6.3·6.7</span> <span class="tg">누적 32,184,908 토큰(6,000만의 53.6%, 10-01 기준)</span></p>
       <p class="small">토큰의 70~80%가 입력이고 reasoning은 1%다. 쿼터를 줄이는 레버는 effort가 아니라 입력이었다. LLM 호출 전 예산 가드(run 기본 150,000)와 노드별 토큰 원장이 있다(Audit 탭).</p>
     </div>
     <div class="col" style="flex:1; gap:16px">
@@ -456,8 +456,8 @@ figcaption { font-size: 19px; color: var(--muted); line-height: 1.4; }
       <p class="small"><span class="tg">12회·문서 4종 반복이라 CI 과소 가능 · 판정기는 인용 판정기이고 에이전트 검증기 전체가 아님 · 도구 없는 원샷(필터 없음) 7.33과는 차이 확인 안 됨 · 반복 지적된 기준 문장의 타당성은 사람이 판정하지 않음(기술서 6.11)</span></p>
     </div>
     <div class="col" style="gap:8px">
-      <div class="small" style="font-weight:600; color:var(--ink)">지적을 줄이는 보정 A/B (사전 등록) · 기각</div>
-      <p style="font-size:22px">결함 없는 판 특이도 0.64→0.91, defect 6.42→1.42. 그러나 원 20 민감도 0.962→0.583, Youden J 0.761→0.559, grounded −0.233 [−0.300, −0.175](보정판 1회 실행). 운영점 이동이 아니라 판별력도 낮아졌다.</p>
+      <div class="small" style="font-weight:600; color:var(--ink)">지적을 줄이는 보정 A/B (사전 등록, 보정판 1회 실행) · 기각</div>
+      <p style="font-size:22px">결함 없는 판 특이도 0.64→0.91, defect 6.42→1.42. 그러나 원 20 민감도 0.962→0.583, Youden J 0.761→0.559, grounded −0.233 [−0.300, −0.175]. 운영점 이동이 아니라 판별력도 낮아졌다.</p>
       <p class="small">반박 가능한 Arena(사전 등록, 확인용 다약물 30)도 기각: 결함 없는 판 8.0→6.42(유의하지 않음), 민감도 0.962→0.883 · 0.933→0.839, grounded 다약물 −0.078. <span class="tg">“현재” = 2회 평균 · 사전 등록은 B 결과를 본 뒤 설계 · 기본값 유지, 보수적 지적 모드로만 제공</span></p>
     </div>
     <div class="col" style="gap:8px">
@@ -495,13 +495,13 @@ figcaption { font-size: 19px; color: var(--muted); line-height: 1.4; }
           <tr><td>CLI / Docker</td><td class="mono">python -m app.cli review …</td></tr>
         </tbody>
       </table>
-      <p class="small">검토 메모는 마크다운으로 내려받는다. 배포 검증에서 규제 조항 검색 결함을 발견해 고쳤다.</p>
+      <p class="small">앱 직접 주소 <span class="mono">haribear99-doseverdict.hf.space</span>. 검토 메모는 마크다운으로 내려받는다. 배포 검증에서 규제 조항 검색 결함을 발견해 고쳤다.</p>
     </div>
     <div class="col" style="flex:0.9; gap:12px">
       <div class="small" style="font-weight:600; color:var(--ink)">한계</div>
       <div class="card"><h2>평가는 전문가 라벨이 없는 합성 세트 위에 있다</h2><p>원·확장 세트는 기준 시놉시스 하나에 결함을 주입한 변형이다. TCR은 PK 모형과 IC50 입력에 기댄 근사다(05쪽).</p></div>
       <div class="card"><h2>부정적 결과는 09·10쪽에 그대로 있다</h2>
-        <p>· 같은 모델 원샷과 탐지 차이 없음, ablation 기여 미측정</p>
+        <p>· 같은 모델 원샷과 탐지 차이 없음, ablation 부정적(기여 미측정)</p>
         <p>· 실제 1상 초록 43건 후향 검증 null</p>
         <p>· 결함 없는 판에서 실행당 defect finding 6.42</p>
         <p>· 오지적을 줄이려던 보정 2회 모두 기각</p>
