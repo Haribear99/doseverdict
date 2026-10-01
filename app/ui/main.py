@@ -517,13 +517,13 @@ _cnt = {k: sum(1 for f in rs.findings if finding_status(f) == k) for k in STATUS
 _abst = [f for f in rs.findings if getattr(f, "verdict", "") == "abstain"]
 with hero_box:
     _src = "저장 결과 · LLM 재호출 없음" if st.session_state.get("graph") is None else "라이브 실행"
-    _head = (f"기권 {len(_abst)}건: 판정이 지표·가정에 따라 갈려 결론 대신 추가 자료를 요청했다" if _abst
-             else "기권 없음: 도구 계산이 결론을 받쳤다")
+    _k = len(rs.findings) - len(_abst)
+    _tally = f'검증 {_cnt["verified"]} · 보류 {_cnt["held"]} · 기각 {_cnt["rejected"]}'
+    _head = (f"기권 {len(_abst)}건: 판정이 지표·가정에 따라 갈려 결론 대신 추가 자료를 요청했다" if _abst else f"지적 {_k}건: {_tally}")
+    _sub = (f"그 밖의 지적 {_k}건: {_tally}. " if _abst else "기권 없음. ") + "이 화면은 검토 보조이며, 승인은 Human Gate에서 사람이 한다."
     st.markdown(
         f'<div class="dv-runhead"><div class="dv-runmeta">{html.escape(_src)} · run <code>{html.escape(rs.run_id)}</code></div>'
-        f'<div class="dv-runtitle">{html.escape(_head)}</div>'
-        f'<div class="dv-runsub">지적 {len(rs.findings) - len(_abst)}건 중 검증 {_cnt["verified"]} · 보류 {_cnt["held"]} · 기각 {_cnt["rejected"]}. '
-        '이 화면은 검토 보조이며, 승인은 Human Gate에서 사람이 한다.</div></div>', unsafe_allow_html=True)
+        f'<div class="dv-runtitle">{html.escape(_head)}</div><div class="dv-runsub">{html.escape(_sub)}</div></div>', unsafe_allow_html=True)
 
 graph_box.graphviz_chart(graph_dot(st.session_state.current, st.session_state.done), use_container_width=True)
 if st.session_state.events:
