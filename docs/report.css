@@ -67,12 +67,29 @@ h2 + p, h3 + p, h4 + p { break-before: avoid; }
 figcaption { font-style: normal; color: #5b6472; }
 figure img { border: 0.5pt solid #dcd6ca; }
 
-/* 표지(10-01, GPT image 시안 b 구도): 왼쪽 ink 가는 세로선(위·가운데 여백 상자) + 제목 아래 메타 줄. 첫 쪽에만 걸린다.
-   red-judge: 굵은 accent 막대는 장식으로 읽혀 0.75pt ink 선으로 낮춤 */
-@page :first {
-  @left-top { content: ""; background: #1b2430; width: 0.75pt; margin-right: 9mm; }
-  @left-middle { content: ""; background: #1b2430; width: 0.75pt; margin-right: 9mm; }
-}
-.chapter:first-of-type h1 { border-top: 0; padding-top: 0; font-size: 28pt; margin-bottom: 6pt; }
-.chapter:first-of-type h1 + p { font-size: 9.5pt; color: #5b6472; padding-bottom: 9pt; border-bottom: 0.75pt solid #1b2430; margin-bottom: 16pt; }
-.chapter:first-of-type h1 + p + p { font-size: 13pt; line-height: 1.45; margin-bottom: 14pt; }
+/* 전면 표지(10-01 밤, docs/report_cover.html): A4 무여백 named page. 위 46%는 장식 사진, 아래는 3단 위계(제목 · 훅 숫자 · 메타).
+   본문 첫 쪽의 제목·메타 줄은 표지와 겹쳐 숨기고, 굵은 부제부터 시작한다. */
+@page cover { margin: 0; @top-left { content: none; } @bottom-right { content: none; } }
+.cover { page: cover; break-after: page; width: 210mm; height: 297mm; position: relative; overflow: hidden; background: #fbfaf7; }
+.cover-img { height: 46%; overflow: hidden; }
+.cover-img img { width: 100%; height: 100%; object-fit: cover; object-position: 30% 55%; border: 0; display: block; }
+.cover-body { padding: 13mm 18mm 0; }
+.cover-meta { font-size: 9pt; color: #5b6472; margin: 0 0 7mm; padding-bottom: 3mm; border-bottom: 0.75pt solid #1b2430; }
+.cover-title { font-size: 40pt; font-weight: 800; letter-spacing: -0.03em; line-height: 1; margin: 0; padding: 0; border: 0; }
+.cover-sub { font-size: 21pt; font-weight: 700; letter-spacing: -0.02em; color: #1f3a5f; margin: 3mm 0 3mm; }
+.cover-line { font-size: 11pt; line-height: 1.5; color: #1b2430; max-width: 150mm; margin: 0 0 9mm; }
+.cover-nums { display: grid; grid-template-columns: 0.8fr 1.25fr 0.95fr; border-top: 0.75pt solid #1b2430; }
+.cover-nums div { padding: 4mm 5mm 0 0; }
+.cover-nums div + div { border-left: 0.5pt solid #dcd6ca; padding-left: 5mm; }
+.cover-nums b { display: block; font-size: 30pt; font-weight: 800; letter-spacing: -0.03em; line-height: 1.05; font-variant-numeric: tabular-nums; }
+.cover-nums small { font-size: 13pt; font-weight: 700; margin-left: 1.5mm; }
+.cover-nums span { display: block; font-size: 8.5pt; line-height: 1.4; color: #5b6472; margin-top: 2mm; }
+.cover-foot { position: absolute; left: 18mm; right: 18mm; bottom: 16mm; display: flex; justify-content: space-between; font-size: 8.5pt; color: #5b6472; border-top: 0.5pt solid #dcd6ca; padding-top: 3mm; }
+.cover-credit { position: absolute; left: 18mm; bottom: 9mm; font-size: 7pt; color: #8a909a; margin: 0; }
+.cover + .chapter > h1:first-child, .cover + .chapter > h1:first-child + p { display: none; }
+.cover + .chapter > h1:first-child + p + p { font-size: 14pt; line-height: 1.45; margin: 0 0 14pt; padding-bottom: 9pt; border-bottom: 0.75pt solid #1b2430; }
+
+/* 그림: make-pdf가 alt 캡션을 버리므로 md에 '*그림 N. …*' 문단을 둔다 */
+p:has(> img) { text-align: center; margin: 10pt 0 2pt; break-after: avoid; }
+p:has(> img) img { border: 0; }
+p:has(> img) + p > em:only-child { display: block; font-style: normal; font-size: 9.5pt; line-height: 1.45; color: #5b6472; margin: 0 0 12pt; padding-top: 4pt; border-top: 0.5pt solid #dcd6ca; }

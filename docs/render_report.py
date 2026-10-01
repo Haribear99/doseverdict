@@ -16,6 +16,7 @@ HERE = pathlib.Path(__file__).resolve().parent
 CHROME = os.environ.get("CHROME", r"C:\Program Files\Google\Chrome\Application\chrome.exe")
 MAKE_PDF = os.environ.get("MAKE_PDF_BIN", str(pathlib.Path.home() / ".claude/skills/gstack/make-pdf/dist/pdf.exe"))
 SRC, OUT, CSS = HERE / "상세기술서.md", HERE / "상세기술서.pdf", HERE / "report.css"
+COVER = HERE / "report_cover.html"
 
 
 def main() -> None:
@@ -31,6 +32,12 @@ def main() -> None:
         strike = page.count("<del>") + page.count("<s>")   # 이스케이프 안 한 물결표 범위(~)는 취소선이 된다
         # make-pdf의 화면용 <style>(@media screen) 뒤, </head> 바로 앞에 넣어 인쇄 규칙을 덮어쓴다
         page = page.replace("</head>", f"<style>\n{CSS.read_text(encoding='utf-8')}\n</style>\n</head>", 1)
+        # 전면 표지(docs/report_cover.html)를 <body> 바로 뒤에 넣는다. 이미지 경로는 임시 폴더 밖이라 절대 URI로
+        if COVER.exists():
+            cover = COVER.read_text(encoding="utf-8").replace("{{FIGS}}", (HERE / "figs").as_uri())
+            b = page.index("<body")
+            b = page.index(">", b) + 1
+            page = page[:b] + cover + page[b:]
         html.write_text(page, encoding="utf-8")
         subprocess.run([CHROME, "--headless=new", "--disable-gpu", "--no-pdf-header-footer", "--virtual-time-budget=20000",
                         f"--print-to-pdf={OUT}", html.as_uri()], check=True, capture_output=True)
